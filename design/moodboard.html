@@ -25,6 +25,10 @@
     border-radius:9px; padding:10px; font-family:ui-monospace,monospace; font-size:12px; line-height:1.5; resize:vertical;}
   .pc .copy{margin-top:8px; background:var(--teal); color:#04120f; border:none; border-radius:8px; padding:6px 12px; font-weight:800; font-size:12px; cursor:pointer;}
   .tips{background:var(--bg2); border:1px dashed var(--line); border-radius:12px; padding:14px 16px; font-size:13px;}
+  .refgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px;}
+  .rc{background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  .rc img{width:100%; aspect-ratio:16/10; object-fit:cover; display:block; background:var(--bg2);}
+  .rc .cap{font-size:11px; color:var(--muted); padding:7px 9px; font-family:ui-monospace,monospace;}
   .tips code{background:var(--card); padding:1px 6px; border-radius:5px; font-size:12px;}
 
   /* reference slots */
@@ -51,6 +55,9 @@
   <div class="sub">Re-Volt "playground" vibe for Physical Playground. Drop reference shots (Re-Volt screenshots you
     save, or your own generations) into the named slots below, then say things like <b>"RV-03's lighting"</b> when
     you talk to Claude. Prompts up top are starting points for Gemini/ChatGPT video &amp; image gen.</div>
+
+  <h2>🎮 Downloaded Re-Volt references (name-tagged — say "RV-01" to me)</h2>
+  <div class="refgrid" id="refgrid"></div>
 
   <h2>① Prompt Studio — landing hero (slightly-moving loop)</h2>
   <div class="prompts" id="promptWrap"></div>
@@ -90,15 +97,30 @@
 
 <script>
   // ── Prompt Studio cards ──
+  // Grounded in the actual Re-Volt refs: RV-01 Toy World (honey-parquet + red/yellow stripes + blue/red
+  // bunting + toy-brand boxes), RV-03 Museum (amber floor-spotlights, Egyptian, premium/moody).
   const PROMPTS = [
-    ["Hero A — Toy-store aisle",
-      "A tiny toy RC car with a small robotic arm on top, slowly rolling down a giant sunlit toy-store aisle lined with oversized colorful boxes, shot in tilt-shift macro so it looks like a toy set. Late-90s toy-commercial mood, warm golden light, shallow depth of field, soft bokeh. Very slow dolly-in. Seamless 4-second loop, 16:9, no text, empty space upper-left for a headline. Plastic and bright, premium not cheap."],
-    ["Hero B — Bedroom floor",
-      "Macro tilt-shift shot of a small toy robot arm gently waving on a wooden bedroom floor scattered with building blocks and a toy dinosaur, warm afternoon sun through a window, dust motes floating. Static camera with gentle parallax, extremely subtle motion. Seamless loop, 16:9, nostalgic, no text, negative space on the right."],
-    ["Hero C — Backyard grand-prix",
-      "A plastic RC toy car idling on a miniature cardboard start line in a sunlit backyard garden, blades of grass towering like a jungle, tilt-shift so the world feels giant. Cinematic golden hour, shallow focus, a leaf drifting down slowly. Seamless loop, 16:9, calm, no text, headline space upper-left."],
-    ["Icon set — later (still image)",
-      "A set of 6 minimal 3D toy-plastic icons on transparent background: RC car, robot arm, checkered flag, trophy, joystick, wrench. Glossy molded-plastic look, bright primary colors (teal, pink, gold), soft studio lighting, consistent style, isometric, no text."]
+    ["Hero A — Toy World (bright, playful) · ref RV-01",
+      "A tiny plastic RC toy car with a small robotic arm on top, low to the ground, slowly rolling down a glossy honey-coloured wooden parquet floor patterned with faint gold stars, between red-and-yellow vertical-striped walls and rows of blue-and-red triangular bunting. Oversized cardboard toy boxes with a playful toy brand, a hovering toy helicopter and a red balloon blurred in the background. Bright primary colours, warm nostalgic late-90s low-poly video-game look, soft PS1-era textures, warm light from ceiling skylights. Tilt-shift macro so it reads as a toy set. Very slow dolly forward. Seamless 4-second loop, 16:9, no on-screen text, keep the upper-left area clear for a headline."],
+    ["Hero B — Museum (premium, moody) · ref RV-03",
+      "A small plastic toy robot arm on a sandy museum floor lit by warm amber circular floor-spotlights, Egyptian hieroglyph walls and a stylised black-and-gold Anubis statue softly out of focus behind. Moody golden lighting with dramatic pools of light and long shadows, mysterious and premium, nostalgic low-poly PS1-era 3D charm. Static camera, gentle flicker of the lights and slow floating dust motes — extremely subtle motion. Seamless loop, 16:9, no text, clear negative space on the right."],
+    ["Hero C — toy-scale wonder (generic) · ref RV-01 lighting",
+      "Macro tilt-shift shot of a small plastic toy robot arm gently waving on a warm honey-wood floor scattered with oversized toy blocks and a little green toy dinosaur, bright primary-colour walls blurred behind, warm nostalgic interior light. The scale makes the room feel giant, like a toy world. Static camera with gentle parallax, very subtle motion, dust motes. Seamless loop, 16:9, no text, headline space upper-left."],
+    ["Icon set — later (still image) · palette from RV-01",
+      "A set of 6 minimal glossy 3D toy-plastic icons on transparent background: RC car, robot arm, checkered flag, trophy, joystick, wrench. Molded-plastic look with soft studio lighting, bright primary colours pulled from a 90s toy aisle (red, yellow, blue) plus a teal accent, consistent isometric style, no text."]
+  ];
+  const SERVED = location.protocol !== 'file:';
+  const imgSrc = (name) => SERVED ? ('/raw?path=' + encodeURIComponent('design/_refs/' + name)) : ('_refs/' + name);
+  const REFS = [
+    ["rv-toyworld.webp","RV-01 · Toy World — bright primary chaos, honey parquet, toy-brand boxes"],
+    ["rv-supermarket.webp","RV-02 · Supermarket aisle layout"],
+    ["rv-museum.webp","RV-03 · Museum — amber spotlights, Egyptian, premium/moody"],
+    ["rv-loadscreen.webp","RV-04 · Load screen / branding"],
+    ["rv-gameplay-a.png","RV-05 · Museum texture atlas (material + colour palette)"],
+    ["rv-gameplay-b.webp","RV-06 · Gameplay shot"],
+    ["rv-yt-1.jpg","RV-07 · Video thumbnail"],
+    ["rv-yt-2.jpg","RV-08 · Video thumbnail"],
+    ["rv-yt-3.jpg","RV-09 · Video thumbnail"],
   ];
   const pw = document.getElementById('promptWrap');
   PROMPTS.forEach(([n,t]) => {
@@ -107,6 +129,11 @@
     d.querySelector('.copy').onclick = () => { navigator.clipboard.writeText(t); d.querySelector('.copy').textContent='✓ Copied'; setTimeout(()=>d.querySelector('.copy').textContent='📋 Copy',1200); };
     pw.appendChild(d);
   });
+
+  // Re-Volt reference gallery (local _refs, gitignored)
+  const rg = document.getElementById('refgrid');
+  REFS.forEach(([f,cap]) => { const d=document.createElement('div'); d.className='rc';
+    d.innerHTML=`<img loading="lazy" src="${imgSrc(f)}" alt="${cap}"><div class="cap">${cap}</div>`; rg.appendChild(d); });
 
   // ── Named reference slots ──
   const SLOTS = [
