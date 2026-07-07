@@ -4,146 +4,195 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Physical Playground — a peer-review school for Physical AI</title>
-<meta name="description" content="Give a robot arm a mission. Solve it. Peer-review each other's runs. The best solutions rise to the top.">
+<meta name="description" content="Give a robot arm a mission. Solve it. Peer-review each other's runs. Start in simulation — no robot required.">
 <style>
   :root{
-    --bg:#0c0e14; --bg2:#12151f; --fg:#eef1f7; --muted:#9aa3b5; --line:#242a38;
-    --neon:#39e0c8; --neon2:#ff5d8f; --gold:#ffcf4d; --card:#141826;
+    --bg:#0c0e14; --bg2:#12151f; --fg:#eef1f7; --muted:#9aa3b5; --line:#242a38; --card:#141826;
+    --teal:#39e0c8; --pink:#ff5d8f; --gold:#ffcf4d; --blue:#2ec4ff; --green:#35e08a;
     --grid:rgba(57,224,200,.16);
   }
   @media (prefers-color-scheme: light){
-    :root{ --bg:#f6f7fb; --bg2:#eef0f7; --fg:#161a24; --muted:#5a6478; --line:#dde1ec;
-           --neon:#0bb3a0; --neon2:#e23a70; --gold:#c98a00; --card:#ffffff; --grid:rgba(11,179,160,.14); }
+    :root{ --bg:#f6f7fb; --bg2:#eef0f7; --fg:#161a24; --muted:#5a6478; --line:#dde1ec; --card:#fff;
+           --teal:#0bb3a0; --pink:#e23a70; --gold:#c98a00; --blue:#1289c9; --green:#0f9e63; --grid:rgba(11,179,160,.14); }
   }
-  :root[data-theme="dark"]{ --bg:#0c0e14; --bg2:#12151f; --fg:#eef1f7; --muted:#9aa3b5; --line:#242a38;
-    --neon:#39e0c8; --neon2:#ff5d8f; --gold:#ffcf4d; --card:#141826; --grid:rgba(57,224,200,.16); }
-  :root[data-theme="light"]{ --bg:#f6f7fb; --bg2:#eef0f7; --fg:#161a24; --muted:#5a6478; --line:#dde1ec;
-    --neon:#0bb3a0; --neon2:#e23a70; --gold:#c98a00; --card:#ffffff; --grid:rgba(11,179,160,.14); }
+  :root[data-theme="dark"]{ --bg:#0c0e14; --bg2:#12151f; --fg:#eef1f7; --muted:#9aa3b5; --line:#242a38; --card:#141826;
+    --teal:#39e0c8; --pink:#ff5d8f; --gold:#ffcf4d; --blue:#2ec4ff; --green:#35e08a; --grid:rgba(57,224,200,.16); }
+  :root[data-theme="light"]{ --bg:#f6f7fb; --bg2:#eef0f7; --fg:#161a24; --muted:#5a6478; --line:#dde1ec; --card:#fff;
+    --teal:#0bb3a0; --pink:#e23a70; --gold:#c98a00; --blue:#1289c9; --green:#0f9e63; --grid:rgba(11,179,160,.14); }
 
   *{box-sizing:border-box;}
-  body{margin:0; background:var(--bg); color:var(--fg);
-    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif; line-height:1.6; overflow-x:hidden;}
+  body{margin:0; background:var(--bg); color:var(--fg); line-height:1.6; overflow-x:hidden;
+    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;}
   .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
-  a{color:var(--neon); text-decoration:none;}
-  .wrap{max-width:1040px; margin:0 auto; padding:0 22px;}
+  a{color:var(--teal); text-decoration:none;}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 22px;}
+  h2.sec{font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;}
+  h3.lead{font-size:clamp(22px,4vw,32px); margin:0 0 24px; font-weight:800; letter-spacing:-.01em;}
+  section{padding:56px 0; border-top:1px solid var(--line);}
 
-  /* ===== HERO with retro grid floor ===== */
-  header.hero{position:relative; text-align:center; padding:70px 0 90px; overflow:hidden;}
-  .grid-floor{position:absolute; left:-20%; right:-20%; bottom:0; height:46%;
+  /* nav */
+  nav{position:sticky; top:0; z-index:20; backdrop-filter:blur(8px);
+    background:color-mix(in srgb,var(--bg) 82%,transparent); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; gap:18px; height:54px;}
+  nav .brand{font-weight:900; letter-spacing:-.01em; text-transform:uppercase; font-size:15px; color:var(--fg);}
+  nav .brand b{color:var(--teal);}
+  nav .links{margin-left:auto; display:flex; gap:16px; align-items:center;}
+  nav .links a{color:var(--muted); font-size:13px; font-weight:600;}
+  nav .links a:hover{color:var(--teal);}
+  .themebtn{background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:9px; padding:5px 9px; cursor:pointer; font-size:13px;}
+
+  /* hero */
+  header.hero{position:relative; text-align:center; padding:74px 0 96px; overflow:hidden;}
+  .grid-floor{position:absolute; left:-20%; right:-20%; bottom:0; height:48%;
     background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
     background-size:44px 44px; transform:perspective(340px) rotateX(62deg); transform-origin:bottom center;
-    -webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%); mask-image:linear-gradient(to top,#000 10%,transparent 85%);
-    pointer-events:none;}
-  .badge{display:inline-block; font-size:12px; letter-spacing:.22em; text-transform:uppercase;
-    color:var(--neon); border:1px solid var(--line); border-radius:999px; padding:5px 14px; margin-bottom:22px;}
-  h1.title{position:relative; margin:0; font-size:clamp(38px,8vw,78px); line-height:.98; font-weight:900;
-    letter-spacing:-.02em; text-transform:uppercase;}
-  h1.title .l1{color:var(--fg);} h1.title .l2{color:var(--neon); text-shadow:0 0 22px color-mix(in srgb,var(--neon) 55%,transparent);}
-  .tag{margin:20px auto 0; max-width:620px; color:var(--muted); font-size:clamp(15px,2.3vw,19px);}
-  .cta{margin-top:34px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
-  .btn{font-weight:800; font-size:15px; padding:14px 26px; border-radius:12px; cursor:pointer; border:2px solid transparent;
-    letter-spacing:.02em; transition:transform .08s ease, box-shadow .2s ease;}
+    -webkit-mask-image:linear-gradient(to top,#000 8%,transparent 82%); mask-image:linear-gradient(to top,#000 8%,transparent 82%);}
+  .car{position:absolute; bottom:15%; left:50%; width:60px; margin-left:-30px; z-index:1; animation:zip 6s ease-in-out infinite;}
+  @keyframes zip{0%{transform:translateX(-150px) rotate(-3deg);}50%{transform:translateX(150px) rotate(3deg);}100%{transform:translateX(-150px) rotate(-3deg);}}
+  .badge{display:inline-block; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--teal);
+    border:1px solid var(--line); border-radius:999px; padding:5px 14px; margin-bottom:22px; position:relative;}
+  h1.title{position:relative; margin:0; font-size:clamp(40px,8.5vw,84px); line-height:.96; font-weight:900; letter-spacing:-.02em; text-transform:uppercase;}
+  h1.title .l2{color:var(--teal); text-shadow:0 0 24px color-mix(in srgb,var(--teal) 55%,transparent);}
+  .tag{position:relative; margin:20px auto 0; max-width:640px; color:var(--muted); font-size:clamp(15px,2.3vw,19px);}
+  .cta{position:relative; margin-top:32px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .btn{font-weight:800; font-size:15px; padding:14px 26px; border-radius:12px; cursor:pointer; border:2px solid transparent; letter-spacing:.02em; transition:transform .08s ease, box-shadow .2s ease;}
   .btn:active{transform:translateY(2px);}
-  .btn-start{background:var(--neon); color:#04120f; box-shadow:0 6px 0 color-mix(in srgb,var(--neon) 45%,#000);}
-  .btn-start:hover{box-shadow:0 8px 26px color-mix(in srgb,var(--neon) 40%,transparent);}
+  .btn-start{background:var(--teal); color:#04120f; box-shadow:0 6px 0 color-mix(in srgb,var(--teal) 45%,#000);}
+  .btn-start:hover{box-shadow:0 9px 28px color-mix(in srgb,var(--teal) 40%,transparent);}
   .btn-ghost{background:transparent; color:var(--fg); border-color:var(--line);}
-  .btn-ghost:hover{border-color:var(--neon); color:var(--neon);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal);}
   .blink{animation:blink 1.2s steps(1) infinite;} @keyframes blink{50%{opacity:.25;}}
-  @media (prefers-reduced-motion:reduce){.blink{animation:none;}}
 
-  section{padding:56px 0; border-top:1px solid var(--line);}
-  h2.sec{font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;}
-  h3.lead{font-size:clamp(22px,4vw,32px); margin:0 0 26px; font-weight:800; letter-spacing:-.01em;}
-
-  /* ===== level-select missions ===== */
+  /* level select */
+  .circuit{width:100%; height:56px; margin-bottom:6px;}
   .levels{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;}
-  .lvl{position:relative; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; overflow:hidden;}
-  .lvl:hover{border-color:var(--neon);}
-  .lvl .num{font-family:ui-monospace,monospace; font-size:52px; font-weight:900; line-height:1; color:var(--line);
-    position:absolute; top:10px; right:14px;}
+  .lvl{position:relative; background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c); border-radius:16px; padding:20px; overflow:hidden;}
+  .lvl:hover{border-color:var(--c);}
+  .lvl .num{font-family:ui-monospace,monospace; font-size:52px; font-weight:900; line-height:1; color:var(--line); position:absolute; top:8px; right:14px;}
   .lvl h4{margin:0 0 6px; font-size:19px;} .lvl p{margin:0; color:var(--muted); font-size:14px;}
   .stars{margin-top:12px; color:var(--gold); letter-spacing:2px; font-size:13px;}
-  .pill{display:inline-block; font-size:11px; font-weight:700; color:var(--neon2); border:1px solid var(--line);
-    border-radius:6px; padding:1px 7px; margin-top:12px;}
+  .pill{display:inline-block; font-size:11px; font-weight:700; color:var(--c); border:1px solid var(--line); border-radius:6px; padding:1px 7px; margin-top:12px;}
 
-  /* ===== how it works loop ===== */
+  /* loop */
   .loop{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px;}
   .step{background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:18px;}
-  .step .k{font-family:ui-monospace,monospace; color:var(--neon); font-weight:800; font-size:13px;}
+  .step .k{font-family:ui-monospace,monospace; color:var(--teal); font-weight:800; font-size:13px;}
   .step h4{margin:8px 0 4px; font-size:16px;} .step p{margin:0; color:var(--muted); font-size:13.5px;}
 
-  /* ===== roadmap / coming soon ===== */
-  .soon{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px;}
-  .soon .t{background:var(--card); border:1px dashed var(--line); border-radius:12px; padding:16px; text-align:center;}
-  .soon .t b{display:block; font-size:15px;} .soon .t span{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em;}
+  /* leaderboard */
+  .board{background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden;}
+  .row{display:flex; align-items:center; gap:14px; padding:13px 18px; border-top:1px solid var(--line);}
+  .row:first-child{border-top:none;}
+  .row .rank{font-family:ui-monospace,monospace; font-weight:900; font-size:18px; width:34px; color:var(--muted);}
+  .row.p1{background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 14%,transparent),transparent);}
+  .row.p1 .rank{color:var(--gold);}
+  .row .who{font-weight:700; flex:1;} .row .who small{display:block; color:var(--muted); font-weight:400; font-size:12px;}
+  .row .likes{color:var(--pink); font-weight:800; font-size:14px;}
+  .ribbon{font-size:10px; font-weight:800; letter-spacing:.1em; color:#04120f; background:var(--gold); padding:2px 7px; border-radius:5px;}
+
+  /* roadmap */
+  .soon{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px;}
+  .soon .t{background:var(--card); border:1px dashed var(--line); border-radius:12px; padding:16px;}
+  .soon .t .ic{font-size:20px;} .soon .t b{display:block; font-size:15px; margin-top:6px;}
+  .soon .t span{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em;}
+  .soon .t em{display:block; font-style:normal; color:var(--muted); font-size:12px; margin-top:4px;}
 
   footer{border-top:1px solid var(--line); padding:30px 0; color:var(--muted); font-size:13px; text-align:center;}
-  .themebtn{position:fixed; top:14px; right:14px; background:var(--card); color:var(--fg); border:1px solid var(--line);
-    border-radius:10px; padding:6px 10px; cursor:pointer; font-size:13px; z-index:5;}
+  @media (prefers-reduced-motion:reduce){.blink,.car{animation:none;}}
 </style>
 </head>
 <body>
-<button class="themebtn" onclick="toggleTheme()" title="Toggle theme">◐</button>
+
+<nav><div class="wrap">
+  <span class="brand">Physical<b> Playground</b></span>
+  <span class="links">
+    <a href="#missions">Missions</a>
+    <a href="#how">How it works</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="https://github.com/bookseal/physical-playground" target="_blank">GitHub</a>
+    <button class="themebtn" onclick="toggleTheme()" title="Toggle theme">◐</button>
+  </span>
+</div></nav>
 
 <header class="hero">
   <div class="grid-floor"></div>
+  <!-- original RC toy car (not a Re-Volt asset) -->
+  <svg class="car" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="14" y="24" width="92" height="20" rx="9" fill="var(--pink)"/>
+    <path d="M30 24 q10 -16 34 -16 q20 0 30 16 Z" fill="var(--teal)"/>
+    <circle cx="34" cy="46" r="11" fill="#0c0e14" stroke="var(--gold)" stroke-width="3"/>
+    <circle cx="88" cy="46" r="11" fill="#0c0e14" stroke="var(--gold)" stroke-width="3"/>
+    <rect x="60" y="2" width="3" height="12" fill="var(--gold)"/><circle cx="61" cy="2" r="3" fill="var(--gold)"/>
+  </svg>
   <div class="wrap">
     <span class="badge mono">Physical AI · learn by doing</span>
     <h1 class="title"><span class="l1">Physical</span><br><span class="l2">Playground</span></h1>
     <p class="tag">Give a robot arm a mission. Solve it. Then <b>peer-review</b> each other's runs —
-      the best solutions rise to the top. Start in simulation; no robot required.</p>
+      the best solutions take pole position. Start in simulation; no robot required.</p>
     <div class="cta">
       <button class="btn btn-start mono" onclick="location.href='#missions'">▶ PRESS START</button>
       <button class="btn btn-ghost" onclick="location.href='#how'">How it works</button>
     </div>
-    <p class="mono blink" style="margin-top:26px; color:var(--muted); font-size:12px; letter-spacing:.2em;">◦ INSERT CURIOSITY TO CONTINUE ◦</p>
+    <p class="mono blink" style="margin-top:24px; color:var(--muted); font-size:12px; letter-spacing:.2em;">◦ INSERT CURIOSITY TO CONTINUE ◦</p>
   </div>
 </header>
 
-<section id="how" class="wrap-sec"><div class="wrap">
-  <h2 class="sec">The loop</h2>
-  <h3 class="lead">Not a course. A playground with a scoreboard.</h3>
-  <div class="loop">
-    <div class="step"><div class="k">01 · PLAY</div><h4>Take a mission</h4><p>Run a robot-arm challenge — in sim today, on real hardware later.</p></div>
-    <div class="step"><div class="k">02 · POST</div><h4>Upload your run</h4><p>Drop a short clip of your solution. Rough is fine — it's a playground.</p></div>
-    <div class="step"><div class="k">03 · REVIEW</div><h4>Peer-review</h4><p>You review others; they review you. École-42 style — no lecturer.</p></div>
-    <div class="step"><div class="k">04 · RISE</div><h4>Climb the gallery</h4><p>The most-liked runs float to the top. Records that can't be copied.</p></div>
-  </div>
-</div></section>
-
-<section id="missions" class="wrap-sec"><div class="wrap">
+<section id="missions"><div class="wrap">
   <h2 class="sec">Level select</h2>
-  <h3 class="lead">Three missions to start.</h3>
+  <h3 class="lead">Three tracks to start.</h3>
+  <svg class="circuit" viewBox="0 0 900 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M60 40 C 260 6, 360 6, 460 30 S 700 54, 840 16" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="7 7"/>
+    <circle cx="60" cy="40" r="9" fill="var(--teal)"/><circle cx="460" cy="30" r="9" fill="var(--blue)"/><circle cx="840" cy="16" r="9" fill="var(--gold)"/>
+  </svg>
   <div class="levels">
-    <div class="lvl">
-      <div class="num">1</div>
-      <h4>Pat me on the back</h4>
+    <div class="lvl" style="--c:var(--teal)">
+      <div class="num">1</div><h4>Pat me on the back</h4>
       <p>Build the arm, make it gently pat your back. A warm first win.</p>
       <div class="stars">★☆☆☆☆</div><br><span class="pill">Mac-friendly</span>
     </div>
-    <div class="lvl">
-      <div class="num">2</div>
-      <h4>Pick &amp; place</h4>
+    <div class="lvl" style="--c:var(--blue)">
+      <div class="num">2</div><h4>Pick &amp; place</h4>
       <p>Grab an object, move it. The "Hello World" of manipulation.</p>
       <div class="stars">★★☆☆☆</div><br><span class="pill">sim or real</span>
     </div>
-    <div class="lvl">
-      <div class="num">3</div>
-      <h4>Red Light, Green Light</h4>
-      <p>The robot moves while you speak, freezes the instant you stop. Open problem — the one Squid Game made famous.</p>
+    <div class="lvl" style="--c:var(--gold)">
+      <div class="num">3</div><h4>Red Light, Green Light</h4>
+      <p>The robot moves while you speak, freezes the instant you stop. The one Squid Game made famous.</p>
       <div class="stars">★★★★☆</div><br><span class="pill">peer-review shines</span>
     </div>
   </div>
 </div></section>
 
-<section class="wrap-sec"><div class="wrap">
+<section id="how"><div class="wrap">
+  <h2 class="sec">The loop</h2>
+  <h3 class="lead">Not a course. A playground with a scoreboard.</h3>
+  <div class="loop">
+    <div class="step"><div class="k">01 · PLAY</div><h4>Take a mission</h4><p>Run a robot-arm challenge — in sim today, on real hardware later.</p></div>
+    <div class="step"><div class="k">02 · POST</div><h4>Upload your run</h4><p>Drop a short clip. Rough is fine — it's a playground.</p></div>
+    <div class="step"><div class="k">03 · REVIEW</div><h4>Peer-review</h4><p>You review others; they review you. École-42 style — no lecturer.</p></div>
+    <div class="step"><div class="k">04 · RISE</div><h4>Climb the board</h4><p>The most-liked runs take pole. Records that can't be copied.</p></div>
+  </div>
+</div></section>
+
+<section id="gallery"><div class="wrap">
+  <h2 class="sec">Solution gallery</h2>
+  <h3 class="lead">Best lap wins.</h3>
+  <div class="board">
+    <div class="row p1"><span class="rank">1</span><span class="who">@nova_arm <small>Red Light, Green Light — 40ms stop latency</small></span><span class="ribbon">BEST LAP</span><span class="likes">♥ 214</span></div>
+    <div class="row"><span class="rank">2</span><span class="who">@toybot <small>Pick &amp; place — one-shot, no retries</small></span><span class="likes">♥ 168</span></div>
+    <div class="row"><span class="rank">3</span><span class="who">@sim_first <small>Pat me — done entirely in MuJoCo</small></span><span class="likes">♥ 121</span></div>
+  </div>
+  <p style="color:var(--muted); font-size:12px; margin-top:10px;">↑ illustrative — the real gallery fills up as runs come in.</p>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
   <h2 class="sec">Roadmap</h2>
-  <h3 class="lead">This landing is the arcade cabinet. More coins go in soon.</h3>
+  <h3 class="lead">This is the arcade cabinet. More coins go in soon.</h3>
   <div class="soon">
-    <div class="t"><b>Log in</b><span>coming soon</span></div>
-    <div class="t"><b>Cohorts &amp; pricing</b><span>coming soon</span></div>
-    <div class="t"><b>Tutorials</b><span>coming soon</span></div>
-    <div class="t"><b>Solution gallery</b><span>coming soon</span></div>
+    <div class="t"><div class="ic">🔧</div><b>The Garage</b><span>coming soon</span><em>Log in · your saved runs</em></div>
+    <div class="t"><div class="ic">🏁</div><b>Unlock the circuit</b><span>coming soon</span><em>Cohorts &amp; pricing</em></div>
+    <div class="t"><div class="ic">🗺️</div><b>Track library</b><span>coming soon</span><em>Tutorials &amp; missions</em></div>
+    <div class="t"><div class="ic">🏆</div><b>Full leaderboard</b><span>coming soon</span><em>The solution gallery</em></div>
   </div>
 </div></section>
 
@@ -154,8 +203,7 @@
 <script>
   function applyTheme(t){ document.documentElement.setAttribute('data-theme',t); try{localStorage.setItem('pp-theme',t);}catch(e){} }
   function toggleTheme(){
-    const cur = document.documentElement.getAttribute('data-theme')
-      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const cur = document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     applyTheme(cur === 'dark' ? 'light' : 'dark');
   }
   try{ const s=localStorage.getItem('pp-theme'); if(s) applyTheme(s); }catch(e){}
