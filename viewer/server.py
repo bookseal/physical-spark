@@ -6,6 +6,7 @@
 의존성 없음 (Python 표준 라이브러리만 사용).
 """
 import json
+import mimetypes
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
@@ -87,7 +88,9 @@ class Handler(BaseHTTPRequestHandler):
             if not full:
                 self.send_json({"error": "not found"}, 404)
                 return
-            ctype = "text/html; charset=utf-8" if full.lower().endswith(".html") else "text/plain; charset=utf-8"
+            ctype = mimetypes.guess_type(full)[0] or "application/octet-stream"
+            if ctype.startswith("text/"):
+                ctype += "; charset=utf-8"
             with open(full, "rb") as f:
                 body = f.read()
             self.send_response(200)
