@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>🤖 Physical AI 교육 — 문서</title>
+<title>Physical Playground · Playbook</title>
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
 <style>
   :root {
@@ -129,7 +129,7 @@
 <body>
 <nav id="side">
   <header>
-    <h1 onclick="goHome()">🤖 Physical AI 교육</h1>
+    <h1 onclick="goHome()">🕹️ Playbook</h1>
     <input id="search" type="search" placeholder="파일명 검색…">
   </header>
   <div id="tree"></div>
@@ -252,7 +252,7 @@ function renderTree(filter) {
 
 function goHome() {
   current = null; location.hash = ''; editing = false; diffMode = false;
-  document.getElementById('curpath').textContent = 'Physical AI 교육 플랫폼 — 문서 홈';
+  document.getElementById('curpath').textContent = 'Physical Playground — Playbook';
   document.getElementById('curtime').textContent = '';
   document.getElementById('btn-edit').disabled = true;
   const db = document.getElementById('btn-diff'); db.disabled = true; db.classList.remove('on');
@@ -261,8 +261,8 @@ function goHome() {
   doc.style.display = ''; doc.innerHTML = '';
   const home = document.createElement('div');
   home.id = 'home';
-  home.innerHTML = `<h2 class="htitle">🤖 Physical AI 교육 플랫폼</h2>` +
-    `<div class="hsub">"Pat me on the back" → "Red Light, Green Light" — a peer-review Physical AI school. 카드의 파일을 바로 클릭해 열 수 있다.</div>`;
+  home.innerHTML = `<h2 class="htitle">🕹️ Physical Playground — Playbook</h2>` +
+    `<div class="hsub">사업을 짓기 위한 거의 모든 reference — 제품 컨셉 · 시장 · 포지셔닝 · 실습(lab) · 전략. 카드를 클릭해 바로 열 수 있다.</div>`;
   const board = document.createElement('div');
   board.className = 'kanban';
   const groups = {};
