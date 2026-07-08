@@ -4,6 +4,7 @@
 
 A peer-review school for **Physical AI** — **a revolt against boring tutorials**, for developers who want to break into robotics.
 
+> 🌐 **Live:** **https://physical-revolt.bit-habit.com** — playable landing, courses, and the join page.
 > 👋 **New here?** Start with **[ONBOARDING.md](ONBOARDING.md)** (a guided map of every doc) or **[why join us](https://physical-revolt.bit-habit.com/join.html)**.
 
 We give a student a robot-arm mission. They build it, they solve it, and
@@ -83,10 +84,21 @@ really hard to make the learning **fun**. This repo keeps the trail of that thin
 The bet: *how* someone learns to build should itself be built with care and joy. This whole workspace is that,
 run as a system.
 
-## Status
+## Live & in progress (building in public)
 
-Early work in progress. We are building in public. Week 1: choosing and
-ordering the first robot arm.
+The site is live at **https://physical-revolt.bit-habit.com** and grows one piece at a time — here's the running state:
+
+- ✅ **Landing** — warm Re-Volt theme + a playable mini-game.
+- ✅ **Courses** ([`/courses`](https://physical-revolt.bit-habit.com/courses/)) — dynamic curriculum:
+  **Mission 0 — Setup & First Simulation** (install LeRobot on a Mac, run your first MuJoCo sim), then Missions 1–3
+  (Pat me → Pick & place → Red Light, Green Light).
+- ✅ **Join page** ([`/join.html`](https://physical-revolt.bit-habit.com/join.html)) — the pitch, market, and advisor.
+- ✅ **Hosting** — self-hosted on k3s (Traefik + cert-manager), `git push` → deploy.
+- 🔨 **In progress:** passwordless **sign-in** (email magic-link, random English nickname).
+- 🗺️ **Next:** peer-review upload + gallery; more course lessons; Apple passkey login.
+
+Still early — Week 1 was choosing and ordering the first robot arm. Follow the trail in
+[ONBOARDING.md](ONBOARDING.md) and the [build logs](logs/).
 
 ---
 
