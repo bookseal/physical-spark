@@ -67,8 +67,11 @@
 
 ## 누가 만들고 있나
 École 42 출신 인디 메이커. 이전에 습관 인증 서비스를 **2년 운영(리텐션 90%)**, 여러 서비스를 직접 배포.
-지금은 physical AI를 **learning in public**으로 파고드는 중(하드웨어·physical AI 시니어 멘토의 자문도 받음).
+지금은 physical AI를 **learning in public**으로 파고드는 중.
 GitHub: [bookseal](https://github.com/bookseal) · 포트폴리오: [bit-habit.com](https://bit-habit.com)
+
+**🧭 자문(Advisor).** 정식 팀원은 아니지만, **딥테크 하드웨어·로봇 분야에서 제품을 상용화해 본 시니어 전문가**가
+이 프로젝트를 지속적으로 **첨삭·자문**해 줍니다(제품 방향·physical AI 전략 실전 피드백). 초기지만 **혼자가 아니라 검증된 시선이 붙어 있다**는 뜻.
 
 ## 같이 반란 일으킬래요?
 가볍게 이야기부터 — 뭘 잘하고 뭐가 재밌는지 알려주세요.
