@@ -63,6 +63,14 @@ def init_db():
             user_id INTEGER NOT NULL,
             expires_at INTEGER NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS scores(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            level INTEGER NOT NULL,
+            created_at INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_scores_top ON scores(score DESC);
         """
     )
     con.commit()
@@ -215,3 +223,55 @@ def logout(request: Request):
 @app.get("/api/auth/health")
 def health():
     return {"ok": True}
+
+
+# ---- arcade scoreboard (Physical Revolt mini-game) ------------------------
+
+def _clean_name(raw: str) -> str:
+    # keep it arcade-simple: printable, trimmed, max 16 chars; fall back to AAA
+    name = "".join(c for c in (raw or "") if c.isprintable()).strip()[:16]
+    return name or "AAA"
+
+
+def _top(con, limit: int):
+    rows = con.execute(
+        "SELECT name, score, level, created_at FROM scores "
+        "ORDER BY score DESC, created_at ASC LIMIT ?",
+        (limit,),
+    ).fetchall()
+    return [
+        {"name": r[0], "score": r[1], "level": r[2], "created_at": r[3]}
+        for r in rows
+    ]
+
+
+class ScoreReq(BaseModel):
+    name: str
+    score: int
+    level: int = 0
+
+
+@app.post("/api/scores")
+def post_score(req: ScoreReq, request: Request):
+    # signed-in players post under their nickname; guests under the typed name
+    u = current_user(request)
+    name = u["nickname"] if u else _clean_name(req.name)
+    score = max(0, min(int(req.score), 10_000_000))
+    level = max(0, min(int(req.level), 999))
+    con = db()
+    con.execute(
+        "INSERT INTO scores(name,score,level,created_at) VALUES(?,?,?,?)",
+        (name, score, level, now()),
+    )
+    con.commit()
+    top = _top(con, 10)
+    con.close()
+    return {"ok": True, "top": top}
+
+
+@app.get("/api/scores")
+def get_scores(limit: int = 10):
+    con = db()
+    top = _top(con, max(1, min(limit, 100)))
+    con.close()
+    return {"top": top}
