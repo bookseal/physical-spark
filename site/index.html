@@ -59,6 +59,30 @@
   .gbtn:active{background:var(--accent); color:#fff;}
   .score{font-family:ui-monospace,monospace; font-weight:800; margin-left:auto;}
 
+  /* arcade scoreboard */
+  .sb{margin-top:12px; border-top:1px dashed var(--line); padding-top:12px;}
+  .sb-save{display:none; align-items:center; gap:10px; flex-wrap:wrap; background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:12px;}
+  .sb-save.on{display:flex;}
+  .sb-save .lbl{font-family:ui-monospace,monospace; font-weight:800; color:var(--red);}
+  .sb-save input{flex:1; min-width:120px; font-family:ui-monospace,monospace; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    padding:9px 12px; border:1px solid var(--line); border-radius:9px; background:var(--card); color:var(--fg); font-size:15px;}
+  .sb-save button{border:none; border-radius:9px; padding:9px 16px; font-weight:800; font-size:14px; cursor:pointer; background:var(--accent); color:#fff;}
+  .sb-save button:disabled{opacity:.5; cursor:default;}
+  .sb h4{margin:0 0 8px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);}
+  .sb ol{list-style:none; margin:0; padding:0; font-family:ui-monospace,monospace;}
+  .sb li{display:flex; align-items:baseline; gap:10px; padding:6px 8px; border-radius:8px; font-size:14px;}
+  .sb li:nth-child(odd){background:var(--bg2);}
+  .sb li.me{background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 26%,transparent),transparent);}
+  .sb li .rk{width:26px; color:var(--muted); font-weight:800;}
+  .sb li.top .rk{color:var(--gold);}
+  .sb li .nm{font-weight:800; flex:1; letter-spacing:.04em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .sb li .sc{font-weight:800; color:var(--red);}
+  .sb li .lv{color:var(--muted); font-size:12px; width:44px; text-align:right;}
+  .sb li .dt{color:var(--muted); font-size:11px; width:120px; text-align:right; font-family:-apple-system,sans-serif;}
+  .sb .empty{color:var(--muted); font-size:13px; padding:6px 8px;}
+  .sb .src{margin-top:8px; font-size:11px; color:var(--muted);}
+  @media (max-width:560px){ .sb li .dt{display:none;} }
+
   /* level select */
   .circuit{width:100%; height:56px; margin-bottom:6px;}
   .levels{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;}
@@ -148,6 +172,16 @@
       <button class="gbtn" id="gmute" aria-label="sound" title="sound on/off">🔊</button>
       <span class="hint">← → / A D / drag · dodge blocks, grab ★ &amp; ⚡</span>
       <span class="score" id="score">0 m</span>
+    </div>
+    <div class="sb">
+      <div class="sb-save" id="sbSave">
+        <span class="lbl" id="sbSaveLbl">NEW SCORE</span>
+        <input id="sbName" maxlength="16" placeholder="YOUR NAME" aria-label="your name" autocomplete="off" spellcheck="false">
+        <button id="sbSubmit">Save to board</button>
+      </div>
+      <h4>🏆 High scores</h4>
+      <ol id="sbList"><li class="empty">No runs yet — be the first.</li></ol>
+      <div class="src" id="sbSrc"></div>
     </div>
   </div>
 </div></section>
@@ -248,12 +282,15 @@
   /* ---- mini driving game — Re-Volt vibe: pickups, boost, combo, synth sound ---- */
   (function(){
     const cv=document.getElementById('game'), ctx=cv.getContext('2d');
+    const logo=new Image(); let logoOK=false; logo.onload=()=>logoOK=true; logo.src='assets/logo-mark.png';
+    const drawLogo=(cx,cy,h,alpha)=>{ if(!logoOK)return; const w=h*logo.width/logo.height; ctx.globalAlpha=alpha==null?1:alpha; ctx.drawImage(logo,cx-w/2,cy-h/2,w,h); ctx.globalAlpha=1; };
     const W=cv.width,H=cv.height,HORIZON=H*0.28,BOTTOM=H*0.98;
     const roadHalf=z=>(0.10+0.62*z)*W, yAt=z=>HORIZON+(BOTTOM-HORIZON)*z*z;
     const LPX=roadHalf(1), CPX=LPX*0.82; /* lane→px and player px→px at player depth — hit tests must use these, same as drawing */
     const COLORS=['#e0442e','#2f6fd0','#e6a413','#0e9a89'];
     let px,target,lean,speed,dist,obs,stars,batts,oils,skids,parts,pops,shake,boost,combo,comboT,nextMile,flash,slip,wob,bump,vx,runT,slowT,hp,lvl,newRec,st,cd,tPrev;
     let best=0; try{best=+localStorage.getItem('pr-best')||0;}catch(e){}
+    let best0=0; /* best as it stood when the current run started — NEW RECORD compares against this */
 
     /* audio — WebAudio synth (no files, no copyright) */
     let AC,master,eng,engG,muted=false;
@@ -271,8 +308,8 @@
     const sMile=()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.13,'triangle',.35),i*65));
     const sBeep=go=>tone(go?880:440,go?.4:.15,'square',go?.5:.4);
 
-    function reset(){ px=0;target=0;lean=0;speed=0.42;dist=0;obs=[];stars=[];batts=[];oils=[];skids=[];parts=[];pops=[];shake=0;boost=0;combo=0;comboT=0;nextMile=500;flash=0;slip=0;wob=0;bump=0;vx=0;runT=0;slowT=0;hp=3;lvl=0;newRec=false;tPrev=0;spawn(); }
-    function reset2(){ dist=0;obs=[];stars=[];batts=[];oils=[];parts=[];pops=[];combo=0;comboT=0;boost=0;nextMile=500;speed=0.42;slip=0;bump=0;vx=0;runT=0;slowT=0;hp=3;lvl=0;newRec=false;spawn(); }
+    function reset(){ px=0;target=0;lean=0;speed=0.42;dist=0;obs=[];stars=[];batts=[];oils=[];skids=[];parts=[];pops=[];shake=0;boost=0;combo=0;comboT=0;nextMile=500;flash=0;slip=0;wob=0;bump=0;vx=0;runT=0;slowT=0;hp=3;lvl=0;newRec=false;best0=best;tPrev=0;spawn(); }
+    function reset2(){ dist=0;obs=[];stars=[];batts=[];oils=[];parts=[];pops=[];combo=0;comboT=0;boost=0;nextMile=500;speed=0.42;slip=0;bump=0;vx=0;runT=0;slowT=0;hp=3;lvl=0;newRec=false;best0=best;spawn(); }
 
     /* level → difficulty curve. Level rises every 20s of play: 0,1,2,… capped at 12.
        Must return {speed, gap}:
@@ -282,11 +319,11 @@
       return { speed: 0.42 + 0.16*lvl + 0.012*lvl*lvl,  /* L1 .59 · L2 .79 · L3 1.0 · L4 1.24 · L5+ capped 1.5 */
                gap:   0.5  - 0.075*lvl };               /* L2 .35 · L4 .20 · L5+ floor .13 */
     }
-    function spawn(){ let lane=Math.random()*1.7-0.85; if(runT<8) lane=(0.5+Math.random()*0.35)*(Math.random()<0.5?-1:1);
+    function spawn(){ let lane=Math.random()*1.4-0.7; if(runT<8) lane=(0.42+Math.random()*0.24)*(Math.random()<0.5?-1:1);
       obs.push({z:0,lane,c:COLORS[(Math.random()*COLORS.length)|0]});
-      if(Math.random()<0.32) stars.push({z:Math.random()*.08,lane:Math.random()*1.7-0.85});
-      if(Math.random()<0.10) batts.push({z:Math.random()*.05,lane:Math.random()*1.5-0.75});
-      if(lvl>=2&&Math.random()<0.08) oils.push({z:0,lane:Math.random()*1.5-0.75}); }
+      if(Math.random()<0.32) stars.push({z:Math.random()*.08,lane:Math.random()*1.3-0.65});
+      if(Math.random()<0.10) batts.push({z:Math.random()*.05,lane:Math.random()*1.2-0.6});
+      if(lvl>=2&&Math.random()<0.08) oils.push({z:0,lane:Math.random()*1.2-0.6}); }
     function burst(x,y,c,n){ for(let i=0;i<n;i++){ const a=Math.random()*7,s=50+Math.random()*160; parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-50,l:.6,c}); } }
     function popup(txt,c){ pops.push({txt,c,y:0,l:1}); }
 
@@ -342,16 +379,13 @@
       for(const p of pops){ ctx.globalAlpha=Math.max(p.l,0); ctx.fillStyle=p.c; ctx.font='900 26px ui-monospace'; ctx.fillText(p.txt,W/2,H*0.34-p.y); } ctx.globalAlpha=1;
       for(const q of parts){ ctx.globalAlpha=Math.max(q.l,0); ctx.fillStyle=q.c; ctx.fillRect(q.x-3,q.y-3,6,6); } ctx.globalAlpha=1;
     }
-    function overlay(txt,sub){ ctx.fillStyle='rgba(30,15,5,.55)'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.font='800 34px ui-monospace,monospace'; ctx.fillText(txt,W/2,H/2-4);
-      ctx.font='600 18px -apple-system,sans-serif'; ctx.fillStyle='#ffe6c0'; ctx.fillText(sub,W/2,H/2+30); }
 
     function frame(t){
       const dt=tPrev?Math.min((t-tPrev)/1000,0.05):0.016; tPrev=t;
       const drift=target-px, dv=Math.max(-1.4,Math.min(1.4,drift*5));
       vx+=(dv-vx)*Math.min(dt*(slip>0?2.5:7),1); px+=vx*dt;
       if(slip>0){ wob+=dt*13; px+=Math.sin(wob)*0.028; }
-      if(px>0.95){ px=0.95; if(vx>0)vx=0; } else if(px<-0.95){ px=-0.95; if(vx<0)vx=0; }
+      if(px>0.78){ px=0.78; if(vx>0)vx=0; } else if(px<-0.78){ px=-0.78; if(vx<0)vx=0; }
       lean+=(Math.max(-1,Math.min(1,vx*0.9))-lean)*Math.min(dt*8,1);
       const running=st==='run', eff=speed*(boost>0?1.7:1)*(slowT>0?0.55:1);
       const carX=W/2+px*roadHalf(1)*0.82, carY=yAt(1)-8;
@@ -361,7 +395,7 @@
           speed+=(Math.max(0.2,Math.min(1.5,levelDiff(lvl).speed))-speed)*Math.min(dt*1.5,1);
           slowT=Math.max(0,slowT-dt); dist+=eff*dt*60; boost=Math.max(0,boost-dt); bump=Math.max(0,bump-dt); comboT=Math.max(0,comboT-dt); if(comboT<=0)combo=0; if(flash>0)flash-=dt;
           while(dist>=nextMile){ popup(nextMile+' m!','#e6a413'); sMile(); flash=0.35; nextMile+=500; }
-          if(!newRec&&best>0&&(dist|0)>best){ newRec=true; popup('🏆 NEW RECORD!','#f4b21a'); sMile(); }
+          if(!newRec&&best0>0&&(dist|0)>best0){ newRec=true; popup('🏆 NEW RECORD!','#f4b21a'); sMile(); }
           if((dist|0)>best){ best=dist|0; try{localStorage.setItem('pr-best',best)}catch(e){} } }
         if(running && Math.abs(vx)>0.45){ skids.push({x:carX-20,y:carY,a:1}); skids.push({x:carX+20,y:carY,a:1}); }
         for(const s of skids){ s.y+=eff*dt*120; s.a-=dt*1.4; } skids=skids.filter(s=>s.a>0&&s.y<H);
@@ -377,7 +411,7 @@
           if(obs.length&&obs[obs.length-1].z>Math.max(0.13,Math.min(0.7,levelDiff(lvl).gap))) spawn();
           obs=obs.filter(o=>{ if(!o.chk&&o.z>=0.97){ o.chk=1; const d=Math.abs(o.lane*LPX-px*CPX);
             if(d<62){ if(bump<=0){ bump=1.2; sCrash(); burst(carX,carY-20,o.c,18); combo=0; comboT=0; boost=0; hp--;
-              if(hp<=0){ st='dead'; shake=0.7; } else { shake=0.4; slowT=1.8; popup('BUMP! -1♥','#e0442e'); } } }
+              if(hp<=0){ st='dead'; shake=0.7; try{window.PR_gameOver&&window.PR_gameOver(dist|0,lvl);}catch(_){} } else { shake=0.4; slowT=1.8; popup('BUMP! -1♥','#e0442e'); } } }
             else if(d<150){ dist+=8; popup('CLOSE!','#e0442e'); sNear(); } } return o.z<1.2; });
           document.getElementById('score').textContent=(dist|0)+' m · best '+best;
         }
@@ -393,14 +427,18 @@
       if(st==='count'){ cd-=dt; const n=Math.ceil(cd); if(n!==frame._n){ frame._n=n; sBeep(n<=0); }
         ctx.fillStyle='rgba(0,0,0,.35)'; ctx.fillRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.font='900 90px ui-monospace'; ctx.fillText(n>0?n:'GO!',W/2,H/2+30);
         if(cd<=-0.45){ st='run'; reset2(); } }
-      if(st==='ready') overlay('◀ ▶  TO STEER','drag / arrows / A D — you have 3 ♥, bumps cost one. Grab ★ and ⚡');
+      if(st==='ready'){ ctx.fillStyle='rgba(30,15,5,.55)'; ctx.fillRect(0,0,W,H);
+        drawLogo(W/2,H/2-96,124);
+        ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.font='800 34px ui-monospace,monospace'; ctx.fillText('◀ ▶  TO STEER',W/2,H/2+30);
+        ctx.font='600 18px -apple-system,sans-serif'; ctx.fillStyle='#ffe6c0'; ctx.fillText('drag / arrows / A D — you have 3 ♥, bumps cost one. Grab ★ and ⚡',W/2,H/2+64); }
       if(st==='dead'){ ctx.fillStyle='rgba(30,15,5,.62)'; ctx.fillRect(0,0,W,H);
+        drawLogo(W/2,H/2-116,104);
         ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.font='800 38px ui-monospace,monospace';
-        ctx.fillText((newRec?'🏆 NEW RECORD · ':'GAME OVER · ')+(dist|0)+' m · LV '+lvl,W/2,H/2-36);
+        ctx.fillText((newRec?'🏆 NEW RECORD · ':'GAME OVER · ')+(dist|0)+' m · LV '+lvl,W/2,H/2-4);
         ctx.fillStyle='#ffe6c0'; ctx.font='600 19px -apple-system,sans-serif';
-        ctx.fillText('Fun, right? Our robot-arm missions feel just like this.',W/2,H/2+6);
+        ctx.fillText('Fun, right? Our robot-arm missions feel just like this.',W/2,H/2+38);
         ctx.fillStyle='#f4b21a'; ctx.font='700 15px -apple-system,sans-serif';
-        ctx.fillText('click / tap to run it back',W/2,H/2+40); }
+        ctx.fillText('save your name below  ·  click to run it back',W/2,H/2+72); }
       requestAnimationFrame(frame);
     }
     function begin(){ if(st==='ready'){ initAudio(); st='count'; cd=3.2; frame._n=99; reset(); } }
@@ -414,6 +452,78 @@
     cv.addEventListener('pointerup',()=>target=0);
     cv.addEventListener('click',()=>{ if(st==='dead'){ initAudio(); st='count'; cd=3.2; frame._n=99; reset(); } else begin(); });
     st='ready'; reset(); requestAnimationFrame(frame);
+  })();
+</script>
+<script>
+  /* ---- arcade scoreboard: server DB (/api/scores) with localStorage fallback ---- */
+  (function(){
+    var API='/api/scores', LS='pr-scores', NAMEKEY='pr-name';
+    var saveBox=document.getElementById('sbSave'), lbl=document.getElementById('sbSaveLbl'),
+        nameEl=document.getElementById('sbName'), submitBtn=document.getElementById('sbSubmit'),
+        listEl=document.getElementById('sbList'), srcEl=document.getElementById('sbSrc');
+    var pending=null; /* {score,level} awaiting a name */
+
+    function localAll(){ try{return JSON.parse(localStorage.getItem(LS))||[];}catch(e){return [];} }
+    function localSave(arr){ try{localStorage.setItem(LS,JSON.stringify(arr.slice(0,50)));}catch(e){} }
+    function rank(arr){ return arr.slice().sort(function(a,b){ return b.score-a.score || a.created_at-b.created_at; }).slice(0,10); }
+    function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+    function fmt(ts){ var d=new Date(ts*1000); if(isNaN(d)) return '';
+      var p=function(n){return (n<10?'0':'')+n;};
+      return (d.getMonth()+1)+'/'+d.getDate()+' '+p(d.getHours())+':'+p(d.getMinutes()); }
+
+    function render(rows, source, mineTs){
+      if(!rows.length){ listEl.innerHTML='<li class="empty">No runs yet — be the first.</li>'; srcEl.textContent=''; return; }
+      listEl.innerHTML=rows.map(function(r,i){
+        var mine = mineTs && r.created_at===mineTs;
+        return '<li class="'+(i<3?'top ':'')+(mine?'me':'')+'">'+
+          '<span class="rk">'+(i+1)+'</span>'+
+          '<span class="nm">'+esc(r.name)+'</span>'+
+          '<span class="sc">'+r.score+' m</span>'+
+          '<span class="lv">LV '+r.level+'</span>'+
+          '<span class="dt">'+fmt(r.created_at)+'</span></li>';
+      }).join('');
+      srcEl.textContent = source==='server' ? 'shared board · live' : 'saved on this device';
+    }
+
+    async function loadServer(mineTs){
+      try{
+        var r=await fetch(API+'?limit=10',{credentials:'include'});
+        if(r.ok){ var j=await r.json(); if(j&&j.top){ render(j.top, 'server', mineTs); return true; } }
+      }catch(e){}
+      return false;
+    }
+    async function refresh(mineTs){ if(!(await loadServer(mineTs))) render(rank(localAll()), 'local', mineTs); }
+
+    window.PR_gameOver=function(score,level){
+      pending={score:score,level:level};
+      lbl.textContent='NEW SCORE · '+score+' m · LV '+level;
+      nameEl.value=(function(){ try{return localStorage.getItem(NAMEKEY)||'';}catch(e){return '';} })();
+      saveBox.classList.add('on'); submitBtn.disabled=false;
+      // if signed in, the server stamps the nickname anyway; hint that here
+      nameEl.placeholder='YOUR NAME';
+    };
+
+    async function submit(){
+      if(!pending) return;
+      var name=(nameEl.value||'').trim().slice(0,16)||'AAA';
+      try{localStorage.setItem(NAMEKEY,name);}catch(e){}
+      var entry={name:name,score:pending.score,level:pending.level,created_at:Math.floor(Date.now()/1000)};
+      submitBtn.disabled=true; submitBtn.textContent='Saving…';
+      var server=false;
+      try{
+        var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',
+          body:JSON.stringify({name:name,score:entry.score,level:entry.level})});
+        if(r.ok){ var j=await r.json(); if(j&&j.top){ server=true; render(j.top,'server',entry.created_at); } }
+      }catch(e){}
+      // always keep a local copy so the board survives offline / before backend redeploy
+      var all=localAll(); all.push(entry); localSave(all);
+      if(!server) render(rank(all),'local',entry.created_at);
+      saveBox.classList.remove('on'); submitBtn.textContent='Save to board'; pending=null;
+    }
+    submitBtn.onclick=submit;
+    nameEl.addEventListener('keydown',function(e){ if(e.key==='Enter') submit(); });
+
+    refresh();
   })();
 </script>
 <script src="auth.js"></script>
