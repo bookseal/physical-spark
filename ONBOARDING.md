@@ -35,7 +35,7 @@
 - [잡마켓: ROS vs Physical AI](knowledge/01-job-market-ros-vs-physical-ai.md)
 - [로봇 산업 지형](knowledge/02-robot-industry-landscape.md)
 - [플레이어와 돈 (뇌 vs 몸)](knowledge/03-physical-ai-players-and-money.md)
-- [기업 지도 (버티컬별 아틀라스)](knowledge/05-robotics-company-atlas.md) — 국방·제조·휴머노이드·우주… 40여 개 기업, 출처검증
+- [기업 지도 (버티컬별 아틀라스)](knowledge/05-robotics-company-atlas.md) — 우주·국방·물류·제조·휴머노이드·파운데이션모델·건설 60여 개 기업, 출처검증 (Balerion 인포그래픽 대조)
 
 ### 2. 우리 벤처
 - [제품 컨셉](docs/01-concept/product-concept.md) — 미션 시퀀스, "교재 vs 플랫폼"
