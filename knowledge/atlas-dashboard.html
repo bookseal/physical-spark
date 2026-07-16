@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical AI 학습 대시보드 — 산업 지도 · 러닝 사다리</title>
+<style>
+  :root{
+    --bg:#0c0e14; --bg2:#12151f; --fg:#eef1f7; --muted:#9aa3b5; --line:#242a38; --card:#141826;
+    --teal:#39e0c8; --pink:#ff5d8f; --gold:#ffcf4d; --blue:#2ec4ff; --green:#35e08a; --purple:#b18cff;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f6f7fb; --bg2:#eef0f7; --fg:#161a24; --muted:#5a6478; --line:#dde1ec; --card:#fff;
+      --teal:#0bb3a0; --pink:#e23a70; --gold:#c98a00; --blue:#1289c9; --green:#1b9e5a; --purple:#7a52d8; }
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--fg); line-height:1.6;
+    font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",Roboto,sans-serif;}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+  .wrap{max-width:1180px; margin:0 auto; padding:22px 20px 90px;}
+
+  /* header / HUD */
+  .hud{display:flex; align-items:center; gap:12px; flex-wrap:wrap; border:1px solid var(--line);
+    border-radius:16px; padding:16px 18px; background:linear-gradient(120deg,var(--card),var(--bg2));}
+  .hud h1{font-size:22px; margin:0; letter-spacing:-.01em;}
+  .hud .tag{font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    color:#04120f; background:var(--teal); border-radius:6px; padding:3px 8px;}
+  .hud .src{color:var(--muted); font-size:12px; margin-left:auto;}
+  .hud .src a{color:var(--teal);}
+  .quote{font-size:13px; color:var(--muted); margin:10px 2px 0; font-style:italic;}
+
+  /* stat row */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:16px 0;}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px;}
+  .stat .n{font-size:24px; font-weight:800; line-height:1.1;}
+  .stat .l{font-size:11px; color:var(--muted); margin-top:2px;}
+  .stat.teal .n{color:var(--teal);} .stat.pink .n{color:var(--pink);}
+  .stat.gold .n{color:var(--gold);} .stat.blue .n{color:var(--blue);}
+
+  /* tabs */
+  .tabs{display:flex; gap:8px; margin:22px 0 16px; flex-wrap:wrap;}
+  .tab{background:var(--card); border:1px solid var(--line); color:var(--fg); border-radius:10px;
+    padding:9px 16px; font-size:14px; font-weight:700; cursor:pointer;}
+  .tab.on{background:var(--teal); color:#04120f; border-color:var(--teal);}
+  .panel{display:none;} .panel.on{display:block;}
+
+  h2{font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--teal);
+    margin:30px 0 12px; border-top:1px solid var(--line); padding-top:18px;}
+  p.lead{color:var(--muted); font-size:14px; margin:0 0 14px;}
+  a{color:var(--teal);}
+
+  /* value chain */
+  .chain{display:flex; flex-direction:column; gap:8px; margin:8px 0 4px;}
+  .layer{border-radius:12px; padding:12px 16px; color:#04120f; position:relative; overflow:hidden;}
+  .layer .lt{font-weight:800; font-size:15px;} .layer .ld{font-size:12.5px; opacity:.88;}
+  .layer .badge{position:absolute; right:14px; top:12px; font-size:10px; font-weight:800;
+    background:rgba(0,0,0,.22); border-radius:6px; padding:2px 7px;}
+  .L5{background:var(--pink); color:#fff;} .L4{background:var(--gold);}
+  .L3{background:var(--teal);} .L2{background:var(--green);} .L1{background:var(--blue);}
+
+  /* filter chips */
+  .chips{display:flex; gap:7px; flex-wrap:wrap; margin:6px 0 16px;}
+  .chip{background:var(--card); border:1px solid var(--line); color:var(--fg); border-radius:20px;
+    padding:5px 13px; font-size:12.5px; cursor:pointer; font-weight:600;}
+  .chip.on{background:var(--fg); color:var(--bg); border-color:var(--fg);}
+  .chip .dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px; vertical-align:0;}
+
+  /* company cards */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px;}
+  .co{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:13px 14px;
+    border-left:4px solid var(--line);}
+  .co .top{display:flex; align-items:baseline; gap:6px;}
+  .co .nm{font-weight:800; font-size:15px;}
+  .co .flag{font-size:14px;}
+  .co .cat{margin-left:auto; font-size:10px; font-weight:800; letter-spacing:.03em; border-radius:5px; padding:1px 7px; color:#04120f;}
+  .co .desc{font-size:13px; margin:6px 0 7px;}
+  .co .st{font-size:12px; color:var(--muted);}
+  .co .foot{display:flex; align-items:center; gap:8px; margin-top:9px;}
+  .co .lyr{font-size:10px; font-weight:800; color:var(--muted); border:1px solid var(--line); border-radius:5px; padding:1px 6px;}
+  .co .kr{font-size:10px; font-weight:800; background:var(--pink); color:#fff; border-radius:5px; padding:1px 6px;}
+  .co .warn{font-size:10px; font-weight:800; background:var(--gold); color:#04120f; border-radius:5px; padding:1px 6px;}
+  .co a.src{font-size:11px; margin-left:auto;}
+  .co.hidden{display:none;}
+  .empty{color:var(--muted); font-size:13px; padding:20px; text-align:center;}
+
+  /* ladder */
+  .ladder{display:flex; flex-direction:column-reverse; gap:10px; margin:6px 0;}
+  .rung{border-radius:13px; padding:14px 16px; cursor:pointer; color:#04120f; transition:transform .12s;}
+  .rung:hover{transform:translateX(4px);}
+  .rung .rt{font-weight:800; font-size:16px;} .rung .rd{font-size:13px; opacity:.9;}
+  .rung .more{display:none; font-size:13px; margin-top:8px; background:rgba(255,255,255,.28);
+    border-radius:9px; padding:9px 12px; line-height:1.6;}
+  .rung.open .more{display:block;}
+  .R1{background:var(--blue);} .R2{background:var(--gold);} .R3{background:var(--pink); color:#fff;}
+  .R4{background:var(--teal);} .Rroot{background:var(--green);}
+  .axis{display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin:4px 2px 0;}
+
+  /* pipeline */
+  .pipe{display:flex; align-items:stretch; gap:0; flex-wrap:wrap; margin:10px 0;}
+  .pstep{flex:1; min-width:120px; background:var(--card); border:1px solid var(--line); border-radius:11px;
+    padding:11px; text-align:center; position:relative;}
+  .pstep .pi{font-size:20px;} .pstep .pn{font-weight:800; font-size:13px; margin-top:2px;}
+  .pstep .pd{font-size:11px; color:var(--muted);}
+  .parrow{align-self:center; color:var(--muted); font-size:18px; padding:0 4px;}
+
+  /* money bars */
+  .bars{display:flex; flex-direction:column; gap:9px; margin:10px 0;}
+  .bar{display:flex; align-items:center; gap:10px;}
+  .bar .bl{width:120px; font-size:12.5px; font-weight:700; flex-shrink:0;}
+  .bar .track{flex:1; background:var(--bg2); border-radius:8px; height:26px; overflow:hidden; border:1px solid var(--line);}
+  .bar .fill{height:100%; border-radius:8px 0 0 8px; display:flex; align-items:center; justify-content:flex-end;
+    padding-right:8px; font-size:11px; font-weight:800; color:#04120f;}
+  .tl{border-left:2px solid var(--line); margin:8px 0 0 8px; padding:0 0 0 18px;}
+  .tlrow{position:relative; padding:8px 0;}
+  .tlrow::before{content:""; position:absolute; left:-25px; top:14px; width:11px; height:11px; border-radius:50%;
+    background:var(--teal); border:2px solid var(--bg);}
+  .tlrow .yr{font-weight:800; font-size:13px; color:var(--teal);}
+  .tlrow .it{font-size:12.5px; color:var(--muted);}
+  .note{background:var(--bg2); border:1px dashed var(--line); border-radius:12px; padding:12px 15px; font-size:13px; margin-top:14px;}
+  .foot-links{margin-top:26px; font-size:12.5px; color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud">
+    <span class="tag">Playbook</span>
+    <h1>🤖 Physical AI 학습 대시보드</h1>
+    <span class="src">출처: Balerion Space Ventures 인포그래픽 + 웹 검증 ·
+      <a href="#" onclick="return false;">knowledge/05·06</a></span>
+  </div>
+  <div class="quote">“You can work out all the theories you like but the real world is more complex than your theories.” — 인포그래픽 표제 (Claude Shannon 표기)</div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="tabs">
+    <button class="tab on" data-p="map">🗺️ 산업 지도</button>
+    <button class="tab" data-p="ladder">🪜 러닝 사다리</button>
+    <button class="tab" data-p="money">💰 돈의 흐름</button>
+  </div>
+
+  <!-- ── TAB 1: 산업 지도 ── -->
+  <section class="panel on" id="p-map">
+    <h2>큰 나무 — 가치사슬 5층</h2>
+    <p class="lead">회사 60개를 외우지 말고 "어느 층·어느 잎"인지로 보자. 아래로 갈수록 상품화(값↓), 위로 갈수록 자본이 몰린다.</p>
+    <div class="chain">
+      <div class="layer L5"><div class="lt">⑤ 응용 산업 (잎)</div><div class="ld">우주·국방·물류·제조·휴머노이드·건설 — 실수요 시장, 국방 예산이 최속</div><span class="badge">자본 유입</span></div>
+      <div class="layer L4"><div class="lt">④ 배포·통합 · FDE</div><div class="ld">안전·모션플래닝·현장 로봇브레인·배포 플랫폼 — 진짜 병목</div><span class="badge">사람 부족 ← 우리 각</span></div>
+      <div class="layer L3"><div class="lt">③ 파운데이션 모델 (뇌)</div><div class="ld">VLA·π0·Skild Brain — 여러 몸에 이식되는 범용 자산</div><span class="badge">자본 최다</span></div>
+      <div class="layer L2"><div class="lt">② 센서·인지 (눈)</div><div class="ld">카메라·인지 모델 — 조작의 남은 난제</div><span class="badge">병목</span></div>
+      <div class="layer L1"><div class="lt">① 액추에이터·기체 (몸)</div><div class="ld">팔·손·모터·휴머노이드 바디 — IP는 손(그리퍼)</div><span class="badge">상품화</span></div>
+    </div>
+
+    <h2>기업 아틀라스 <span class="mono" style="color:var(--muted); font-size:11px;">(카테고리로 필터)</span></h2>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none;">이 카테고리에 표시할 기업이 없습니다.</div>
+  </section>
+
+  <!-- ── TAB 2: 러닝 사다리 ── -->
+  <section class="panel" id="p-ladder">
+    <h2>로봇은 어떻게 배우나 — 사다리 (아래→위)</h2>
+    <p class="lead">칸을 클릭하면 펼쳐집니다. 아래로 갈수록 <b>규칙(사람이 짜는 것)</b>, 위로 갈수록 <b>데이터</b>. 이 축 하나로 전부 정리된다.</p>
+    <div class="ladder" id="ladder"></div>
+    <div class="axis"><span>⬇ 규칙(rule)이 많다</span><span>데이터(data)가 많다 ⬆</span></div>
+
+    <h2>모방학습 파이프라인 (우리 미션의 심장)</h2>
+    <p class="lead">우리 커리큘럼(토닥 → pick&place)은 여기서 다 풀린다. 시범을 데이터로 → 정책 학습 → 배포 → 새 데이터.</p>
+    <div class="pipe">
+      <div class="pstep"><div class="pi">🕹️</div><div class="pn">Teleop</div><div class="pd">사람이 조종</div></div>
+      <div class="parrow">→</div>
+      <div class="pstep"><div class="pi">📦</div><div class="pn">LeRobotDataset</div><div class="pd">표준 그릇·HF Hub</div></div>
+      <div class="parrow">→</div>
+      <div class="pstep"><div class="pi">🧠</div><div class="pn">정책 학습</div><div class="pd">ACT·Diffusion·VLA</div></div>
+      <div class="parrow">→</div>
+      <div class="pstep"><div class="pi">🤖</div><div class="pn">배포</div><div class="pd">실물/시뮬 실행</div></div>
+    </div>
+    <div class="note">📖 전체 개념·용어사전은 <span class="mono">knowledge/06-robot-learning-ladder.md</span> (원문 <a href="https://arxiv.org/abs/2510.12403" target="_blank">arXiv 2510.12403</a>).</div>
+  </section>
+
+  <!-- ── TAB 3: 돈의 흐름 ── -->
+  <section class="panel" id="p-money">
+    <h2>자본은 어느 층에 몰리나 (2025)</h2>
+    <p class="lead">2025년 로봇·physical AI 스타트업 기록적 <b>$27.6B</b> 조달. "뇌(AI 플랫폼)" 층은 딜 수의 16%인데 <b>자본의 30%</b>를 흡수 — 소프트웨어 배수로 평가받는다.</p>
+    <div class="bars" id="bars"></div>
+
+    <h2>메가라운드 타임라인 (조달액 @ 밸류에이션)</h2>
+    <div class="tl" id="timeline"></div>
+    <div class="note">💡 가장 큰 밸류에이션(Figure $39B, Skild $14B)은 전부 <b>뇌 또는 휴머노이드</b> — 매출이 아니라 범용성에 대한 <b>기대</b>. 실제로 배치돼 돈 버는 물류·제조는 수표가 상대적으로 작다.</div>
+
+    <h2>🇰🇷 한국 실탄</h2>
+    <p class="lead">이미 한국 자본이 이 판에 들어와 있다 — 피칭에서 "우리만의 이야기"가 아님을 보여주는 근거.</p>
+    <div class="grid" id="korea"></div>
+  </section>
+
+  <div class="foot-links mono">
+    knowledge/05 (기업 지도) · knowledge/06 (러닝 사다리) · knowledge/03 (뇌 vs 몸) · knowledge/04 (팔·손·눈)
+  </div>
+</div>
+
+<script>
+// ── 데이터: 카테고리 정의 ──
+const CATS = {
+  space:       {label:"우주",        color:"#b18cff"},
+  defense:     {label:"국방",        color:"#ff5d8f"},
+  warehouse:   {label:"물류·창고",   color:"#2ec4ff"},
+  manufacturing:{label:"제조·자동화",color:"#ffcf4d"},
+  humanoid:    {label:"휴머노이드",  color:"#39e0c8"},
+  foundation:  {label:"파운데이션 모델", color:"#35e08a"},
+  construction:{label:"건설·인프라", color:"#f0913a"},
+  appendix:    {label:"부록(댓글)",  color:"#9aa3b5"},
+};
+const LAYER = {1:"①몸",2:"②눈",3:"③뇌",4:"④배포",5:"⑤응용"};
+
+// ── 기업 데이터 (name, cat, flag, layer, desc, status, url, [kr], [warn]) ──
+const CO = [
+  // SPACE
+  ["Starfish Space","space","🇺🇸",5,"자율 랑데부·도킹 위성 서비싱(Otter)","Series B $100M+ (2026.04), Space Force $54.5M","https://www.geekwire.com/2026/starfish-space-54-5m-space-force/"],
+  ["ClearSpace","space","🇨🇭",5,"로봇팔로 궤도 잔해 제거","ClearSpace-1 2026 H2 발사, ESA €86M","https://www.esa.int/Space_Safety/ESA_purchases_world-first_debris_removal_mission_from_start-up"],
+  ["GITAI","space","🇺🇸",5,"우주용 로봇팔·궤도 조립(→방산)","MDA SHIELD·우주군 SBI · 본사 일본→미국","https://spacenews.com/gitai-gets-funds-to-develop-in-orbit-robotic-servicer/"],
+  ["Katalyst Space","space","🇺🇸",5,"위성 서비싱·궤도 로지스틱스(NEXUS)","$12M (2026.06), NASA $30M","https://spacenews.com/katalyst-space-raises-12-million-for-geo-servicing-demo-mission/"],
+  ["Icarus Robotics","space","🇺🇸",5,"궤도상 창고노동 임바디드 AI(Joy)","시드 $6.1M (2025.09), ISS 2027","https://techcrunch.com/2025/09/17/icarus-raises-6-1m-to-take-on-spaces-warehouse-work-with-embodied-ai-robots/"],
+  ["OffWorld","space","🇺🇸",5,"AI 스웜 광산채굴(→우주 자원)","사우디 Ma'aden MOU · 펀딩 미확인","https://aimagazine.com/articles/offworld-takes-robot-swarms-to-maaden-mines-in-saudi-arabia",0,"펀딩 미확인"],
+  ["Rendezvous Robotics","space","🇺🇸",5,"자기조립 타일 궤도 조립(TESSERAE)","프리시드 $3M (2025.09)","https://techcrunch.com/2025/09/10/rendezvous-robotics-exits-stealth-with-3m-to-build-reconfigurable-space-infrastructure/"],
+  ["Fluid Wire Robotics (FWR)","space","🇮🇹",1,"극한환경(원자력·우주·수중) 경량 로봇팔","EIC €2.5M","https://www.santannapisa.it/en/news/fluid-wire-robotics-spin-santanna-school-advanced-studies-receives-eu25-million-eic",0,"우주 전용 아님"],
+  // DEFENSE
+  ["Ghost Robotics","defense","🇺🇸",5,"군용 4족보행 로봇개(Vision 60)","LIG넥스원 지분 60% 인수 (~$240M, 2024)","https://www.therobotreport.com/lig-nex1-announces-intent-to-acquire-quadruped-maker-ghost-robotics/",1],
+  ["SmartShooter","defense","🇮🇱",5,"AI 사격통제 SMASH","미 육·해·해병 연쇄계약","https://breakingdefense.com/2025/06/israels-smartshooter-says-us-army-expanding-use-of-high-tech-fire-control-system/"],
+  ["Overland AI","defense","🇺🇸",5,"국방 오프로드 지상 자율스택(OverDrive)","Series A $32M (2025.01)","https://www.geekwire.com/2025/overland-ai-unveils-self-driving-vehicle-for-military-that-goes-35-mph-and-navigates-off-road-terrain/"],
+  ["Scout AI","defense","🇺🇸",3,"방산 VLA 파운데이션 모델 Fury","Series A $100M (2026.04)","https://techcrunch.com/2026/04/29/coby-adcocks-scout-ai-raises-100-million-to-train-models-for-war-we-visited-its-bootcamp/"],
+  ["Swarmbotics AI","defense","🇺🇸",5,"저가 지상 로봇 스웜(ANTS/FireAnt)","~$17M, 미 육군 1기병사단","https://thedefensepost.com/2026/02/09/swarmbotics-us-army/"],
+  ["Forterra","defense","🇺🇸",5,"지상차량 자율주행 SW(AutoDrive)","Series C $238M @ $1B+ (2025.11)","https://www.therobotreport.com/forterra-raises-238m-scale-ai-platforms-defense-applications/",1],
+  ["ARX Robotics","defense","🇩🇪",5,"유럽 국방 UGV(Gereon)+Mithra OS","Series A €42M (2025)","https://www.eu-startups.com/2025/07/german-defensetech-arx-robotics-reinforces-europes-battlefield-edge-with-e42-million-for-tactical-ugvs/"],
+  ["ACS (Allen Control Systems)","defense","🇺🇸",5,"자율 대드론 무기 스테이션 Bullfrog","Series A $30M","https://oodaloop.com/company-profiles/defense-tech/allen-control-systems/"],
+  // WAREHOUSE
+  ["Nomagic","warehouse","🇵🇱",5,"AI 로봇팔 피킹 소프트웨어","$44M (2025.02)","https://techcrunch.com/2025/02/26/nomagic-picks-up-44m-for-its-ai-powered-robotic-arms/"],
+  ["Exotec","warehouse","🇫🇷",5,"고밀도 창고 자동화 Skypod","누적 $477M @ $2B (佛 1호 산업유니콘)","https://www.exotec.com/en-gb/news/exotec-leves-335-million-dollars-and-becomes-frances-first-industrial-unicorn/"],
+  ["Sereact","warehouse","🇩🇪",4,"어떤 로봇에도 도는 로봇브레인 Cortex","Series B $110M (2026.04)","https://www.therobotreport.com/sereact-gets-series-b-funding-expand-cortex-2-robot-brain-enter-u-s-market/"],
+  ["Nimble Robotics","warehouse","🇺🇸",5,"AI 완전자율 이커머스 풀필먼트","Series C $106M @ $1B, FedEx","https://www.therobotreport.com/nimble-picks-up-106m-scale-general-purpose-fulfillment-robot/"],
+  ["Mytra","warehouse","🇺🇸",5,"창고 3D 저장(전 Tesla Optimus 총괄)","Series C $120M (2026.01)","https://mytra.ai/news/mytra-raises-120m-series-c"],
+  ["Pickle Robot","warehouse","🇺🇸",5,"트럭·컨테이너 자율 하역","Series B $50M · UPS $120M/400대","https://www.therobotreport.com/pickle-robot-gets-orders-over-30-unloading-systems-plus-50m-funding/"],
+  ["Dexterity","warehouse","🇺🇸",5,"창고 상하차·팔레타이징 AI","$95M @ $1.65B (2025.03)","https://www.bloomberg.com/news/articles/2025-03-11/ai-robotics-startup-dexterity-lands-1-65-billion-valuation"],
+  ["Locus Robotics","warehouse","🇺🇸",5,"창고 AMR RaaS(구독형)","누적 $438M @ ~$2B, 50억 픽","https://www.prnewswire.com/news-releases/locus-robotics-surpasses-5-billion-pick-milestone-accelerating-global-adoption-of-mobile-warehouse-automation-302436658.html"],
+  // MANUFACTURING
+  ["Machina Labs","manufacturing","🇺🇸",5,"로봇 2대 금속판 성형(RoboForming)","Series C $124M · Balerion 투자사 ✅","https://machinalabs.ai/resources/machina-labs-raises-124-million-to-scale-manufacturing-infrastructure-for-defense-and-advanced-mobility"],
+  ["Path Robotics","manufacturing","🇺🇸",5,"자율 용접 로봇 셀","Series D $100M (2024.10)","https://www.therobotreport.com/path-robotics-raises-100m-to-automate-welding/"],
+  ["Hadrian","manufacturing","🇺🇸",5,"항공우주·방산 정밀부품 자율공장","Series C $260M (2025.07)","https://techcrunch.com/2025/07/17/hadrian-raises-260m-to-build-out-automated-factories-for-space-and-defense-parts/"],
+  ["GrayMatter Robotics","manufacturing","🇺🇸",5,"표면마감(샌딩·연마) 코봇","Series B $45M · HII 협력","https://www.prnewswire.com/news-releases/graymatter-raises-45m-series-b-to-accelerate-its-unique-ai-powered-robotics-solutions-for-manufacturings-hardest-problems-and-unique-challenges-302177566.html"],
+  ["Vention","manufacturing","🇨🇦",4,"브라우저 클라우드 제조 자동화 플랫폼","MachineMotion AI · 고객 4,000+","https://vention.com/about"],
+  ["Novarc Technologies","manufacturing","🇨🇦",5,"파이프 용접 협동로봇+NovAI","Series B $50M (2025.03)","https://www.globenewswire.com/news-release/2025/03/11/3040831/0/en/NOVARC-RAISES-50-MILLION-SERIES-B-TO-EXPAND-ITS-AI-POWERED-MACHINE-VISION-NOVAI-FOR-AUTOMATED-WELDING-SOLUTIONS.html"],
+  ["Standard Bots","manufacturing","🇺🇸",5,"저가 6축 코봇 RO1 ($37K~)","Series B $63M (2024)","https://www.therobotreport.com/standard-bots-raises-63m-to-bring-cobot-arms-to-market/"],
+  ["FR (Fairino, 최유력)","manufacturing","🇨🇳",5,"FR3·FR5·FR10 중국 협동로봇","로고 대조 미확인","https://www.frtech.fr/",0,"약칭 미확정"],
+  // HUMANOID
+  ["Apptronik","humanoid","🇺🇸",1,"범용 휴머노이드 Apollo (Google DeepMind)","Series A $935M+ @ ~$5B (2026.02)","https://www.cnbc.com/2026/02/11/apptronik-raises-520-million-at-5-billion-valuation-for-apollo-robot.html"],
+  ["Figure AI","humanoid","🇺🇸",1,"실환경 범용 휴머노이드(02/03)","Series C $1B+ @ $39B (2025.09)","https://techcrunch.com/2025/09/16/figure-reaches-39b-valuation-in-latest-funding-round/"],
+  ["Neura Robotics","humanoid","🇩🇪",1,"유럽 최대 풀스택 휴머노이드","Series C up to $1.4B @ $7B (2026.06)","https://www.cnbc.com/2026/06/10/neura-robotics-funding-ai-humanoid-robots.html"],
+  ["Agility Robotics","humanoid","🇺🇸",5,"물류 이족 휴머노이드 Digit","SPAC ~$2.5B, Nasdaq AGLT (2026.06)","https://www.geekwire.com/2026/digit-maker-agility-robotics-to-go-public-in-2-5b-deal-heres-what-the-filings-say-about-its-finances/"],
+  ["Tesla (Optimus)","humanoid","🇺🇸",1,"자사 공장용 범용 휴머노이드","Gen3 1,000+대, V3 2026 하반기","https://www.therobotreport.com/from-evs-to-robotics-tesla-targets-10m-optimus-units-with-new-texas-plant/"],
+  ["1X Technologies","humanoid","🇳🇴",1,"가정용 휴머노이드 NEO 직판","사전주문 5일 1만대","https://www.therobotreport.com/1x-announces-pre-order-launch-neo-humanoid-robot/"],
+  ["Sanctuary AI","humanoid","🇨🇦",1,"로봇 손·인지 SW(2026 라이선스 피벗)","Phoenix 8세대 · $140M+","https://sanctuary.ai/news/"],
+  ["Foundation","humanoid","🇺🇸",1,"산업·국방 양용 휴머노이드 Phantom","시드 ~$12M · $100M @ $1B 협상중","https://www.humanoidsdaily.com/news/foundation-emerges-with-phantom-humanoid-betting-on-novel-actuators-and-hybrid-ai",0,"Vicarious 캡션 오류"],
+  // FOUNDATION
+  ["Skild AI","foundation","🇺🇸",3,"omni-bodied 파운데이션 모델 Skild Brain","$1.4B @ $14B+ (2026.01, SoftBank)","https://www.therobotreport.com/skild-ai-raises-1-4b-building-omni-bodied-robot-skild-brain/",1],
+  ["Physical Intelligence","foundation","🇺🇸",3,"범용 로봇 VLA π0","$600M @ $5.6B · $11B 협상중","https://www.therobotreport.com/physical-intelligence-raises-600m-advance-robot-foundation-models/"],
+  ["Field AI","foundation","🇺🇸",3,"embodiment-agnostic 자율주행 FM","$405M @ $2B (2025.08)","https://www.cnbc.com/2025/08/20/gates-nvidia-fieldai-robotics.html"],
+  ["RLWRLD","foundation","🇰🇷",3,"한국 physical AI FM (류중희)","Seed 누적 ~$41M","https://www.therobotreport.com/physical-ai-startup-rlwrld-raises-26m/",1],
+  ["Covariant","foundation","🇺🇸",3,"창고 FM · Amazon 역인수(존속)","$380M 라이선스 (2024)","https://www.geekwire.com/2024/amazon-hires-covariant-founders-inks-licensing-deal-with-robotics-ai-startup-in-latest-reverse-acquihire-deal/",0,"인수 아님(역인수)"],
+  ["Dyna Robotics (DYNA)","foundation","🇺🇸",3,"상용 배포 FM DYNA-1 (99.4%)","Series A $120M (2025.09)","https://www.therobotreport.com/dyna-robotics-closes-120m-funding-round-to-scale-robotics-foundation-model/"],
+  ["Realtime Robotics","foundation","🇺🇸",4,"실시간 충돌회피 모션플래닝","미쓰비시 투자","https://www.therobotreport.com/realtime-robotics-gets-series-b-funding-from-mitsubishi-electric/",0,"VLA 아님=④층"],
+  ["Jacobi Robotics","foundation","🇺🇸",4,"<1ms 모션플래닝","시드 $5M","https://www.therobotreport.com/jacobi-robotics-raises-5m-for-motion-planning-software/",0,"VLA 아님=④층"],
+  // CONSTRUCTION
+  ["Charge Robotics","construction","🇺🇸",5,"유틸리티 태양광 자동 조립·설치","Series B · 누적 $39.1M","https://news.mit.edu/2025/charge-robotics-makes-solar-projects-cheaper-faster-portable-factories-0312"],
+  ["Cosmic Robotics","construction","🇺🇸",5,"태양광 패널 자동 설치(Cosmic-1A)","프리시드 $4M (2025.04)","https://techcrunch.com/2025/04/16/cosmic-robotics-is-building-robots-to-speed-solar-power-deployments-for-data-centers/"],
+  ["Rugged Robotics","construction","🇺🇸",5,"건설 바닥 도면 인쇄(Dusty 경쟁)","Series A $9.4M","https://techcrunch.com/2022/03/23/ruggeds-construction-layout-robots-land-9-4m/"],
+  ["FBR (Fastbrick)","construction","🇦🇺",5,"완전자동 벽돌쌓기 로봇 Hadrian X","미국 첫 주택 5채 (2024)","https://www.therobotreport.com/rbr50-company-2025/hadrian-x-bricklaying-robot-builds-first-homes-in-demo-program/",0,"Hadrian Automation과 무관"],
+  ["Built Robotics","construction","🇺🇸",5,"중장비 자율화 리트로핏(Exosystem)","건설 로보틱스 $1.36B 섹터","https://www.builtrobotics.com/about/press"],
+  ["Dusty Robotics","construction","🇺🇸",5,"BIM 도면 바닥 인쇄 FieldPrinter","Series B $45M","https://www.ironpros.com/construction-robotics/article/22908766/dusty-robotics-to-use-45m-in-series-b-funding-to-scale-digital-floorplan-printing"],
+  ["Boost Robotics","construction","🇺🇸",4,"데이터센터 점검·유지보수","YC · 펀딩 미확인","https://www.boostrobotics.ai/",0,"건설 아님"],
+  ["Salem Robotics","construction","🇺🇸",4,"방사선 측정·점검 자동화","상세 미확인","https://www.salemroboticsinc.com/",0,"건설 아님"],
+  // APPENDIX (인포그래픽 외)
+  ["Havoc AI","appendix","🇺🇸",5,"무인수상정 스웜(Rampage)","$85M","https://www.therobotreport.com/havocai-obtains-85m-to-scale-autonomous-marine-systems/",0,"댓글 추가"],
+  ["Swarm Aero","appendix","🇺🇸",5,"다임무 UAV 군집","Series A $35M","https://www.businesswire.com/news/home/20260310673101/en/",0,"댓글 추가"],
+  ["Faraday Future (FF)","appendix","🇺🇸",5,"휴머노이드+로봇개+매니퓰레이터","Nasdaq FFAI · Fourier 아님","https://www.businesswire.com/news/home/20260622927175/en/",0,"댓글 추가"],
+  ["Sunday Robotics","appendix","🇺🇸",1,"가사 휴머노이드 Memo (SURE 후보)","$165M @ $1.15B","https://techcrunch.com/2026/03/12/humanoid-robotics-maker-sunday-reaches-1-15b-valuation-to-build-household-robots/",0,"댓글 추가"],
+  ["Carbon Robotics","appendix","🇺🇸",5,"AI 레이저 제초(AgTech)","LaserWeeder","https://carbonrobotics.com/",0,"댓글 추가"],
+  ["Monarch Tractor","appendix","🇺🇸",5,"전기·자율 트랙터(AgTech)","MK-V","https://www.monarchtractor.com/",0,"댓글 추가"],
+];
+
+// ── 사다리 데이터 ──
+const RUNGS = [
+  ["Rroot","🌱 뿌리 · 데이터 (LeRobotDataset)","모든 학습의 연료","카메라 영상+상태+행동을 하나의 표준 형식으로 묶어 HF Hub에 올린다. 표준화가 곧 규모의 전제 — 어떤 로봇이든 같은 형식이라야 ④번 칸(한 모델이 여러 로봇 학습)이 가능. 우리 미션도 teleop 녹화로 여기서 시작한다."],
+  ["R1","① 고전 로보틱스","수학 모델·역기구학·피드백 제어","순/역기구학으로 좌표를 계산해 움직인다. 공장처럼 환경이 고정되면 지금도 최강. 하지만 모듈 이음새마다 오차 누적·과제마다 재설계·접촉 모델링 한계·데이터 못 씀 → 그래서 학습으로 넘어간다. 우리 '토닥토닥'(왕복)은 이걸로도 됨."],
+  ["R2","② 강화학습 (RL)","시행착오로 보상 최대화","직접 해보며 보상을 높이는 정책을 학습(강아지 간식훈련). 매력적이지만 샘플 비효율·reality gap·보상설계·안전 문제로 실물 대규모엔 아직 어려움. 개념만 알아두면 됨."],
+  ["R3","③ 모방학습 (IL) ⭐","시범 따라하기 · ACT · Diffusion Policy","전문가 시범을 지도학습으로 흉내(BC). ACT=여러 스텝을 덩어리로 예측해 오차 누적↓. Diffusion Policy=노이즈에서 행동을 빚어내 여러 정답(멀티모달)에 강함. 우리 pick&place의 교과서 — 커리큘럼의 심장."],
+  ["R4","④ 제너럴리스트 (VLA)","언어+시각 · π0 · SmolVLA","시각+언어 지시를 받아 행동을 낸다. 한 모델이 여러 과제·여러 로봇을. π0=멀티로봇 제너럴리스트, SmolVLA=경량 오픈소스판. 우리 '무궁화꽃'(음성 조건)의 개념적 사촌 — 피칭 데모 에이스."],
+];
+
+// ── 렌더 ──
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+// stats
+(function(){
+  const total = CO.filter(c=>c[1]!=='appendix').length;
+  const countries = new Set(CO.map(c=>c[2])).size;
+  const kr = CO.filter(c=>c[7]).length;
+  const brain = CO.filter(c=>c[3]===3).length;
+  $('#stats').innerHTML =
+    `<div class="stat teal"><div class="n">${total}</div><div class="l">검증 기업 (인포그래픽)</div></div>`+
+    `<div class="stat blue"><div class="n">${countries}</div><div class="l">국가</div></div>`+
+    `<div class="stat gold"><div class="n">${brain}</div><div class="l">파운데이션 모델(뇌)</div></div>`+
+    `<div class="stat pink"><div class="n">${kr}</div><div class="l">🇰🇷 한국 자본 연결</div></div>`;
+})();
+
+// chips
+let activeCat = "all";
+function renderChips(){
+  const chips = [["all","전체"]].concat(Object.keys(CATS).map(k=>[k,CATS[k].label]));
+  $('#chips').innerHTML = chips.map(([k,l])=>{
+    const c = k==="all" ? "var(--fg)" : CATS[k].color;
+    const dot = k==="all" ? "" : `<span class="dot" style="background:${c}"></span>`;
+    return `<span class="chip ${k===activeCat?'on':''}" data-cat="${k}">${dot}${l}</span>`;
+  }).join('');
+  $('#chips').querySelectorAll('.chip').forEach(el=>{
+    el.onclick = ()=>{ activeCat = el.dataset.cat; renderChips(); renderGrid(); };
+  });
+}
+function coCard(c){
+  const [nm,cat,flag,layer,desc,st,url,kr,warn] = c;
+  const cc = CATS[cat];
+  return `<div class="co" style="border-left-color:${cc.color}" data-cat="${cat}">`+
+    `<div class="top"><span class="flag">${flag}</span><span class="nm">${esc(nm)}</span>`+
+    `<span class="cat" style="background:${cc.color}">${cc.label}</span></div>`+
+    `<div class="desc">${esc(desc)}</div>`+
+    `<div class="st">${esc(st)}</div>`+
+    `<div class="foot"><span class="lyr">${LAYER[layer]}</span>`+
+    (kr?`<span class="kr">🇰🇷 한국</span>`:``)+
+    (warn?`<span class="warn">⚠️ ${esc(warn)}</span>`:``)+
+    `<a class="src" href="${url}" target="_blank">출처 ↗</a></div></div>`;
+}
+function renderGrid(){
+  const list = CO.filter(c=> activeCat==="all" ? true : c[1]===activeCat);
+  $('#grid').innerHTML = list.map(coCard).join('');
+  $('#empty').style.display = list.length ? 'none' : 'block';
+}
+
+// ladder
+$('#ladder').innerHTML = RUNGS.map(([cls,t,d,more])=>
+  `<div class="rung ${cls}"><div class="rt">${esc(t)}</div><div class="rd">${esc(d)}</div>`+
+  `<div class="more">${esc(more)}</div></div>`
+).join('');
+$('#ladder').querySelectorAll('.rung').forEach(el=>{
+  el.onclick = ()=> el.classList.toggle('open');
+});
+
+// money bars (자본 배분 근사: 뇌 30% / 응용·물류 등 나머지)
+const BARS = [
+  ["③ 뇌(파운데이션)","30%",30,"var(--teal)"],
+  ["⑤ 응용·물류·제조","46%",46,"var(--pink)"],
+  ["① 몸(휴머노이드 등)","16%",16,"var(--blue)"],
+  ["④ 배포·기타","8%",8,"var(--gold)"],
+];
+$('#bars').innerHTML = BARS.map(([l,txt,pct,c])=>
+  `<div class="bar"><div class="bl">${l}</div><div class="track">`+
+  `<div class="fill" style="width:${pct}%; background:${c}">${txt}</div></div></div>`
+).join('') + `<div class="note" style="margin-top:6px;">근사치 — 2025 로봇 VC $27.6B 기준, "AI 플랫폼(뇌)"이 딜 수 16%로 자본 30% 흡수(딜당 수표가 큼). <a href="https://thenewstack.io/physical-ai-models-frontier/" target="_blank">The New Stack</a></div>`;
+
+// timeline
+const TL = [
+  ["2025 H1","Dexterity $95M @ $1.65B (물류) · GrayMatter $45M (제조)"],
+  ["2025 H2","Figure $1B @ $39B (휴머노이드) · Field AI $405M @ $2B (뇌) · Hadrian $260M (제조) · Forterra $238M @ $1B (국방)"],
+  ["2026 H1","Skild $1.4B @ $14B (뇌) · Neura $1.4B @ $7B · Apptronik $935M @ $5B · Agility SPAC $2.5B (휴머노이드) · Scout AI $100M (국방 VLA)"],
+];
+$('#timeline').innerHTML = TL.map(([y,it])=>
+  `<div class="tlrow"><div class="yr">${y}</div><div class="it">${esc(it)}</div></div>`
+).join('');
+
+// korea
+$('#korea').innerHTML = CO.filter(c=>c[7]).map(coCard).join('') +
+  `<div class="co" style="border-left-color:var(--gold)"><div class="top"><span class="flag">🇰🇷</span><span class="nm">+ 투자 참여</span></div>`+
+  `<div class="desc">Skild·Neura·Apptronik 등에 삼성·LG·SK가 투자자로 참여</div>`+
+  `<div class="st">전략 투자 (지분 인수는 아님)</div></div>`;
+
+// tabs
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick = ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    $('#p-'+t.dataset.p).classList.add('on');
+  };
+});
+
+renderChips();
+renderGrid();
+</script>
+</body>
+</html>

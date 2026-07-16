@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Physical Spark · Playbook</title>
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <style>
   :root {
     --bg: #ffffff; --fg: #1a1a1a; --muted: #6b7280; --line: #e5e7eb;
@@ -83,6 +84,9 @@
   #doc hr { border: none; border-top: 1px solid var(--line); margin: 2.2em 0; }
   #doc li { margin: 4px 0; }
   #doc .txt-plain { white-space: pre-wrap; font-size: 14px; line-height: 1.7; }
+  /* mermaid diagrams (rendered from ```mermaid fences) */
+  #doc .mermaid { margin: 1.2em 0; text-align: center; background: var(--code-bg); border-radius: 10px; padding: 14px; overflow-x: auto; }
+  #doc .mermaid svg { max-width: 100%; height: auto; }
 
   /* 에디터 */
   #editor { display: none; max-width: 880px; margin: 0 auto; width: 100%; }
@@ -436,6 +440,27 @@ function wikify(text) {
   });
 }
 
+// ```mermaid 코드펜스를 실제 다이어그램으로 렌더 (marked는 mermaid를 모른다).
+let mermaidReady = false;
+function renderMermaid() {
+  if (!window.mermaid) return;
+  const blocks = document.querySelectorAll('#doc code.language-mermaid');
+  if (!blocks.length) return;
+  if (!mermaidReady) {
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
+    mermaidReady = true;
+  }
+  blocks.forEach(code => {
+    const pre = code.closest('pre') || code;
+    const div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = code.textContent;   // textContent = 엔티티 디코드된 원문
+    pre.replaceWith(div);
+  });
+  try { mermaid.run({ querySelector: '#doc .mermaid' }); } catch (e) {}
+}
+
 // 현재 파일을 diffMode 값에 따라 렌더. diffMode면 raw + 바뀐 줄 하이라이트, 아니면 마크다운.
 function renderCurrent(keepScroll) {
   const doc = document.getElementById('doc');
@@ -449,6 +474,7 @@ function renderCurrent(keepScroll) {
     doc.innerHTML = `<div class="txt-plain">${html}</div>`;
   } else if (current && current.toLowerCase().endsWith('.md') && window.marked) {
     doc.innerHTML = marked.parse(wikify(currentContent), { gfm: true, breaks: true });
+    renderMermaid();
   } else {
     doc.innerHTML = '';
     const pre = document.createElement('div');
