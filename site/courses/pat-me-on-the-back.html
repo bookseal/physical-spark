@@ -1,0 +1,437 @@
+<title>Pat me on the back — sim setup</title>
+<style>
+  :root{
+    --paper:#f4f1ea; --card:#fbf9f4; --card2:#f0ebdd;
+    --ink:#1c1a17; --muted:#6b6459; --faint:#938b7d;
+    --accent:#b8402e; --accent-soft:#f3e0d9;
+    --line:#e4decf; --line-strong:#d8d0bd;
+    --good:#3f7a52;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); line-height:1.65; font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 20px 100px;}
+  a{color:var(--accent);}
+
+  /* top bar */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 0 14px; border-bottom:1px solid var(--line); flex-wrap:wrap; gap:8px;
+  }
+  .brand{font-family:var(--mono); font-weight:700; letter-spacing:.02em; font-size:15px; color:var(--ink); text-decoration:none;}
+  .brand b{color:var(--accent);}
+  .topbar .right{font-family:var(--mono); font-size:13px;}
+
+  /* hero */
+  .eyebrow{font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:40px 0 14px;}
+  h1{font-family:var(--serif); font-size:clamp(34px,9vw,52px); line-height:1.04; margin:0 0 14px; letter-spacing:-.01em; text-wrap:balance;}
+  .subtitle{font-size:19px; color:var(--muted); margin:0 0 22px; max-width:34ch;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  .tag{font-family:var(--mono); font-size:12.5px; padding:5px 11px; border:1px solid var(--line-strong); border-radius:999px; color:var(--muted); background:var(--card);}
+
+  .build{
+    background:var(--card2); border-radius:16px; padding:18px 20px; margin:0 0 12px;
+    border:1px solid var(--line);
+  }
+  .build b{color:var(--accent);}
+
+  /* progress */
+  .progress{
+    position:sticky; top:0; z-index:20; background:var(--paper);
+    padding:12px 0 10px; margin-bottom:8px; border-bottom:1px solid var(--line);
+  }
+  .progress .label{font-family:var(--mono); font-size:12.5px; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:7px;}
+  .bar{height:8px; background:var(--card2); border-radius:999px; overflow:hidden; border:1px solid var(--line);}
+  .bar > i{display:block; height:100%; width:0%; background:var(--accent); transition:width .35s ease; border-radius:999px;}
+
+  /* step cards */
+  details.step{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    margin:14px 0; overflow:hidden;
+  }
+  details.step[open]{border-color:var(--line-strong);}
+  summary.head{
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:14px;
+    padding:18px 18px; font-family:var(--serif); font-size:21px; font-weight:700;
+  }
+  summary.head::-webkit-details-marker{display:none;}
+  .num{
+    flex:none; width:34px; height:34px; border-radius:50%; background:var(--card2);
+    border:1px solid var(--line-strong); color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:15px; font-weight:700;
+  }
+  details.step[open] .num{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .chev{margin-left:auto; color:var(--faint); transition:transform .2s; font-size:14px; flex:none;}
+  details.step[open] .chev{transform:rotate(90deg);}
+  .body{padding:2px 20px 22px;}
+  @media (max-width:520px){ .body{padding:2px 15px 20px;} summary.head{padding:15px 15px; font-size:19px;} }
+  .body p{margin:12px 0;}
+  .body h4{font-family:var(--sans); font-size:15px; margin:20px 0 6px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+  code{font-family:var(--mono); font-size:.88em; background:var(--card2); padding:.08em .38em; border-radius:5px;}
+
+  /* code block */
+  .code{position:relative; margin:14px 0; border:1px solid var(--line-strong); border-radius:12px; background:#fff; overflow:hidden;}
+  .code pre{margin:0; padding:15px 16px; overflow-x:auto; font-family:var(--mono); font-size:14px; line-height:1.7; color:#2a2721;}
+  .code .cmt{color:#a39a88;}
+  .copy{
+    position:absolute; top:8px; right:8px; font-family:var(--mono); font-size:11.5px;
+    padding:5px 10px; border:1px solid var(--line-strong); border-radius:7px;
+    background:var(--card); color:var(--muted); cursor:pointer;
+  }
+  .copy:hover{border-color:var(--accent); color:var(--accent);}
+  .copy.done{color:var(--good); border-color:var(--good);}
+
+  /* checkpoint */
+  .cp{
+    margin:16px 0 6px; padding:14px 16px; border-radius:12px;
+    background:var(--accent-soft); border:1px solid #e6c9bf;
+  }
+  .cp .cap{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 6px;}
+  .cp p{margin:0 0 10px;}
+  .cp label{display:flex; align-items:flex-start; gap:11px; cursor:pointer; font-size:15.5px; font-weight:600;}
+  .cp input{margin-top:3px; width:20px; height:20px; accent-color:var(--accent); flex:none;}
+  .cp input:checked ~ span{color:var(--good);}
+
+  /* Q&A */
+  .qa{margin:16px 0 4px; border:1px solid var(--line); border-radius:11px; background:var(--card2); overflow:hidden;}
+  .qa summary{list-style:none; cursor:pointer; padding:13px 15px; font-weight:600; font-size:15.5px; display:flex; gap:10px;}
+  .qa summary::-webkit-details-marker{display:none;}
+  .qa summary::before{content:"Q"; font-family:var(--mono); font-weight:700; color:#fff; background:var(--accent); border-radius:6px; padding:1px 8px; flex:none; font-size:13px;}
+  .qa summary::after{content:"tap to reveal"; margin-left:auto; font-family:var(--mono); font-size:11.5px; color:var(--faint); font-weight:400;}
+  .qa[open] summary::after{content:"";}
+  .qa .ans{padding:0 15px 15px 42px; color:var(--muted); font-size:15px;}
+  .qa .ans b{color:var(--ink);}
+
+  .note{font-size:14.5px; color:var(--muted); border-left:3px solid var(--line-strong); padding:4px 0 4px 14px; margin:14px 0;}
+  .note b{color:var(--accent);}
+
+  /* loop diagram (step 5) */
+  .loop{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:14px 0; font-family:var(--mono); font-size:13px;}
+  .loop .box{background:#fff; border:1px solid var(--line-strong); border-radius:9px; padding:8px 11px;}
+  .loop .arw{color:var(--accent);}
+
+  /* finish + footer */
+  .finish{background:var(--card2); border:1px solid var(--line); border-radius:16px; padding:24px 22px; margin-top:16px; text-align:center;}
+  .finish h3{font-family:var(--serif); font-size:26px; margin:6px 0 8px;}
+  .footer{margin-top:44px; padding-top:20px; border-top:1px solid var(--line); text-align:center; font-family:var(--mono); font-size:12.5px; color:var(--faint);}
+</style>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="brand" href="https://physical-spark.bit-habit.com/courses/#/m1">PHYSICAL <b>SPARK</b></a>
+    <span class="right"><a href="https://physical-spark.bit-habit.com/courses/#/m1">curriculum →</a></span>
+  </div>
+
+  <p class="eyebrow">Sim setup · Mission 0</p>
+  <h1>Pat me on the back</h1>
+  <p class="subtitle">Set up a robot arm in simulation, make it gently sweep — a pat on the back — and record a short clip. Your first win.</p>
+  <div class="tags">
+    <span class="tag">Beginner</span>
+    <span class="tag">~1 hour</span>
+    <span class="tag">Mac (Apple Silicon)</span>
+    <span class="tag">Simulation only</span>
+  </div>
+
+  <div class="build">
+    <b>What you'll build:</b> A simulated robot arm that sweeps left and right — like a pat on the back — saved as a short video you can keep. No real hardware needed. The point is not skill; it's the warm feeling of a robot you set up yourself.
+  </div>
+
+  <div class="progress">
+    <div class="label"><span>Your progress</span><span id="pcount">0 / 7 steps</span></div>
+    <div class="bar"><i id="pbar"></i></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <details class="step" open>
+    <summary class="head"><span class="num">1</span> Check your Python <span class="chev">▶</span></summary>
+    <div class="body">
+      <p>Every step here uses Python. Your Mac already has it. Let's make sure.</p>
+      <p>Open the <b>Terminal</b> app (press <code>⌘ + Space</code>, type "Terminal", hit Enter). Then type:</p>
+      <div class="code"><button class="copy">copy</button><pre>python3 --version</pre></div>
+
+      <div class="cp">
+        <p class="cap">✓ Checkpoint</p>
+        <p>You should see a line like <code>Python 3.9.6</code> (any 3.x is fine). If you see a version number, Python works.</p>
+        <label><input type="checkbox" class="cpx" data-key="s1"><span>I see a Python 3 version.</span></label>
+      </div>
+
+      <details class="qa"><summary>Why <code>python3</code> and not just <code>python</code>?</summary>
+        <div class="ans">On older Macs, <code>python</code> meant the old <b>Python 2</b>. Apple removed Python 2, so today only <code>python3</code> exists by default. Many tutorials still write <code>python</code> — on a Mac, use <code>python3</code>. (In Step 2 we make a fresh environment where plain <code>python</code> works again.)</div>
+      </details>
+    </div>
+  </details>
+
+  <!-- STEP 2 -->
+  <details class="step">
+    <summary class="head"><span class="num">2</span> Create your environment <span class="chev">▶</span></summary>
+    <div class="body">
+      <p>We keep this project in its own clean "box" so it can't break anything else on your Mac. This box is called a <b>conda environment</b>. (If you don't have conda yet, install <b>Miniforge</b> first, then come back.)</p>
+      <h4>Make the box and step inside</h4>
+      <div class="code"><button class="copy">copy</button><pre>conda create -y -n lerobot python=3.12
+conda activate lerobot
+python --version</pre></div>
+
+      <div class="cp">
+        <p class="cap">✓ Checkpoint</p>
+        <p>Your prompt now starts with <code>(lerobot)</code>, and <code>python --version</code> prints <code>Python 3.12.x</code>. Now plain <code>python</code> works.</p>
+        <label><input type="checkbox" class="cpx" data-key="s2"><span>My prompt shows (lerobot) and Python 3.12.</span></label>
+      </div>
+
+      <div class="note"><b>If <code>conda activate</code> says "run conda init":</b> run <code>conda init zsh</code>, then <b>open a new Terminal window</b> and try <code>conda activate lerobot</code> again. It only works in a fresh window.</div>
+
+      <details class="qa"><summary>What does <code>conda activate</code> actually do?</summary>
+        <div class="ans">It puts your environment's folder at the <b>front of the search path</b>. When you type <code>python</code>, your Mac looks front-to-back and finds this box's Python 3.12 first — before the system one. Nothing is deleted; <code>conda deactivate</code> puts it back.</div>
+      </details>
+    </div>
+  </details>
+
+  <!-- STEP 3 -->
+  <details class="step">
+    <summary class="head"><span class="num">3</span> Get LeRobot <span class="chev">▶</span></summary>
+    <div class="body">
+      <p>Now we download <b>LeRobot</b> (the robot toolkit) and install it, together with two simulators.</p>
+      <div class="code"><button class="copy">copy</button><pre>git clone https://github.com/huggingface/lerobot.git
+cd lerobot
+pip install -e ".[pusht,aloha]"</pre></div>
+      <p class="note">This install takes a few minutes and prints a lot of text — that's normal. <b>Tip:</b> run <code>git clone</code> from a folder like your home directory, not from inside another folder named <code>lerobot</code>, so you don't end up with <code>lerobot/lerobot</code>.</p>
+
+      <div class="cp">
+        <p class="cap">✓ Checkpoint</p>
+        <p>Test that it installed. This should print <b>nothing</b> and show <b>no error</b>:</p>
+        <div class="code"><button class="copy">copy</button><pre>python -c "import lerobot"</pre></div>
+        <label><input type="checkbox" class="cpx" data-key="s3"><span>import lerobot ran with no error.</span></label>
+      </div>
+
+      <details class="qa"><summary>What do the <code>[pusht,aloha]</code> parts mean?</summary>
+        <div class="ans">They are <b>extras</b> — optional add-ons. "Install LeRobot, and also the parts I need for <code>pusht</code> and <code>aloha</code>." <code>aloha</code> is the two-arm robot simulator we'll use. Robot libraries are big, so you only install the pieces you need.</div>
+      </details>
+    </div>
+  </details>
+
+  <!-- STEP 4 -->
+  <details class="step">
+    <summary class="head"><span class="num">4</span> Meet the arm <span class="chev">▶</span></summary>
+    <div class="body">
+      <p>Let's take one picture of the arm before it moves. Create a file named <code>hello_sim.py</code> inside the <code>lerobot</code> folder and paste this in:</p>
+      <div class="code"><button class="copy">copy</button><pre>"""hello_sim.py — take one picture of the arm's starting pose."""
+import gym_aloha                 <span class="cmt"># importing this registers the arm world</span>
+import gymnasium as gym
+import imageio.v2 as imageio
+
+<span class="cmt"># "rgb_array" = give me pixels, do not open a window</span>
+env = gym.make("gym_aloha/AlohaTransferCube-v0", render_mode="rgb_array")
+env.reset(seed=0)               <span class="cmt"># same start every time</span>
+frame = env.render()            <span class="cmt"># one picture: 480 x 640 x 3 (RGB)</span>
+imageio.imwrite("arm_hello.png", frame)
+env.close()
+print("saved arm_hello.png")</pre></div>
+      <p>Run it, then open the picture:</p>
+      <div class="code"><button class="copy">copy</button><pre>python hello_sim.py
+open arm_hello.png</pre></div>
+
+      <div class="cp">
+        <p class="cap">✓ Checkpoint</p>
+        <p>The terminal prints <code>saved arm_hello.png</code>. The picture shows <b>two white grippers</b> facing each other and a <b>red cube</b> in the middle.</p>
+        <label><input type="checkbox" class="cpx" data-key="s4"><span>I saw the two arms and the red cube.</span></label>
+      </div>
+
+      <details class="qa"><summary>What is that <code>env</code> thing?</summary>
+        <div class="ans">An <b>environment</b> — one whole little world: the arms, the cube, and the physics, all in one object. <code>env.reset()</code> starts it, <code>env.render()</code> draws it. You'll use these same words for almost every robot simulator.</div>
+      </details>
+    </div>
+  </details>
+
+  <!-- STEP 5 -->
+  <details class="step">
+    <summary class="head"><span class="num">5</span> Make it sweep (the pat) <span class="chev">▶</span></summary>
+    <div class="body">
+      <p>Now the fun part: a <b>live window</b> where the arm moves in real time. Create <code>live_sim.py</code> and paste this:</p>
+      <div class="code"><button class="copy">copy</button><pre>"""live_sim.py — open a live window and watch the arm pat.
+On macOS you MUST run this with mjpython (not python)."""
+import time
+import numpy as np
+import gym_aloha
+import gymnasium as gym
+import mujoco.viewer
+
+<span class="cmt"># No render_mode here: the window is drawn by the viewer below.</span>
+env = gym.make("gym_aloha/AlohaTransferCube-v0")
+env.reset(seed=0)
+
+<span class="cmt"># reach the real physics objects inside the env</span>
+phys = env.unwrapped._env.physics
+model, data = phys.model.ptr, phys.data.ptr
+
+with mujoco.viewer.launch_passive(model, data) as viewer:
+    step = 0
+    while viewer.is_running():
+        wave = np.sin(step * 0.05)                    <span class="cmt"># slow back-and-forth, -1..1</span>
+        action = np.full(14, wave, dtype=np.float32)  <span class="cmt"># the pat: sweep both arms</span>
+        env.step(action)                              <span class="cmt"># move one small step</span>
+        viewer.sync()                                 <span class="cmt"># show the new pose</span>
+        time.sleep(0.02)                              <span class="cmt"># ~50 fps</span>
+        step += 1
+env.close()</pre></div>
+      <p>Run it with <b><code>mjpython</code></b> — this is the special launcher, not <code>python</code>:</p>
+      <div class="code"><button class="copy">copy</button><pre>mjpython live_sim.py</pre></div>
+
+      <p>The loop that makes it move:</p>
+      <div class="loop">
+        <span class="box">pick action (sweep)</span><span class="arw">→</span>
+        <span class="box">env.step()</span><span class="arw">→</span>
+        <span class="box">viewer.sync()</span><span class="arw">↺ repeat</span>
+      </div>
+
+      <div class="cp">
+        <p class="cap">✓ Checkpoint</p>
+        <p>A window opens and the <b>arms sweep gently left and right</b> — the pat. Drag with the mouse to rotate the view. Close the window to stop.</p>
+        <label><input type="checkbox" class="cpx" data-key="s5"><span>I saw the arm sweeping in a live window.</span></label>
+      </div>
+
+      <div class="note"><b>If it crashes or won't open:</b> (1) You must use <code>mjpython</code>, not <code>python</code>. (2) Make sure <code>(lerobot)</code> is active. (3) Run it in the real Terminal app. A <code>NSWindow ... main thread</code> crash usually means <code>render_mode</code> was set — this file leaves it out on purpose.</div>
+
+      <details class="qa"><summary>Why <code>mjpython</code> instead of <code>python</code>?</summary>
+        <div class="ans">macOS only lets the <b>main thread</b> open windows. <code>mjpython</code> arranges the window on the main thread for you. Plain <code>python</code> can't, so the window fails to open. (For saving a video with no window, in the next step, plain <code>python</code> is fine.)</div>
+      </details>
+      <details class="qa"><summary>Want to see random flailing instead?</summary>
+        <div class="ans">Replace the two <code>wave</code>/<code>action</code> lines with <code>action = env.action_space.sample()</code>. Now the arms twitch randomly — because each step is fresh random numbers, with no plan. The sine wave is your first tiny "plan".</div>
+      </details>
+    </div>
+  </details>
+
+  <!-- STEP 6 -->
+  <details class="step">
+    <summary class="head"><span class="num">6</span> Record your clip <span class="chev">▶</span></summary>
+    <div class="body">
+      <p>Last step: save the pat as a video. Create <code>sim_arm_demo.py</code>:</p>
+      <div class="code"><button class="copy">copy</button><pre>"""sim_arm_demo.py — record the pat as a video (no window)."""
+import numpy as np
+import imageio.v2 as imageio
+import gymnasium as gym
+import gym_aloha
+
+ENV_ID = "gym_aloha/AlohaTransferCube-v0"
+N_STEPS = 200
+OUT_PATH = "sim_arm.mp4"
+
+def choose_action(step):
+    """The pat motion: sweep both arms with a slow sine wave."""
+    wave = np.sin(step * 0.05)
+    return np.full(14, wave, dtype=np.float32)
+
+env = gym.make(ENV_ID, render_mode="rgb_array")
+env.reset(seed=42)
+frames = [env.render()]                 <span class="cmt"># first frame</span>
+for step in range(N_STEPS):
+    env.step(choose_action(step))
+    frames.append(env.render())         <span class="cmt"># save each frame</span>
+env.close()
+imageio.mimsave(OUT_PATH, frames, fps=30)
+print(f"saved {len(frames)} frames -> {OUT_PATH}")</pre></div>
+      <p>Run it (plain <code>python</code> is fine — no window this time), then watch:</p>
+      <div class="code"><button class="copy">copy</button><pre>python sim_arm_demo.py
+open sim_arm.mp4</pre></div>
+
+      <div class="cp">
+        <p class="cap">✓ Checkpoint</p>
+        <p>The terminal prints <code>saved 201 frames -> sim_arm.mp4</code>, and the clip plays: your arm giving a slow pat. That's your win. 🎉</p>
+        <label><input type="checkbox" class="cpx" data-key="s6"><span>I have a sim_arm.mp4 clip of the pat.</span></label>
+      </div>
+
+      <details class="qa"><summary>Why two ways to see it — window vs video?</summary>
+        <div class="ans"><b>Live window</b> (Step 5) is for watching and debugging. <b>Video / no window</b> (this step, called "headless") is how training works on servers with no screen — fast, and easy to save or share. Same arm, two purposes.</div>
+      </details>
+    </div>
+  </details>
+
+  <!-- STEP 7 -->
+  <details class="step">
+    <summary class="head"><span class="num">7</span> Pat on the back — what you learned <span class="chev">▶</span></summary>
+    <div class="body">
+      <p>You went from an empty terminal to a robot arm giving you a pat, on video. Tick the box, then test yourself with three quick questions.</p>
+
+      <div class="cp">
+        <p class="cap">✓ Checkpoint</p>
+        <p>You finished the whole setup and have your clip.</p>
+        <label><input type="checkbox" class="cpx" data-key="s7"><span>I made it — pat on the back accepted. 🎉</span></label>
+      </div>
+
+      <h4>Quick recap questions</h4>
+      <details class="qa"><summary><code>env.reset()</code> gives back a picture (obs) but no reward. Why?</summary>
+        <div class="ans">Because <b>reward is the result of an action</b>, and reset hasn't taken any action yet — the round just started. <code>env.step()</code> is the one that gives a reward, after you act.</div>
+      </details>
+      <details class="qa"><summary>Why is every arm command a number between -1 and 1?</summary>
+        <div class="ans">Real joints have different ranges (angles, gripper width…). Putting them all on the <b>same -1..1 ruler</b> keeps things simple and stable. The simulator turns -1..1 back into real angles inside.</div>
+      </details>
+      <details class="qa"><summary>What would make this a "real" robot brain, not a sine wave?</summary>
+        <div class="ans">A <b>policy</b>: a function that <b>looks at the picture (obs) and chooses the action</b> — obs → action. Our sine wave ignores what it sees. A trained policy (a neural network) would watch the cube and act on it. That's the next mission.</div>
+      </details>
+
+      <p style="margin-top:22px;">Want the deeper "why" behind every line? See the full concept notes and glossary in the companion tutorial.</p>
+    </div>
+  </details>
+
+  <div class="finish" id="finish" style="display:none;">
+    <div style="font-size:34px;">🦾</div>
+    <h3>Pat on the back.</h3>
+    <p style="color:var(--muted); margin:0;">You set up a robot arm and made it pat you — all 7 steps done. Next mission: teach it to actually pick things up.</p>
+  </div>
+
+  <div class="footer">PHYSICAL SPARK · curriculum v0 · building in public</div>
+
+</div>
+
+<script>
+  // ---- copy buttons ----
+  document.querySelectorAll('.code').forEach(function(box){
+    var btn = box.querySelector('.copy');
+    var pre = box.querySelector('pre');
+    if(!btn || !pre) return;
+    btn.addEventListener('click', function(){
+      var text = pre.innerText;
+      function ok(){ btn.textContent = 'copied ✓'; btn.classList.add('done'); setTimeout(function(){ btn.textContent='copy'; btn.classList.remove('done'); }, 1400); }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(ok).catch(fallback);
+      } else { fallback(); }
+      function fallback(){
+        var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        try{ document.execCommand('copy'); ok(); }catch(e){}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  // ---- progress + saved checkpoints ----
+  var KEY='pat_me_back_progress';
+  var store={};
+  try{ store=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ store={}; }
+  var boxes=document.querySelectorAll('.cpx');
+  var total=boxes.length;
+  function refresh(){
+    var done=0; boxes.forEach(function(b){ if(b.checked) done++; });
+    var pct = total? Math.round(done/total*100) : 0;
+    document.getElementById('pbar').style.width=pct+'%';
+    document.getElementById('pcount').textContent=done+' / '+total+' steps';
+    document.getElementById('finish').style.display = (done===total) ? 'block' : 'none';
+  }
+  boxes.forEach(function(b){
+    var k=b.getAttribute('data-key');
+    if(store[k]) b.checked=true;
+    b.addEventListener('change', function(){
+      store[k]=b.checked;
+      try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){}
+      refresh();
+    });
+  });
+  refresh();
+</script>
