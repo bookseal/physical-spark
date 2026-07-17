@@ -107,7 +107,7 @@ const COURSES = [
     level:'Beginner', time:'~1 hour', device:'Mac (CPU/MPS · no GPU)',
     build:'A working <b>Hugging Face LeRobot</b> dev environment on your MacBook, and your <b>first simulation</b> rendered to a video you can watch. This is the foundation the whole course stands on — do it once, reuse it everywhere.',
     lessons:[
-      {t:'What you\'ll do (and the Mac reality)', c:'By the end you\'ll have installed <a href="https://github.com/huggingface/lerobot" target="_blank">LeRobot</a>, opened a real <b>MuJoCo</b> physics sim, and saved a video of it. All on a Mac, on CPU — <b>no NVIDIA GPU required</b>.',
+      {t:'What you\'ll do (and the Mac reality)', c:'By the end you\'ll have installed <a href="https://github.com/huggingface/lerobot" target="_blank">LeRobot</a>, opened a real <b>MuJoCo</b> physics sim, and saved a video of it. All on a Mac, on CPU — <b>no NVIDIA GPU required</b>. New to the ideas? <a href="ground-school.html">Ground School</a> explains everything — environment, policy, spaces, MuJoCo, mjpython — before you run a single command.',
         note:'Honest scope: the SO-101 arm *in simulation* needs NVIDIA Isaac (Linux + RTX). On a Mac you learn the exact same toolchain with LeRobot\'s MuJoCo gyms (here: <b>PushT</b>). Everything you learn transfers; only the heavy GPU training moves to the cloud later.',
         chk:'You understand: install LeRobot → run a MuJoCo sim → watch it. Mac + CPU is enough for this.'},
       {t:'Create a Python environment', c:'We isolate everything in a fresh env so nothing on your Mac breaks. Using <a href="https://conda-forge.org/download/" target="_blank">miniforge</a>/conda (recommended by LeRobot). Python <b>3.12</b>.',
@@ -133,7 +133,7 @@ const COURSES = [
     level:'Beginner', time:'~1 hour', device:'Mac-friendly (sim)',
     build:'A robot arm that sweeps left↔right to pat your back — recorded as a short clip you can post. The point isn\'t skill, it\'s <b>attachment</b>: the robot you built comforts you.',
     lessons:[
-      {t:'Set up your dev world', c:'Install the LeRobot toolchain on your Mac (Apple Silicon works). This is the same stack the whole course uses. See <a href="../../lab/tutorials/00_sim-setup-before-pat-me.md">the sim-setup tutorial</a> for the full path.',
+      {t:'Set up your dev world', c:'Install the LeRobot toolchain on your Mac (Apple Silicon works). This is the same stack the whole course uses. See <a href="../../lab/tutorials/00_sim-setup-before-pat-me.md">the sim-setup tutorial</a> for the full path. Two companion reads: <a href="ground-school.html">Ground School</a> (read-first background — every concept, the math, 80 pre-solved pitfalls) and <a href="pat-me-on-the-back.html">Pat me on the back — hands-on</a> (a click-through, checkpoint-by-checkpoint version of this mission).',
         code:'conda create -y -n lerobot python=3.12\nconda activate lerobot\ngit clone https://github.com/huggingface/lerobot.git && cd lerobot\npip install -e ".[pusht,aloha]"',
         chk:'`conda activate lerobot` works and `python -c "import lerobot"` runs with no error.'},
       {t:'Meet the arm (in simulation)', c:'A robot arm has <b>joints (DOF)</b>, links, and an <b>end-effector</b> (the gripper). The SO-101 is 6-DOF. You don\'t need the real arm yet — run a LeRobot sim env to watch a policy move an arm and get a feel for joint control.',

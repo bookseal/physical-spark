@@ -1,0 +1,1572 @@
+<title>Ground School — robot sim background knowledge</title>
+<style>
+  :root{
+    --paper:#f4f1ea; --card:#fbf9f4; --card2:#f0ebdd; --card3:#eae3d2;
+    --ink:#1c1a17; --muted:#6b6459; --faint:#938b7d;
+    --accent:#b8402e; --accent-soft:#f3e0d9; --accent-deep:#9a3324;
+    --line:#e4decf; --line-strong:#d8d0bd;
+    --good:#3f7a52; --good-soft:#e3efe4;
+    --blue:#3a5a86; --blue-soft:#e6ecf4;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.68; font-size:17px; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:740px; margin:0 auto; padding:0 20px 120px; position:relative;}
+
+  /* ---------- SPA pages (one view at a time) ---------- */
+  .view{position:absolute; left:0; right:0; top:0; visibility:hidden;}   /* off-screen but still measurable, so mermaid renders right */
+  .view.active{position:static; visibility:visible;}
+  .chapter.view{border-top:none; margin-top:18px; padding-top:0;}
+  .home-list{display:flex; flex-direction:column; gap:8px; margin:26px 0 30px;}
+  .home-list a{display:flex; align-items:baseline; gap:12px; text-decoration:none; color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+  .home-list a:hover{border-color:var(--accent);}
+  .home-list .n{font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:700; min-width:24px;}
+  .home-list .t{flex:1; font-weight:600;}
+  .home-list .rt{font-family:var(--mono); font-size:11.5px; color:var(--faint); white-space:nowrap;}
+  .home-list .dot{color:var(--good);}
+  .pagenav{display:flex; gap:8px; margin:44px 0 8px; align-items:stretch;}
+  .pagenav a{flex:1; text-align:center; font-family:var(--mono); font-size:13px; text-decoration:none; padding:12px 8px; border:1px solid var(--line-strong); border-radius:10px; color:var(--accent); background:var(--card); display:flex; align-items:center; justify-content:center;}
+  .pagenav a.mid{flex:0 0 auto; color:var(--muted); border-color:var(--line);}
+  .pagenav a.disabled{opacity:.3; pointer-events:none;}
+  a{color:var(--accent);}
+  h2,h3{text-wrap:balance;}
+
+  /* sticky bar + contents menu */
+  .bar{position:sticky; top:0; z-index:40; background:rgba(244,241,234,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:11px 0;}
+  .bar-in{max-width:740px; margin:0 auto; padding:0 20px; display:flex; align-items:center; gap:12px;}
+  .brand{font-family:var(--mono); font-weight:700; font-size:14px; color:var(--ink); text-decoration:none; white-space:nowrap;}
+  .brand b{color:var(--accent);}
+  .bar .prog{flex:1; height:7px; background:var(--card2); border-radius:999px; overflow:hidden; border:1px solid var(--line);}
+  .bar .prog > i{display:block; height:100%; width:0%; background:var(--accent); transition:width .35s;}
+  .bar .pct{font-family:var(--mono); font-size:12px; color:var(--muted); white-space:nowrap;}
+  .toc-btn{font-family:var(--mono); font-size:12.5px; padding:6px 11px; border:1px solid var(--line-strong); border-radius:8px; background:var(--card); color:var(--ink); cursor:pointer; white-space:nowrap;}
+
+  .toc-panel{display:none; position:sticky; top:52px; z-index:39; background:var(--card); border:1px solid var(--line-strong); border-radius:14px; margin:10px 0 0; padding:12px 8px; max-height:70vh; overflow:auto;}
+  .toc-panel.open{display:block;}
+  .toc-panel a{display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--ink); padding:9px 12px; border-radius:9px; font-size:15px;}
+  .toc-panel a:hover{background:var(--card2);}
+  .toc-panel .n{font-family:var(--mono); font-size:12px; color:var(--accent); min-width:26px;}
+  .toc-panel .t{flex:1;}
+  .toc-panel .rt{font-family:var(--mono); font-size:11.5px; color:var(--faint);}
+  .toc-panel .dot{color:var(--good); font-weight:700;}
+
+  /* hero */
+  .eyebrow{font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:44px 0 14px;}
+  h1{font-family:var(--serif); font-size:clamp(36px,10vw,58px); line-height:1.03; margin:0 0 16px; letter-spacing:-.015em;}
+  .lede{font-size:19px; color:var(--muted); margin:0 0 22px; max-width:40ch;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  .tag{font-family:var(--mono); font-size:12.5px; padding:5px 11px; border:1px solid var(--line-strong); border-radius:999px; color:var(--muted); background:var(--card);}
+  .howto{background:var(--card2); border:1px solid var(--line); border-radius:16px; padding:18px 20px; margin:0 0 10px;}
+  .howto b{color:var(--accent);}
+  .howto ul{margin:10px 0 0; padding-left:20px;} .howto li{margin:6px 0;}
+
+  /* chapters */
+  .chapter{border-top:2px solid var(--line-strong); margin-top:52px; padding-top:8px;}
+  .ch-eyebrow{font-family:var(--mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); display:flex; gap:12px; align-items:center; margin:14px 0 6px;}
+  .ch-eyebrow .rt{color:var(--faint); letter-spacing:.04em;}
+  h2{font-family:var(--serif); font-size:clamp(27px,6.5vw,36px); line-height:1.1; margin:0 0 6px;}
+  .ch-sum{color:var(--muted); font-size:17px; margin:6px 0 18px;}
+  h3{font-family:var(--serif); font-size:22px; margin:30px 0 8px;}
+  h4{font-family:var(--sans); text-transform:uppercase; letter-spacing:.05em; font-size:13px; color:var(--muted); margin:24px 0 6px;}
+  p{margin:13px 0;}
+  strong{font-weight:640;}
+  code{font-family:var(--mono); font-size:.87em; background:var(--card2); padding:.08em .38em; border-radius:5px;}
+  ul,ol{padding-left:22px;} li{margin:6px 0;}
+
+  /* code block */
+  .code{position:relative; margin:15px 0; border:1px solid var(--line-strong); border-radius:12px; background:#fff; overflow:hidden;}
+  .code pre{margin:0; padding:15px 16px; overflow-x:auto; font-family:var(--mono); font-size:13.5px; line-height:1.7; color:#2a2721;}
+  .code .cmt{color:#a39a88;}
+  .copy{position:absolute; top:8px; right:8px; font-family:var(--mono); font-size:11.5px; padding:5px 10px; border:1px solid var(--line-strong); border-radius:7px; background:var(--card); color:var(--muted); cursor:pointer;}
+  .copy:hover{border-color:var(--accent); color:var(--accent);} .copy.done{color:var(--good); border-color:var(--good);}
+
+  /* concept box */
+  .concept{background:var(--card); border:1px solid var(--line-strong); border-left:4px solid var(--accent); border-radius:12px; padding:15px 17px; margin:16px 0;}
+  .concept .lbl{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 6px;}
+  .concept .word{font-family:var(--serif); font-size:19px; font-weight:700; margin:0 0 4px;}
+  .concept .en{font-family:var(--mono); font-size:12.5px; color:var(--faint);}
+
+  /* math box */
+  .math{background:var(--blue-soft); border:1px solid #cdd8e6; border-radius:12px; padding:15px 17px; margin:16px 0;}
+  .math .lbl{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); font-weight:700; margin:0 0 8px;}
+  .math .eq{font-family:var(--mono); font-size:15px; background:#fff; border:1px solid #cdd8e6; border-radius:8px; padding:11px 13px; margin:9px 0; overflow-x:auto; color:#26364d;}
+  .math .eq b{color:var(--accent-deep);}
+
+  /* mermaid */
+  .mermaid-wrap{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin:16px 0; overflow-x:auto;}
+  .mermaid{display:flex; justify-content:center; min-width:min(560px,100%);}
+  .fig-cap{font-size:14px; color:var(--muted); text-align:center; margin-top:8px;}
+
+  /* pitfall (troubleshooting) */
+  .pitfall{border:1px solid var(--line-strong); border-radius:12px; margin:12px 0; overflow:hidden; background:var(--card);}
+  .pitfall summary{list-style:none; cursor:pointer; padding:13px 15px; font-weight:640; font-size:15.5px; display:flex; gap:10px; align-items:baseline;}
+  .pitfall summary::-webkit-details-marker{display:none;}
+  .pitfall summary::before{content:"⚠"; color:var(--accent); flex:none;}
+  .pitfall summary::after{content:"▶"; margin-left:auto; color:var(--faint); font-size:11px; transition:transform .2s;}
+  .pitfall[open] summary::after{transform:rotate(90deg);}
+  .pitfall .pf{padding:0 15px 15px; font-size:15px;}
+  .pitfall .pf .k{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:10px 0 2px;}
+  .pitfall .pf .fix{background:var(--good-soft); border:1px solid #cfe3d2; border-radius:8px; padding:8px 11px; margin-top:4px;}
+
+  /* quiz (MCQ) */
+  .mcq{margin:16px 0; border:1px solid var(--line-strong); border-radius:12px; background:var(--card); padding:15px 17px;}
+  .mcq .q{font-weight:640; margin:0 0 11px;} .mcq .q::before{content:"◆ QUIZ"; display:block; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--accent); margin-bottom:6px;}
+  .mcq .opt{display:block; width:100%; text-align:left; font:inherit; font-size:15px; padding:11px 13px; margin:7px 0; border:1px solid var(--line-strong); border-radius:9px; background:var(--card2); color:var(--ink); cursor:pointer;}
+  .mcq .opt:hover{border-color:var(--accent);}
+  .mcq .opt .mark{float:right; font-family:var(--mono); font-weight:700; opacity:0;}
+  .mcq .opt.correct{border-color:var(--good); background:var(--good-soft);} .mcq .opt.correct .mark{opacity:1; color:var(--good);}
+  .mcq .opt.wrong{border-color:var(--accent); background:var(--accent-soft);} .mcq .opt.wrong .mark{opacity:1; color:var(--accent);}
+  .mcq.answered .opt{cursor:default;}
+  .mcq .explain{display:none; margin:11px 0 0; padding:11px 13px; border-radius:9px; background:var(--card2); border-left:3px solid var(--accent); color:var(--muted); font-size:14.5px;}
+  .mcq.answered .explain{display:block;} .mcq .explain b{color:var(--ink);}
+
+  /* checklist */
+  .check{margin:14px 0; padding:14px 16px; background:var(--card2); border:1px solid var(--line); border-radius:12px;}
+  .check .cap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin:0 0 8px;}
+  .check label{display:flex; align-items:flex-start; gap:11px; padding:8px 6px; cursor:pointer; font-size:15.5px;}
+  .check input{margin-top:3px; width:19px; height:19px; accent-color:var(--accent); flex:none;}
+  .check input:checked + span{color:var(--faint); text-decoration:line-through;}
+
+  .footer{margin-top:60px; padding-top:22px; border-top:1px solid var(--line); text-align:center; font-family:var(--mono); font-size:12.5px; color:var(--faint);}
+  .wip{background:var(--accent-soft); border:1px dashed #d9a99d; border-radius:10px; padding:10px 14px; font-size:14px; color:var(--accent-deep); margin:16px 0;}
+</style>
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="brand" href="https://physical-spark.bit-habit.com/courses/#/m1">PHYSICAL <b>SPARK</b></a>
+    <div class="prog"><i id="pbar"></i></div>
+    <span class="pct" id="pct">0%</span>
+    <button class="toc-btn" id="tocBtn">☰ Chapters</button>
+  </div>
+  <div class="bar-in"><div class="toc-panel" id="tocPanel"></div></div>
+</div>
+
+<div class="wrap">
+
+  <section class="view active" id="home">
+  <p class="eyebrow">Sim knowledge · Ground school</p>
+  <h1>Ground School</h1>
+  <p class="lede">Everything to understand <em>before</em> you touch the terminal — so the hands-on part feels easy, not scary. Read it on your phone, tap through the quizzes, tick the boxes.</p>
+  <div class="tags">
+    <span class="tag">Beginner</span>
+    <span class="tag">~10 hours (read at your pace)</span>
+    <span class="tag">Read-first, no terminal yet</span>
+    <span class="tag">Leads into “Pat me on the back”</span>
+  </div>
+
+  <div class="howto">
+    <b>How to use this:</b>
+    <ul>
+      <li>Read a chapter, then answer its <b>◆ QUIZ</b> questions — guess first, then tap to check. Getting them right (or wrong!) is how the idea sticks.</li>
+      <li>Tick the <b>checklist</b> at the end of each chapter. Your progress saves on this device, so you can stop and come back.</li>
+      <li><b>⚠ Pitfall</b> boxes are problems you'll likely hit later. Skim them now; they'll feel familiar when they happen.</li>
+      <li>You don't run anything yet. This is the map. The hands-on course (“Pat me on the back”) is the journey.</li>
+    </ul>
+  </div>
+
+  <h4 style="margin-top:30px;">Chapters — tap to open</h4>
+  <div class="home-list" id="homeList"></div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <section class="chapter view" id="ch1">
+    <div class="ch-eyebrow">Chapter 1 <span class="rt">· ~35 min</span></div>
+    <h2>The big picture: robots that learn</h2>
+    <p class="ch-sum">Why we teach robots in a fake world first, and the two main ways they learn.</p>
+
+    <p>A robot arm that picks things up looks simple when a human does it. But a robot has to figure out, thousands of times a second, exactly how much to turn each joint. Writing those numbers by hand is nearly impossible for real tasks. So instead, we let the robot <strong>learn</strong> — from examples, or from trial and error.</p>
+
+    <p>Learning means <strong>failing a lot</strong>. And failing on a real $5,000 robot arm is slow, expensive, and sometimes dangerous. So we do the failing in a <strong>simulator</strong> first: a fake physics world inside the computer where the arm can crash a million times for free.</p>
+
+    <h3>Real robot vs simulator</h3>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  subgraph REAL["Real robot"]
+    R1["slow: 1x speed"]
+    R2["breaks / wears out"]
+    R3["needs a human watching"]
+  end
+  subgraph SIM["Simulator"]
+    S1["fast: many x speed"]
+    S2["reset for free, forever"]
+    S3["run 1000 in parallel"]
+  end
+  REAL -->|"but 100% real"| TRUTH["the real world"]
+  SIM -->|"but only a close guess"| TRUTH
+    </pre>
+    <div class="fig-cap">Both aim at the real world. The simulator is fast and safe but only <em>approximate</em>.</div></div>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">sim-to-real gap</p>
+      <p>A simulator's physics is a <strong>close guess</strong>, not perfect. Friction, weight, and timing are slightly off. So a robot that works great in sim can stumble in real life. Shrinking this gap is one of the biggest jobs in robotics (with tricks like "domain randomization" and fine-tuning on a little real data).</p>
+    </div>
+
+    <p>This is exactly why the ALOHA project (which we use) ships <strong>both</strong> a simulator and real low-cost hardware — so you can practice in sim, then cross the gap to a real arm.</p>
+
+    <h3>Two ways a robot learns</h3>
+    <p>Almost all robot learning is one of these two (or a mix):</p>
+    <ul>
+      <li><strong>Imitation learning</strong> — a human shows the robot how (by remote-controlling it), and the robot copies. "In this situation, do what the human did." This is LeRobot's main focus.</li>
+      <li><strong>Reinforcement learning (RL)</strong> — the robot tries things, gets a <em>reward</em> (a score) when it does well, and slowly figures out what earns points.</li>
+    </ul>
+    <p>Different as they sound, both run on the same heartbeat — a loop we'll meet in Chapter 2.</p>
+
+    <div class="concept">
+      <p class="lbl">Words you'll keep seeing</p>
+      <p><strong>policy</strong> — the robot's "brain": a function that looks at what it sees and decides what to do. <strong>agent</strong> — the thing that acts (its brain is the policy). <strong>environment</strong> — the world it acts in (the arm + objects + physics).</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">Why do we train robots in a simulator first, instead of on the real arm?</p>
+      <button class="opt" data-k="a">The simulator's physics is more accurate than reality <span class="mark"></span></button>
+      <button class="opt" data-k="b">Learning needs many failures; failing is cheap, fast, and safe in sim <span class="mark"></span></button>
+      <button class="opt" data-k="c">Real robots cannot be programmed at all <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Learning = lots of trial and error. In sim you can reset for free, run faster than real time, and never break anything. Reality is actually <em>more</em> accurate than sim (that's the whole "sim-to-real gap" problem).</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">A robot trained perfectly in simulation sometimes fails on the real arm. Why?</p>
+      <button class="opt" data-k="a">The real arm has a software bug <span class="mark"></span></button>
+      <button class="opt" data-k="b">Simulators are always slower than reality <span class="mark"></span></button>
+      <button class="opt" data-k="c">Sim physics is only a close guess; small differences add up in the real world <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. That is the <b>sim-to-real gap</b>. The simulator approximates friction, weight, and timing, so a policy tuned to the fake physics can misbehave on the true physics.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 1 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c1a"><span>I can say why we use a simulator (cheap, fast, safe failure).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c1b"><span>I can explain the sim-to-real gap in one sentence.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c1c"><span>I know the difference between imitation learning and reinforcement learning.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c1d"><span>I know what policy, agent, and environment mean.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <section class="chapter view" id="ch2">
+    <div class="ch-eyebrow">Chapter 2 <span class="rt">· ~40 min</span></div>
+    <h2>The heartbeat: the agent–environment loop</h2>
+    <p class="ch-sum">One loop runs under every robot-learning program. Learn it once, and the code stops looking mysterious.</p>
+
+    <p>Here is the single most important picture in this whole course. Everything — random arms, trained arms, our "pat" motion — is this loop repeating.</p>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  A["Agent (policy)<br/>the brain"] -->|"action:<br/>what to do"| E["Environment<br/>the world"]
+  E -->|"observation:<br/>what it now sees<br/>(+ reward)"| A
+    </pre>
+    <div class="fig-cap">One step = brain sees → brain acts → world changes → brain sees the new world. Repeat.</div></div>
+
+    <p>Read it as a conversation that repeats forever:</p>
+    <ol>
+      <li>The <strong>agent</strong> looks at the current <strong>observation</strong> (a camera image, joint positions…).</li>
+      <li>It picks an <strong>action</strong> (turn these joints this much).</li>
+      <li>The <strong>environment</strong> applies that action and moves the physics forward one tiny step.</li>
+      <li>It hands back a <strong>new observation</strong> (and, in RL, a <strong>reward</strong> score).</li>
+      <li>Go to 1.</li>
+    </ol>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">a "step"</p>
+      <p>One trip around the loop is called a <strong>step</strong>. A whole attempt from start to finish (many steps) is an <strong>episode</strong>. Training a robot means running millions of steps and slowly improving the policy.</p>
+    </div>
+
+    <p>This is why, later, you'll see code shaped like <code>while ...: action = ...; env.step(action)</code>. The <code>while</code> loop <em>is</em> the heartbeat. In our first "hello" script the arm sits still — because there's no loop, no <code>step</code>. In the live script the arm moves — because there's a loop calling <code>step</code> over and over.</p>
+
+    <div class="concept">
+      <p class="lbl">Remember this</p>
+      <p><strong>Movement = running the loop.</strong> No loop, no motion. If you ever see a frozen sim, the first question is: "is anything calling <code>step</code>?"</p>
+    </div>
+
+    <h3>Where does "learning" fit?</h3>
+    <p>The loop itself just <em>runs</em> the robot. <strong>Learning</strong> is a slower process wrapped around it: after many steps/episodes, we nudge the policy's numbers so its actions get better. Our course stops at running the loop with a simple hand-written policy (a sine wave). Training a smart policy is the next mission.</p>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">In the loop, what does the environment give back to the agent after an action?</p>
+      <button class="opt" data-k="a">A new policy <span class="mark"></span></button>
+      <button class="opt" data-k="b">A new observation (and, in RL, a reward) <span class="mark"></span></button>
+      <button class="opt" data-k="c">Nothing — the agent already knows everything <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. The environment returns the <b>next observation</b> (what the world looks like now) plus a <b>reward</b> in RL. The agent needs that next observation to decide its next action — that's why the loop connects.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">A simulation window opens but the arm never moves. What's the most likely cause?</p>
+      <button class="opt" data-k="a">Nothing is calling <code>env.step()</code> in a loop <span class="mark"></span></button>
+      <button class="opt" data-k="b">The monitor is broken <span class="mark"></span></button>
+      <button class="opt" data-k="c">The robot is thinking very hard <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. Movement comes from stepping the physics. No loop calling <code>step</code> → the world never advances → a frozen arm.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 2 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c2a"><span>I can draw the agent → action → environment → observation loop from memory.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c2b"><span>I know the difference between a step and an episode.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c2c"><span>I understand "movement = running the loop (calling step)".</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <section class="chapter view" id="ch3">
+    <div class="ch-eyebrow">Chapter 3 <span class="rt">· ~50 min</span></div>
+    <h2>Gymnasium: the five words every sim speaks</h2>
+    <p class="ch-sum">One standard remote control fits thousands of simulators. Learn its five buttons and their return values.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">Gymnasium <span class="en">was “OpenAI Gym”</span></p>
+      <p>A <strong>standard set of commands</strong> for talking to any learning environment. Think of it as a universal remote: once you know its buttons, you can drive almost any simulator — robots, games, control problems — the same way. (It used to be called "Gym"; the maintained version is "Gymnasium". Same idea.)</p>
+    </div>
+
+    <p>Almost everything you do to an environment is one of <strong>five methods</strong>. A <em>method</em> is just "a thing an object can do" — you write it as <code>object.method()</code>.</p>
+
+    <h3>The five methods, and what each hands back</h3>
+    <p>Pay attention to the <strong>return value</strong> (what you get back). The return value tells you what the method is <em>for</em>.</p>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  M["gym.make(id)<br/>→ an env object"] --> R["env.reset(seed)<br/>→ (observation, info)"]
+  R --> S["env.step(action)<br/>→ (obs, reward, terminated, truncated, info)"]
+  S --> D{"episode over?<br/>(terminated or truncated)"}
+  D -->|no| S
+  D -->|yes, go again| R
+  S -.optional.-> V["env.render()<br/>→ picture (or a window)"]
+  D -->|all done| C["env.close()<br/>→ nothing"]
+    </pre>
+    <div class="fig-cap">make once → reset each episode → step every moment → render to look → close at the end.</div></div>
+
+    <h4>1 · make — open the world</h4>
+    <p><code>env = gym.make("gym_aloha/AlohaTransferCube-v0")</code> builds the environment and hands you back an <strong>env object</strong> to control.</p>
+    <div class="concept">
+      <p class="lbl">Clear up a common confusion</p>
+      <p><strong>The <code>env</code> is NOT a "space".</strong> The env is the whole world object. It <em>has</em> parts, like <code>env.action_space</code> (the rulebook of valid actions). You reach a part with a dot: <code>env.action_space</code> means "the action_space <em>of</em> env". Beginners often think <code>env</code> = the space; it doesn't.</p>
+    </div>
+
+    <h4>2 · reset — start a fresh attempt</h4>
+    <p><code>obs, info = env.reset(seed=0)</code> puts the arm and cube back to a starting pose. It returns <strong>two</strong> things: the first <code>observation</code> (so the agent can see the start) and <code>info</code> (extra debug details).</p>
+    <div class="concept">
+      <p class="lbl">Why this return, not another?</p>
+      <p>Notice reset gives an <strong>observation but no reward</strong>. Why? Because <strong>reward is the result of an action</strong>, and reset hasn't taken any action yet — the attempt just began. This one asymmetry teaches you that "reward" always answers "how good was that <em>action</em>?"</p>
+    </div>
+
+    <h4>3 · step — take one action, learn what happened</h4>
+    <p>This is the busy one. <code>env.step(action)</code> applies your action, moves physics one tick, and returns <strong>five</strong> things:</p>
+    <div class="code"><button class="copy">copy</button><pre>obs, reward, terminated, truncated, info = env.step(action)</pre></div>
+    <ul>
+      <li><code>obs</code> — the new observation (what the world looks like now).</li>
+      <li><code>reward</code> — a score for that action (used in RL; imitation learning often ignores it).</li>
+      <li><code>terminated</code> — did the task end <em>naturally</em>? (success, or a real failure).</li>
+      <li><code>truncated</code> — was it <em>cut off</em> for an outside reason? (usually "ran out of time / max steps").</li>
+      <li><code>info</code> — extra debug details.</li>
+    </ul>
+    <div class="concept">
+      <p class="lbl">The classic mix-up</p>
+      <p class="word">terminated ≠ truncated</p>
+      <p><strong>terminated</strong> = the episode ended by the rules of the task (you succeeded, or you failed for real). <strong>truncated</strong> = the episode was stopped from the outside, most often a time limit — not a real ending. They're split apart because a learning algorithm must treat "I finished" and "I ran out of time" differently. (Old Gym lumped both into one <code>done</code> value; that caused subtle bugs, so Gymnasium separated them.)</p>
+    </div>
+    <p>That's why real loops end each turn with: <code>if terminated or truncated: env.reset()</code> — "if the attempt is over for <em>any</em> reason, start a fresh one."</p>
+
+    <h4>4 · render — look at it</h4>
+    <p><code>env.render()</code> draws the current scene. In <code>rgb_array</code> mode it returns a <strong>picture as numbers</strong> (an array you can save). In <code>human</code> mode it opens a window and returns nothing — the window <em>is</em> the output. (Much more on this in the rendering chapter.)</p>
+
+    <h4>5 · close — clean up</h4>
+    <p><code>env.close()</code> shuts the window and frees resources. It returns <strong>nothing</strong> — because it's an <em>action</em>, not an information request. "What a method returns (or doesn't) tells you its job": the three that hand back data are information-givers; <code>close</code> just does a chore.</p>
+
+    <h3>An analogy that holds up: a training dojo</h3>
+    <p>The word "Gym" is literally "gymnasium". But because the whole point is <strong>reset-and-repeat practice</strong>, a <strong>training dojo</strong> fits the five methods even better:</p>
+    <div class="code"><button class="copy">copy</button><pre>make   → enter the dojo (pick which training room)
+reset  → start a fresh session (back to the mat)
+step   → do one move; the coach tells you the result
+render → look in the mirror / film it
+close  → leave, tidy up</pre></div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">Why does <code>env.reset()</code> return an observation but no reward?</p>
+      <button class="opt" data-k="a">It's a bug in Gymnasium <span class="mark"></span></button>
+      <button class="opt" data-k="b">Reward is the result of an action, and reset hasn't taken any action yet <span class="mark"></span></button>
+      <button class="opt" data-k="c">Rewards are only for video games <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. The attempt just started — no action has happened — so there's nothing to score. Reset gives you the starting <b>observation</b> so the agent can choose its first action.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Your robot hits the max number of steps before finishing the task. Which flag becomes true?</p>
+      <button class="opt" data-k="a"><code>terminated</code>, because the episode ended <span class="mark"></span></button>
+      <button class="opt" data-k="b">both are always true together <span class="mark"></span></button>
+      <button class="opt" data-k="c"><code>truncated</code>, because it was cut off by a time limit, not a real ending <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. Hitting a step/time limit is an <b>outside</b> cutoff → <code>truncated</code>. <code>terminated</code> is for a real ending (success or genuine failure). The split lets learning code tell "I finished" from "time's up".</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q"><code>env.close()</code> returns nothing. What does that tell you about it?</p>
+      <button class="opt" data-k="a">It's an action/chore (clean up), not a request for information <span class="mark"></span></button>
+      <button class="opt" data-k="b">It failed <span class="mark"></span></button>
+      <button class="opt" data-k="c">It returns the final score secretly <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. Methods that return data are information-givers (reset, step, render). <code>close</code> just does a job — shut the window, free memory — so it has nothing to hand back.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 3 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c3a"><span>I can name the five methods and say what each returns.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c3b"><span>I know <code>env</code> is the world object, and <code>action_space</code> is a part of it.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c3c"><span>I can explain terminated vs truncated with an example.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c3d"><span>I understand why reset returns no reward.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <section class="chapter view" id="ch4">
+    <div class="ch-eyebrow">Chapter 4 <span class="rt">· ~55 min</span></div>
+    <h2>Spaces, vectors, and the math of −1…1</h2>
+    <p class="ch-sum">What an "action space" really is, why every command is a number between −1 and 1, and the tiny bit of math behind it.</p>
+
+    <p>In Chapter 3 you met <code>env.action_space</code>. Let's open it up — this is where a lot of beginners feel lost, and it's actually simple.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">a space</p>
+      <p>A <strong>space</strong> is just a <strong>rulebook of valid values</strong>. <code>action_space</code> = "which commands are allowed?" <code>observation_space</code> = "what shape does what I see come in?" It's not the arm, and not the data — it's the <em>rules</em> for the data.</p>
+    </div>
+
+    <h3>Two kinds of space you'll meet</h3>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  SP["a space<br/>(rulebook of valid values)"] --> B["Box<br/>continuous numbers in a range<br/>e.g. any real number in [-1, 1]"]
+  SP --> D["Discrete(n)<br/>one whole number from 0..n-1<br/>e.g. up/down/left/right = Discrete(4)"]
+  B --> AL["ALOHA action:<br/>Box(-1, 1, shape=(14,))"]
+    </pre>
+    <div class="fig-cap">Continuous dials (Box) vs a set of buttons (Discrete). ALOHA's arms use continuous dials.</div></div>
+
+    <p>ALOHA's action space is written <code>Box(-1.0, 1.0, (14,), float32)</code>. Read it as:</p>
+    <ul>
+      <li><strong>Box</strong> — the values are <em>continuous</em> (any real number, like a smooth dial), not a few fixed choices.</li>
+      <li><strong>−1.0, 1.0</strong> — the low and high limits. Every number must sit between −1 and 1.</li>
+      <li><strong>(14,)</strong> — the <strong>shape</strong>: a list of 14 numbers (a "14-dimensional vector").</li>
+      <li><strong>float32</strong> — the number type (decimals, stored in 32 bits).</li>
+    </ul>
+
+    <div class="concept">
+      <p class="lbl">Plain words</p>
+      <p><strong>vector</strong> = an ordered list of numbers, like <code>[0.1, -0.4, …]</code>. <strong>dimension</strong> = how many numbers are in it. So a <strong>14-D action</strong> is a list of 14 numbers, and its <code>.shape</code> is <code>(14,)</code>. Each number drives one thing on the robot.</p>
+    </div>
+
+    <p>Two handy tools every space has: <code>space.sample()</code> gives a <strong>random valid value</strong> (great for a "do anything" test agent), and <code>space.shape</code> tells you the shape (here <code>(14,)</code>; an image observation might be <code>(480, 640, 3)</code>).</p>
+
+    <h3>Why −1 to 1? The normalization math</h3>
+    <p>Real robot joints have messy ranges: one joint might turn from −2.6 to +2.6 <strong>radians</strong>, a gripper might open 0 to 4 centimeters. Feeding those raw, wildly different ranges into a neural network makes learning shaky. So we put <strong>every</strong> joint on the <strong>same −1…1 ruler</strong>. This is called <strong>normalization</strong>.</p>
+
+    <div class="math">
+      <p class="lbl">Formula · map a real value from [a, b] into [−1, 1]</p>
+      <div class="eq">x<sub>norm</sub> = 2 · ( x − a ) / ( b − a ) − 1</div>
+      <p>Check it: if <b>x = a</b> (the low end) → −1. If <b>x = b</b> (the high end) → +1. If x is the middle → 0. Nice and tidy.</p>
+      <p class="lbl" style="margin-top:12px;">And the inverse · turn a −1…1 command back into a real value</p>
+      <div class="eq">x = a + ( y + 1 ) · ( b − a ) / 2</div>
+      <p>The simulator uses this inverse to turn your −1…1 action back into a real joint angle.</p>
+    </div>
+
+    <div class="math">
+      <p class="lbl">Worked example</p>
+      <p>A joint's real range is <b>a = −2.6</b>, <b>b = +2.6</b> radians. You want to command the middle (straight, 0 rad).</p>
+      <div class="eq">x<sub>norm</sub> = 2 · ( 0 − (−2.6) ) / ( 2.6 − (−2.6) ) − 1 = 2 · (2.6 / 5.2) − 1 = 2 · 0.5 − 1 = <b>0</b></div>
+      <p>So "straight" is <code>0</code> in the −1…1 world. Full one way is <code>−1</code>, full the other way is <code>+1</code>. That's the whole idea behind our sine-wave "pat": <code>sin</code> gently rides between −1 and +1, so both arms sweep smoothly.</p>
+    </div>
+
+    <div class="concept">
+      <p class="lbl">Two words worth 30 seconds</p>
+      <p><strong>radians</strong> — a way to measure angles where a full turn is <code>2π ≈ 6.28</code> (instead of 360°). Half a turn = <code>π ≈ 3.14</code>, a quarter = <code>π/2 ≈ 1.57</code>. Robots use radians because the math of rotation is cleanest that way. Convert with <code>radians = degrees × π / 180</code>.</p>
+    </div>
+
+    <div class="concept">
+      <p class="lbl">Subtle but important</p>
+      <p>The action space <em>bounds</em> are −1…1 (normalized), but the numbers those map to are real <strong>joint targets in radians</strong>. So "−1…1" is the clean outer language; "radians" is what the physics actually uses underneath. The env does the translation for you.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why are all 14 action numbers squeezed into the same −1…1 range?</p>
+      <button class="opt" data-k="a">Because computers can't store numbers bigger than 1 <span class="mark"></span></button>
+      <button class="opt" data-k="b">Because joint angles are naturally −1…1 radians <span class="mark"></span></button>
+      <button class="opt" data-k="c">So very different real ranges share one scale — neural nets learn more stably that way <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. Raw ranges differ wildly (radians vs centimeters). Putting them on one −1…1 ruler (normalization) keeps the learning stable and fair across joints. The simulator converts back to real units internally.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">A robot that only chooses up / down / left / right would use which space?</p>
+      <button class="opt" data-k="a"><code>Box(-1, 1, (4,))</code> <span class="mark"></span></button>
+      <button class="opt" data-k="b"><code>Discrete(4)</code> — four fixed choices, one whole number 0–3 <span class="mark"></span></button>
+      <button class="opt" data-k="c">No space is needed <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Four fixed buttons = a <em>discrete</em> choice → <code>Discrete(4)</code>. <code>Box</code> is for continuous dials (like joint angles that can be anything in a range).</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">Using the formula, a joint's range is [0, 10]. What is the value <code>x = 10</code> in the −1…1 world?</p>
+      <button class="opt" data-k="a">+1 (it's the high end) <span class="mark"></span></button>
+      <button class="opt" data-k="b">0 <span class="mark"></span></button>
+      <button class="opt" data-k="c">10 <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. x<sub>norm</sub> = 2·(10−0)/(10−0) − 1 = 2·1 − 1 = +1. The top of the real range always maps to +1, the bottom to −1, the middle to 0.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 4 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c4a"><span>I know a "space" is a rulebook of valid values, not the arm or the data.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c4b"><span>I can tell Box (continuous) from Discrete (fixed choices).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c4c"><span>I can read <code>Box(-1,1,(14,))</code> out loud and say what (14,) means.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c4d"><span>I can use the −1…1 formula on a simple example.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c4e"><span>I know radians (full turn = 2π) and why normalization helps learning.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <section class="chapter view" id="ch5">
+    <div class="ch-eyebrow">Chapter 5 <span class="rt">· ~40 min</span></div>
+    <h2>ALOHA: the two-armed robot we drive</h2>
+    <p class="ch-sum">What ALOHA is, why it has two arms, and how it differs from “ACT”.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">ALOHA <span class="en">“A Low-cost Open-source Hardware system for bimanual teleoperation”</span></p>
+      <p>A <strong>two-arm ("bimanual") robot</strong> designed to be cheap and open, built at <strong>Stanford</strong> and introduced in a 2023 paper. The whole point: make good robots affordable so more people can do this. <code>gym-aloha</code> (by Hugging Face) is the <strong>simulation</strong> of it, running on MuJoCo — that's what we use, no hardware required.</p>
+    </div>
+
+    <h3>How a human teaches it: leader–follower</h3>
+    <p>ALOHA records human demonstrations with a clever trick. There are <strong>leader</strong> arms (small ones the human moves by hand) and <strong>follower</strong> arms (which copy the leader in real time and actually do the task). While the human puppeteers the leaders, the system records every motion — that recording becomes the <strong>demonstration data</strong> for imitation learning.</p>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  H["human hand"] --> L["leader arms<br/>(you move these)"]
+  L --> F["follower arms<br/>(copy the motion,<br/>do the real task)"]
+  F --> DATA["recorded demo data<br/>obs → action pairs"]
+  DATA --> POL["train a policy<br/>(imitation learning)"]
+    </pre>
+    <div class="fig-cap">Teleoperation turns a human's skill into data a robot can learn from.</div></div>
+
+    <div class="concept">
+      <p class="lbl">Don't mix these up</p>
+      <p><strong>ALOHA = the hardware/robot.</strong> <strong>ACT (Action Chunking Transformer) = a learning algorithm</strong> introduced in the same paper. ALOHA is the body; ACT is one possible brain. You'll see both names together, but they're different things.</p>
+    </div>
+
+    <h3>Why two arms is genuinely hard</h3>
+    <p>One arm picking up a block is tricky. <strong>Two arms cooperating</strong> — one handing an object to the other in mid-air — needs <em>coordination</em>: both must be in the right place at the right time. That's exactly the <strong>TransferCube</strong> task we simulate: the right arm grabs a red cube and passes it to the left arm. The other task, <strong>Insertion</strong>, has the arms fit a peg into a socket together.</p>
+
+    <p>This is why the action is <strong>14 numbers</strong>, from Chapter 4: two arms × (6 joints + 1 gripper) = 14. And why the picture from our very first script showed <em>two</em> grippers facing each other.</p>
+
+    <div class="concept">
+      <p class="lbl">What the robot sees &amp; when it "wins"</p>
+      <p>In sim, the observation is usually a <strong>top-down camera image</strong> plus the 14 joint positions (called <em>proprioception</em> — the robot "feeling" its own pose). The task gives a small reward as it gets closer; a specific top reward means <strong>full success</strong> (cube transferred), which also flips <code>terminated</code> to true.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">What's the difference between ALOHA and ACT?</p>
+      <button class="opt" data-k="a">They're two names for the same robot <span class="mark"></span></button>
+      <button class="opt" data-k="b">ALOHA is the two-arm robot (hardware); ACT is a learning algorithm (a brain) <span class="mark"></span></button>
+      <button class="opt" data-k="c">ALOHA is software, ACT is the metal arm <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Body vs brain. ALOHA is the low-cost bimanual hardware (and its sim); ACT is one algorithm you can train to control it. Same paper, different roles.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why does ALOHA use a leader–follower teleoperation setup?</p>
+      <button class="opt" data-k="a">To make the robot move twice as fast <span class="mark"></span></button>
+      <button class="opt" data-k="b">Because two arms need two humans <span class="mark"></span></button>
+      <button class="opt" data-k="c">So a human can puppeteer the robot and record high-quality demonstration data to learn from <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. The human moves the small leader arms; the followers copy and do the task; every motion is recorded as demo data for imitation learning. Teleoperation = turning human skill into training data.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 5 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c5a"><span>I know ALOHA is a low-cost two-arm (bimanual) robot, and gym-aloha is its simulator.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c5b"><span>I can explain leader–follower teleoperation and why it's for collecting data.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c5c"><span>I won't confuse ALOHA (hardware) with ACT (algorithm).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c5d"><span>I can connect "two arms × (6 joints + 1 gripper)" to the 14-D action.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <section class="chapter view" id="ch6">
+    <div class="ch-eyebrow">Chapter 6 <span class="rt">· ~50 min</span></div>
+    <h2>MuJoCo: the physics engine underneath</h2>
+    <p class="ch-sum">The thing that actually computes gravity, joints, and collisions — and its two key objects, model and data.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">MuJoCo <span class="en">“Multi-Joint dynamics with Contact”</span></p>
+      <p>A <strong>physics engine</strong>: software that computes how bodies move under forces, gravity, joints, and collisions. It does this by <strong>stepping time forward in tiny slices</strong> — given the current state and your commands, it calculates the next state a few milliseconds later. Made by DeepMind, free and open since 2022.</p>
+    </div>
+
+    <h3>The robot's blueprint: MJCF</h3>
+    <p>MuJoCo reads the robot's design from an <strong>MJCF</strong> file — an <strong>XML</strong> text file describing bodies, joints, shapes, cameras, and lights. Think of it as the architectural drawing the engine builds the world from. You won't write one in this course; just know that's where the arm's shape comes from.</p>
+
+    <h3>The two objects you must not confuse: model vs data</h3>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  MJCF["MJCF file<br/>(XML blueprint)"] --> MODEL["MjModel<br/>the constant blueprint<br/>(masses, joints, shapes)<br/>never changes"]
+  MODEL --> DATA["MjData<br/>the live state<br/>(qpos, qvel, contacts)<br/>changes every step"]
+  ACT["your action → ctrl"] --> DATA
+  DATA -->|"mj_step advances time"| DATA
+    </pre>
+    <div class="fig-cap">One blueprint (model), one ever-changing state (data). Stepping updates the state.</div></div>
+
+    <div class="concept">
+      <p class="lbl">The distinction in one line</p>
+      <p><strong>MjModel</strong> = what <em>doesn't</em> change (the design: how heavy, how long, how many joints). <strong>MjData</strong> = what <em>does</em> change every moment (where the joints are right now, how fast they're moving). One model, and a data that keeps updating.</p>
+    </div>
+
+    <p>The most important thing inside <code>MjData</code>:</p>
+    <ul>
+      <li><code>qpos</code> — "generalized positions": the current angle of every joint. When the arm moves, <code>qpos</code> changes. (This is exactly the value our live viewer watches to redraw.)</li>
+      <li><code>qvel</code> — "generalized velocities": how fast each joint is moving.</li>
+      <li><code>ctrl</code> — the control input: <strong>this is where your action enters the physics.</strong> Your 14 numbers become the targets the engine drives the joints toward.</li>
+    </ul>
+
+    <div class="concept">
+      <p class="lbl">Nice-to-know (won't trip you up)</p>
+      <p>The list of positions (<code>qpos</code>) and the list of velocities (<code>qvel</code>) aren't always the same length — some joint types need more numbers to describe position than speed. Don't assume <code>len(qpos) == len(qvel)</code>. (You rarely touch this directly as a beginner.)</p>
+    </div>
+
+    <h3>Timestep and contacts</h3>
+    <p>MuJoCo advances in a fixed <strong>timestep</strong>, often about <strong>0.002 seconds (2 ms)</strong>. Each "physics step" moves the world forward by that slice. Smaller slices = more accurate but slower. (A policy usually decides less often than the physics ticks, so several physics steps run per action.)</p>
+    <p>When two shapes touch, MuJoCo detects a <strong>contact</strong> and computes the push-back forces so things don't pass through each other. Contacts are the hard, expensive part of physics — and the reason a gripper can actually "hold" a cube.</p>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">When the arm moves during simulation, which changes — <code>MjModel</code> or <code>MjData</code>?</p>
+      <button class="opt" data-k="a"><code>MjModel</code>, because the robot's design updates <span class="mark"></span></button>
+      <button class="opt" data-k="b"><code>MjData</code> — the blueprint stays fixed; only the live state (qpos, etc.) changes <span class="mark"></span></button>
+      <button class="opt" data-k="c">Both are rebuilt from scratch each step <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. <code>MjModel</code> is the unchanging design. Motion = <code>MjData.qpos</code> changing over time. That's why a live viewer just needs to re-read <code>data</code> each frame.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">How does your 14-number action actually reach the physics?</p>
+      <button class="opt" data-k="a">It's written into <code>ctrl</code>, which the engine uses to drive the joints <span class="mark"></span></button>
+      <button class="opt" data-k="b">It edits the MJCF XML file each step <span class="mark"></span></button>
+      <button class="opt" data-k="c">It changes MuJoCo's source code <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. Actions enter through the control input <code>ctrl</code>. The engine then computes forces to move the joints toward those targets over the next timestep(s).</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why use a small timestep like 2 ms instead of, say, 1 second?</p>
+      <button class="opt" data-k="a">Bigger timesteps are illegal in MuJoCo <span class="mark"></span></button>
+      <button class="opt" data-k="b">It makes the video file smaller <span class="mark"></span></button>
+      <button class="opt" data-k="c">Small slices keep the physics accurate; big jumps would miss collisions and go unstable <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. Physics is integrated slice by slice. Tiny slices track fast motion and contacts accurately; huge slices skip over collisions and blow up. The cost is speed — more slices per second of sim.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 6 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c6a"><span>I can say what a physics engine does (step time forward under forces/contacts).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c6b"><span>I know MJCF is the XML blueprint MuJoCo reads.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c6c"><span>I can clearly separate MjModel (constant) from MjData (qpos/qvel, changing).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c6d"><span>I know actions enter through <code>ctrl</code>, and what timestep + contacts mean.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 7 ============ -->
+  <section class="chapter view" id="ch7">
+    <div class="ch-eyebrow">Chapter 7 <span class="rt">· ~40 min</span></div>
+    <h2>Wrappers: the layers around the env</h2>
+    <p class="ch-sum">Why the real physics is buried three layers deep, and what <code>env.unwrapped</code> peels away.</p>
+
+    <p>Remember this line from the live script? <code>env.unwrapped._env.physics.model.ptr</code>. It looks scary. By the end of this chapter it will look obvious — it's just peeling an onion.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">a wrapper <span class="en">wrap = to cover</span></p>
+      <p>A <strong>wrapper</strong> is a layer placed <em>around</em> something to make it nicer to use — like a phone case around a phone. It adds convenience without changing what's inside. In our stack, the real physics engine is wrapped, and then that wrapper is wrapped again.</p>
+    </div>
+
+    <h3>Three layers, from outside in</h3>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  G["Gymnasium env<br/>(what gym.make gives you)<br/>+ small helper wrappers"] --> A["gym-aloha env<br/>(the ALOHA task)"]
+  A --> D["dm_control<br/>(DeepMind's MuJoCo wrapper)<br/>reached via ._env"]
+  D --> P["Physics<br/>reached via .physics"]
+  P --> M["the real MuJoCo<br/>.model.ptr / .data.ptr"]
+    </pre>
+    <div class="fig-cap">Each arrow is one layer. To touch the real physics, you walk down through all of them.</div></div>
+
+    <p>So the scary line reads, left to right:</p>
+    <ul>
+      <li><code>env.unwrapped</code> — take off Gymnasium's outer helper wrappers, exposing the ALOHA env inside.</li>
+      <li><code>._env</code> — inside that, reach the <strong>dm_control</strong> environment.</li>
+      <li><code>.physics</code> — inside <em>that</em>, reach the <strong>Physics</strong> object.</li>
+      <li><code>.model.ptr</code> / <code>.data.ptr</code> — finally, the real <code>MjModel</code> and <code>MjData</code> from Chapter 6.</li>
+    </ul>
+    <p>It's a dot-path down the onion. Each dot means "the thing inside."</p>
+
+    <div class="concept">
+      <p class="lbl">Why wrap at all? (a real trade-off)</p>
+      <p>Raw MuJoCo is powerful but low-level and fiddly. dm_control adds "tasks, resets, observations." gym-aloha adds "the Gymnasium API you already know." Each layer buys <strong>convenience</strong> — but the price is that the real physics is <strong>buried</strong>, so when you need it you must dig with <code>.unwrapped._env.physics</code>. Convenience vs direct access: a classic software trade-off.</p>
+    </div>
+
+    <h3>The helper wrappers that quietly matter</h3>
+    <p>Gymnasium often adds small wrappers automatically. Two you should know because they explain earlier mysteries:</p>
+    <ul>
+      <li><strong>TimeLimit</strong> — stops an episode after N steps. <em>This is the thing that sets <code>truncated = True</code></em> (from Chapter 3!). The "time limit" isn't magic; it's a wrapper counting steps.</li>
+      <li><strong>OrderEnforcing</strong> — makes you call <code>reset()</code> before <code>step()</code>. If you forget, it raises a clear error instead of a confusing one.</li>
+    </ul>
+
+    <div class="concept">
+      <p class="lbl">Heads-up (nuance)</p>
+      <p>The exact path <code>._env</code> is a <em>private</em> detail of gym-aloha — the underscore means "internal, may change." It works today, but it's the kind of thing that can break between versions. Public code usually avoids reaching into privates; we do it here only because we truly need the raw physics for the live viewer.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">What does <code>env.unwrapped</code> do?</p>
+      <button class="opt" data-k="a">Deletes the environment <span class="mark"></span></button>
+      <button class="opt" data-k="b">Strips off the outer helper wrappers to expose the core env inside <span class="mark"></span></button>
+      <button class="opt" data-k="c">Downloads a new environment from the internet <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Wrappers stack around the core env; <code>.unwrapped</code> gives you the innermost env so you can reach things (like the physics) the wrappers hide.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">Which wrapper is responsible for <code>truncated</code> becoming true?</p>
+      <button class="opt" data-k="a"><b>TimeLimit</b> — it ends the episode after a set number of steps <span class="mark"></span></button>
+      <button class="opt" data-k="b">OrderEnforcing <span class="mark"></span></button>
+      <button class="opt" data-k="c">unwrapped <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. <code>truncated</code> = "cut off from outside", and the outside cutoff is usually a <b>TimeLimit</b> wrapper counting steps. That ties Chapter 3's terminated/truncated to a concrete cause.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why is reaching <code>env.unwrapped._env.physics</code> considered a bit fragile?</p>
+      <button class="opt" data-k="a">It's very slow <span class="mark"></span></button>
+      <button class="opt" data-k="b">It uses the internet <span class="mark"></span></button>
+      <button class="opt" data-k="c"><code>._env</code> is a private detail that can change between versions <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. The leading underscore signals "internal". It works now, but library updates could rename it. Fine for our hands-on need; just don't be surprised if a future version differs.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 7 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c7a"><span>I can read <code>env.unwrapped._env.physics.model.ptr</code> as "peel the onion to the real physics".</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c7b"><span>I understand the convenience-vs-direct-access trade-off of wrapping.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c7c"><span>I know TimeLimit causes truncated, and OrderEnforcing needs reset-first.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 8 ============ -->
+  <section class="chapter view" id="ch8">
+    <div class="ch-eyebrow">Chapter 8 <span class="rt">· ~55 min</span></div>
+    <h2>Rendering: how a picture is just numbers</h2>
+    <p class="ch-sum">What an image really is, the two ways to draw a sim, and why training almost always skips the window.</p>
+
+    <h3>A picture is a grid of numbers</h3>
+    <p>Our first script gave a frame of shape <code>(480, 640, 3)</code>. That's not jargon — it's literally the picture's size:</p>
+    <ul>
+      <li><strong>480</strong> — height in pixels (rows).</li>
+      <li><strong>640</strong> — width in pixels (columns).</li>
+      <li><strong>3</strong> — three numbers per pixel: <strong>R</strong>ed, <strong>G</strong>reen, <strong>B</strong>lue.</li>
+    </ul>
+    <p>Each of those numbers is 0–255 (a <code>uint8</code> — an 8-bit unsigned integer). <code>(0,0,0)</code> is black, <code>(255,0,0)</code> is pure red (that's your cube!), <code>(255,255,255)</code> is white.</p>
+
+    <div class="math">
+      <p class="lbl">How big is one frame?</p>
+      <div class="eq">480 × 640 × 3 = <b>921,600</b> numbers per single frame</div>
+      <p>That's why images are "heavy" and why a neural network that reads images needs real computing power. A whole video is this, many times per second.</p>
+    </div>
+
+    <h3>Two ways to draw: offscreen vs onscreen</h3>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  SIM["the simulation state<br/>(MjData)"] --> OFF["OFFSCREEN<br/>render_mode = rgb_array<br/>→ returns a numbers array<br/>→ save to file / feed a network"]
+  SIM --> ON["ONSCREEN<br/>a viewer window<br/>→ you watch live<br/>→ returns nothing to save"]
+  OFF --> USE1["training, recording,<br/>servers with no screen"]
+  ON --> USE2["watching, debugging"]
+    </pre>
+    <div class="fig-cap">Same scene, two outputs: numbers you can keep, or a window you can watch.</div></div>
+
+    <div class="concept">
+      <p class="lbl">Why training uses offscreen (headless)</p>
+      <p>Training runs the loop <strong>millions of times</strong>, often on servers that <strong>have no monitor at all</strong> ("headless"). Opening a window would be slow and impossible there. So training grabs the picture as <em>numbers</em> (<code>rgb_array</code>) — fast, and it works with no screen. Watching a window is only for humans debugging.</p>
+    </div>
+
+    <div class="concept">
+      <p class="lbl">The fact that surprises people</p>
+      <p><strong>gym-aloha only supports the offscreen (<code>rgb_array</code>) way.</strong> It has no built-in live window. So when we wanted a live window, we couldn't ask gym-aloha for one — we had to go <em>below</em> it and open a raw MuJoCo viewer ourselves. That single fact explains the whole <code>mjpython</code> adventure in the next chapter.</p>
+    </div>
+
+    <h3>Frames per second (fps) and that <code>sleep(0.02)</code></h3>
+    <p>A moving picture is just still frames shown quickly. <strong>fps</strong> = frames per second. Film is ~24 fps; our sim targets <strong>50 fps</strong>.</p>
+    <div class="math">
+      <p class="lbl">Where 0.02 comes from</p>
+      <div class="eq">1 second ÷ 50 frames = <b>0.02 seconds per frame</b></div>
+      <p>That's exactly the <code>time.sleep(0.02)</code> in the live loop — it paces the loop to about 50 fps so motion looks smooth instead of flashing past.</p>
+    </div>
+
+    <h3>A word on the "graphics connection" (OpenGL)</h3>
+    <p>To turn 3D shapes into pixels, the computer opens a connection to its graphics hardware — an <strong>OpenGL context</strong>. Key point for later: on macOS, the <strong>offscreen</strong> path uses a method (CGL) that needs <strong>no window</strong>, so it's calm and safe. The <strong>onscreen</strong> path needs a real window — and windows on macOS have a strict rule that causes the crash we'll meet next.</p>
+
+    <div class="concept">
+      <p class="lbl">Preview of a pitfall (Ch 13 has the fix)</p>
+      <p>Saving <code>.mp4</code> secretly needs a video tool called <strong>ffmpeg</strong>. If it's missing you'll get "No ffmpeg". And you may see a harmless warning about "macro_block_size 16" — that's just the video codec wanting width/height divisible by 16 (640×480 already is).</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">A frame has shape <code>(480, 640, 3)</code>. What is the <code>3</code>?</p>
+      <button class="opt" data-k="a">Three frames in a row <span class="mark"></span></button>
+      <button class="opt" data-k="b">Three color numbers per pixel: Red, Green, Blue <span class="mark"></span></button>
+      <button class="opt" data-k="c">The number of arms <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Height × Width × 3 (RGB). Each pixel is 3 numbers (0–255). The red cube is roughly (255, 0, 0).</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">Why does training almost always use offscreen (<code>rgb_array</code>) instead of a live window?</p>
+      <button class="opt" data-k="a">It's fast and works on servers with no screen; windows would be slow/impossible <span class="mark"></span></button>
+      <button class="opt" data-k="b">Windows produce prettier images <span class="mark"></span></button>
+      <button class="opt" data-k="c">Offscreen is the only legal option <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. Training = millions of steps, often headless. Grabbing pixels as numbers is fast and needs no monitor. Live windows are just for human watching/debugging.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">You want a live window of gym-aloha. What's the catch?</p>
+      <button class="opt" data-k="a">gym-aloha opens one automatically <span class="mark"></span></button>
+      <button class="opt" data-k="b">Live windows are faster than offscreen <span class="mark"></span></button>
+      <button class="opt" data-k="c">gym-aloha only supports offscreen, so you must open a raw MuJoCo viewer yourself <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. gym-aloha has no built-in window. To watch live you go below it to <code>mujoco.viewer</code> — which is why the next chapter's <code>mjpython</code> story exists.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 8 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c8a"><span>I can explain <code>(480,640,3)</code> and that pixels are R,G,B numbers 0–255.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c8b"><span>I know offscreen (rgb_array) vs onscreen (window) and when each is used.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c8c"><span>I understand gym-aloha is offscreen-only, so a live window needs raw MuJoCo.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c8d"><span>I can derive <code>sleep(0.02)</code> from "50 fps".</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 9 ============ -->
+  <section class="chapter view" id="ch9">
+    <div class="ch-eyebrow">Chapter 9 <span class="rt">· ~50 min</span></div>
+    <h2>Threads &amp; mjpython: the NSWindow crash, explained</h2>
+    <p class="ch-sum">The famous macOS crash, what a "thread" and "main thread" are, and why a special launcher exists.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">a thread <span class="en">thread = a line of work</span></p>
+      <p>A program can do more than one thing at once by running several <strong>threads</strong> — separate lines of work happening in parallel. When a program starts, it has one thread already: the <strong>main thread</strong>. Extra threads can be created for background jobs.</p>
+    </div>
+
+    <h3>The macOS rule that starts all the trouble</h3>
+    <p>Apple's rule: <strong>only the main thread is allowed to create or touch a window.</strong> A window object is called an <strong>NSWindow</strong>. If any <em>other</em> (background) thread tries to make a window, macOS refuses — loudly — by crashing the whole program with:</p>
+    <div class="code"><button class="copy">copy</button><pre>*** Terminating app due to uncaught exception
+'NSInternalInconsistencyException', reason:
+'NSWindow should only be instantiated on the main thread!'</pre></div>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  subgraph MAIN["MAIN thread"]
+    UI["allowed: make windows (NSWindow) ✓"]
+  end
+  subgraph BG["BACKGROUND thread"]
+    WORK["allowed: run your script, do math ✓"]
+    BADWIN["NOT allowed: make a window ✗ → CRASH"]
+  end
+    </pre>
+    <div class="fig-cap">Windows live only on the main thread. Try to make one anywhere else → the NSWindow crash.</div></div>
+
+    <h3>Why <code>mjpython</code> exists</h3>
+    <p>A live MuJoCo viewer must show a window (main thread), but it also has to run your loop (which you'd normally run on your thread). To satisfy Apple's rule, MuJoCo ships a special launcher: <strong><code>mjpython</code></strong>. It arranges things so the <strong>window stays on the main thread</strong> and your <strong>script runs on a background thread</strong> — cooperating safely.</p>
+    <p>That's why plain <code>python live_sim.py</code> fails on a Mac with:</p>
+    <div class="code"><button class="copy">copy</button><pre>RuntimeError: launch_passive requires that the Python script
+be run under mjpython on macOS</pre></div>
+    <p>Plain <code>python</code> has no such arrangement, so the viewer can't safely make its window. Use <code>mjpython live_sim.py</code> and it works.</p>
+
+    <div class="concept">
+      <p class="lbl">What actually bit us (the real bug)</p>
+      <p>We <em>did</em> use <code>mjpython</code>, but still crashed. Why? Our first live script also set <code>render_mode="rgb_array"</code>. That made the environment try to set up <strong>its own</strong> graphics on the background thread — <em>on top of</em> the viewer's window on the main thread. Two things fighting over graphics across threads → the NSWindow crash. <strong>The fix was to remove <code>render_mode</code></strong>, leaving the viewer as the single owner of drawing. One drawer, no fight.</p>
+    </div>
+
+    <div class="concept">
+      <p class="lbl">The clean mental rule</p>
+      <p>For a live window: run with <strong><code>mjpython</code></strong>, and let <strong>one</strong> thing own the graphics (the viewer). Don't also ask the env to render. For saving video: no window at all, so plain <code>python</code> is fine (that's the offscreen path from Chapter 8).</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">What is the macOS rule behind the NSWindow crash?</p>
+      <button class="opt" data-k="a">Windows can only be blue <span class="mark"></span></button>
+      <button class="opt" data-k="b">Only the main thread may create or touch a window <span class="mark"></span></button>
+      <button class="opt" data-k="c">Windows must be smaller than the screen <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. macOS requires all window (NSWindow) work on the main thread. A background thread making a window → instant crash.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">What does <code>mjpython</code> do that plain <code>python</code> doesn't?</p>
+      <button class="opt" data-k="a">Keeps the window on the main thread while your script runs on a background thread <span class="mark"></span></button>
+      <button class="opt" data-k="b">Makes Python run faster <span class="mark"></span></button>
+      <button class="opt" data-k="c">Installs MuJoCo <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. It arranges the threads so the viewer's window sits on the main thread (obeying Apple's rule) while your loop runs elsewhere. Plain python doesn't, so <code>launch_passive</code> refuses on macOS.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">We ran with <code>mjpython</code> but still crashed. What fixed it?</p>
+      <button class="opt" data-k="a">Restarting the Mac <span class="mark"></span></button>
+      <button class="opt" data-k="b">Adding more threads <span class="mark"></span></button>
+      <button class="opt" data-k="c">Removing <code>render_mode</code> so only the viewer owns the graphics <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. With <code>render_mode</code> set, the env also tried to draw (on a background thread), fighting the viewer's window → crash. One owner of graphics (the viewer) → no fight → no crash.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 9 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c9a"><span>I know what a thread and the main thread are.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c9b"><span>I can state the macOS "windows on main thread only" rule.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c9c"><span>I know why <code>mjpython</code> exists and when plain <code>python</code> is fine.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c9d"><span>I understand removing <code>render_mode</code> fixed our crash (one graphics owner).</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 10 ============ -->
+  <section class="chapter view" id="ch10">
+    <div class="ch-eyebrow">Chapter 10 <span class="rt">· ~40 min</span></div>
+    <h2>Randomness &amp; seeds: why we write <code>seed=0</code></h2>
+    <p class="ch-sum">Computer "random" isn't really random — and that's the feature that makes bugs findable.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">pseudo-random <span class="en">pseudo = fake</span></p>
+      <p>Computers can't make true randomness. Instead they run a <strong>formula</strong> that spits out numbers that <em>look</em> random. The formula starts from one number called the <strong>seed</strong>. Same seed in → <strong>exact same sequence</strong> of "random" numbers out. Every time.</p>
+    </div>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  S0["seed = 0"] --> F["the RNG formula"] --> SEQ0["0.71, 0.13, 0.94, ...<br/>(always this exact list)"]
+  S1["seed = 7"] --> F2["the RNG formula"] --> SEQ1["0.42, 0.88, 0.05, ...<br/>(a different fixed list)"]
+    </pre>
+    <div class="fig-cap">A seed picks which fixed "random" sequence you get. Reuse the seed → reuse the sequence.</div></div>
+
+    <p>That's why <code>env.reset(seed=0)</code> gives the <strong>same starting scene</strong> every run — the cube lands in the same spot, because the "random" placement grew from seed 0.</p>
+
+    <h3>The surprise: the default is NOT fixed</h3>
+    <p>Beginners assume "surely it defaults to a fixed start." The opposite is true: if you give <strong>no</strong> seed, the environment picks a fresh, different one each run. And that default makes sense —</p>
+    <div class="concept">
+      <p class="lbl">Why "random by default" is the right choice</p>
+      <p>A robot that only ever sees <em>one</em> starting position would just memorize that one case (this is called <strong>overfitting</strong>). To become genuinely skilled, it must practice on <strong>many</strong> different starts. So the sensible default is variety (random), and you only <em>pin</em> a seed on purpose — for debugging or fair comparisons.</p>
+    </div>
+
+    <h3>Why reproducibility is a superpower</h3>
+    <ul>
+      <li><strong>Bugs become catchable.</strong> "Sometimes it fails" is a nightmare. Fix the seed and the bug happens at the same spot every time — now you can hunt it.</li>
+      <li><strong>Comparisons become fair.</strong> To tell if model B beats model A, both must face the <em>same</em> situations. Same seed = same test.</li>
+    </ul>
+
+    <div class="concept">
+      <p class="lbl">Gotcha you'll meet later</p>
+      <p>There isn't just one source of randomness. Python's <code>random</code>, <strong>NumPy</strong>, <strong>PyTorch</strong>, and the environment each have their <em>own</em> RNG. Seeding only one leaves the others wandering. For a truly repeatable run you seed them <strong>all</strong> (and even then, GPU math can vary slightly). One seed is rarely enough.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why does <code>reset(seed=0)</code> give the same starting scene every time?</p>
+      <button class="opt" data-k="a">Because 0 means "no randomness at all" <span class="mark"></span></button>
+      <button class="opt" data-k="b">Because the cube is glued in place <span class="mark"></span></button>
+      <button class="opt" data-k="c">The "random" placement is a formula from the seed; same seed → same sequence → same scene <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. Pseudo-randomness is deterministic given the seed. Seed 0 always produces the same sequence, so the same "random" cube position.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">Why is the default (no seed) a <em>different</em> start each run?</p>
+      <button class="opt" data-k="a">Variety prevents overfitting — a robot must practice many starts to generalize <span class="mark"></span></button>
+      <button class="opt" data-k="b">It's a bug in Gymnasium <span class="mark"></span></button>
+      <button class="opt" data-k="c">Fixed seeds are illegal <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. One start → memorization (overfitting). Many starts → real skill. So "varied by default, pinned on purpose" is the sensible design.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">You set <code>reset(seed=0)</code> but results still vary run to run. Likely reason?</p>
+      <button class="opt" data-k="a">Seeds don't actually work <span class="mark"></span></button>
+      <button class="opt" data-k="b">Other RNGs (NumPy, PyTorch, Python's random) aren't seeded too <span class="mark"></span></button>
+      <button class="opt" data-k="c">The Mac is broken <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Randomness comes from several libraries. Seeding only the env leaves the rest free. Full reproducibility means seeding them all (and GPU math may still wobble a little).</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 10 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c10a"><span>I can explain pseudo-random (formula from a seed) in one sentence.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c10b"><span>I know the default start is random, and why that's good (avoids overfitting).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c10c"><span>I know why reproducibility matters and that one seed usually isn't enough.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 11 ============ -->
+  <section class="chapter view" id="ch11">
+    <div class="ch-eyebrow">Chapter 11 <span class="rt">· ~45 min</span></div>
+    <h2>Python environments: the "box" you install into</h2>
+    <p class="ch-sum">What conda actually does, why <code>python</code> suddenly works, and what an editable install is.</p>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">an environment is a real folder</p>
+      <p>A conda "environment" isn't a metaphor — it's a <strong>folder on disk</strong> (like <code>.../envs/lerobot/</code>) containing its <em>own</em> <code>python</code>, its own installed packages, its own tools. Each project gets its own box, so their packages never fight.</p>
+    </div>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  E[".../envs/lerobot/"] --> B["bin/<br/>python, pip, mjpython"]
+  E --> L["lib/<br/>installed packages<br/>(torch, gym-aloha, ...)"]
+  ACT["conda activate lerobot"] --> PATH["puts bin/ at the FRONT of PATH"]
+    </pre>
+    <div class="fig-cap">Activating just moves this box's <code>bin/</code> to the front of the search path.</div></div>
+
+    <h3>What "activate" really does: PATH</h3>
+    <p><strong>PATH</strong> is the list of folders your Mac searches, front to back, when you type a command. When you type <code>python</code>, it uses the <em>first</em> <code>python</code> it finds along PATH.</p>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  T["you type: python"] --> P1[".../envs/lerobot/bin ← activate put this first ✓ found!"]
+  P1 --> P2["/opt/homebrew/bin"]
+  P2 --> P3["/usr/bin (system python3)"]
+    </pre>
+    <div class="fig-cap">Activate inserts the env's bin at the top, so its python wins. Deactivate removes it — fully reversible.</div></div>
+    <p>This is why, after <code>conda activate lerobot</code>, plain <code>python</code> suddenly works and points to 3.12: the box's <code>python</code> is now first in line. Nothing was deleted or overwritten — <code>conda deactivate</code> puts it all back.</p>
+
+    <h3>conda vs venv vs pip — who does what</h3>
+    <ul>
+      <li><strong>pip</strong> — installs Python <em>packages</em> (from PyPI). Doesn't manage environments or Python itself.</li>
+      <li><strong>venv</strong> — Python's built-in tool to make an isolated box (Python packages only). Usually paired with pip.</li>
+      <li><strong>conda</strong> — manages <em>both</em> boxes and packages, and can install <strong>non-Python</strong> things too (like <code>ffmpeg</code>, or even different Python versions). Heavier, but great for scientific/robotics stacks.</li>
+    </ul>
+
+    <h3>Editable install: <code>pip install -e .</code></h3>
+    <div class="concept">
+      <p class="lbl">What the <code>-e</code> does</p>
+      <p>A normal install <strong>copies</strong> a package into your env. An <strong>editable</strong> install (<code>-e</code>) instead leaves the code where it is and drops a <strong>pointer</strong> ("the source lives over there") onto Python's import path. So when you edit the source, the change is <strong>live immediately</strong> — no reinstall. That's perfect for developing.</p>
+    </div>
+    <div class="concept">
+      <p class="lbl">The catch (and why folder order mattered)</p>
+      <p>Because it's a <em>pointer to a path</em>, if you <strong>move or rename</strong> the folder after installing, the pointer breaks and <code>import lerobot</code> fails. That's exactly why, in the hands-on course, we fix the folder layout <strong>before</strong> installing — not after.</p>
+    </div>
+
+    <div class="concept">
+      <p class="lbl">Extras, one more time</p>
+      <p><code>pip install -e ".[pusht,aloha]"</code> — the <code>[pusht,aloha]</code> are <strong>extras</strong>: named optional add-on groups the package defines. You opt into the pieces you need (here, the two simulators) instead of installing everything. The quotes matter on a Mac — zsh treats <code>[ ]</code> as special without them.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">What does <code>conda activate</code> actually change?</p>
+      <button class="opt" data-k="a">It deletes the system Python <span class="mark"></span></button>
+      <button class="opt" data-k="b">It puts the env's <code>bin/</code> at the front of PATH, so its <code>python</code> is found first <span class="mark"></span></button>
+      <button class="opt" data-k="c">It recompiles Python <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Activation just reorders the search path. Your Mac finds the env's python first. Deactivate reverses it — nothing is destroyed.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why does moving the repo folder <em>after</em> an editable install break <code>import lerobot</code>?</p>
+      <button class="opt" data-k="a">Editable installs delete themselves when moved <span class="mark"></span></button>
+      <button class="opt" data-k="b">Python forgets the package name <span class="mark"></span></button>
+      <button class="opt" data-k="c">The install is a pointer to the old path; move it and the pointer dangles <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. <code>-e</code> records where the source lives. Move the source and that recorded path is wrong. Fix the layout before installing.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">Which tool can also install non-Python things like <code>ffmpeg</code>?</p>
+      <button class="opt" data-k="a">conda <span class="mark"></span></button>
+      <button class="opt" data-k="b">pip <span class="mark"></span></button>
+      <button class="opt" data-k="c">venv <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. pip and venv are Python-only. conda manages environments <em>and</em> can install system-level, non-Python dependencies — handy for robotics/scientific stacks.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 11 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c11a"><span>I know an env is a real folder with its own python/bin/lib.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c11b"><span>I can explain activate = "put env bin first on PATH" (reversible).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c11c"><span>I know what editable (-e) install does and why moving the folder breaks it.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c11d"><span>I can tell conda / venv / pip apart, and explain extras + the quoting.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 12 ============ -->
+  <section class="chapter view" id="ch12">
+    <div class="ch-eyebrow">Chapter 12 <span class="rt">· ~50 min</span></div>
+    <h2>Policies &amp; learning: from sine wave to a real brain</h2>
+    <p class="ch-sum">What a policy is, how a neural network learns one, and the words (ACT, diffusion, loss…) you'll see next.</p>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">policy <span class="en">= a function: observation → action</span></p>
+      <p>A <strong>policy</strong> is the robot's decision rule: given what it sees (<code>obs</code>), it outputs what to do (<code>action</code>). Everything we've run has been a policy — just simple ones.</p>
+    </div>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  O["observation<br/>(camera + joint angles)"] --> POL["policy"] --> A["action<br/>(14 numbers)"]
+  POL -.simplest.-> R["random: ignore obs"]
+  POL -.a plan.-> S["rule: sin(step) — our pat"]
+  POL -.the goal.-> N["neural network: actually looks at obs"]
+    </pre>
+    <div class="fig-cap">Same slot, smarter fillings. Our sine "pat" is a rule policy; a trained net is the real thing.</div></div>
+
+    <p>Our sine wave is a policy that <strong>ignores</strong> what it sees — it just sweeps on a timer. A real policy <strong>watches</strong> the cube and reacts. To get that, we don't write rules by hand (impossible for real tasks) — we <strong>learn</strong> the function from data. That learned function is a <strong>neural network</strong>.</p>
+
+    <div class="concept">
+      <p class="lbl">Neural network in one breath</p>
+      <p>A <strong>neural network</strong> is a big adjustable function made of layers of multiply-add-and-bend steps, with millions of tunable numbers called <strong>weights</strong>. "Learning" = nudging those weights until the function's outputs match the examples. Its data lives in <strong>tensors</strong> (multi-dimensional number arrays — vectors and grids, generalized).</p>
+    </div>
+
+    <h3>How learning actually happens (the training loop)</h3>
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  D["demo data<br/>(obs → action pairs)"] --> PRED["network guesses an action"]
+  PRED --> LOSS["loss:<br/>how wrong was the guess?"]
+  LOSS --> GRAD["gradient descent:<br/>nudge weights to reduce loss"]
+  GRAD --> PRED
+    </pre>
+    <div class="fig-cap">Guess → measure error → nudge → repeat, millions of times. That's training.</div></div>
+
+    <div class="concept">
+      <p class="lbl">The vocabulary, one line each</p>
+      <p><strong>training</strong> = adjusting the weights from data · <strong>inference</strong> = using the finished network to act (no more changes) · <strong>loss</strong> = a number for "how wrong" · <strong>gradient descent</strong> = step the weights downhill to shrink the loss · <strong>learning rate</strong> = how big each step is (too big → unstable, too small → slow) · <strong>epoch</strong> = one full pass over the data · <strong>batch</strong> = a small chunk processed at once.</p>
+    </div>
+
+    <h3>The two learning styles (recap, sharpened)</h3>
+    <ul>
+      <li><strong>Imitation learning</strong> — learn from a dataset of human <strong>demonstrations</strong> (obs→action pairs). The simplest form, "copy the human", is called <strong>behavioral cloning</strong>. No reward needed. This is ALOHA's home turf.</li>
+      <li><strong>Reinforcement learning</strong> — no demos; the robot explores and is graded by a <strong>reward</strong>, slowly maximizing its score.</li>
+    </ul>
+
+    <div class="concept">
+      <p class="lbl">Names you'll meet in the next mission</p>
+      <p><strong>ACT (Action Chunking Transformer)</strong> — an imitation policy that predicts a <em>chunk</em> of future actions at once (smoother, fewer compounding mistakes). <strong>Diffusion Policy</strong> — an imitation policy that "denoises" random noise into an action sequence; great when there are many valid ways to do a task. <strong>Dataset / Hugging Face Hub</strong> — where demo data and pretrained policies are shared and downloaded. <strong>Fine-tuning</strong> — taking a trained model and training it a little more on your own data (also a way to cross the sim-to-real gap). <strong>Checkpoint</strong> — a saved snapshot of the weights.</p>
+    </div>
+
+    <p>So the arc of this whole course: you'll first drive the arm with a <strong>rule</strong> policy (the sine "pat"). The next mission swaps in a <strong>learned</strong> policy — a neural network trained by imitation — and the arm starts doing real tasks, watching the cube instead of sweeping blindly.</p>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why is our sine-wave "pat" not a "real robot brain"?</p>
+      <button class="opt" data-k="a">It's too slow <span class="mark"></span></button>
+      <button class="opt" data-k="b">It uses too many numbers <span class="mark"></span></button>
+      <button class="opt" data-k="c">It ignores the observation — it doesn't look at the world, it just sweeps on a timer <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. A real policy maps obs → action (it reacts to what it sees). The sine wave outputs the same sweep no matter where the cube is. No looking = no real decision-making.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">In one line, what is "loss"?</p>
+      <button class="opt" data-k="a">A number measuring how wrong the network's guesses are; training shrinks it <span class="mark"></span></button>
+      <button class="opt" data-k="b">The electricity used by the GPU <span class="mark"></span></button>
+      <button class="opt" data-k="c">A lost data file <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. Loss quantifies error. Gradient descent nudges the weights to make loss smaller — that <em>is</em> learning.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">Imitation learning differs from reinforcement learning because it…</p>
+      <button class="opt" data-k="a">needs a GPU and RL doesn't <span class="mark"></span></button>
+      <button class="opt" data-k="b">learns by copying human demonstrations, instead of exploring for reward <span class="mark"></span></button>
+      <button class="opt" data-k="c">only works in real life, not simulation <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Imitation = copy demos (no reward needed). RL = trial and error guided by a reward. ALOHA/ACT is an imitation-learning story.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 12 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c12a"><span>I can define a policy as obs → action, and place random/rule/learned on that spectrum.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c12b"><span>I can describe the training loop: guess → loss → gradient step → repeat.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c12c"><span>I can one-line loss, gradient descent, learning rate, epoch, inference.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c12d"><span>I know imitation vs RL, and roughly what ACT / Diffusion Policy are.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 13 ============ -->
+  <section class="chapter view" id="ch13">
+    <div class="ch-eyebrow">Chapter 13 <span class="rt">· ~90 min (reference)</span></div>
+    <h2>The pitfalls: 80 problems, pre-solved</h2>
+    <p class="ch-sum">Skim these now; they'll feel familiar the day they happen. Each is a tap-to-reveal <em>symptom → cause → fix</em>. You won't hit them all — but you'll hit some.</p>
+
+    <div class="concept">
+      <p class="lbl">The golden path (prevents most of the list below)</p>
+      <p>If you follow this order once, you dodge the majority of these problems:</p>
+    </div>
+    <div class="code"><button class="copy">copy</button><pre><span class="cmt"># one-time toolchain</span>
+xcode-select --install                        <span class="cmt"># compiler + git</span>
+brew install git-lfs ; git lfs install
+
+<span class="cmt"># environment</span>
+conda config --set auto_activate_base false
+conda create -y -n lerobot python=3.12
+conda activate lerobot                         <span class="cmt"># check: echo $CONDA_PREFIX</span>
+conda install -c conda-forge ffmpeg
+
+<span class="cmt"># code + install (note the quotes!)</span>
+cd ~/workspace &amp;&amp; git clone https://github.com/huggingface/lerobot.git
+cd lerobot
+python -m pip install -U pip
+python -m pip install -e ".[pusht,aloha]"
+
+<span class="cmt"># sanity checks</span>
+which python ; python -c "import lerobot; print('ok')"
+python -c "import torch; print(torch.backends.mps.is_available())"</pre></div>
+
+    <h3>A · conda &amp; miniforge</h3>
+    <details class="pitfall"><summary><code>conda: command not found</code> right after installing</summary><div class="pf"><div class="k">Cause</div>The installer never ran <code>conda init</code>, so nothing put conda on your PATH.<div class="fix"><b>Fix:</b> <code>source ~/miniforge3/etc/profile.d/conda.sh</code> (works now), then <code>conda init zsh</code> and <code>exec zsh</code>.</div></div></details>
+    <details class="pitfall"><summary><code>conda init</code> ran but new terminals still can't find conda</summary><div class="pf"><div class="k">Cause</div>Your <code>~/.zprofile</code> or a dotfile manager short-circuits before the conda block in <code>~/.zshrc</code>.<div class="fix"><b>Fix:</b> confirm with <code>grep "conda initialize" ~/.zshrc</code>; if present but ignored, <code>source ~/miniforge3/etc/profile.d/conda.sh</code> always works as a fallback.</div></div></details>
+    <details class="pitfall"><summary><code>Run 'conda init' before 'conda activate'</code></summary><div class="pf"><div class="k">Cause</div>You're in a shell where conda's shell function isn't loaded (fresh script/SSH, or edited .zshrc without reloading). <code>activate</code> is a shell function, not the binary.<div class="fix"><b>Fix:</b> <code>source ~/miniforge3/etc/profile.d/conda.sh</code> then activate; make it stick with <code>conda init zsh &amp;&amp; exec zsh</code>. Never use the old <code>source activate</code>.</div></div></details>
+    <details class="pitfall"><summary>Every terminal shows <code>(base)</code> and you install into the wrong place</summary><div class="pf"><div class="k">Cause</div>miniforge auto-activates the base env by default.<div class="fix"><b>Fix:</b> <code>conda config --set auto_activate_base false</code>, open a new terminal, and always <code>conda activate lerobot</code>.</div></div></details>
+    <details class="pitfall"><summary>conda hangs forever on "Solving environment"</summary><div class="pf"><div class="k">Cause</div>The old slow SAT solver choking on large conda-forge metadata.<div class="fix"><b>Fix:</b> use the fast solver — <code>conda config --set solver libmamba</code> (recent miniforge already defaults to it). Clear a bloated cache with <code>conda clean --all</code>.</div></div></details>
+    <details class="pitfall"><summary><code>incompatible architecture (have 'x86_64', need 'arm64')</code> / everything is slow</summary><div class="pf"><div class="k">Cause</div>You installed the Intel installer under Rosetta, so it pulls x86_64 builds.<div class="fix"><b>Fix:</b> check <code>conda info | grep platform</code> (want <code>osx-arm64</code>) and <code>uname -m</code> (want <code>arm64</code>). If wrong, reinstall the Apple-Silicon miniforge (<code>Miniforge3-MacOSX-arm64.sh</code>).</div></div></details>
+    <details class="pitfall"><summary>Env breaks after alternating <code>conda install</code> and <code>pip install</code></summary><div class="pf"><div class="k">Cause</div>conda doesn't track pip's changes; pip can overwrite conda-managed libraries with incompatible builds.<div class="fix"><b>Fix:</b> use conda only for the env + system libs (like ffmpeg), then do everything else with pip <em>last</em>. If already broken, recreate the env (<code>conda env remove -n lerobot</code>).</div></div></details>
+    <details class="pitfall"><summary><code>CondaHTTPError</code> / 403 fetching packages</summary><div class="pf"><div class="k">Cause</div>Anaconda's default channels can rate-limit / require accepting terms; you should be on conda-forge.<div class="fix"><b>Fix:</b> <code>conda config --add channels conda-forge</code> ; <code>conda config --set channel_priority strict</code>.</div></div></details>
+
+    <h3>B · Python interpreter &amp; PATH</h3>
+    <details class="pitfall"><summary><code>python: command not found</code> (but <code>python3</code> works)</summary><div class="pf"><div class="k">Cause</div>macOS ships no bare <code>python</code>. Outside an activated env there's only <code>python3</code>.<div class="fix"><b>Fix:</b> activate your env — inside it, <code>python</code> exists and points to the env's 3.12. Don't globally alias <code>python=python3</code> (it hides "you forgot to activate").</div></div></details>
+    <details class="pitfall"><summary><code>pip install</code> succeeds but <code>import</code> fails</summary><div class="pf"><div class="k">Cause</div><code>pip</code> and <code>python</code> resolve to different installs (classic multi-Python PATH mixup).<div class="fix"><b>Fix:</b> <code>which python &amp;&amp; which pip</code> should agree. Safest habit: use <code>python -m pip install ...</code> so pip always matches the running python.</div></div></details>
+    <details class="pitfall"><summary>After activating, <code>which python</code> still points to Homebrew/pyenv</summary><div class="pf"><div class="k">Cause</div>Something prepends Homebrew or pyenv to PATH <em>after</em> the conda block.<div class="fix"><b>Fix:</b> verify with <code>echo $CONDA_PREFIX</code> (should end in <code>/envs/lerobot</code>). Keep the conda init block last; for this course, avoid installing pyenv.</div></div></details>
+    <details class="pitfall"><summary>Installs land in <code>~/Library/Python/...</code> / PEP 668 error</summary><div class="pf"><div class="k">Cause</div>Env wasn't activated; <code>python3</code> fell through to Apple's system Python.<div class="fix"><b>Fix:</b> activate the env; confirm <code>which python3</code> starts with your env path, not <code>/usr/bin</code>.</div></div></details>
+
+    <h3>C · git &amp; git-lfs</h3>
+    <details class="pitfall"><summary>Downloaded files are tiny 130-byte text "pointers"</summary><div class="pf"><div class="k">Cause</div>git-lfs wasn't installed before cloning, so you got LFS pointers, not the real binaries.<div class="fix"><b>Fix:</b> <code>brew install git-lfs</code> ; <code>git lfs install</code> ; then in the repo <code>git lfs pull</code>. Install git-lfs <em>before</em> cloning next time.</div></div></details>
+    <details class="pitfall"><summary>You end up with <code>lerobot/lerobot/</code> (repo inside repo)</summary><div class="pf"><div class="k">Cause</div>You ran <code>git clone</code> while already inside a folder of the same name.<div class="fix"><b>Fix:</b> clone from the parent: <code>cd ~/workspace &amp;&amp; git clone …</code>. If nested, move the inner one up or delete and re-clone. Check <code>pwd</code> first.</div></div></details>
+    <details class="pitfall"><summary>"Where did the files go?"</summary><div class="pf"><div class="k">Cause</div>Clone ran from whatever directory you happened to be in.<div class="fix"><b>Fix:</b> pick a fixed home: <code>mkdir -p ~/workspace &amp;&amp; cd ~/workspace</code> before cloning. From inside a repo, <code>git rev-parse --show-toplevel</code> prints its root.</div></div></details>
+    <details class="pitfall"><summary>First <code>git</code> pops "command line developer tools" dialog</summary><div class="pf"><div class="k">Cause</div>Xcode Command Line Tools not installed (git ships with them).<div class="fix"><b>Fix:</b> click Install, or <code>xcode-select --install</code>. Good first step anyway — it provides the compiler for later builds.</div></div></details>
+
+    <h3>D · pip editable install &amp; build toolchain</h3>
+    <details class="pitfall"><summary><code>command '/usr/bin/clang' failed</code> / <code>invalid active developer path</code></summary><div class="pf"><div class="k">Cause</div>No working compiler — Xcode CLT missing or stale after a macOS update.<div class="fix"><b>Fix:</b> <code>xcode-select --install</code>; if still broken, <code>sudo xcode-select --reset</code>, then retry.</div></div></details>
+    <details class="pitfall"><summary><code>Could not build wheels for mujoco</code></summary><div class="pf"><div class="k">Cause</div>pip fell back to building mujoco from source (no matching prebuilt arm64 wheel) and it failed.<div class="fix"><b>Fix:</b> ensure CLT (above) and <code>python -m pip install -U pip setuptools wheel</code>; use Python 3.12 (best wheel coverage); if needed <code>pip install "mujoco>=3.0"</code> first, then the extras.</div></div></details>
+    <details class="pitfall"><summary><code>Can not perform a '--user' install</code></summary><div class="pf"><div class="k">Cause</div>You passed <code>--user</code> inside a conda/virtual env — incompatible.<div class="fix"><b>Fix:</b> drop <code>--user</code>: just <code>pip install -e ".[pusht,aloha]"</code>.</div></div></details>
+    <details class="pitfall"><summary><code>error: externally-managed-environment</code></summary><div class="pf"><div class="k">Cause</div>You're using Homebrew/Apple system Python (not an activated env), which blocks global installs (PEP 668).<div class="fix"><b>Fix:</b> activate your conda env and install there. Don't use <code>--break-system-packages</code> on a dev Mac. This error usually means "you forgot to activate."</div></div></details>
+    <details class="pitfall"><summary><code>ResolutionImpossible</code> / pip backtracks through many versions</summary><div class="pf"><div class="k">Cause</div>A stray pre-existing package (often numpy/torch from mixing conda+pip) conflicts with LeRobot's pins.<div class="fix"><b>Fix:</b> install into a fresh env; <code>python -m pip install -U pip</code> first. If a specific conflict is named, read which two packages disagree.</div></div></details>
+    <details class="pitfall"><summary><code>WARNING: lerobot does not provide the extra 'X'</code> → nothing installs</summary><div class="pf"><div class="k">Cause</div>Misspelled extra name; pip only <em>warns</em>, then silently installs nothing extra.<div class="fix"><b>Fix:</b> use exact names <code>".[pusht,aloha]"</code>. Full list is in <code>pyproject.toml</code> under <code>[project.optional-dependencies]</code>.</div></div></details>
+    <details class="pitfall"><summary><code>zsh: no matches found: .[pusht,aloha]</code></summary><div class="pf"><div class="k">Cause</div>zsh treats <code>[ ]</code> as a filename glob and tries to expand it.<div class="fix"><b>Fix:</b> quote it — <code>pip install -e ".[pusht,aloha]"</code>. (A Mac/zsh-specific trap.)</div></div></details>
+    <details class="pitfall"><summary><code>does not appear to be a Python project</code> on <code>-e .</code></summary><div class="pf"><div class="k">Cause</div>You ran it outside the repo root (the <code>.</code> must contain <code>pyproject.toml</code>).<div class="fix"><b>Fix:</b> <code>cd ~/workspace/lerobot</code>, confirm <code>ls pyproject.toml</code>, then install.</div></div></details>
+    <details class="pitfall"><summary><code>ReadTimeoutError</code> / downloads stall (torch is huge)</summary><div class="pf"><div class="k">Cause</div>Flaky network / large wheels.<div class="fix"><b>Fix:</b> retry with <code>pip install --timeout 120 …</code>; if a cache got corrupted, <code>pip cache purge</code> then retry.</div></div></details>
+    <details class="pitfall"><summary>Install "succeeded" but <code>import lerobot</code> fails</summary><div class="pf"><div class="k">Cause</div>Wrong interpreter, or you're standing in the repo root so Python imports the local source folder without metadata.<div class="fix"><b>Fix:</b> <code>python -m pip show lerobot</code> to confirm where it's installed; run imports from a directory other than the repo root.</div></div></details>
+    <details class="pitfall"><summary>Repo docs say <code>uv</code>, tutorials say <code>pip</code> — confusion</summary><div class="pf"><div class="k">Cause</div>LeRobot's dev workflow is <code>uv</code>-based; conda+pip is a valid alternative but ignores <code>uv.lock</code>.<div class="fix"><b>Fix:</b> pick one path and stick to it. For this course, conda + <code>pip install -e</code> is fine — just don't paste <code>uv sync</code>/<code>uv run</code> into the same env.</div></div></details>
+
+
+    <h3>E · versions &amp; compatibility</h3>
+    <details class="pitfall"><summary><code>A module compiled using NumPy 1.x cannot run in NumPy 2.x</code></summary><div class="pf"><div class="k">Cause</div>NumPy 2.0 changed its internals; a package built against 1.x breaks.<div class="fix"><b>Fix:</b> let LeRobot's pins resolve numpy in a clean env. If stuck, read the traceback bottom-up to find the culprit package and update it; last resort <code>pip install "numpy&lt;2"</code>.</div></div></details>
+    <details class="pitfall"><summary><code>Could not find a version that satisfies…</code> on Python 3.13+</summary><div class="pf"><div class="k">Cause</div>Newest Python often lacks prebuilt wheels (mujoco/torch lag).<div class="fix"><b>Fix:</b> use Python 3.12 — <code>conda create -n lerobot python=3.12</code>. Best wheel coverage.</div></div></details>
+    <details class="pitfall"><summary><code>requires a different Python: 3.11 not in '&gt;=3.12'</code></summary><div class="pf"><div class="k">Cause</div>LeRobot needs Python ≥ 3.12.<div class="fix"><b>Fix:</b> recreate the env with <code>python=3.12</code>. Don't rely on the system's older python3.</div></div></details>
+    <details class="pitfall"><summary><code>Torch not compiled with CUDA enabled</code> / "how do I use my GPU?"</summary><div class="pf"><div class="k">Cause</div>Macs have no CUDA. Apple Silicon uses the MPS (Metal) backend.<div class="fix"><b>Fix:</b> just <code>pip install torch</code> (no CUDA index URL). Check <code>torch.backends.mps.is_available()</code>. Never copy the <code>--index-url .../cu121</code> line from Linux tutorials.</div></div></details>
+    <details class="pitfall"><summary><code>operator 'aten::…' is not implemented for the MPS device</code></summary><div class="pf"><div class="k">Cause</div>Some torch ops aren't supported on MPS yet.<div class="fix"><b>Fix:</b> <code>export PYTORCH_ENABLE_MPS_FALLBACK=1</code> before running (unsupported ops fall back to CPU).</div></div></details>
+    <details class="pitfall"><summary>Video decode errors / missing <code>libsvtav1</code> loading datasets</summary><div class="pf"><div class="k">Cause</div>System ffmpeg lacks the codecs LeRobot's video datasets prefer.<div class="fix"><b>Fix:</b> <code>conda install -c conda-forge ffmpeg</code> (its build includes the right codecs).</div></div></details>
+    <details class="pitfall"><summary><code>cv2</code> import errors / segfaults</summary><div class="pf"><div class="k">Cause</div>Conflicting opencv builds between pip and conda.<div class="fix"><b>Fix:</b> only if you hit it — <code>pip uninstall opencv-python -y</code> then <code>conda install -c conda-forge "opencv=4.10.0"</code>.</div></div></details>
+
+    <h3>F · general macOS traps</h3>
+    <details class="pitfall"><summary>A pasted command errors even though it "looks right"</summary><div class="pf"><div class="k">Cause</div>Smart quotes/dashes: the paste has curly <code>"</code> or <code>—</code> instead of straight <code>"</code> / <code>--</code>.<div class="fix"><b>Fix:</b> retype the quotes/dashes, or paste into a plain-text editor first. Disable in System Settings → Keyboard → Text Input → "smart quotes and dashes".</div></div></details>
+    <details class="pitfall"><summary>"It worked yesterday" — random <code>ModuleNotFoundError</code> (the #1 mistake)</summary><div class="pf"><div class="k">Cause</div>New terminal → env not active → everything runs against base/system Python.<div class="fix"><b>Fix:</b> start every session with <code>conda activate lerobot</code>; verify the <code>(lerobot)</code> prompt and <code>echo $CONDA_PREFIX</code>.</div></div></details>
+    <details class="pitfall"><summary>Scripts can't find configs/files</summary><div class="pf"><div class="k">Cause</div>Current directory isn't the repo root.<div class="fix"><b>Fix:</b> <code>pwd</code> then <code>cd ~/workspace/lerobot</code>. Prefer absolute paths when in doubt.</div></div></details>
+    <details class="pitfall"><summary><code>"…" cannot be opened</code> / <code>"…" is damaged</code></summary><div class="pf"><div class="k">Cause</div>Gatekeeper quarantines browser-downloaded files.<div class="fix"><b>Fix:</b> right-click → Open (first time), or <code>xattr -d com.apple.quarantine /path/to/file</code>. Better: install tools via Terminal/Homebrew to avoid it.</div></div></details>
+    <details class="pitfall"><summary>Installed a tool but it's "not found"</summary><div class="pf"><div class="k">Cause</div>PATH/init changes only apply to <em>new</em> shells.<div class="fix"><b>Fix:</b> open a new tab or <code>exec zsh</code>.</div></div></details>
+    <details class="pitfall"><summary>conda works in Terminal but not in VS Code's terminal</summary><div class="pf"><div class="k">Cause</div>Different apps launch different shell modes / auto-activate a different env.<div class="fix"><b>Fix:</b> in VS Code, Command Palette → "Python: Select Interpreter" → the lerobot env; confirm with <code>which python</code> in each terminal.</div></div></details>
+    <details class="pitfall"><summary><code>brew: command not found</code> after installing Homebrew</summary><div class="pf"><div class="k">Cause</div>On Apple Silicon, Homebrew lives in <code>/opt/homebrew</code> and isn't auto-added to PATH.<div class="fix"><b>Fix:</b> add to <code>~/.zprofile</code>: <code>eval "$(/opt/homebrew/bin/brew shellenv)"</code>, then <code>exec zsh</code>.</div></div></details>
+
+    <h3>G · MuJoCo viewer, mjpython &amp; threads</h3>
+    <details class="pitfall"><summary><code>launch_passive requires … mjpython on macOS</code></summary><div class="pf"><div class="k">Cause</div>macOS forces windows onto the main thread; only <code>mjpython</code> arranges that for a live viewer.<div class="fix"><b>Fix:</b> run <code>mjpython script.py</code> (not <code>python</code>). Under uv: <code>uv run mjpython script.py</code>. (See Chapter 9.)</div></div></details>
+    <details class="pitfall"><summary>Viewer window flashes then vanishes</summary><div class="pf"><div class="k">Cause</div>Launched under plain <code>python</code>, or the loop exits immediately.<div class="fix"><b>Fix:</b> use <code>mjpython</code>; keep the loop alive with <code>with mujoco.viewer.launch_passive(...) as v: while v.is_running(): …</code>.</div></div></details>
+    <details class="pitfall"><summary><code>NSWindow should only be instantiated on the main thread!</code></summary><div class="pf"><div class="k">Cause</div>A window is being made off the main thread — either plain <code>python</code>, or the env also renders (<code>render_mode</code>) while a live viewer is up.<div class="fix"><b>Fix:</b> run under <code>mjpython</code> AND let only the viewer own graphics — drop <code>render_mode</code> when you open a live viewer. (Our exact bug; Chapter 9.)</div></div></details>
+    <details class="pitfall"><summary><code>mjpython: command not found</code></summary><div class="pf"><div class="k">Cause</div><code>mujoco</code> isn't installed in the active env, or the env isn't active.<div class="fix"><b>Fix:</b> activate the env; confirm with <code>python -c "import mujoco, shutil; print(shutil.which('mjpython'))"</code>.</div></div></details>
+    <details class="pitfall"><summary><code>mjpython</code> missing specifically under <code>uv</code></summary><div class="pf"><div class="k">Cause</div>The entry-point binary sometimes isn't materialized by some installers.<div class="fix"><b>Fix:</b> reinstall mujoco (<code>pip install --force-reinstall mujoco</code>), ensure a recent 3.x.</div></div></details>
+
+    <h3>H · rendering backends &amp; headless</h3>
+    <details class="pitfall"><summary>Do I need to set <code>MUJOCO_GL</code>?</summary><div class="pf"><div class="k">Cause</div>MuJoCo picks a graphics backend (<code>glfw</code>=window, <code>egl</code>=GPU-offscreen, <code>osmesa</code>=CPU-offscreen).<div class="fix"><b>Fix:</b> On a Mac using <code>rgb_array</code>, <b>leave it unset</b> — macOS offscreen uses CGL and just works. Setting <code>egl</code>/<code>osmesa</code> on a Mac usually <em>breaks</em> things.</div></div></details>
+    <details class="pitfall"><summary><code>mujoco.FatalError: gladLoadGL error</code></summary><div class="pf"><div class="k">Cause</div>No usable OpenGL context — almost always a <b>headless Linux</b> box, not a Mac desktop.<div class="fix"><b>Fix (Linux):</b> <code>MUJOCO_GL=egl python …</code> (GPU) or <code>MUJOCO_GL=osmesa</code> (CPU). <b>On macOS:</b> <code>unset MUJOCO_GL</code> and use <code>rgb_array</code>.</div></div></details>
+    <details class="pitfall"><summary><code>Cannot initialize a headless EGL display</code></summary><div class="pf"><div class="k">Cause</div>Asked for EGL but no GPU/EGL device is reachable (headless server/container).<div class="fix"><b>Fix:</b> use CPU rendering <code>MUJOCO_GL=osmesa</code> (install <code>libosmesa6-dev</code> on Linux). Not a Mac issue.</div></div></details>
+    <details class="pitfall"><summary>Rendered frame / saved video is all black</summary><div class="pf"><div class="k">Cause</div>You rendered before <code>reset()</code>/<code>step()</code>, so nothing was simulated yet.<div class="fix"><b>Fix:</b> <code>reset()</code>, then <code>step()</code> at least once, then <code>render()</code>. Verify with <code>print(frame.mean())</code> (should be &gt; 0).</div></div></details>
+    <details class="pitfall"><summary>Setting <code>MUJOCO_GL</code> in code did nothing</summary><div class="pf"><div class="k">Cause</div>The backend is chosen at first import; setting it later is ignored.<div class="fix"><b>Fix:</b> set <code>os.environ["MUJOCO_GL"]=…</code> at the very top, <em>before</em> <code>import mujoco / gym_aloha / dm_control</code> — or export it in the shell.</div></div></details>
+    <details class="pitfall"><summary><code>GLEW/libGL</code> errors</summary><div class="pf"><div class="k">Cause</div>Usually the old deprecated <code>mujoco-py</code> binding, or broken Linux GL drivers.<div class="fix"><b>Fix:</b> make sure you're on the modern <code>mujoco</code> package (gym-aloha uses it). If <code>mujoco-py</code> appears anywhere, that's the red flag.</div></div></details>
+
+    <h3>I · gym-aloha &amp; dm_control</h3>
+    <details class="pitfall"><summary><code>NameNotFound: Environment 'AlohaTransferCube' doesn't exist</code></summary><div class="pf"><div class="k">Cause</div>You forgot <code>import gym_aloha</code> (registration happens on import), or used the wrong id.<div class="fix"><b>Fix:</b> <code>import gym_aloha</code> before <code>gym.make</code>, and use the full id <code>"gym_aloha/AlohaTransferCube-v0"</code> (or <code>.../AlohaInsertion-v0</code>).</div></div></details>
+    <details class="pitfall"><summary>You need the raw <code>MjModel</code>/<code>MjData</code> but only have the env</summary><div class="pf"><div class="k">Cause</div>Three wrapper layers sit between you and the C structs.<div class="fix"><b>Fix:</b> <code>physics = env.unwrapped._env.physics</code>; then <code>physics.model.ptr</code> / <code>physics.data.ptr</code>. (Chapter 7. Note <code>._env</code> is private and version-dependent.)</div></div></details>
+    <details class="pitfall"><summary>You want a side/wrist camera, not the top view</summary><div class="pf"><div class="k">Cause</div>gym-aloha hardcodes the <code>top</code> camera in its render path.<div class="fix"><b>Fix:</b> render through physics: <code>physics.render(height=480, width=640, camera_id="angle")</code> (use a camera name from the task's XML).</div></div></details>
+    <details class="pitfall"><summary><code>end_effector_*</code> task variants fail</summary><div class="pf"><div class="k">Cause</div>Those variants are declared but not implemented.<div class="fix"><b>Fix:</b> use <code>transfer_cube</code> / <code>insertion</code> (the two published env ids).</div></div></details>
+    <details class="pitfall"><summary><code>ImportError</code>/<code>AttributeError</code> between mujoco / dm_control / gymnasium</summary><div class="pf"><div class="k">Cause</div>You installed a mujoco outside gym-aloha's supported range (it wants <code>mujoco&gt;=3.0,&lt;3.9</code>).<div class="fix"><b>Fix:</b> let the resolver honor the pins; if you manually upgraded mujoco to ≥3.9, downgrade back into range.</div></div></details>
+    <details class="pitfall"><summary>Messages about a "MuJoCo license key" or <code>~/.mujoco</code></summary><div class="pf"><div class="k">Cause</div>Stale old docs. Modern MuJoCo is free and bundles binaries — no key.<div class="fix"><b>Fix:</b> ignore key instructions; just <code>pip install mujoco</code>. No <code>~/.mujoco</code>, no <code>LD_LIBRARY_PATH</code>.</div></div></details>
+
+    <h3>J · video &amp; ffmpeg</h3>
+    <details class="pitfall"><summary><code>No ffmpeg exe could be found</code> when writing <code>.mp4</code></summary><div class="pf"><div class="k">Cause</div>imageio needs an ffmpeg binary; it isn't bundled by default.<div class="fix"><b>Fix:</b> <code>pip install imageio-ffmpeg</code> (bundles a binary) or <code>conda install -c conda-forge ffmpeg</code>. Verify: <code>python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"</code>.</div></div></details>
+    <details class="pitfall"><summary><code>input image is not divisible by macro_block_size=16</code> warning</summary><div class="pf"><div class="k">Cause</div>Most H.264 codecs want width/height divisible by 16; imageio resizes and warns.<div class="fix"><b>Fix:</b> harmless. 640×480 is already fine. To silence odd sizes, pass <code>macro_block_size=1</code> to <code>mimsave</code>.</div></div></details>
+    <details class="pitfall"><summary>mp4 plays too fast/slow or won't open</summary><div class="pf"><div class="k">Cause</div>fps not set or mismatched with the sim rate.<div class="fix"><b>Fix:</b> <code>imageio.mimsave("out.mp4", frames, fps=env.unwrapped.metadata["render_fps"])</code> (that's 50 for gym-aloha).</div></div></details>
+    <details class="pitfall"><summary><code>ValueError</code> about array shape / greenish video</summary><div class="pf"><div class="k">Cause</div>ffmpeg wants a list of <code>uint8</code> <code>H×W×3</code> RGB arrays; you passed floats or an alpha channel.<div class="fix"><b>Fix:</b> ensure <code>frame.dtype == uint8</code>, shape <code>(H,W,3)</code>. Convert floats: <code>(frame*255).astype(np.uint8)</code>.</div></div></details>
+    <details class="pitfall"><summary>Just want a quick clip without ffmpeg fuss</summary><div class="pf"><div class="k">Cause</div>gif needs no ffmpeg (pure Python) but is bigger and 256-color.<div class="fix"><b>Fix:</b> <code>imageio.mimsave("out.gif", frames, fps=…)</code>. For quality/size, prefer mp4 + <code>imageio-ffmpeg</code>.</div></div></details>
+
+    <h3>K · gymnasium API runtime (old gym → gymnasium)</h3>
+    <details class="pitfall"><summary><code>too many values to unpack</code> on <code>reset()</code></summary><div class="pf"><div class="k">Cause</div>Gymnasium's <code>reset()</code> returns a 2-tuple <code>(obs, info)</code> (old gym returned just obs).<div class="fix"><b>Fix:</b> <code>obs, info = env.reset(seed=0)</code>.</div></div></details>
+    <details class="pitfall"><summary><code>not enough values to unpack (expected 4, got 5)</code> on <code>step()</code></summary><div class="pf"><div class="k">Cause</div>The old single <code>done</code> was split into <code>terminated</code> + <code>truncated</code>.<div class="fix"><b>Fix:</b> <code>obs, reward, terminated, truncated, info = env.step(action)</code>; then <code>done = terminated or truncated</code>.</div></div></details>
+    <details class="pitfall"><summary><code>'…' object has no attribute 'seed'</code></summary><div class="pf"><div class="k">Cause</div><code>env.seed(...)</code> was removed; seeding moved into reset.<div class="fix"><b>Fix:</b> <code>obs, info = env.reset(seed=42)</code>.</div></div></details>
+    <details class="pitfall"><summary><code>action not within the bounds of the action space</code></summary><div class="pf"><div class="k">Cause</div>Your action values fell outside <code>[-1, 1]</code>.<div class="fix"><b>Fix:</b> <code>action = np.clip(action, env.action_space.low, env.action_space.high)</code>.</div></div></details>
+    <details class="pitfall"><summary>dtype warnings / <code>Box</code> validation fails with a Python list action</summary><div class="pf"><div class="k">Cause</div><code>Box</code> spaces expect a numpy array of the right dtype, not a plain list.<div class="fix"><b>Fix:</b> <code>action = np.asarray(my_list, dtype=np.float32)</code>. Check with <code>env.action_space.contains(action)</code>.</div></div></details>
+    <details class="pitfall"><summary><code>env.render()</code> returns <code>None</code> / warns about render_mode</summary><div class="pf"><div class="k">Cause</div>render mode is set at construction now, not passed to <code>render()</code>.<div class="fix"><b>Fix:</b> <code>gym.make(id, render_mode="rgb_array")</code>, then <code>frame = env.render()</code>.</div></div></details>
+    <details class="pitfall"><summary>Subtle API mismatches / env not found with <code>import gym</code></summary><div class="pf"><div class="k">Cause</div>Legacy <code>import gym</code>; gym-aloha registers against <b>gymnasium</b>.<div class="fix"><b>Fix:</b> <code>import gymnasium as gym</code> everywhere.</div></div></details>
+    <details class="pitfall"><summary><code>Cannot call env.step() before calling env.reset()</code></summary><div class="pf"><div class="k">Cause</div>The <code>OrderEnforcing</code> wrapper (Chapter 7).<div class="fix"><b>Fix:</b> always <code>env.reset()</code> first.</div></div></details>
+
+    <h3>L · performance, MPS &amp; determinism</h3>
+    <details class="pitfall"><summary>First step/render takes seconds, then it's fast</summary><div class="pf"><div class="k">Cause</div>One-time costs: model compile from XML, GL context creation, torch warmup.<div class="fix"><b>Fix:</b> expected — do a warmup pass and measure steady-state. Don't recreate the env/context per episode.</div></div></details>
+    <details class="pitfall"><summary>Confused about MPS vs CPU / MPS slower than expected</summary><div class="pf"><div class="k">Cause</div>MuJoCo physics is CPU; only the policy network can use MPS. Small policies are often fine on CPU.<div class="fix"><b>Fix:</b> put the policy on <code>mps</code> if it helps, keep sim on CPU, <code>.numpy()</code> actions before <code>step</code>; benchmark both. Guard with <code>torch.backends.mps.is_available()</code>.</div></div></details>
+    <details class="pitfall"><summary>Same seed, different results each run</summary><div class="pf"><div class="k">Cause</div>Multiple RNGs (env, NumPy, Python <code>random</code>, torch) — seeding one leaves the rest free.<div class="fix"><b>Fix:</b> seed them all: <code>random.seed(s); np.random.seed(s); torch.manual_seed(s); env.reset(seed=s); env.action_space.seed(s)</code>. (Chapter 10.)</div></div></details>
+    <details class="pitfall"><summary>Renders slow down after making/closing many envs</summary><div class="pf"><div class="k">Cause</div>GL contexts not released between env instances (mostly Linux).<div class="fix"><b>Fix:</b> call <code>env.close()</code> when done; reuse one env across episodes instead of recreating.</div></div></details>
+
+    <div class="concept">
+      <p class="lbl">Two decision aids to memorize</p>
+      <p><b>"Do I need <code>mjpython</code>?"</b> Only for a <em>live interactive window</em>. Saving video / <code>rgb_array</code> → plain <code>python</code> is fine.<br>
+      <b>"Do I need <code>MUJOCO_GL</code>?"</b> On a Mac with <code>rgb_array</code>: no (leave unset). On headless Linux: yes — <code>egl</code> (GPU) or <code>osmesa</code> (CPU).</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">You just want to save an mp4 of the arm. Do you need <code>mjpython</code>?</p>
+      <button class="opt" data-k="a">Yes, always <span class="mark"></span></button>
+      <button class="opt" data-k="b">No — saving video is offscreen (rgb_array); plain <code>python</code> is fine <span class="mark"></span></button>
+      <button class="opt" data-k="c">Only on Linux <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. <code>mjpython</code> is only for a live <em>window</em>. No window = no main-thread rule = plain <code>python</code> works.</p>
+    </div>
+    <div class="mcq" data-answer="a">
+      <p class="q"><code>zsh: no matches found: .[pusht,aloha]</code>. The fix?</p>
+      <button class="opt" data-k="a">Quote it: <code>pip install -e ".[pusht,aloha]"</code> <span class="mark"></span></button>
+      <button class="opt" data-k="b">Remove the extras <span class="mark"></span></button>
+      <button class="opt" data-k="c">Reinstall conda <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. zsh tries to glob <code>[ ]</code>. Quotes stop it. A trap almost every Mac beginner hits once.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 13 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="c13a"><span>I skimmed the golden path and understand it prevents most problems.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c13b"><span>I know the two "forgot to activate" and "quote the extras" traps.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c13c"><span>I can answer "do I need mjpython?" and "do I need MUJOCO_GL?".</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c13d"><span>I know where to come back when an error appears (this chapter).</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 14 · GLOSSARY ============ -->
+  <section class="chapter view" id="ch14">
+    <div class="ch-eyebrow">Chapter 14 <span class="rt">· reference</span></div>
+    <h2>Glossary: every word, one line</h2>
+    <p class="ch-sum">A fast A–Z of the terms in this course. Come back whenever a word slips.</p>
+
+    <div class="concept" style="border-left-color:var(--line-strong);">
+      <p><b>action</b> — what the policy sends the robot each step (ALOHA: 14 numbers in −1…1).</p>
+      <p><b>action space</b> — the rulebook of valid actions; ALOHA's is <code>Box(-1,1,(14,))</code>.</p>
+      <p><b>agent</b> — the thing that acts; its decision-maker is the policy.</p>
+      <p><b>ALOHA</b> — a low-cost two-arm (bimanual) robot from Stanford; <code>gym-aloha</code> is its simulator.</p>
+      <p><b>ACT</b> — Action Chunking Transformer: an imitation-learning policy that predicts a chunk of actions at once. (An algorithm, not the robot.)</p>
+      <p><b>backronym</b> — a name where the letters were fit to a word afterward (ALOHA).</p>
+      <p><b>behavioral cloning</b> — simplest imitation learning: copy the human's action for each observation.</p>
+      <p><b>bimanual</b> — two-armed; needs coordination, which makes tasks harder.</p>
+      <p><b>Box</b> — a continuous space: any real number within low…high (e.g. −1…1).</p>
+      <p><b>checkpoint</b> — a saved snapshot of a network's weights.</p>
+      <p><b>conda</b> — a tool that manages isolated environments <em>and</em> packages (incl. non-Python ones).</p>
+      <p><b>contact</b> — when two shapes touch; MuJoCo computes forces so they don't pass through.</p>
+      <p><b>ctrl</b> — MuJoCo's control input; where your action enters the physics.</p>
+      <p><b>Discrete(n)</b> — a space of fixed choices 0…n−1 (e.g. four buttons).</p>
+      <p><b>dm_control</b> — DeepMind's wrapper around MuJoCo; gym-aloha sits on top of it.</p>
+      <p><b>editable install (-e)</b> — install that points at your source so edits are live; breaks if you move the folder.</p>
+      <p><b>env</b> — the environment object from <code>gym.make</code>: the whole world (arm + objects + physics).</p>
+      <p><b>episode</b> — one attempt from reset to end (many steps).</p>
+      <p><b>extras</b> — optional dependency groups, e.g. <code>[pusht,aloha]</code>.</p>
+      <p><b>fine-tuning</b> — training a pretrained model a bit more on your own data.</p>
+      <p><b>fps</b> — frames per second; gym-aloha targets 50 (→ <code>sleep(0.02)</code>).</p>
+      <p><b>frame</b> — one still picture; here a <code>(480,640,3)</code> array of RGB numbers.</p>
+      <p><b>gradient descent</b> — nudging weights downhill to shrink the loss.</p>
+      <p><b>gripper</b> — the arm's hand that opens/closes to hold objects.</p>
+      <p><b>Gymnasium</b> — the standard API for environments (the maintained successor to OpenAI Gym).</p>
+      <p><b>headless</b> — no screen; render to numbers, not a window (how servers train).</p>
+      <p><b>imageio</b> — Python library to read/write images and video.</p>
+      <p><b>imitation learning</b> — learn by copying human demonstrations (no reward needed).</p>
+      <p><b>inference</b> — using a trained network to act (no more weight changes).</p>
+      <p><b>learning rate</b> — how big each gradient-descent step is.</p>
+      <p><b>loss</b> — a number for how wrong a prediction is; training shrinks it.</p>
+      <p><b>main thread</b> — a program's first line of work; macOS only lets it make windows.</p>
+      <p><b>MJCF</b> — MuJoCo's XML file describing the robot/scene.</p>
+      <p><b>MjModel / MjData</b> — the constant blueprint vs the changing live state (qpos, qvel).</p>
+      <p><b>mjpython</b> — MuJoCo's macOS launcher that keeps the viewer window on the main thread.</p>
+      <p><b>MPS</b> — Apple's Metal GPU backend for PyTorch (Macs have no CUDA).</p>
+      <p><b>MuJoCo</b> — the physics engine (Multi-Joint dynamics with Contact).</p>
+      <p><b>neural network</b> — a big adjustable function with learnable weights.</p>
+      <p><b>normalize</b> — rescale values to a common range (here −1…1) for stable learning.</p>
+      <p><b>observation</b> — what the agent sees each step (camera image + joint positions).</p>
+      <p><b>OpenGL context</b> — the connection to graphics hardware needed to draw pixels.</p>
+      <p><b>overfitting</b> — memorizing the training cases instead of learning the general skill.</p>
+      <p><b>PATH</b> — the ordered list of folders the shell searches for a command.</p>
+      <p><b>policy</b> — the robot's brain: a function observation → action.</p>
+      <p><b>pseudo-random</b> — "random" numbers made by a formula from a seed (repeatable).</p>
+      <p><b>qpos / qvel</b> — MuJoCo's current joint positions / velocities.</p>
+      <p><b>radians</b> — angle unit where a full turn is 2π (robots use these).</p>
+      <p><b>reinforcement learning</b> — learn by trial and error to maximize reward.</p>
+      <p><b>render / render_mode</b> — draw the scene; <code>rgb_array</code> (pixels) or a window.</p>
+      <p><b>reset</b> — start a fresh episode; returns <code>(obs, info)</code>.</p>
+      <p><b>reward</b> — a score for an action (RL); ALOHA's top reward means success.</p>
+      <p><b>seed</b> — the starting number for pseudo-randomness; fixes the "random" sequence.</p>
+      <p><b>sim-to-real gap</b> — the mismatch between simulator physics and reality.</p>
+      <p><b>step</b> — one loop turn: apply action, advance physics, return the 5-tuple.</p>
+      <p><b>tensor</b> — a multi-dimensional array of numbers (deep learning's basic data).</p>
+      <p><b>terminated</b> — the episode ended by the task's own rules (success/failure).</p>
+      <p><b>truncated</b> — the episode was cut off from outside (usually a time limit).</p>
+      <p><b>teleoperation</b> — a human remotely driving the robot to record demonstrations.</p>
+      <p><b>unwrapped</b> — <code>env.unwrapped</code>: peel off wrappers to reach the core env.</p>
+      <p><b>viewer</b> — MuJoCo's live window (<code>launch_passive</code> shows our steps).</p>
+      <p><b>wrapper</b> — a layer around something that adds convenience (gym → dm_control → MuJoCo).</p>
+      <p><b>zsh</b> — the default macOS shell; <code>conda activate</code> relies on its init.</p>
+    </div>
+  </section>
+
+  <!-- ============ FINAL EXAM ============ -->
+  <section class="chapter view" id="exam">
+    <div class="ch-eyebrow">Final exam <span class="rt">· ~20 min</span></div>
+    <h2>Final exam: do you have the map?</h2>
+    <p class="ch-sum">Twelve questions across the whole course. No pressure — guess, tap, and let the explanations close any gaps.</p>
+
+    <div class="mcq" data-answer="b"><p class="q">Why train robots in simulation first?</p>
+      <button class="opt" data-k="a">Sim is more accurate than reality <span class="mark"></span></button>
+      <button class="opt" data-k="b">Failing is cheap, fast, and safe there <span class="mark"></span></button>
+      <button class="opt" data-k="c">Real robots can't be programmed <span class="mark"></span></button>
+      <p class="explain"><b>b</b> — learning needs many failures; sim makes them free and safe. Reality is actually the accurate one (the sim-to-real gap).</p></div>
+
+    <div class="mcq" data-answer="a"><p class="q">What makes the arm move?</p>
+      <button class="opt" data-k="a">Running the loop — repeatedly calling <code>env.step(action)</code> <span class="mark"></span></button>
+      <button class="opt" data-k="b">Calling <code>env.render()</code> <span class="mark"></span></button>
+      <button class="opt" data-k="c">Setting a seed <span class="mark"></span></button>
+      <p class="explain"><b>a</b> — motion = stepping the physics in a loop. No loop, no motion.</p></div>
+
+    <div class="mcq" data-answer="c"><p class="q"><code>env.reset()</code> returns…</p>
+      <button class="opt" data-k="a">obs, reward, done, info <span class="mark"></span></button>
+      <button class="opt" data-k="b">just the observation <span class="mark"></span></button>
+      <button class="opt" data-k="c">(observation, info) — and no reward yet <span class="mark"></span></button>
+      <p class="explain"><b>c</b> — no action has happened, so no reward. Reset gives the starting observation.</p></div>
+
+    <div class="mcq" data-answer="b"><p class="q">Ran out of steps before finishing. Which is true?</p>
+      <button class="opt" data-k="a">terminated = True <span class="mark"></span></button>
+      <button class="opt" data-k="b">truncated = True (cut off from outside) <span class="mark"></span></button>
+      <button class="opt" data-k="c">both, always <span class="mark"></span></button>
+      <p class="explain"><b>b</b> — a time/step limit is an external cutoff → truncated. terminated is for a real ending.</p></div>
+
+    <div class="mcq" data-answer="a"><p class="q">Why is every action number in −1…1?</p>
+      <button class="opt" data-k="a">Normalization — one common scale keeps learning stable <span class="mark"></span></button>
+      <button class="opt" data-k="b">Computers can't store bigger numbers <span class="mark"></span></button>
+      <button class="opt" data-k="c">Joints are naturally −1…1 radians <span class="mark"></span></button>
+      <p class="explain"><b>a</b> — real ranges differ wildly; one −1…1 ruler stabilizes learning. The sim converts back to radians.</p></div>
+
+    <div class="mcq" data-answer="c"><p class="q">ALOHA vs ACT?</p>
+      <button class="opt" data-k="a">Same thing <span class="mark"></span></button>
+      <button class="opt" data-k="b">ALOHA is software, ACT is metal <span class="mark"></span></button>
+      <button class="opt" data-k="c">ALOHA = the two-arm robot; ACT = a learning algorithm <span class="mark"></span></button>
+      <p class="explain"><b>c</b> — body vs brain. Same paper, different roles.</p></div>
+
+    <div class="mcq" data-answer="b"><p class="q">During simulation, which changes each step?</p>
+      <button class="opt" data-k="a">MjModel <span class="mark"></span></button>
+      <button class="opt" data-k="b">MjData (qpos, etc.) <span class="mark"></span></button>
+      <button class="opt" data-k="c">The MJCF file <span class="mark"></span></button>
+      <p class="explain"><b>b</b> — the blueprint (MjModel) is fixed; the live state (MjData) changes.</p></div>
+
+    <div class="mcq" data-answer="a"><p class="q">Why does a live viewer need <code>mjpython</code> on macOS?</p>
+      <button class="opt" data-k="a">macOS only lets the main thread make windows; mjpython arranges that <span class="mark"></span></button>
+      <button class="opt" data-k="b">It makes Python faster <span class="mark"></span></button>
+      <button class="opt" data-k="c">It installs MuJoCo <span class="mark"></span></button>
+      <p class="explain"><b>a</b> — the window must live on the main thread; mjpython sets that up while your script runs elsewhere.</p></div>
+
+    <div class="mcq" data-answer="c"><p class="q">Live viewer crashed with NSWindow even under mjpython. Fix?</p>
+      <button class="opt" data-k="a">Restart the Mac <span class="mark"></span></button>
+      <button class="opt" data-k="b">Add a seed <span class="mark"></span></button>
+      <button class="opt" data-k="c">Remove <code>render_mode</code> so only the viewer draws <span class="mark"></span></button>
+      <p class="explain"><b>c</b> — two things fighting over graphics across threads → crash. One owner (the viewer) fixes it.</p></div>
+
+    <div class="mcq" data-answer="b"><p class="q"><code>reset(seed=0)</code> with no other seeding still varies. Why?</p>
+      <button class="opt" data-k="a">Seeds don't work <span class="mark"></span></button>
+      <button class="opt" data-k="b">Other RNGs (NumPy, torch, Python) aren't seeded <span class="mark"></span></button>
+      <button class="opt" data-k="c">The Mac is broken <span class="mark"></span></button>
+      <p class="explain"><b>b</b> — randomness comes from several libraries; seed them all for full reproducibility.</p></div>
+
+    <div class="mcq" data-answer="a"><p class="q">Why does moving the repo after <code>pip install -e</code> break imports?</p>
+      <button class="opt" data-k="a">The editable install points at the old path <span class="mark"></span></button>
+      <button class="opt" data-k="b">Python forgets the name <span class="mark"></span></button>
+      <button class="opt" data-k="c">git deletes it <span class="mark"></span></button>
+      <p class="explain"><b>a</b> — <code>-e</code> records the source path; move it and the pointer dangles. Fix layout before installing.</p></div>
+
+    <div class="mcq" data-answer="c"><p class="q">What turns our sine-wave "pat" into a real robot brain?</p>
+      <button class="opt" data-k="a">A faster CPU <span class="mark"></span></button>
+      <button class="opt" data-k="b">More action numbers <span class="mark"></span></button>
+      <button class="opt" data-k="c">A learned policy that maps observation → action (a trained network) <span class="mark"></span></button>
+      <p class="explain"><b>c</b> — the sine wave ignores what it sees. A trained policy watches the world and reacts. That's the next mission.</p></div>
+
+    <div class="check">
+      <p class="cap">✓ You made it</p>
+      <label><input type="checkbox" class="cpx" data-key="examdone"><span>I finished Ground School — I have the map.</span></label>
+    </div>
+
+    <div class="concept" style="text-align:center; background:var(--card2);">
+      <p style="font-size:30px; margin:0;">🎓 → 🦾</p>
+      <p class="word" style="margin-top:6px;">You're ready to build.</p>
+      <p>Now do it for real: the hands-on course walks you through setup and makes the arm give you a pat, on video. Open <b>“Pat me on the back”</b> and go.</p>
+    </div>
+  </section>
+
+  <div class="footer">PHYSICAL SPARK · Ground School · read first, then build</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  // mermaid (native in the Artifact viewer; CDN used as fallback for local file)
+  try{
+    if(window.mermaid){ mermaid.initialize({startOnLoad:true, theme:'base',
+      themeVariables:{ primaryColor:'#fbf9f4', primaryBorderColor:'#d8d0bd', primaryTextColor:'#1c1a17', lineColor:'#b8402e', fontFamily:'ui-monospace,Menlo,monospace', fontSize:'14px'},
+      securityLevel:'loose', flowchart:{htmlLabels:true, curve:'basis'} });
+    }
+  }catch(e){}
+
+  // copy buttons
+  document.querySelectorAll('.code').forEach(function(box){
+    var btn=box.querySelector('.copy'), pre=box.querySelector('pre'); if(!btn||!pre) return;
+    btn.addEventListener('click', function(){
+      var t=pre.innerText;
+      function ok(){btn.textContent='copied ✓'; btn.classList.add('done'); setTimeout(function(){btn.textContent='copy'; btn.classList.remove('done');},1400);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(fb);}else{fb();}
+      function fb(){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(ta);}
+    });
+  });
+
+  // quiz
+  document.querySelectorAll('.mcq').forEach(function(q){
+    var ans=q.getAttribute('data-answer');
+    q.querySelectorAll('.opt').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if(q.classList.contains('answered'))return; q.classList.add('answered');
+        var k=opt.getAttribute('data-k'), c=q.querySelector('.opt[data-k="'+ans+'"]');
+        if(c){c.classList.add('correct'); var m=c.querySelector('.mark'); if(m)m.textContent='✓';}
+        if(k!==ans){opt.classList.add('wrong'); var w=opt.querySelector('.mark'); if(w)w.textContent='✗';}
+      });
+    });
+  });
+
+  // ---- progress (saved), shared across every page ----
+  var KEY='ground_school_progress', store={};
+  try{store=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){store={};}
+  var boxes=document.querySelectorAll('.cpx');
+  var views=Array.prototype.slice.call(document.querySelectorAll('.view'));
+
+  function vDone(v){var cbs=v.querySelectorAll('.cpx'); if(!cbs.length)return false; for(var i=0;i<cbs.length;i++){if(!cbs[i].checked)return false;} return true;}
+  function vNum(v){var eb=v.querySelector('.ch-eyebrow'); return eb?eb.childNodes[0].textContent.trim():'';}
+  function vTitle(v){var h=v.querySelector('h2'); return h?h.textContent:(v.id==='home'?'Home':v.id);}
+  function vRT(v){var r=v.querySelector('.ch-eyebrow .rt'); return r?r.textContent.replace('· ','').trim():'';}
+  function shortLabel(v){if(v.id==='home')return 'Contents'; return vNum(v)||vTitle(v);}
+  function rowHTML(v){var n=v.id==='home'?'⌂':(vDone(v)?'<span class="dot">✓</span>':(vNum(v).replace(/[^0-9]/g,'')||'•'));
+    return '<span class="n">'+n+'</span><span class="t">'+vTitle(v)+'</span><span class="rt">'+vRT(v)+'</span>';}
+
+  function refresh(){
+    var d=0; boxes.forEach(function(b){if(b.checked)d++;});
+    var pct=boxes.length?Math.round(d/boxes.length*100):0;
+    document.getElementById('pbar').style.width=pct+'%';
+    document.getElementById('pct').textContent=pct+'%';
+    buildHome(); buildMenu();
+  }
+  boxes.forEach(function(b){var k=b.getAttribute('data-key'); if(store[k])b.checked=true;
+    b.addEventListener('change', function(){store[k]=b.checked; try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){} refresh();});});
+
+  function buildHome(){var host=document.getElementById('homeList'); if(!host)return; host.innerHTML='';
+    views.forEach(function(v){if(v.id==='home')return; var a=document.createElement('a'); a.href='#/'+v.id; a.innerHTML=rowHTML(v); host.appendChild(a);});}
+  function buildMenu(){var p=document.getElementById('tocPanel'); p.innerHTML='';
+    views.forEach(function(v){var a=document.createElement('a'); a.href='#/'+v.id; a.innerHTML=rowHTML(v);
+      a.addEventListener('click',function(){p.classList.remove('open');}); p.appendChild(a);});}
+
+  // add prev / next nav to each page (once)
+  views.forEach(function(v,i){
+    if(v.id==='home')return;
+    var nav=document.createElement('div'); nav.className='pagenav';
+    var prev=views[i-1], next=views[i+1];
+    nav.innerHTML=(prev?'<a href="#/'+prev.id+'">← '+shortLabel(prev)+'</a>':'<a class="disabled">←</a>')
+      +'<a class="mid" href="#/home">☰</a>'
+      +(next?'<a href="#/'+next.id+'">'+shortLabel(next)+' →</a>':'<a class="disabled">done 🎉</a>');
+    v.appendChild(nav);
+  });
+
+  function currentId(){var h=(location.hash||'').replace(/^#\/?/,''); return document.getElementById(h)?h:'home';}
+  function show(id){var el=document.getElementById(id)||views[0];
+    views.forEach(function(v){v.classList.toggle('active', v===el);});
+    document.getElementById('tocPanel').classList.remove('open');
+    window.scrollTo(0,0);
+  }
+  document.getElementById('tocBtn').addEventListener('click', function(){document.getElementById('tocPanel').classList.toggle('open');});
+  window.addEventListener('hashchange', function(){show(currentId());});
+
+  refresh(); show(currentId());
+</script>

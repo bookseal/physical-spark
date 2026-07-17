@@ -3,6 +3,8 @@
 > 목표: **로봇팔을 아직 안 산 상태에서**, 시뮬레이션으로 physical AI 개발 환경을 끝까지 세팅한다.
 > 이 문서는 "pat me(토닥토닥) 모션을 짜기 **직전**"에서 멈춘다 — 즉 팔이 sim 안에 떠서 움직일 준비가 된 상태까지.
 > 원자료 모음: `lab/references/index.md`. 명령어는 버전에 따라 바뀔 수 있으니 각 단계의 **공식 링크로 교차확인**.
+>
+> **웹 버전 (브라우저에서 바로 읽기):** 개념 배경은 [Ground School](../../site/courses/ground-school.html) — 모든 용어·수학·80개 함정을 실습 전에 읽는 ~10시간 코스. 실습은 [Pat me on the back (hands-on)](../../site/courses/pat-me-on-the-back.html) — 체크포인트 단위로 따라 하는 버전.
 
 ![SO-101 Sim-to-Real](https://github.com/isaac-sim/Sim-to-Real-SO-101-Workshop/raw/main/images/so101_banner.png)
 
