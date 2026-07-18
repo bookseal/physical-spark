@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning by Showing — imitation learning</title>
+<meta name="description" content="How a robot turns human demonstrations into its own skill: behavioral cloning, why 'just copy the human' drifts, and the fixes — action chunking (ACT), diffusion policy, and VLA.">
+<style>
+  :root{
+    --paper:#f4f1ea; --card:#fbf9f4; --card2:#f0ebdd; --card3:#eae3d2;
+    --ink:#1c1a17; --muted:#6b6459; --faint:#938b7d;
+    --accent:#b8402e; --accent-soft:#f3e0d9; --accent-deep:#9a3324;
+    --line:#e4decf; --line-strong:#d8d0bd;
+    --good:#3f7a52; --good-soft:#e3efe4;
+    --blue:#3a5a86; --blue-soft:#e6ecf4;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.68; font-size:17px; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:740px; margin:0 auto; padding:0 20px 120px; position:relative;}
+
+  /* ---------- SPA pages (one view at a time) ---------- */
+  .view{position:absolute; left:0; right:0; top:0; visibility:hidden;}   /* off-screen but still measurable, so mermaid renders right */
+  .view.active{position:static; visibility:visible;}
+  .chapter.view{border-top:none; margin-top:18px; padding-top:0;}
+  .home-list{display:flex; flex-direction:column; gap:8px; margin:26px 0 30px;}
+  .home-list a{display:flex; align-items:baseline; gap:12px; text-decoration:none; color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+  .home-list a:hover{border-color:var(--accent);}
+  .home-list .n{font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:700; min-width:24px;}
+  .home-list .t{flex:1; font-weight:600;}
+  .home-list .rt{font-family:var(--mono); font-size:11.5px; color:var(--faint); white-space:nowrap;}
+  .home-list .dot{color:var(--good);}
+  .pagenav{display:flex; gap:8px; margin:44px 0 8px; align-items:stretch;}
+  .pagenav a{flex:1; text-align:center; font-family:var(--mono); font-size:13px; text-decoration:none; padding:12px 8px; border:1px solid var(--line-strong); border-radius:10px; color:var(--accent); background:var(--card); display:flex; align-items:center; justify-content:center;}
+  .pagenav a.mid{flex:0 0 auto; color:var(--muted); border-color:var(--line);}
+  .pagenav a.disabled{opacity:.3; pointer-events:none;}
+  a{color:var(--accent);}
+  h2,h3{text-wrap:balance;}
+
+  /* sticky bar + contents menu */
+  .bar{position:sticky; top:0; z-index:40; background:rgba(244,241,234,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:11px 0;}
+  .bar-in{max-width:740px; margin:0 auto; padding:0 20px; display:flex; align-items:center; gap:12px;}
+  .brand{font-family:var(--mono); font-weight:700; font-size:14px; color:var(--ink); text-decoration:none; white-space:nowrap;}
+  .brand b{color:var(--accent);}
+  .bar .prog{flex:1; height:7px; background:var(--card2); border-radius:999px; overflow:hidden; border:1px solid var(--line);}
+  .bar .prog > i{display:block; height:100%; width:0%; background:var(--accent); transition:width .35s;}
+  .bar .pct{font-family:var(--mono); font-size:12px; color:var(--muted); white-space:nowrap;}
+  .toc-btn{font-family:var(--mono); font-size:12.5px; padding:6px 11px; border:1px solid var(--line-strong); border-radius:8px; background:var(--card); color:var(--ink); cursor:pointer; white-space:nowrap;}
+
+  .toc-panel{display:none; position:sticky; top:52px; z-index:39; background:var(--card); border:1px solid var(--line-strong); border-radius:14px; margin:10px 0 0; padding:12px 8px; max-height:70vh; overflow:auto;}
+  .toc-panel.open{display:block;}
+  .toc-panel a{display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--ink); padding:9px 12px; border-radius:9px; font-size:15px;}
+  .toc-panel a:hover{background:var(--card2);}
+  .toc-panel .n{font-family:var(--mono); font-size:12px; color:var(--accent); min-width:26px;}
+  .toc-panel .t{flex:1;}
+  .toc-panel .rt{font-family:var(--mono); font-size:11.5px; color:var(--faint);}
+  .toc-panel .dot{color:var(--good); font-weight:700;}
+
+  /* hero */
+  .eyebrow{font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:44px 0 14px;}
+  h1{font-family:var(--serif); font-size:clamp(36px,10vw,58px); line-height:1.03; margin:0 0 16px; letter-spacing:-.015em;}
+  .lede{font-size:19px; color:var(--muted); margin:0 0 22px; max-width:42ch;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  .tag{font-family:var(--mono); font-size:12.5px; padding:5px 11px; border:1px solid var(--line-strong); border-radius:999px; color:var(--muted); background:var(--card);}
+  .howto{background:var(--card2); border:1px solid var(--line); border-radius:16px; padding:18px 20px; margin:0 0 10px;}
+  .howto b{color:var(--accent);}
+  .howto ul{margin:10px 0 0; padding-left:20px;} .howto li{margin:6px 0;}
+
+  /* chapters */
+  .chapter{border-top:2px solid var(--line-strong); margin-top:52px; padding-top:8px;}
+  .ch-eyebrow{font-family:var(--mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); display:flex; gap:12px; align-items:center; margin:14px 0 6px;}
+  .ch-eyebrow .rt{color:var(--faint); letter-spacing:.04em;}
+  h2{font-family:var(--serif); font-size:clamp(27px,6.5vw,36px); line-height:1.1; margin:0 0 6px;}
+  .ch-sum{color:var(--muted); font-size:17px; margin:6px 0 18px;}
+  h3{font-family:var(--serif); font-size:22px; margin:30px 0 8px;}
+  h4{font-family:var(--sans); text-transform:uppercase; letter-spacing:.05em; font-size:13px; color:var(--muted); margin:24px 0 6px;}
+  p{margin:13px 0;}
+  strong{font-weight:640;}
+  code{font-family:var(--mono); font-size:.87em; background:var(--card2); padding:.08em .38em; border-radius:5px;}
+  ul,ol{padding-left:22px;} li{margin:6px 0;}
+
+  /* code block */
+  .code{position:relative; margin:15px 0; border:1px solid var(--line-strong); border-radius:12px; background:#fff; overflow:hidden;}
+  .code pre{margin:0; padding:15px 16px; overflow-x:auto; font-family:var(--mono); font-size:13.5px; line-height:1.7; color:#2a2721;}
+  .code .cmt{color:#a39a88;}
+  .copy{position:absolute; top:8px; right:8px; font-family:var(--mono); font-size:11.5px; padding:5px 10px; border:1px solid var(--line-strong); border-radius:7px; background:var(--card); color:var(--muted); cursor:pointer;}
+  .copy:hover{border-color:var(--accent); color:var(--accent);} .copy.done{color:var(--good); border-color:var(--good);}
+
+  /* concept box */
+  .concept{background:var(--card); border:1px solid var(--line-strong); border-left:4px solid var(--accent); border-radius:12px; padding:15px 17px; margin:16px 0;}
+  .concept .lbl{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 6px;}
+  .concept .word{font-family:var(--serif); font-size:19px; font-weight:700; margin:0 0 4px;}
+  .concept .en{font-family:var(--mono); font-size:12.5px; color:var(--faint);}
+
+  /* math box */
+  .math{background:var(--blue-soft); border:1px solid #cdd8e6; border-radius:12px; padding:15px 17px; margin:16px 0;}
+  .math .lbl{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); font-weight:700; margin:0 0 8px;}
+  .math .eq{font-family:var(--mono); font-size:15px; background:#fff; border:1px solid #cdd8e6; border-radius:8px; padding:11px 13px; margin:9px 0; overflow-x:auto; color:#26364d;}
+  .math .eq b{color:var(--accent-deep);}
+
+  /* mermaid */
+  .mermaid-wrap{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin:16px 0; overflow-x:auto;}
+  .mermaid{display:flex; justify-content:center; min-width:min(560px,100%);}
+  .fig-cap{font-size:14px; color:var(--muted); text-align:center; margin-top:8px;}
+
+  /* pitfall (troubleshooting) */
+  .pitfall{border:1px solid var(--line-strong); border-radius:12px; margin:12px 0; overflow:hidden; background:var(--card);}
+  .pitfall summary{list-style:none; cursor:pointer; padding:13px 15px; font-weight:640; font-size:15.5px; display:flex; gap:10px; align-items:baseline;}
+  .pitfall summary::-webkit-details-marker{display:none;}
+  .pitfall summary::before{content:"⚠"; color:var(--accent); flex:none;}
+  .pitfall summary::after{content:"▶"; margin-left:auto; color:var(--faint); font-size:11px; transition:transform .2s;}
+  .pitfall[open] summary::after{transform:rotate(90deg);}
+  .pitfall .pf{padding:0 15px 15px; font-size:15px;}
+  .pitfall .pf .k{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:10px 0 2px;}
+  .pitfall .pf .fix{background:var(--good-soft); border:1px solid #cfe3d2; border-radius:8px; padding:8px 11px; margin-top:4px;}
+
+  /* quiz (MCQ) */
+  .mcq{margin:16px 0; border:1px solid var(--line-strong); border-radius:12px; background:var(--card); padding:15px 17px;}
+  .mcq .q{font-weight:640; margin:0 0 11px;} .mcq .q::before{content:"◆ QUIZ"; display:block; font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--accent); margin-bottom:6px;}
+  .mcq .opt{display:block; width:100%; text-align:left; font:inherit; font-size:15px; padding:11px 13px; margin:7px 0; border:1px solid var(--line-strong); border-radius:9px; background:var(--card2); color:var(--ink); cursor:pointer;}
+  .mcq .opt:hover{border-color:var(--accent);}
+  .mcq .opt .mark{float:right; font-family:var(--mono); font-weight:700; opacity:0;}
+  .mcq .opt.correct{border-color:var(--good); background:var(--good-soft);} .mcq .opt.correct .mark{opacity:1; color:var(--good);}
+  .mcq .opt.wrong{border-color:var(--accent); background:var(--accent-soft);} .mcq .opt.wrong .mark{opacity:1; color:var(--accent);}
+  .mcq.answered .opt{cursor:default;}
+  .mcq .explain{display:none; margin:11px 0 0; padding:11px 13px; border-radius:9px; background:var(--card2); border-left:3px solid var(--accent); color:var(--muted); font-size:14.5px;}
+  .mcq.answered .explain{display:block;} .mcq .explain b{color:var(--ink);}
+
+  /* checklist */
+  .check{margin:14px 0; padding:14px 16px; background:var(--card2); border:1px solid var(--line); border-radius:12px;}
+  .check .cap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin:0 0 8px;}
+  .check label{display:flex; align-items:flex-start; gap:11px; padding:8px 6px; cursor:pointer; font-size:15.5px;}
+  .check input{margin-top:3px; width:19px; height:19px; accent-color:var(--accent); flex:none;}
+  .check input:checked + span{color:var(--faint); text-decoration:line-through;}
+
+  .srcs{margin:14px 0; padding:2px 2px;}
+  .srcs a{display:block; padding:9px 2px; border-bottom:1px solid var(--line); text-decoration:none;}
+  .srcs a:last-child{border-bottom:none;}
+  .srcs .s-t{font-weight:600; color:var(--ink);}
+  .srcs .s-u{font-family:var(--mono); font-size:12px; color:var(--faint);}
+
+  .footer{margin-top:60px; padding-top:22px; border-top:1px solid var(--line); text-align:center; font-family:var(--mono); font-size:12.5px; color:var(--faint);}
+  .wip{background:var(--accent-soft); border:1px dashed #d9a99d; border-radius:10px; padding:10px 14px; font-size:14px; color:var(--accent-deep); margin:16px 0;}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="brand" href="https://physical-spark.bit-habit.com/courses/#/m2">PHYSICAL <b>SPARK</b></a>
+    <div class="prog"><i id="pbar"></i></div>
+    <span class="pct" id="pct">0%</span>
+    <button class="toc-btn" id="tocBtn">☰ Chapters</button>
+  </div>
+  <div class="bar-in"><div class="toc-panel" id="tocPanel"></div></div>
+</div>
+
+<div class="wrap">
+
+  <section class="view active" id="home">
+  <p class="eyebrow">Robot learning · Deep dive</p>
+  <h1>Learning by Showing</h1>
+  <p class="lede">A human shows the robot how; the robot turns those demonstrations into its own skill. This is <em>imitation learning</em> — and it's why Mission 2 works. We'll also see why "just copy the human" quietly falls apart, and the three fixes the 2026 field actually uses.</p>
+  <div class="tags">
+    <span class="tag">Intermediate</span>
+    <span class="tag">~2 hours (read at your pace)</span>
+    <span class="tag">After Ground School</span>
+    <span class="tag">Deepens Mission 2 · Pick &amp; Place</span>
+  </div>
+
+  <div class="howto">
+    <b>Where this sits:</b>
+    <ul>
+      <li><b>Ground School</b> taught the two ways a robot learns. This deep-dive opens up the one we start with — <b>imitation</b> — end to end.</li>
+      <li>Read a chapter, guess the <b>◆ QUIZ</b>, then tap to check. Tick the <b>checklist</b> at the end — progress saves on this device.</li>
+      <li>Still no terminal. This is the <em>why</em> under Mission 2's "record a demo, train a policy." The commands live in the mission itself.</li>
+    </ul>
+  </div>
+
+  <h4 style="margin-top:30px;">Chapters — tap to open</h4>
+  <div class="home-list" id="homeList"></div>
+  </section>
+
+  <!-- ============ CHAPTER 1 ============ -->
+  <section class="chapter view" id="ch1">
+    <div class="ch-eyebrow">Chapter 1 <span class="rt">· ~20 min</span></div>
+    <h2>Copy the human: behavioral cloning</h2>
+    <p class="ch-sum">The simplest way to teach a robot a skill is to record a person doing it, then train the robot to predict "what would the human do here?"</p>
+
+    <p>In Ground School you met the two families: <strong>imitation learning</strong> (a human shows how) and <strong>reinforcement learning</strong> (trial and error for a reward). For robot arms we almost always <em>start</em> with imitation — it needs no reward to hand-design, and no million crashes. You just <strong>demonstrate</strong>.</p>
+
+    <p>The most basic form has a blunt name: <strong>behavioral cloning (BC)</strong>. It's ordinary supervised learning. You collect a pile of <code>(observation, action)</code> pairs from a human expert, and you train a network to map one to the other — exactly like image classification maps <code>(picture → label)</code>, except here it's <code>(what the robot sees → what to do next)</code>.</p>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">behavioral cloning <span class="en">"BC"</span></p>
+      <p>Train a <strong>policy</strong> — the robot's brain, written <code>π<sub>θ</sub>(action | observation)</code> — to reproduce the expert's action for each observation it saw. No reward, no exploration. It's "supervised learning on demonstrations."</p>
+    </div>
+
+    <p>Remember from Ground School: <strong>policy = the brain, observation = what it sees, action = what it does</strong>. BC just fits that brain to a human's recorded behavior.</p>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  H["human expert<br/>demonstrates"] --> D["dataset of pairs<br/>(observation, action)"]
+  D --> T["train policy π<br/>(supervised learning)"]
+  T --> P["policy acts<br/>on its own"]
+    </pre>
+    <div class="fig-cap">Behavioral cloning: record the human, fit a policy to the pairs, let it drive.</div></div>
+
+    <p>That's the whole idea, and it's genuinely how Mission 2 works: you tele-operate the arm to pick and place a few dozen times, then train. When the demos are good and the situation stays close to what you showed, BC is remarkably strong for how simple it is.</p>
+
+    <div class="concept">
+      <p class="lbl">Words you'll keep seeing</p>
+      <p><strong>expert</strong> — the human (or scripted) source of good demonstrations. <strong>demonstration / demo</strong> — one recorded attempt. <strong>rollout</strong> — the policy running on its own, start to finish.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">Behavioral cloning is, underneath, which kind of machine learning?</p>
+      <button class="opt" data-k="a">Reinforcement learning — it learns from a reward signal <span class="mark"></span></button>
+      <button class="opt" data-k="b">Supervised learning — it fits (observation → action) pairs from demos <span class="mark"></span></button>
+      <button class="opt" data-k="c">Unsupervised learning — it has no labels <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. BC is plain supervised learning: the "label" for each observation is the action the human took. No reward is involved — that's the RL family.</p>
+    </div>
+
+    <details class="pitfall">
+      <summary>Pitfall: garbage demos in, garbage policy out</summary>
+      <div class="pf">
+        <p>BC can only copy what you showed. If your demonstrations are sloppy, inconsistent, or all from the exact same starting spot, the policy inherits every flaw.</p>
+        <p class="k">Fix</p>
+        <div class="fix">Give <b>clean, consistent</b> demos, and <b>vary the starting conditions</b> (cube in different spots, slightly different lighting). Quality and variety of demos matter more than raw quantity.</div>
+      </div>
+    </details>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 1 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="i1a"><span>I can define behavioral cloning in one sentence.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i1b"><span>I know BC is supervised learning on (observation, action) pairs.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i1c"><span>I know why demo quality/variety matters.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 2 ============ -->
+  <section class="chapter view" id="ch2">
+    <div class="ch-eyebrow">Chapter 2 <span class="rt">· ~20 min</span></div>
+    <h2>The dataset is the fuel: LeRobotDataset</h2>
+    <p class="ch-sum">Before any learning, you need demonstrations in a standard shape. That shape is the LeRobotDataset — the root of the whole ladder.</p>
+
+    <p>Where do the <code>(observation, action)</code> pairs come from? From <strong>tele-operation</strong>. Recall ALOHA's leader–follower trick from Ground School: you move the small <em>leader</em> arm; the <em>follower</em> copies it and does the real task; and while you puppeteer, the system records everything.</p>
+
+    <p>"Everything" is several synchronized streams, sampled ~30–50 times a second:</p>
+    <ul>
+      <li><strong>observation</strong> — camera frame(s) + the arm's joint positions (the <em>state</em>).</li>
+      <li><strong>action</strong> — the joint targets you commanded that instant.</li>
+      <li><strong>timestamps</strong> — so everything lines up in time.</li>
+    </ul>
+    <p>One recorded attempt is an <strong>episode</strong>. A few dozen episodes is a dataset.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">LeRobotDataset</p>
+      <p>Hugging Face's <strong>standard format</strong> for robot demos — video + state + action + timestamps, packaged so any LeRobot policy can train on it, and shareable on the HF Hub. The docs call it "the fuel of all learning": no dataset, no policy.</p>
+    </div>
+
+    <div class="code"><button class="copy">copy</button><pre><span class="cmt"># conceptually, what Mission 2 does — record demos into a dataset</span>
+lerobot-record --robot.type=so101_follower --dataset.repo_id=me/pick_place
+<span class="cmt"># then a policy trains on that dataset (next chapters explain HOW)</span></pre></div>
+
+    <p>Two details that matter later. First, the actions are <strong>normalized</strong> — remember the −1…1 ruler from Ground School? Datasets store statistics so every joint is on a comparable scale. Second, the observation is <em>multimodal</em>: pixels <em>and</em> numbers together. A good policy has to read both.</p>
+
+    <div class="math">
+      <p class="lbl">Rule of thumb · how many demos?</p>
+      <p>For a single, well-scoped task (one object, one bin), useful policies often start around <b>~50 episodes</b>; robustness climbs with more and <em>more varied</em> ones. There's no magic number — it scales with how much the world can vary.</p>
+    </div>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">What is stored in a single demonstration episode?</p>
+      <button class="opt" data-k="a">Only the final success/failure label <span class="mark"></span></button>
+      <button class="opt" data-k="b">Only the camera video <span class="mark"></span></button>
+      <button class="opt" data-k="c">Synchronized streams: observations (camera + joint state) and the actions taken, over time <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. An episode is the whole time-series of what the robot saw and what it did — that's exactly the (observation, action) pairs BC needs, plus the video/state that richer policies use.</p>
+    </div>
+
+    <details class="pitfall">
+      <summary>Pitfall: all demos from one starting pose</summary>
+      <div class="pf">
+        <p>If every episode starts with the cube in the same spot, the policy never learns to handle it elsewhere — it memorizes one trajectory.</p>
+        <p class="k">Fix</p>
+        <div class="fix">Randomize object position, orientation, and a bit of lighting across your episodes. Coverage of the <em>situations</em> beats coverage of the <em>count</em>.</div>
+      </div>
+    </details>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 2 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="i2a"><span>I can explain where demo data comes from (teleop, leader–follower).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i2b"><span>I know what an episode contains and what a LeRobotDataset is.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i2c"><span>I know observations are multimodal (pixels + joint state).</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 3 ============ -->
+  <section class="chapter view" id="ch3">
+    <div class="ch-eyebrow">Chapter 3 <span class="rt">· ~30 min</span></div>
+    <h2>Why "just copy" drifts: compounding error</h2>
+    <p class="ch-sum">Naive behavioral cloning has one deep flaw. Understanding it is the key that makes every modern method make sense.</p>
+
+    <p>Here's the trap. BC trains only on the <strong>states the human visited</strong>. But the moment the policy drives on its own, it makes a tiny mistake — turns a joint a hair too far. Now the robot is in a state <em>slightly different</em> from anything in the training data. The policy has never seen this exact situation, so its next guess is a little worse… which lands it somewhere even more unfamiliar… and the error snowballs.</p>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">compounding error <span class="en">a.k.a. covariate shift / distribution shift</span></p>
+      <p>The policy's own small mistakes move it <strong>off the distribution of states it was trained on</strong>. Off-distribution, it's guessing — so mistakes feed on themselves. This is <em>the</em> classic failure of naive imitation.</p>
+    </div>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  S["start"] --> A["expert path<br/>(in the data)"]
+  S --> B["policy path<br/>tiny error → new state"]
+  B --> C["never-seen state<br/>bigger error"]
+  C --> F["failure"]
+    </pre>
+    <div class="fig-cap">One small slip takes the policy into states the human never demonstrated — where it only gets worse.</div></div>
+
+    <div class="math">
+      <p class="lbl">Why it's worse than it sounds</p>
+      <p>If the policy makes a mistake with small probability <b>ε</b> at each of <b>T</b> steps, naive BC's total error can grow like <b>ε·T²</b> — <em>quadratically</em> with the length of the task — because each mistake also pushes you into worse states (Ross &amp; Bagnell, 2010). A method that stays on-distribution grows only like <b>ε·T</b>. That gap is the whole game.</p>
+    </div>
+
+    <p>The textbook fix is <strong>DAgger</strong> (Dataset Aggregation): let the policy drive, and wherever it wanders, ask the expert "what should you have done <em>here</em>?" — then add those corrections to the data and retrain. It directly patches the off-distribution holes.</p>
+
+    <div class="concept">
+      <p class="lbl">The catch with DAgger</p>
+      <p>DAgger needs an expert <strong>available during training</strong> to label the policy's weird states — expensive and awkward for real robots. So in practice the field mostly attacks compounding error a different way: <strong>make the policy itself more robust</strong> so it slips less and recovers better. That's Chapters 4 and 5.</p>
+    </div>
+
+    <div class="mcq" data-answer="a">
+      <p class="q">Why does naive behavioral cloning tend to fail on long tasks?</p>
+      <button class="opt" data-k="a">Small errors push the robot into states it never trained on, where errors compound <span class="mark"></span></button>
+      <button class="opt" data-k="b">Neural networks can't represent long tasks <span class="mark"></span></button>
+      <button class="opt" data-k="c">The camera runs out of memory <span class="mark"></span></button>
+      <p class="explain">Answer: <b>a</b>. That's compounding error / covariate shift. Trained only on the expert's states, the policy is lost once its own mistakes take it off that distribution — and each mistake makes the next one likelier.</p>
+    </div>
+
+    <details class="pitfall">
+      <summary>Pitfall: "it works for two seconds, then falls apart"</summary>
+      <div class="pf">
+        <p>A policy that starts fine and then diverges partway through is the signature of compounding error — not a bug in your code.</p>
+        <p class="k">Fix</p>
+        <div class="fix">More/varied demos help a little, but the real levers are <b>action chunking</b> and <b>distribution-modeling policies</b> (next two chapters), which slip less and stay coherent longer.</div>
+      </div>
+    </details>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 3 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="i3a"><span>I can explain compounding error / covariate shift.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i3b"><span>I understand the ε·T² vs ε·T intuition.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i3c"><span>I know what DAgger does and why it's often impractical.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 4 ============ -->
+  <section class="chapter view" id="ch4">
+    <div class="ch-eyebrow">Chapter 4 <span class="rt">· ~25 min</span></div>
+    <h2>Fix #1 — Action chunking (ACT): predict a plan, not a twitch</h2>
+    <p class="ch-sum">Instead of deciding one tiny step at a time, predict a short sequence of future actions. Fewer decision points means fewer chances to compound.</p>
+
+    <p>The first big fix came from the ALOHA team's <strong>ACT</strong> — <em>Action Chunking with Transformers</em> (Zhao et al., 2023). The idea is simple to state: rather than predicting the single next action, the policy predicts a <strong>chunk</strong> — the next <em>k</em> actions at once (often k ≈ 50–100, about a second of motion) — then executes them.</p>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">action chunk</p>
+      <p>One prediction = a short <strong>sequence</strong> of future actions, not a single step. If the policy only "decides" every <em>k</em> steps instead of every step, it has roughly <em>k</em>× fewer moments where a small error can throw it off — directly shrinking compounding error.</p>
+    </div>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart TD
+  subgraph ONE["single-step BC"]
+    O1["obs"] --> a1["1 action"] --> O2["obs"] --> a2["1 action"] --> O3["obs → …"]
+  end
+  subgraph CH["action chunking (ACT)"]
+    P1["obs"] --> K1["k actions at once"] --> P2["obs (k steps later)"] --> K2["k actions"]
+  end
+    </pre>
+    <div class="fig-cap">Chunking replaces many nervous single decisions with a few committed plans.</div></div>
+
+    <p>There's a bonus. Humans aren't perfectly consistent moment-to-moment (we pause, we jitter). Predicting a whole chunk lets the policy commit to a coherent motion instead of chasing that noise. To keep the seams smooth, ACT uses <strong>temporal ensembling</strong>: chunks overlap, and overlapping predictions get averaged, so there's no jerk when one plan hands off to the next.</p>
+
+    <div class="concept">
+      <p class="lbl">Under the hood (just the shape)</p>
+      <p>ACT is a <strong>Transformer</strong> that reads the images + joint state and outputs the next chunk. It's trained as a small <strong>CVAE</strong> (a variational auto-encoder) so it can absorb the natural variation in human demos. You don't need the math for Mission 2 — just the shape: <em>see → emit a chunk</em>.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">Why does predicting an action chunk reduce compounding error?</p>
+      <button class="opt" data-k="a">Chunks make the network smaller <span class="mark"></span></button>
+      <button class="opt" data-k="b">Fewer decision points → fewer moments where a small error can send it off-distribution <span class="mark"></span></button>
+      <button class="opt" data-k="c">Chunks remove the camera from the loop <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. Deciding every <em>k</em> steps instead of every step cuts the number of error-prone decision moments, and committing to a coherent plan also smooths out human noise. Temporal ensembling keeps the chunk hand-offs seamless.</p>
+    </div>
+
+    <details class="pitfall">
+      <summary>Pitfall: choosing the chunk length</summary>
+      <div class="pf">
+        <p>Too <b>long</b> a chunk and the robot can't react to a change (the cube moved!) until the plan ends. Too <b>short</b> and you're back to twitchy single-step BC.</p>
+        <p class="k">Fix</p>
+        <div class="fix">Pick a chunk that spans a natural sub-motion (~0.5–1 s), and rely on temporal ensembling + re-planning so the policy still updates as new observations arrive.</div>
+      </div>
+    </details>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 4 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="i4a"><span>I can explain what an action chunk is.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i4b"><span>I know why chunking fights compounding error.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i4c"><span>I know the chunk-length trade-off and what temporal ensembling does.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 5 ============ -->
+  <section class="chapter view" id="ch5">
+    <div class="ch-eyebrow">Chapter 5 <span class="rt">· ~25 min</span></div>
+    <h2>Fix #2 — Diffusion Policy: model every good way to do it</h2>
+    <p class="ch-sum">Often there are many correct actions for the same situation. Averaging them is wrong. Diffusion policies learn the whole set of good options.</p>
+
+    <p>Picture the arm facing a cube with an obstacle in front. Going <strong>left</strong> around it is fine; going <strong>right</strong> is fine. Both are in your demos. A plain regression policy tries to output <em>one</em> action, so it splits the difference and drives <strong>straight into the obstacle</strong> — the average of two good answers is a bad answer.</p>
+
+    <div class="concept">
+      <p class="lbl">Key idea</p>
+      <p class="word">multimodality</p>
+      <p>For one observation there can be <strong>several equally-valid actions</strong>. A policy that predicts a single number is forced to average them, which can land between the good options. You need a policy that can represent "either A <em>or</em> B," not "the mean of A and B."</p>
+    </div>
+
+    <p><strong>Diffusion Policy</strong> (Chi et al., 2023) borrows the trick behind AI image generators. Instead of outputting one action, it starts from pure <strong>noise</strong> and <em>denoises</em> it, step by step, into a clean action sequence — conditioned on what the robot sees. Because denoising can settle into different valid answers, it naturally captures the whole multimodal set, and it trains stably on messy human data.</p>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  N["random noise"] --> D1["denoise"] --> D2["denoise"] --> D3["denoise"] --> A["a coherent<br/>action sequence"]
+  O["observation"] -.conditions every step.-> D2
+    </pre>
+    <div class="fig-cap">Diffusion policy: sculpt an action out of noise, guided by the observation — like image generators sculpt a picture.</div></div>
+
+    <p>Diffusion Policy and ACT aren't rivals so much as two answers to different parts of the same problem: ACT commits to coherent <em>chunks</em>; diffusion captures <em>multimodal</em> action distributions. Modern systems freely mix the ideas (chunked diffusion heads are common).</p>
+
+    <div class="mcq" data-answer="c">
+      <p class="q">Why can't we just train a policy to regress to the single "average" action?</p>
+      <button class="opt" data-k="a">Averages are too slow to compute <span class="mark"></span></button>
+      <button class="opt" data-k="b">Regression networks don't exist for robots <span class="mark"></span></button>
+      <button class="opt" data-k="c">Actions are multimodal — the average of two valid actions can itself be invalid (e.g., straight into the obstacle) <span class="mark"></span></button>
+      <p class="explain">Answer: <b>c</b>. When several actions are valid, their mean may be a bad action. Diffusion policies represent the whole distribution of good options instead of collapsing to one average.</p>
+    </div>
+
+    <details class="pitfall">
+      <summary>Pitfall: diffusion is slower to run</summary>
+      <div class="pf">
+        <p>Denoising takes several passes per action, so naive diffusion inference can be too slow for a fast control loop.</p>
+        <p class="k">Fix</p>
+        <div class="fix">Use fewer denoising steps / faster samplers, predict a <b>chunk</b> per diffusion call (amortize the cost), or use flow-matching variants. This latency vs. quality trade-off is a live engineering knob — and a good Mission-later discussion.</div>
+      </div>
+    </details>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 5 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="i5a"><span>I can explain multimodality with the "left or right around the obstacle" example.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i5b"><span>I understand diffusion policy as "denoise an action, conditioned on the observation."</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i5c"><span>I know the speed trade-off diffusion introduces.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER 6 ============ -->
+  <section class="chapter view" id="ch6">
+    <div class="ch-eyebrow">Chapter 6 <span class="rt">· ~20 min</span></div>
+    <h2>Where VLA fits — and the bridge forward</h2>
+    <p class="ch-sum">Add a language instruction and internet-scale pretraining on top of these policy ideas, and you get the models heading toward "grab that."</p>
+
+    <p>Everything so far learns <em>one task</em> from <em>your</em> demos. The frontier adds two things: <strong>language</strong> ("pick the <em>red</em> cup") and <strong>pretraining</strong> on huge vision-language data before ever seeing a robot. That's a <strong>VLA</strong>.</p>
+
+    <div class="concept">
+      <p class="lbl">What is it</p>
+      <p class="word">VLA <span class="en">Vision-Language-Action model</span></p>
+      <p>One model that takes <strong>camera + a text instruction</strong> and outputs <strong>actions</strong>. It inherits common sense from vision-language pretraining, then is fine-tuned on robot demonstrations — so it can follow instructions and generalize to objects it never saw in your data.</p>
+    </div>
+
+    <p>The key realization: VLAs are <em>built from the pieces in this course</em>. Under the hood most of them still <strong>chunk actions</strong> (Chapter 4) and use a <strong>diffusion or flow-matching action head</strong> (Chapter 5) — trained on <strong>LeRobotDataset</strong>-style demos (Chapter 2). You already understand their engine.</p>
+
+    <div class="mermaid-wrap"><pre class="mermaid">
+flowchart LR
+  IMG["camera"] --> V["VLA<br/>(pretrained vision-language + action head)"]
+  TXT["'pick the red cup'"] --> V
+  V --> ACT["action chunk"]
+    </pre>
+    <div class="fig-cap">A VLA = the policy ideas you just learned, plus language in and big pretraining behind.</div></div>
+
+    <p>The 2026 names worth knowing: <strong>SmolVLA</strong> (450M — small enough to run on a MacBook, the one Physical Spark's ladder ends on), <strong>π0 / π0.5</strong> (Physical Intelligence), <strong>GR00T</strong> (NVIDIA, fine-tunes inside LeRobot), plus OpenVLA and RT-2 as the lineage.</p>
+
+    <div class="concept">
+      <p class="lbl">The bridge — what's next in the ladder</p>
+      <p>You now have the <em>brain</em>. The next missions give it <strong>eyes and reach</strong>: <b>Mission 4 · Eyes</b> (depth, point clouds, hand-eye calibration) → <b>Mission 5 · Grasp Anything</b> (6-DoF grasping of unseen objects) → <b>Mission 6 · "저거 집어"</b> (language → grasp → execute) — a VLA-shaped pipeline end to end.</p>
+    </div>
+
+    <div class="mcq" data-answer="b">
+      <p class="q">What does a VLA add over a plain ACT or Diffusion policy?</p>
+      <button class="opt" data-k="a">Nothing — it's just a rename <span class="mark"></span></button>
+      <button class="opt" data-k="b">A language instruction as input, plus large-scale vision-language pretraining for generalization <span class="mark"></span></button>
+      <button class="opt" data-k="c">It removes the need for any demonstrations <span class="mark"></span></button>
+      <p class="explain">Answer: <b>b</b>. VLAs still learn from demos (often still chunked + diffusion-headed), but they add language conditioning and internet-scale pretraining — which is what lets them follow "pick the red one" and handle unseen objects.</p>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ Chapter 6 checklist</p>
+      <label><input type="checkbox" class="cpx" data-key="i6a"><span>I can say what a VLA is and what it adds.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i6b"><span>I see how chunking + diffusion + datasets are the VLA's building blocks.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="i6c"><span>I know where this leads: Missions 4 → 5 → 6.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section class="chapter view" id="src">
+    <div class="ch-eyebrow">Sources <span class="rt">· read the originals</span></div>
+    <h2>Go to the source</h2>
+    <p class="ch-sum">We link and reframe; we never copy. Everything here is explained in our own words — go read the primary work.</p>
+    <div class="srcs">
+      <a href="https://github.com/huggingface/lerobot" target="_blank" rel="noopener"><span class="s-t">Hugging Face LeRobot</span><br><span class="s-u">github.com/huggingface/lerobot</span></a>
+      <a href="https://huggingface.co/docs/lerobot" target="_blank" rel="noopener"><span class="s-t">LeRobot docs — LeRobotDataset, training, eval</span><br><span class="s-u">huggingface.co/docs/lerobot</span></a>
+      <a href="https://tonyzhaozh.github.io/aloha/" target="_blank" rel="noopener"><span class="s-t">ALOHA &amp; ACT — Action Chunking with Transformers (Zhao et al., 2023)</span><br><span class="s-u">tonyzhaozh.github.io/aloha</span></a>
+      <a href="https://diffusion-policy.cs.columbia.edu/" target="_blank" rel="noopener"><span class="s-t">Diffusion Policy (Chi et al., 2023)</span><br><span class="s-u">diffusion-policy.cs.columbia.edu</span></a>
+      <a href="https://arxiv.org/abs/1011.0686" target="_blank" rel="noopener"><span class="s-t">DAgger &amp; the compounding-error analysis (Ross, Gordon &amp; Bagnell, 2011)</span><br><span class="s-u">arxiv.org/abs/1011.0686</span></a>
+      <a href="https://huggingface.co/blog/smolvla" target="_blank" rel="noopener"><span class="s-t">SmolVLA — a 450M VLA that runs on a MacBook</span><br><span class="s-u">huggingface.co/blog/smolvla</span></a>
+      <a href="https://www.pi.website/blog/pi0" target="_blank" rel="noopener"><span class="s-t">π0 — Physical Intelligence's VLA</span><br><span class="s-u">pi.website/blog/pi0</span></a>
+      <a href="https://developer.nvidia.com/isaac/gr00t" target="_blank" rel="noopener"><span class="s-t">NVIDIA Isaac GR00T</span><br><span class="s-u">developer.nvidia.com/isaac/gr00t</span></a>
+    </div>
+    <p class="footer">Physical Spark · Learning by Showing · a study deep-dive under Mission 2</p>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  // mermaid (CDN; themed to match the paper look)
+  try{
+    if(window.mermaid){ mermaid.initialize({startOnLoad:true, theme:'base',
+      themeVariables:{ primaryColor:'#fbf9f4', primaryBorderColor:'#d8d0bd', primaryTextColor:'#1c1a17', lineColor:'#b8402e', fontFamily:'ui-monospace,Menlo,monospace', fontSize:'14px'},
+      securityLevel:'loose', flowchart:{htmlLabels:true, curve:'basis'} });
+    }
+  }catch(e){}
+
+  // copy buttons
+  document.querySelectorAll('.code').forEach(function(box){
+    var btn=box.querySelector('.copy'), pre=box.querySelector('pre'); if(!btn||!pre) return;
+    btn.addEventListener('click', function(){
+      var t=pre.innerText;
+      function ok(){btn.textContent='copied ✓'; btn.classList.add('done'); setTimeout(function(){btn.textContent='copy'; btn.classList.remove('done');},1400);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(fb);}else{fb();}
+      function fb(){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(ta);}
+    });
+  });
+
+  // quiz
+  document.querySelectorAll('.mcq').forEach(function(q){
+    var ans=q.getAttribute('data-answer');
+    q.querySelectorAll('.opt').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if(q.classList.contains('answered'))return; q.classList.add('answered');
+        var k=opt.getAttribute('data-k'), c=q.querySelector('.opt[data-k="'+ans+'"]');
+        if(c){c.classList.add('correct'); var m=c.querySelector('.mark'); if(m)m.textContent='✓';}
+        if(k!==ans){opt.classList.add('wrong'); var w=opt.querySelector('.mark'); if(w)w.textContent='✗';}
+      });
+    });
+  });
+
+  // ---- progress (saved) + view router ----
+  var KEY='imitation_learning_progress', store={};
+  try{store=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){store={};}
+  var boxes=document.querySelectorAll('.cpx');
+  var views=Array.prototype.slice.call(document.querySelectorAll('.view'));
+
+  function vDone(v){var cbs=v.querySelectorAll('.cpx'); if(!cbs.length)return false; for(var i=0;i<cbs.length;i++){if(!cbs[i].checked)return false;} return true;}
+  function vNum(v){var eb=v.querySelector('.ch-eyebrow'); return eb?eb.childNodes[0].textContent.trim():'';}
+  function vTitle(v){var h=v.querySelector('h2'); return h?h.textContent:(v.id==='home'?'Home':v.id);}
+  function vRT(v){var r=v.querySelector('.ch-eyebrow .rt'); return r?r.textContent.replace('· ','').trim():'';}
+  function shortLabel(v){if(v.id==='home')return 'Contents'; return vNum(v)||vTitle(v);}
+  function rowHTML(v){var n=v.id==='home'?'⌂':(vDone(v)?'<span class="dot">✓</span>':(vNum(v).replace(/[^0-9]/g,'')||'•'));
+    return '<span class="n">'+n+'</span><span class="t">'+vTitle(v)+'</span><span class="rt">'+vRT(v)+'</span>';}
+
+  function refresh(){
+    var d=0; boxes.forEach(function(b){if(b.checked)d++;});
+    var pct=boxes.length?Math.round(d/boxes.length*100):0;
+    document.getElementById('pbar').style.width=pct+'%';
+    document.getElementById('pct').textContent=pct+'%';
+    buildHome(); buildMenu();
+  }
+  boxes.forEach(function(b){var k=b.getAttribute('data-key'); if(store[k])b.checked=true;
+    b.addEventListener('change', function(){store[k]=b.checked; try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){} refresh();});});
+
+  function buildHome(){var host=document.getElementById('homeList'); if(!host)return; host.innerHTML='';
+    views.forEach(function(v){if(v.id==='home')return; var a=document.createElement('a'); a.href='#/'+v.id; a.innerHTML=rowHTML(v); host.appendChild(a);});}
+  function buildMenu(){var p=document.getElementById('tocPanel'); p.innerHTML='';
+    views.forEach(function(v){var a=document.createElement('a'); a.href='#/'+v.id; a.innerHTML=rowHTML(v);
+      a.addEventListener('click',function(){p.classList.remove('open');}); p.appendChild(a);});}
+
+  // add prev / next nav to each page (once)
+  views.forEach(function(v,i){
+    if(v.id==='home')return;
+    var nav=document.createElement('div'); nav.className='pagenav';
+    var prev=views[i-1], next=views[i+1];
+    nav.innerHTML=(prev?'<a href="#/'+prev.id+'">← '+shortLabel(prev)+'</a>':'<a class="disabled">←</a>')
+      +'<a class="mid" href="#/home">☰</a>'
+      +(next?'<a href="#/'+next.id+'">'+shortLabel(next)+' →</a>':'<a class="disabled">done 🎉</a>');
+    v.appendChild(nav);
+  });
+
+  function currentId(){var h=(location.hash||'').replace(/^#\/?/,''); return document.getElementById(h)?h:'home';}
+  function show(id){var el=document.getElementById(id)||views[0];
+    views.forEach(function(v){v.classList.toggle('active', v===el);});
+    document.getElementById('tocPanel').classList.remove('open');
+    window.scrollTo(0,0);
+  }
+  document.getElementById('tocBtn').addEventListener('click', function(){document.getElementById('tocPanel').classList.toggle('open');});
+  window.addEventListener('hashchange', function(){show(currentId());});
+
+  refresh(); show(currentId());
+</script>
+
+</body>
+</html>
