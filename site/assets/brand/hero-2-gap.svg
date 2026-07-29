@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Capital arriving ahead of people creates an opening</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 250C138 228 198 190 250 130C360 86 484 74 620 70L620 195C476 196 366 208 300 230C215 234 136 240 70 250Z" fill="#e0442e" fill-opacity=".13" stroke="none"/>
+    <path d="M70 250C138 228 198 190 250 130C360 86 484 74 620 70" stroke="#e6a413" stroke-width="12"/>
+    <path d="M620 70l-29-13 5 28Z" fill="#e6a413" stroke-width="4"/>
+    <path d="M70 250C152 243 230 237 300 230C408 221 514 209 620 195" stroke="#2f6fd0" stroke-width="10" stroke-dasharray="18 18"/>
+    <path d="M590 83v117" stroke-width="4"/>
+    <path d="M580 83h20M580 200h20" stroke-width="4"/>
+    <circle cx="210" cy="239" r="6" fill="#fbf5e9" stroke-width="3"/>
+    <circle cx="325" cy="228" r="6" fill="#fbf5e9" stroke-width="3"/>
+    <circle cx="445" cy="214" r="6" fill="#fbf5e9" stroke-width="3"/>
+    <circle cx="560" cy="202" r="6" fill="#fbf5e9" stroke-width="3"/>
+  </g>
+</svg>

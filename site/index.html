@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <title>Physical Spark — a peer-review school for Physical AI</title>
 <meta name="description" content="Robotics that feels like play. Give a robot arm a mission, solve it, peer-review each other's runs. Start in simulation — no robot required.">
 <style>
@@ -89,7 +90,13 @@
   .lvl{position:relative; background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c); border-radius:16px; padding:20px; overflow:hidden; box-shadow:0 6px 20px var(--shadow); cursor:pointer;}
   .lvl:hover{border-color:var(--c);}
   .lvl .num{font-family:ui-monospace,monospace; font-size:52px; font-weight:900; line-height:1; color:var(--line); position:absolute; top:8px; right:14px;}
+  .lvl .glyph{height:46px; width:auto; display:block; margin-bottom:12px;}
   .lvl .meta{font-family:ui-monospace,monospace; font-size:11px; color:var(--muted); margin-bottom:6px;}
+  /* section illustration — the brand SVGs, sized to sit beside body copy */
+  .illo{display:grid; grid-template-columns:1fr 1fr; gap:26px; align-items:center;}
+  .illo img{width:100%; height:auto; display:block;}
+  .illo.rev > img{order:-1;}
+  @media (max-width:760px){ .illo{grid-template-columns:1fr;} .illo.rev > img{order:0;} }
   .lvl h4{margin:0 0 6px; font-size:19px;} .lvl p{margin:0; color:var(--muted); font-size:14px;}
   .stars{margin-top:12px; color:var(--gold); letter-spacing:2px; font-size:13px;}
   .pill{display:inline-block; font-size:11px; font-weight:700; color:var(--c); border:1px solid var(--line); border-radius:6px; padding:1px 7px; margin-top:12px;}
@@ -98,6 +105,12 @@
   .step{background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:18px;}
   .step .k{font-family:ui-monospace,monospace; color:var(--red); font-weight:800; font-size:13px;}
   .step h4{margin:8px 0 4px; font-size:16px;} .step p{margin:0; color:var(--muted); font-size:13.5px;}
+  /* stat variant of .step — a handful of headline numbers, not a chart */
+  .step.stat .big{font-weight:900; font-size:clamp(24px,3.4vw,32px); letter-spacing:-.02em; line-height:1.1; margin-bottom:4px;}
+  .step.stat .src{font-family:ui-monospace,monospace; font-size:11px; color:var(--muted); margin-top:8px;}
+  .whynow{display:grid; grid-template-columns:1fr 1fr; gap:26px; align-items:center;}
+  .whynow img{width:100%; height:auto; display:block;}
+  @media (max-width:760px){ .whynow{grid-template-columns:1fr;} }
 
   /* real setup */
   .setup{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:center;}
@@ -134,11 +147,12 @@
 <body>
 
 <nav><div class="wrap">
-  <span class="brand">Physical<b> Spark</b></span>
+  <span class="brand" style="display:inline-flex;align-items:center;gap:8px;"><img src="assets/brand/logo-mark.svg" alt="" style="height:24px;width:auto;display:block;">Physical<b>&nbsp;Spark</b></span>
   <span class="links">
     <a href="#play">Play</a>
     <a href="#missions">Missions</a>
-    <a href="#setup">The arm</a>
+    <a href="market.html">Market</a>
+    <a href="pitch.html">60s pitch</a>
     <a href="/docs">📓 Playbook</a>
     <a href="join.html" style="color:var(--red); font-weight:800;">🙋 Join us</a>
     <a href="https://github.com/bookseal/physical-spark" target="_blank">GitHub</a>
@@ -196,17 +210,17 @@
   </svg>
   <div class="levels">
     <div class="lvl" style="--c:var(--red)" onclick="location.href='courses/#/m1'">
-      <div class="num">1</div><div class="meta">BEGINNER · ~1h</div><h4>Pat me on the back</h4>
+      <div class="num">1</div><img class="glyph" src="assets/brand/mission-1-pat.svg" alt="An arm arcing over toward a shoulder"><div class="meta">BEGINNER · ~1h</div><h4>Pat me on the back</h4>
       <p>Build the arm, make it gently pat your back. A warm first win.</p>
       <div class="stars">★☆☆☆☆</div><br><span class="pill">Mac-friendly</span>
     </div>
     <div class="lvl" style="--c:var(--blue)" onclick="location.href='courses/#/m2'">
-      <div class="num">2</div><div class="meta">BEGINNER · ~2h</div><h4>Pick &amp; place</h4>
+      <div class="num">2</div><img class="glyph" src="assets/brand/mission-2-pick.svg" alt="A gripper lifting a cube between two pads"><div class="meta">BEGINNER · ~2h</div><h4>Pick &amp; place</h4>
       <p>Grab an object, move it. The "Hello World" of manipulation.</p>
       <div class="stars">★★☆☆☆</div><br><span class="pill">sim or real</span>
     </div>
     <div class="lvl" style="--c:var(--gold)" onclick="location.href='courses/#/m3'">
-      <div class="num">3</div><div class="meta">INTERMEDIATE · ~4h</div><h4>Red Light, Green Light</h4>
+      <div class="num">3</div><img class="glyph" src="assets/brand/mission-3-light.svg" alt="A red stop signal beside a waveform flattening to a line"><div class="meta">INTERMEDIATE · ~4h</div><h4>Red Light, Green Light</h4>
       <p>The robot moves while you speak, freezes the instant you stop. The one Squid Game made famous.</p>
       <div class="stars">★★★★☆</div><br><span class="pill">peer-review shines</span>
     </div>
@@ -216,9 +230,35 @@
   </div>
 </div></section>
 
+<section id="why-now"><div class="wrap">
+  <h2 class="sec">Why now</h2>
+  <h3 class="lead">Anyone can generate an app. Nobody can generate a robot that works.</h3>
+  <div class="whynow">
+    <div>
+      <p style="margin-top:0">Writing code stopped being the hard part — you describe an app and it
+        appears. So the price of "I can use the tool" collapsed, and the money moved up: deciding
+        <b>what</b> to build, designing it, proving it works.</p>
+      <p><b>Physical AI is the part that did not get commoditized.</b> A robot arm either picks up
+        the block or it doesn't. No prompt gets you past a gripper that misses by two centimetres.
+        That's why we grade on video — the work can't be faked, so the grade means something.</p>
+      <p style="margin-bottom:0"><a href="market.html">Who actually pays for this, in three
+        countries →</a></p>
+    </div>
+    <img src="assets/brand/market-commoditized.svg"
+      alt="A grey software curve rising then flattening into a crowded plateau, and a teal physical-AI curve crossing above it and still climbing">
+  </div>
+  <div class="loop" style="margin-top:26px;">
+    <div class="step stat"><div class="big">$407B</div><p>enterprise AI spending in 2026, up 34.8% from $302B</p><div class="src">Value Add VC</div></div>
+    <div class="step stat"><div class="big">86%</div><p>of enterprises are raising their AI budget this year — about 2% are cutting</p><div class="src">Value Add VC</div></div>
+    <div class="step stat"><div class="big">10,000</div><p>AI specialists Korea's new KDT "AI Campus" track aims to train in 2026, at zero self-pay</p><div class="src">Codeit · 2026 KDT guide</div></div>
+  </div>
+</div></section>
+
 <section id="how"><div class="wrap">
   <h2 class="sec">The loop</h2>
   <h3 class="lead">Not a course. A playground with a scoreboard.</h3>
+  <img src="assets/brand/hero-4-circuit.svg" style="width:100%;max-width:640px;height:auto;display:block;margin:0 auto 22px;"
+    alt="A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery">
   <div class="loop">
     <div class="step"><div class="k">01 · PLAY</div><h4>Take a mission</h4><p>Run a robot-arm challenge — in sim today, on real hardware later.</p></div>
     <div class="step"><div class="k">02 · POST</div><h4>Upload your run</h4><p>Drop a short clip. Rough is fine — it's a playground.</p></div>
@@ -256,6 +296,13 @@
 <section id="gallery"><div class="wrap">
   <h2 class="sec">Solution gallery</h2>
   <h3 class="lead">Best lap wins.</h3>
+  <div class="illo" style="margin-bottom:22px;">
+    <p style="margin:0; color:var(--muted);">Nobody grades you from above. You review other people's
+      runs, they review yours, and the ones that earn the most reviews rise. <b style="color:var(--fg)">Course
+      videos get copied in a day. A review record does not.</b></p>
+    <img src="assets/brand/hero-3-peerreview.svg"
+      alt="Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon">
+  </div>
   <div class="board">
     <div class="row p1"><span class="rank">1</span><span class="who">@nova_arm <small>Red Light, Green Light — 40ms stop latency</small></span><span class="ribbon">BEST LAP</span><span class="likes">♥ 214</span></div>
     <div class="row"><span class="rank">2</span><span class="who">@toybot <small>Pick &amp; place — one-shot, no retries</small></span><span class="likes">♥ 168</span></div>
@@ -267,6 +314,14 @@
 <section id="roadmap"><div class="wrap">
   <h2 class="sec">Roadmap</h2>
   <h3 class="lead">This is the arcade cabinet. More coins go in soon.</h3>
+  <div class="illo rev" style="margin-bottom:24px;">
+    <p style="margin:0; color:var(--muted);">Everything here is being built in the open, and
+      <b style="color:var(--fg)">student number one is the person building it</b> — the arm gets bought,
+      assembled and broken on camera, and every place it gets stuck becomes the next lesson.
+      <a href="join.html">Come build it with us →</a></p>
+    <img src="assets/brand/hero-5-bench.svg"
+      alt="A workbench with a half-assembled robot arm, an open notebook, a camera on a tripod and a mug">
+  </div>
   <div class="soon">
     <div class="t"><div class="ic">🔧</div><b>The Garage</b><span>coming soon</span><em>Log in · your saved runs</em></div>
     <div class="t"><div class="ic">🏁</div><b>Unlock the circuit</b><span>coming soon</span><em>Cohorts &amp; pricing</em></div>

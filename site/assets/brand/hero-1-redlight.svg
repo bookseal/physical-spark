@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img" aria-labelledby="title">
+  <title id="title">Robot arm freezing on a red light while speech flatlines</title>
+  <g fill="none" stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="38" y="230" width="162" height="30" rx="15" fill="#948468" stroke="none"/>
+    <rect x="72" y="190" width="86" height="44" rx="16" fill="#e0442e"/>
+    <circle cx="115" cy="212" r="12" fill="#fbf5e9"/>
+    <path d="M115 190v-42" stroke-width="16"/>
+    <path d="M115 148c0-26 36-40 58-22l28 24" stroke-width="16"/>
+    <circle cx="211" cy="168" r="13" fill="#fbf5e9"/>
+    <path d="M223 175l52 34" stroke="#e0442e" stroke-width="16"/>
+    <path d="M275 209l29-3M275 209l22 19" stroke-width="12"/>
+    <path d="M228 149l18 9M234 138l18 9M240 127l18 9" stroke="#e0442e"/>
+    <circle cx="364" cy="150" r="78" fill="#e0442e"/>
+    <rect x="306" y="136" width="116" height="28" rx="14" fill="#fbf5e9" stroke="none"/>
+    <path d="M489 121c18-20 37-20 55 0s37 20 55 0 37-20 55 0" stroke="#0e9a89" stroke-width="14"/>
+    <path d="M489 175c15-16 30-16 45 0s30 16 45 0 23 7 23 7" stroke="#0e9a89" stroke-width="14"/>
+    <path d="M600 182h98" stroke-width="10"/>
+  </g>
+</svg>

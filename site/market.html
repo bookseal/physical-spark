@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical Spark — where this gets sold</title>
+<meta name="description" content="Who pays for AI education in Korea, the US and Singapore — three different engines, with sourced 2026 numbers, and the one place the common advice is wrong.">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<style>
+  /* palette inherited from site/index.html — one warm-light "Re-Volt" mood, no dark mode */
+  :root{
+    --bg:#fbf5e9; --bg2:#f5ecd8; --fg:#2b211a; --muted:#948468; --line:#e8dcc4; --card:#fffdf9;
+    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --amber:#f4b21a;
+    --accent:#e0442e; --shadow:rgba(120,80,20,.18);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--fg); line-height:1.65; overflow-x:hidden;
+    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans","Apple SD Gothic Neo",sans-serif;}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 22px;}
+  h2.sec{font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;}
+  h3.lead{font-size:clamp(22px,4vw,34px); margin:0 0 20px; font-weight:800; letter-spacing:-.015em;}
+  section{padding:54px 0; border-top:1px solid var(--line);}
+  p{max-width:74ch;}
+
+  nav{position:sticky; top:0; z-index:20; backdrop-filter:blur(8px);
+    background:color-mix(in srgb,var(--bg) 84%,transparent); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; gap:18px; height:54px;}
+  nav .brand{font-weight:900; letter-spacing:-.01em; text-transform:uppercase; font-size:15px; color:var(--fg);
+    display:flex; align-items:center; gap:8px;}
+  nav .brand img{height:24px; width:auto; display:block;}
+  nav .brand b{color:var(--red);}
+  nav .links{margin-left:auto; display:flex; gap:16px; align-items:center; flex-wrap:wrap;}
+  nav .links a{color:var(--muted); font-size:13px; font-weight:600;}
+  nav .links a:hover{color:var(--red); text-decoration:none;}
+  nav .links a.on{color:var(--red);}
+
+  header.hero{padding:64px 0 44px;}
+  .badge{display:inline-block; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--line); background:var(--card); border-radius:999px; padding:5px 14px; margin-bottom:20px;}
+  h1.title{margin:0; font-size:clamp(32px,6.4vw,60px); line-height:1.04; font-weight:900; letter-spacing:-.025em;}
+  h1.title em{font-style:normal; color:var(--red); text-shadow:0 3px 0 color-mix(in srgb,var(--red) 26%,transparent);}
+  .tag{margin:20px 0 0; max-width:70ch; color:var(--muted); font-size:clamp(15px,2.2vw,19px);}
+  .tag b{color:var(--fg);}
+
+  .fig{width:100%; height:auto; display:block; margin:26px 0 6px; max-width:760px;}
+  .figcap{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;}
+
+  /* stat tiles — the right form for a handful of headline numbers */
+  .row{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin:26px 0 0;}
+  .tile{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c,var(--red));
+    border-radius:15px; padding:16px 18px; box-shadow:0 6px 20px var(--shadow);}
+  .tile .big{font-weight:900; font-size:clamp(22px,3.2vw,30px); line-height:1.12; letter-spacing:-.02em;}
+  .tile .cap{font-size:13px; color:var(--muted); margin-top:5px;}
+  .tile .src{font-size:11px; color:var(--muted); margin-top:7px;}
+
+  /* country comparison */
+  .tbl{width:100%; overflow-x:auto; margin-top:24px;}
+  table{border-collapse:collapse; width:100%; min-width:720px; font-size:14px; background:var(--card);
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;}
+  th,td{text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  thead th{background:var(--bg2); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);}
+  tbody th{font-weight:800; white-space:nowrap; width:150px; color:var(--fg);}
+  tr:last-child td, tr:last-child th{border-bottom:none;}
+  td b{color:var(--fg);}
+  .flag{font-size:16px; margin-right:5px;}
+
+  /* the correction callout — the credibility moment of this page */
+  .warn{margin-top:26px; background:var(--card); border:1px solid var(--line); border-left:6px solid var(--red);
+    border-radius:14px; padding:20px 22px; box-shadow:0 8px 26px var(--shadow);}
+  .warn h4{margin:0 0 8px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--red);}
+  .warn p{margin:0 0 10px;}
+  .warn p:last-child{margin-bottom:0;}
+  .warn .strike{color:var(--muted); text-decoration:line-through;}
+
+  /* the ladder */
+  .rungs{list-style:none; margin:24px 0 0; padding:0; display:grid; gap:10px;}
+  .rungs li{background:var(--card); border:1px solid var(--line); border-left:5px solid var(--c);
+    border-radius:12px; padding:13px 16px; display:flex; gap:14px; align-items:baseline; flex-wrap:wrap;}
+  .rungs .n{font-weight:900; color:var(--c); min-width:22px;}
+  .rungs .t{font-weight:800; min-width:210px;}
+  .rungs .d{color:var(--muted); font-size:14px; flex:1; min-width:240px;}
+  .rungs .price{color:var(--fg); display:inline-block; margin-top:5px;}
+
+  .split2{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:24px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:15px; padding:18px 20px;
+    box-shadow:0 6px 20px var(--shadow);}
+  .card h4{margin:0 0 8px; font-size:16px; font-weight:800;}
+  .card ul{margin:0; padding-left:18px; color:var(--muted); font-size:14px;}
+  .card li{margin-bottom:5px;}
+
+  .srclist{font-size:13px; color:var(--muted); padding-left:18px;}
+  .srclist li{margin-bottom:7px;}
+
+  footer{border-top:1px solid var(--line); padding:26px 0 44px; color:var(--muted); font-size:13px;}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/brand/logo-mark.svg" alt="">Physical<b>&nbsp;Spark</b></a>
+  <span class="links">
+    <a href="index.html#missions">Missions</a>
+    <a href="courses/">Courses</a>
+    <a href="market.html" class="on">Market</a>
+    <a href="funding.html">국비</a>
+    <a href="pitch.html">60s pitch</a>
+    <a href="join.html">🙋 Join us</a>
+    <a href="https://github.com/bookseal/physical-spark" target="_blank" rel="noopener">GitHub</a>
+  </span>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="badge mono">Market · 2026 · sourced</span>
+  <h1 class="title">Anyone can generate an app now.<br><em>Nobody can generate a robot that works.</em></h1>
+  <p class="tag">Three countries pay for AI education through three completely different engines.
+    This page shows <b>who writes the cheque</b> in each one, with the 2026 numbers and links —
+    and the one place where the standard advice is <b>wrong</b>.</p>
+</div></header>
+
+<!-- ─────────────────────────────────────────────────────────── the thesis ── -->
+<section id="thesis"><div class="wrap">
+  <h2 class="sec">The 2026 thesis</h2>
+  <h3 class="lead">Tools got commoditized. Value moved up — and out of software.</h3>
+  <p>Writing code stopped being the hard part. You describe an app in plain language and it appears.
+    So the price of "I can use the tool" collapsed, and the money moved up the stack: deciding
+    <b>what</b> to build and <b>why</b>, designing the system, evaluating it, keeping it alive.</p>
+  <p><b>Physical AI is the part that did not get commoditized.</b> A robot arm either picks up the
+    block or it does not. No prompt gets you past a gripper that misses by two centimetres. That is
+    why this school teaches robots and grades on video: the work cannot be faked, so the grade
+    means something.</p>
+
+  <img class="fig" src="assets/brand/market-commoditized.svg"
+       alt="A grey software curve rising then flattening into a crowded plateau, and a teal physical-AI curve crossing above it and still climbing, with the gap between them shaded gold">
+  <p class="figcap mono">grey: software generation, flattened and crowded · teal: physical, still climbing</p>
+
+  <div class="row">
+    <div class="tile" style="--c:var(--blue)">
+      <div class="big">$407B</div>
+      <div class="cap">enterprise AI spending in 2026, up 34.8% from $302B in 2025</div>
+      <div class="src mono">Value Add VC</div>
+    </div>
+    <div class="tile" style="--c:var(--teal)">
+      <div class="big">86%</div>
+      <div class="cap">of enterprises are raising their AI budget this year. About 2% are cutting.</div>
+      <div class="src mono">Value Add VC</div>
+    </div>
+    <div class="tile" style="--c:var(--gold)">
+      <div class="big">25%</div>
+      <div class="cap">name AI training a top funding priority for 2026; 75% are increasing AI-related L&amp;D spend</div>
+      <div class="src mono">LMSPedia</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ──────────────────────────────────────────────────── three engines ── -->
+<section id="engines"><div class="wrap">
+  <h2 class="sec">Three countries, three engines</h2>
+  <h3 class="lead">The first question is never "what do we teach." It is "who pays."</h3>
+  <p>Korea, the United States and Singapore all want more AI-capable workers. They fund it in ways
+    that have almost nothing in common, so the same course needs a different lever in each market.</p>
+
+  <img class="fig" src="assets/brand/market-3-engines.svg"
+       alt="Three engine blocks — a government building, an office tower and a credit card — feeding arrows into one shared funnel">
+  <p class="figcap mono">state budget · enterprise budget · state credit routed through an institution</p>
+
+  <div class="tbl"><table>
+    <thead><tr>
+      <th></th>
+      <th><span class="flag">🇰🇷</span>Korea</th>
+      <th><span class="flag">🇺🇸</span>United States</th>
+      <th><span class="flag">🇸🇬</span>Singapore</th>
+    </tr></thead>
+    <tbody>
+      <tr><th>Who pays</th>
+        <td><b>The state</b>, then the individual</td>
+        <td><b>The employer</b>, then the individual</td>
+        <td><b>The state</b>, via an approved institution</td></tr>
+      <tr><th>The mechanism</th>
+        <td>국민내일배움카드 → K-Digital Training (KDT) bootcamps</td>
+        <td>Corporate L&amp;D budgets; marketplaces (Udemy, Coursera) and cohort platforms (Maven) for individuals</td>
+        <td>SkillsFuture Credit, but only against qualifying programmes</td></tr>
+      <tr><th>2026 numbers</th>
+        <td><b>AI Campus</b> launches in KDT in H1 2026, targeting <b>10,000</b> AI specialists at
+            <b>zero self-pay</b>. General KDT starts charging up to <b>10%</b> self-pay from
+            2026-01-01. Training allowance rises to <b>₩200,000/month</b> (was ₩116,000).
+            Card base <b>₩3M / 5 years</b>, up to ₩5M.</td>
+        <td>Average senior-leader L&amp;D budget <b>$11.8M</b>. Spend per employee ranges from
+            <b>over $1,700</b> at small organisations to <b>under $300</b> at large ones.</td>
+        <td>Up to <b>S$4,500</b> combined for citizens aged 40+ (S$500 base + S$4,000 mid-career).
+            The 2020 S$500 tranche <b>expired 2025-12-31</b>.</td></tr>
+      <tr><th>The lever</th>
+        <td><b>Get approved.</b> Distribution is state-controlled; the fight is for a KDT slot.</td>
+        <td><b>Differentiate.</b> Supply is unlimited and acquisition is expensive — the question is
+            why you and not the other thousand courses.</td>
+        <td><b>Partner.</b> See the correction below — you cannot simply list a course.</td></tr>
+      <tr><th>The catch</th>
+        <td>Price anchored near zero. Students expect state-funded to mean free.</td>
+        <td>Marketplaces rent you trust and traffic, then keep the pricing power and the customer list.</td>
+        <td>Small market, but English-speaking and the gateway to ASEAN.</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- ───────────────────────────────────────────── the correction ── -->
+<section id="correction"><div class="wrap">
+  <h2 class="sec">Where the common advice is wrong</h2>
+  <h3 class="lead">Singapore is not a "register your course" play.</h3>
+
+  <div class="warn">
+    <h4>⚠ Corrected after checking the source</h4>
+    <p class="strike">"Register with SkillsFuture and absorb the subsidised demand."</p>
+    <p>That is the advice you will hear, and it does not survive contact with the eligibility rules.
+      <b>Short courses, online subscriptions and standalone workshops generally do not qualify</b>
+      for the S$4,000 SkillsFuture Credit (Mid-Career). What qualifies is narrower: full
+      qualifications from an Institute of Higher Learning, shorter modules that <b>stack toward</b>
+      a full qualification, MOE-subsidised arts qualifications, SkillsFuture Career Transition
+      Programmes (train-and-place), and courses tied to Progressive Wage Model sectors.</p>
+    <p><b>What this means for us.</b> A six-week online cohort — exactly what Physical Spark is
+      designed to run — would <b>not</b> be credit-eligible on its own. Singapore is only reachable
+      by partnering with a polytechnic or university so the missions become stackable modules
+      inside a qualification that already carries approval. That is a slower, relationship-shaped
+      entry, and it should be sequenced <b>third</b>, not first.</p>
+    <p>We are publishing the correction rather than the pitch-friendly version, for the same reason
+      the <a href="../docs/07-strategy/physical-ai-korea-playbook.md">Korea playbook</a> does:
+      a plan built on a rule that does not exist fails later and more expensively.</p>
+  </div>
+</div></section>
+
+<!-- ────────────────────────────────────────────────── revenue ladder ── -->
+<section id="ladder"><div class="wrap">
+  <h2 class="sec">The revenue ladder</h2>
+  <h3 class="lead">Individuals give you volume. Companies give you price.</h3>
+  <p>These are rungs, not options — each one is built on the audience the one below it produced.
+    Skipping to the top without the bottom means selling enterprise training with no proof it works.</p>
+
+  <img class="fig" src="assets/brand/market-ladder.svg"
+       alt="A five-step staircase rising left to right with an arrow climbing over it, and a tapered arrow beneath pointing back the other way">
+  <p class="figcap mono">price climbs to the right · volume falls the same direction</p>
+
+  <ol class="rungs">
+    <li style="--c:var(--muted)"><span class="n mono">1</span><span class="t">Self-paced missions</span>
+      <span class="d">Cheap, infinite capacity, no completion pressure. This is the top of the funnel, not the business.</span></li>
+    <li style="--c:var(--teal)"><span class="n mono">2</span><span class="t">Cohort (live, fixed dates)</span>
+      <span class="d">Higher price, real completion rates, real testimonials. This is where peer review actually happens — and where the deposit rule lives.<br><b class="price">$190 for six weeks (₩250,000), plus a $60 deposit refunded only if you finish.</b> The deposit is the whole retention mechanic: it has to be big enough to sting and small enough to say yes to.</span></li>
+    <li style="--c:var(--blue)"><span class="n mono">3</span><span class="t">Membership / community</span>
+      <span class="d">Turns one cohort into recurring revenue and keeps the review gallery alive between intakes.</span></li>
+    <li style="--c:var(--gold)"><span class="n mono">4</span><span class="t">Kits, templates, licences</span>
+      <span class="d">Arm bundles and mission packs. Margin without teaching hours.<br><b class="price">SO-101-class arm kit bundled at $520, on roughly $400 landed cost — about 23% margin.</b> Thin on purpose: the kit exists to remove the excuse not to start, not to be the business.</span></li>
+    <li style="--c:var(--red)"><span class="n mono">5</span><span class="t">B2B workshops and internal training</span>
+      <span class="d">The highest price per sale, aimed straight at the AI reskilling budget that 75% of organisations are growing this year.<br><b class="price">$2,500 per workshop day, up to 12 people.</b> That is about $210 a head — inside the $300–$1,700 per-employee L&amp;D range above, so it clears procurement without a fight.</span></li>
+  </ol>
+
+<div class="warn" style="border-left-color:var(--gold)">
+    <h4 style="color:var(--gold)">⚠ v0 prices — three of five rungs, on purpose</h4>
+    <p><b>Rungs 1 and 3 have no price</b> because those products do not exist yet. Pricing a
+      self-paced library and a membership before either is built would be inventing a product, and
+      this page is linked from the pitch — anything with a number on it will be quoted back at us.</p>
+    <p>The three prices above are <b>first-cohort numbers, not a rate card.</b> They are set to be
+      defensible rather than optimal: the cohort fee is deliberately low because cohort one is buying
+      completion-rate data, not revenue; the kit margin is thin because its job is removing an excuse;
+      the B2B day rate is anchored to the per-employee L&amp;D range so it survives procurement.
+      All three get revisited once the first cohort's completion rate exists.</p>
+  </div>
+</div></section>
+
+<!-- ─────────────────────────────────────── marketplace vs own site ── -->
+<section id="channel"><div class="wrap">
+  <h2 class="sec">Channel</h2>
+  <h3 class="lead">Borrow the trust first. Own the list second.</h3>
+  <div class="split2">
+    <div class="card">
+      <h4>Marketplace (Udemy, Coursera)</h4>
+      <ul>
+        <li><b>Gives you:</b> traffic and borrowed credibility on day one</li>
+        <li><b>Takes:</b> pricing power, the customer list, and a cut of every sale</li>
+        <li><b>Use it for:</b> proving people want this at all</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Your own site (Teachable, Kajabi, Circle)</h4>
+      <ul>
+        <li><b>Gives you:</b> the price, the email list, the brand, the data</li>
+        <li><b>Takes:</b> you now have to make your own traffic</li>
+        <li><b>Use it for:</b> everything after the audience exists</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:18px">The sequence is the point: a marketplace is a loan of trust, and loans get
+    repaid. Move the cohort to your own site once the name carries people on its own — which, for us,
+    means once the review gallery has runs worth watching.</p>
+</div></section>
+
+<!-- ──────────────────────────────────────────────── the real blockers ── -->
+<section id="blockers"><div class="wrap">
+  <h2 class="sec">Before content</h2>
+  <h3 class="lead">Content crosses borders easily. Money and immigration status do not.</h3>
+  <div class="split2">
+    <div class="card">
+      <h4>Payments</h4>
+      <ul><li>Multi-currency pricing</li><li>Local payment methods (they decide conversion more than price does)</li><li>Refunds across jurisdictions</li></ul>
+    </div>
+    <div class="card">
+      <h4>Tax</h4>
+      <ul><li>US residents are taxed on worldwide income</li><li>Korean-sourced online course income is reportable</li><li>EU VAT on digital goods; withholding rules vary by country</li></ul>
+    </div>
+    <div class="card">
+      <h4>Status</h4>
+      <ul><li>Depending on visa type, teaching online can count as work</li><li>Settle this with a professional <b>before</b> relocating or launching, not after</li></ul>
+    </div>
+  </div>
+  <p style="margin-top:18px">None of this is interesting, and all of it stops a launch harder than a
+    weak curriculum does. It is listed here so it gets handled early rather than discovered late.</p>
+</div></section>
+
+<!-- ─────────────────────────────────────────────────────── sources ── -->
+<section id="sources"><div class="wrap">
+  <h2 class="sec">Sources</h2>
+  <h3 class="lead">Every number above, with its receipt.</h3>
+  <ul class="srclist">
+    <li><a href="https://valueaddvc.com/blog/enterprise-ai-spending-by-industry-whos-deploying-the-most-in-2026" target="_blank" rel="noopener">Value Add VC — Enterprise AI spending by industry, 2026</a> — $407B total, +34.8% YoY, 86% raising budgets</li>
+    <li><a href="https://lmspedia.org/corporate-training-budgets-2026-benchmarks/" target="_blank" rel="noopener">LMSPedia — Corporate training budgets 2026 benchmarks</a> — 75% increasing AI-related L&amp;D spend, 25% call it a top priority, $11.8M average budget, $300–$1,700 per employee</li>
+    <li><a href="https://sprint.codeit.kr/blog/kdt-application-guide" target="_blank" rel="noopener">Codeit — 2026 내일배움카드 KDT 수강 신청 가이드</a> — AI Campus, 10,000 target, zero self-pay</li>
+    <li><a href="https://blog.ezenac.co.kr/%EA%B5%AD%EB%AF%BC%EB%82%B4%EC%9D%BC%EB%B0%B0%EC%9B%80%EC%B9%B4%EB%93%9C-%EA%B5%AD%EB%AF%BC%EC%B7%A8%EC%97%85%EC%A7%80%EC%9B%90%EC%A0%9C%EB%8F%84-%EB%82%B4%EC%9D%BC%EB%B0%B0%EC%9B%80-%EC%B7%A8%EC%97%85%EA%B5%90%EC%9C%A1-%EB%82%B4%EB%B0%B0%EC%B9%B4-K%EB%94%94%EC%A7%80%ED%84%B8%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%8B%9D-%EA%B5%AD%EB%B9%84%EC%A7%80%EC%9B%90-%EC%A0%84%EC%95%A1%EC%A7%80%EC%9B%90-%ED%95%99%EC%9B%90-%EC%A7%81%EB%AC%B4%EA%B5%90%EC%9C%A1-%EC%9E%AC%EC%A7%81%EC%9E%90-%EC%98%A8%EB%9D%BC%EC%9D%B8%EA%B5%90%EC%9C%A1" target="_blank" rel="noopener">이젠아카데미 — 2026 국민내일배움카드 개편안</a> — 10% self-pay, ₩200,000 allowance, ₩3M/₩5M card limits</li>
+    <li><a href="https://coursemology.sg/training-subsidies-and-awards/skillsfuture-credit/" target="_blank" rel="noopener">Coursemology — SkillsFuture Credit guide</a> — S$4,500 combined, 2020 tranche expiry</li>
+    <li><a href="https://traineticsacademy.com.sg/maximizing-your-skillsfuture-credit-for-ai-courses-in-singapore-2026-guide/" target="_blank" rel="noopener">Trainetics — SkillsFuture Credit for AI courses, 2026</a> — what does and does not qualify for the mid-career credit</li>
+  </ul>
+  <p style="margin-top:16px; font-size:13px; color:var(--muted)">Subsidy rules change without much
+    warning. Check <a href="https://www.myskillsfuture.gov.sg" target="_blank" rel="noopener">myskillsfuture.gov.sg</a>
+    and <a href="https://www.work24.go.kr" target="_blank" rel="noopener">work24.go.kr</a> before
+    committing money or a launch date to anything on this page.</p>
+</div></section>
+
+<footer><div class="wrap mono">
+  PHYSICAL SPARK · <a href="pitch.html">the 60-second pitch →</a> ·
+  <a href="funding.html">국비 지원 뚫는 법 (한국편) →</a> ·
+  <a href="https://github.com/bookseal/physical-spark" target="_blank" rel="noopener">github.com/bookseal</a>
+</div></footer>
+
+</body>
+</html>

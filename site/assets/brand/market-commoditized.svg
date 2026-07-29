@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Commoditized software versus rising physical value</title>
+  <path d="M430 150C486 132 545 102 630 60L630 150Z" fill="#e6a413" fill-opacity=".18"/>
+  <g fill="none" stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 240C115 185 165 158 230 150" stroke="#948468" stroke-width="12"/>
+    <path d="M230 150H648" stroke="#948468" stroke-width="12"/>
+    <path d="M70 240C160 246 286 225 390 176C490 128 570 91 630 60" stroke="#0e9a89" stroke-width="12"/>
+    <path d="M630 60l-31-6 10 27Z" fill="#0e9a89"/>
+    <circle cx="340" cy="150" r="8" fill="#948468" stroke="none"/>
+    <circle cx="450" cy="150" r="8" fill="#948468" stroke="none"/>
+    <circle cx="560" cy="150" r="8" fill="#948468" stroke="none"/>
+  </g>
+</svg>

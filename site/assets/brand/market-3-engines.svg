@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Three market engines feeding one funnel</title>
+  <g stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="60" y="38" width="170" height="62" rx="22" fill="#e0442e"/>
+    <rect x="60" y="119" width="170" height="62" rx="22" fill="#2f6fd0"/>
+    <rect x="60" y="200" width="170" height="62" rx="22" fill="#0e9a89"/>
+    <path d="M144 50l-18 14h78l-18-14Zm-34 18h110v12H110Zm10 12h12v28h-12Zm24 0h12v28h-12Zm24 0h12v28h-12Zm24 0h12v28h-12Z" fill="#fbf5e9" stroke="none"/>
+    <path d="M124 126h42v48h-42Zm7 6h11v10h-11Zm17 0h11v10h-11Zm-17 13h11v10h-11Zm17 0h11v10h-11Zm-17 13h11v10h-11Zm17 0h11v10h-11Z" fill="#fbf5e9" fill-rule="evenodd" stroke="none"/>
+    <path d="M105 219h82a12 12 0 0 1 12 12v20a12 12 0 0 1-12 12h-82a12 12 0 0 1-12-12v-20a12 12 0 0 1 12-12Zm0 13h94v10h-94Zm14 18h30v8h-30Z" fill="#fbf5e9" fill-rule="evenodd" stroke="none"/>
+    <path d="M230 69C315 69 384 72 466 111" fill="none"/>
+    <path d="M230 150C322 150 388 149 466 141" fill="none"/>
+    <path d="M230 231C314 231 381 226 466 171" fill="none"/>
+    <path d="M468 111l-20-11 2 21Z" fill="#2b211a"/>
+    <path d="M468 141l-22-6 0 18Z" fill="#2b211a"/>
+    <path d="M468 171l-18-8-2 21Z" fill="#2b211a"/>
+    <path d="M456 96h128l-30 46v34h-68v-34Z" fill="#e6a413"/>
+    <circle cx="520" cy="206" r="8" fill="#e6a413"/>
+    <circle cx="520" cy="228" r="11" fill="#e6a413"/>
+    <circle cx="520" cy="256" r="14" fill="#e6a413"/>
+  </g>
+</svg>
