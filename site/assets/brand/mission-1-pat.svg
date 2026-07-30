@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title">
+  <title id="title">Mission 1 Pat me on the back glyph</title>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 84c6-18 17-29 33-33" stroke="#2b211a" stroke-width="10"/>
+    <path d="M67 49c8-1 14 2 18 9l7 12" stroke="#e0442e" stroke-width="10"/>
+    <path d="M77 70h18v14H77z" fill="#e0442e" stroke="#2b211a" stroke-width="6"/>
+    <path d="M35 88c7-28 25-47 52-56" stroke="#e6a413" stroke-width="6"/>
+    <path d="M83 27l6 1-2 6" stroke="#e6a413" stroke-width="6"/>
+    <path d="M24 88h19" stroke="#2b211a" stroke-width="10"/>
+    <path d="M67 49c2 6 7 10 13 11" stroke="#948468" stroke-width="4"/>
+  </g>
+</svg>

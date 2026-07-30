@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical Spark — the 60-second pitch</title>
+<meta name="description" content="Physical Spark in sixty seconds. Every beat carries a time budget, and the words you say sit on a teleprompter under the slide.">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<style>
+  /* palette inherited from site/index.html — one warm-light "Re-Volt" mood, no dark mode */
+  :root{
+    --bg:#fbf5e9; --bg2:#f5ecd8; --fg:#2b211a; --muted:#948468; --line:#e8dcc4; --card:#fffdf9;
+    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --amber:#f4b21a;
+    --shadow:rgba(120,80,20,.18);
+    --c:var(--red);            /* per-beat accent, set inline by JS */
+    --prompter:150px;          /* space the teleprompter reserves; 0 when hidden */
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{margin:0; background:var(--bg); color:var(--fg); overflow:hidden; line-height:1.6;
+    font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+
+  /* ── the track grid, borrowed from the landing hero ───────────────────── */
+  .grid-bg{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size:52px 52px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 40%, #000 25%, transparent 78%);
+            mask-image:radial-gradient(ellipse 90% 70% at 50% 40%, #000 25%, transparent 78%);}
+
+  /* ── 60s budget bar ───────────────────────────────────────────────────── */
+  .hud{position:fixed; top:0; left:0; right:0; z-index:30; background:color-mix(in srgb,var(--bg) 86%,transparent);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .hud-in{max-width:1180px; margin:0 auto; padding:10px 22px; display:flex; align-items:center; gap:14px;}
+  .logo{display:flex; align-items:center; gap:9px; font-weight:900; text-transform:uppercase;
+    font-size:14px; letter-spacing:-.01em; white-space:nowrap;}
+  .logo img{height:26px; width:auto; display:block;}
+  .logo b{color:var(--red);}
+  .budget{flex:1; display:flex; gap:3px; height:12px; min-width:120px;}
+  .seg{flex:var(--w); background:var(--bg2); border:1px solid var(--line); border-radius:3px;
+    position:relative; overflow:hidden; cursor:pointer;}
+  .seg i{position:absolute; inset:0; width:0%; background:var(--sc); display:block;}
+  .seg.done i{width:100%;}
+  .seg.over{border-color:var(--red); box-shadow:0 0 0 2px color-mix(in srgb,var(--red) 25%,transparent);}
+  .clock{font-weight:800; font-size:15px; min-width:74px; text-align:right; letter-spacing:.02em;}
+  .clock.over{color:var(--red);}
+  .hud .tools{display:flex; gap:6px;}
+  .tbtn{border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:9px;
+    padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;}
+  .tbtn:hover{border-color:var(--red); color:var(--red);}
+  .tbtn.on{background:var(--red); border-color:var(--red); color:#fff;}
+
+  /* ── the slide ────────────────────────────────────────────────────────── */
+  .stage{position:relative; z-index:1; height:100%; display:flex; align-items:center; justify-content:center;
+    padding:78px 22px calc(64px + var(--prompter)); transition:padding .2s ease;}
+  .beat{max-width:1140px; width:100%; display:none;}
+  .beat.on{display:block; animation:pop .34s cubic-bezier(.2,.9,.3,1.2);}
+  @keyframes pop{from{opacity:0; transform:translateY(14px) scale(.985);} to{opacity:1; transform:none;}}
+  @media (prefers-reduced-motion:reduce){ .beat.on{animation:none;} }
+
+  /* text on the left, the illustration on the right */
+  .split{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:34px; align-items:center;}
+  .split.solo{grid-template-columns:1fr;}
+  .hero{width:100%; height:auto; display:block; max-height:34vh; object-fit:contain;}
+
+  .kicker{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+  .kicker .n{font-weight:900; font-size:13px; letter-spacing:.06em; color:#fff; background:var(--c);
+    border-radius:999px; padding:4px 12px;}
+  .kicker .lbl{font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-weight:700;}
+  .kicker .sec{margin-left:auto; font-size:12px; color:var(--muted); font-weight:700;}
+
+  h1.head{margin:0 0 14px; font-size:clamp(27px,3.9vw,48px); line-height:1.06; font-weight:900; letter-spacing:-.028em;}
+  h1.head em{font-style:normal; color:var(--c); text-shadow:0 3px 0 color-mix(in srgb,var(--c) 26%,transparent);}
+  p.sub{margin:0; font-size:clamp(14px,1.5vw,18px); color:var(--muted);}
+  p.sub b{color:var(--fg);}
+
+  /* compact KPI strip — stat tiles, the right form for a handful of headline numbers */
+  .row{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:22px;}
+  .tile{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c);
+    border-radius:14px; padding:13px 15px; box-shadow:0 5px 16px var(--shadow);}
+  .tile .big{font-weight:900; font-size:clamp(17px,2.1vw,25px); line-height:1.15; letter-spacing:-.02em;}
+  .tile .cap{font-size:12px; color:var(--muted); margin-top:4px; line-height:1.45;}
+  .tile img{height:40px; width:auto; display:block; margin-bottom:8px;}
+  .tile.plain{border-top-color:var(--line);}
+
+  @media (max-width:900px){
+    .split{grid-template-columns:1fr; gap:18px;}
+    .hero{max-height:24vh;}
+  }
+
+  /* ── teleprompter — the words, big enough to actually read ────────────── */
+  .prompter{position:fixed; left:0; right:0; bottom:62px; z-index:28; border-top:1px solid var(--line);
+    background:color-mix(in srgb,var(--card) 94%,transparent); backdrop-filter:blur(8px);
+    box-shadow:0 -10px 30px color-mix(in srgb,var(--shadow) 55%,transparent);}
+  .prompter-in{max-width:1180px; margin:0 auto; padding:16px 22px; display:flex; gap:18px; align-items:flex-start;}
+  .pr-tag{flex:0 0 auto; font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    color:#fff; background:var(--c); border-radius:8px; padding:6px 10px; margin-top:5px;}
+  .pr-say{flex:1; margin:0; font-size:clamp(17px,2vw,25px); line-height:1.5; font-weight:600; letter-spacing:-.01em;}
+  .pr-say .empty{color:var(--muted); font-weight:400;}
+  .pr-meta{flex:0 0 auto; display:flex; flex-direction:column; align-items:flex-end; gap:2px; margin-top:4px;}
+  /* seconds left in THIS beat — the number you glance at mid-sentence */
+  .pr-left{font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--c); line-height:1.1;}
+  .pr-left.over{color:var(--red);}
+  .pr-wc{font-size:11px; color:var(--muted); white-space:nowrap;}
+  .pr-wc.over{color:var(--red); font-weight:800;}
+  body.noprompt{--prompter:0px;}
+  body.noprompt .prompter{display:none;}
+
+  /* ── footer controls ──────────────────────────────────────────────────── */
+  .ctl{position:fixed; bottom:0; left:0; right:0; z-index:30; border-top:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 90%,transparent); backdrop-filter:blur(8px);}
+  .ctl-in{max-width:1180px; margin:0 auto; padding:9px 22px; display:flex; align-items:center; gap:10px;}
+  .btn{font-weight:800; font-size:13px; padding:9px 17px; border-radius:10px; cursor:pointer;
+    border:2px solid transparent; transition:transform .08s ease;}
+  .btn:active{transform:translateY(2px);}
+  .btn-go{background:var(--red); color:#fff; box-shadow:0 4px 0 color-mix(in srgb,var(--red) 45%,#000);}
+  .btn-ghost{background:var(--card); color:var(--fg); border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--red); color:var(--red);}
+  .keys{margin-left:auto; font-size:11px; color:var(--muted);}
+  .keys kbd{background:var(--card); border:1px solid var(--line); border-bottom-width:2px; border-radius:5px;
+    padding:1px 5px; font-size:10px; font-family:ui-monospace,monospace;}
+  @media (max-width:900px){ .keys{display:none;} }
+
+  /* ── overview / print mode ────────────────────────────────────────────── */
+  body.ov{overflow:auto;}
+  body.ov .stage{display:block; height:auto; padding:92px 22px 80px; max-width:1000px; margin:0 auto;}
+  body.ov .beat{display:block; margin-bottom:46px; padding-bottom:40px; border-bottom:1px dashed var(--line); animation:none;}
+  body.ov .grid-bg, body.ov .prompter{display:none;}
+  body.ov h1.head{font-size:clamp(24px,3.4vw,36px);}
+  body.ov .hero{max-height:none;}
+  /* in overview the script prints under each beat instead of on the prompter */
+  .beat .inline-say{display:none; margin:18px 0 0; padding:13px 16px; background:var(--card);
+    border:1px solid var(--line); border-left:4px solid var(--c); border-radius:12px; font-size:17px; font-weight:600;}
+  body.ov .beat .inline-say{display:block;}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<div class="hud"><div class="hud-in">
+  <span class="logo"><img src="assets/brand/logo-mark.svg" alt=""> Physical<b>&nbsp;Spark</b></span>
+  <div class="budget" id="budget"></div>
+  <span class="clock mono" id="clock">0:00 / 1:00</span>
+  <span class="tools">
+    <button class="tbtn on" id="btn-auto" onclick="toggleAuto()">Auto A</button>
+    <button class="tbtn on" id="btn-script" onclick="togglePrompter()">Script S</button>
+    <button class="tbtn" id="btn-ov" onclick="toggleOverview()">Overview O</button>
+  </span>
+</div></div>
+
+<main class="stage" id="stage"></main>
+
+<div class="prompter" id="prompter"><div class="prompter-in">
+  <span class="pr-tag mono" id="pr-tag"></span>
+  <p class="pr-say" id="pr-say"></p>
+  <span class="pr-meta mono">
+    <b class="pr-left" id="pr-left">8.0s</b>
+    <span class="pr-wc" id="pr-wc"></span>
+  </span>
+</div></div>
+
+<div class="ctl"><div class="ctl-in">
+  <button class="btn btn-go mono" id="btn-run" onclick="toggleRun()">▶ START</button>
+  <button class="btn btn-ghost" onclick="go(-1)">← Prev</button>
+  <button class="btn btn-ghost" onclick="go(1)">Next →</button>
+  <button class="btn btn-ghost" onclick="reset()">↺</button>
+  <span class="keys">
+    <kbd>space</kbd> next · <kbd>←</kbd><kbd>→</kbd> move · <kbd>A</kbd> auto · <kbd>S</kbd> script · <kbd>O</kbd> overview · <kbd>R</kbd> reset · <kbd>enter</kbd> clock
+  </span>
+</div></div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────────
+   BEATS — the 60-second pitch, as data.
+
+   `say` is the script, written to be read aloud verbatim and to flow from one
+   beat into the next. Read beats 1→6 back to back and you have the whole pitch.
+   `sec` values must sum to 60; the budget bar derives its widths from them.
+   Delivery runs ~2.5 words/second, so an 8s beat is ~20 words — the teleprompter
+   shows a live word count against that budget and turns red when a beat is overwritten.
+   ───────────────────────────────────────────────────────────────────────── */
+const BEATS = [
+  {
+    sec: 8, c: 'var(--red)', label: 'Hook',
+    hero: 'assets/brand/hero-1-redlight.svg',
+    heroAlt: 'A robot arm frozen mid-reach beside a red stop signal and a speech waveform flattening into a straight line',
+    head: 'We train Physical AI engineers<br>by making them <em>beat Squid Game.</em>',
+    sub: 'The hardest mission is <b>Red Light, Green Light</b>. The robot arm moves while you talk. It has to stop the moment you stop talking. There is no right answer, so students grade each other.',
+    html: '',
+    say: 'We train Physical AI engineers. Students make a robot arm play Red Light, Green Light, from Squid Game.'
+  },
+  {
+    sec: 10, c: 'var(--blue)', label: 'Problem',
+    hero: 'assets/brand/hero-2-gap.svg',
+    heroAlt: 'A steep gold line arriving high and early, a slow dashed blue line still far below it, with the wedge between them shaded red',
+    head: 'Robot companies have money.<br>They <em>still cannot hire.</em>',
+    sub: 'Korea has more robots per worker than any country, and a national goal to lead Physical AI by 2030. But robot jobs are one-fifth of React jobs. Free robot courses do exist — <b>no one grades your work</b>, so people learning alone give up.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">#1</div><div class="cap">robots per worker — more than any country</div></div>
+      <div class="tile"><div class="big">1 / 5</div><div class="cap">robot jobs vs React jobs</div></div>
+      <div class="tile"><div class="big">No grading</div><div class="cap">free courses give you video, not feedback</div></div>
+    </div>`,
+    say: 'Robot companies have money. But they cannot find people. Free courses exist, but no one checks your work. So students quit.'
+  },
+  {
+    sec: 12, c: 'var(--teal)', label: 'Why this works',
+    hero: 'assets/brand/hero-3-peerreview.svg',
+    heroAlt: 'Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon',
+    head: 'You cannot test a robot skill<br>with <em>a quiz.</em>',
+    sub: 'The video shows if it works. So students grade each other\'s videos, the way École 42 does it with code. The best videos rise to the top. <b>Anyone can copy a course. No one can copy a community.</b>',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Video is the test</div><div class="cap">it works, or it does not</div></div>
+      <div class="tile"><div class="big">Students grade students</div><div class="cap">the École 42 model, moved onto robots</div></div>
+      <div class="tile"><div class="big">It adds up</div><div class="cap">every review makes the next group faster</div></div>
+    </div>`,
+    say: 'You cannot test a robot skill with a quiz. The video shows if it works. So students check each other. That is our product.'
+  },
+  {
+    sec: 12, c: 'var(--gold)', label: 'Product',
+    hero: 'assets/brand/hero-4-circuit.svg',
+    heroAlt: 'A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery',
+    head: 'We give a mission. You send a video.<br><em>Students grade it.</em>',
+    sub: 'The first mission runs on a computer, so a student needs <b>no robot and no money</b> to start. The arm is open source (SO-101 class). The software is free (Hugging Face LeRobot). Teaching costs us nothing, so we charge for the group, not the content.',
+    html: `<div class="row">
+      <div class="tile"><img src="assets/brand/mission-1-pat.svg" alt=""><div class="big" style="font-size:17px">Pat me on the back</div><div class="cap">an easy first win — on purpose</div></div>
+      <div class="tile"><img src="assets/brand/mission-2-pick.svg" alt=""><div class="big" style="font-size:17px">Pick &amp; place</div><div class="cap">the steps that get harder</div></div>
+      <div class="tile"><img src="assets/brand/mission-3-light.svg" alt=""><div class="big" style="font-size:17px">Red Light, Green Light</div><div class="cap">no right answer — so grading each other is the only way</div></div>
+    </div>`,
+    say: 'We give a mission. Students send a video. Students grade each other. The first mission runs on a computer, so you need no robot.'
+  },
+  {
+    sec: 10, c: 'var(--amber)', label: 'Proof',
+    hero: 'assets/brand/hero-5-bench.svg',
+    heroAlt: 'A workbench with a half-assembled robot arm, an open notebook, a camera on a tripod and a mug',
+    head: 'My last app kept <em>90% of its users</em><br>for two years.',
+    sub: 'It was a habit app. It worked because users paid a deposit and lost it if they quit. I will use the same rule here. I am also student number one: I build the arm, I get stuck, I write it down, and <b>my notes become the course</b>.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">2 yrs · 90%</div><div class="cap">my last app — users who stayed</div></div>
+      <div class="tile"><div class="big">Deposit rule</div><div class="cap">pay to join, lose it if you quit</div></div>
+      <div class="tile"><div class="big">Student one</div><div class="cap">I do every mission first and write down where I got stuck</div></div>
+    </div>`,
+    say: 'My last app kept ninety percent of its users for two years. They paid a deposit and lost it if they quit.'
+  },
+  {
+    sec: 8, c: 'var(--red)', label: 'Ask',
+    hero: '',
+    heroAlt: '',
+    head: 'I am not asking for money.<br><em>I need twelve students.</em>',
+    /* NOTE — still open: the two numbers below ("twelve students", "six weeks from September") are
+       placeholders picked so the deck reads end to end. Replace them with the group size and
+       start date you will actually promise out loud, and keep `sub`, `html` and `say` in sync.
+       Related: the price points on market.html carry the live open marker for this same decision.
+       Pick a number you can hit: a public promise you miss is worse than a smaller one you land,
+       because the next pitch opens with whether you landed it.
+       If you want to ask for something else — an accelerator spot, a design partner, or just the
+       next meeting — rewrite head/sub/say together. Note CLAUDE.md says funding is explicitly NOT
+       the goal right now (traction is), so asking for money would contradict beats 1-5.
+       Keep `say` at 20 words or under; the teleprompter turns red past that. */
+    sub: 'Twelve people for the first group, <b>six weeks from September</b>. Introduce me to them. Next time we talk, I will show you how many finished.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">12 students</div><div class="cap">the first group — that is all I want</div></div>
+      <div class="tile"><div class="big">6 weeks</div><div class="cap">from September — long enough to finish, short enough to count</div></div>
+      <div class="tile"><div class="big">How many finished</div><div class="cap">the number I bring you next time</div></div>
+    </div>`,
+    say: 'I am not asking for money. I need twelve students, six weeks, from September. Next time I show who finished.'
+  },
+];
+
+/* ── derived state ──────────────────────────────────────────────────────── */
+const TOTAL = BEATS.reduce((s, b) => s + b.sec, 0);
+const WPS = 2.5;                       /* spoken words per second, pitch pace */
+/* cumulative start time of each beat, so we can map elapsed seconds → which beat you should be on */
+const STARTS = BEATS.reduce((a, b, i) => (a.push(i ? a[i - 1] + BEATS[i - 1].sec : 0), a), []);
+let idx = 0, running = false, elapsed = 0, tickId = null;
+let auto = true;                       /* auto: the clock drives the slides. off: you drive, the clock only measures. */
+
+/* ── render ─────────────────────────────────────────────────────────────── */
+const stage = document.getElementById('stage');
+stage.innerHTML = BEATS.map((b, i) => `
+  <section class="beat" data-i="${i}" style="--c:${b.c}">
+    <div class="split${b.hero ? '' : ' solo'}">
+      <div>
+        <div class="kicker">
+          <span class="n mono">${String(i + 1).padStart(2, '0')}</span>
+          <span class="lbl">${b.label}</span>
+          <span class="sec mono">${b.sec}s</span>
+        </div>
+        <h1 class="head">${b.head || '<span style="color:var(--muted)">— not written yet —</span>'}</h1>
+        ${b.sub ? `<p class="sub">${b.sub}</p>` : ''}
+      </div>
+      ${b.hero ? `<img class="hero" src="${b.hero}" alt="${b.heroAlt || ''}">` : ''}
+    </div>
+    ${b.html || ''}
+    <p class="inline-say">${b.say || ''}</p>
+  </section>`).join('');
+
+const budget = document.getElementById('budget');
+budget.innerHTML = BEATS.map((b, i) =>
+  `<span class="seg" data-i="${i}" style="--w:${b.sec};--sc:${b.c}" onclick="jump(${i})"><i></i></span>`).join('');
+
+function render(){
+  document.querySelectorAll('.beat').forEach(el => el.classList.toggle('on', +el.dataset.i === idx));
+  history.replaceState(null, '', '#' + (idx + 1));   /* deep-link a beat, e.g. pitch.html#4, to rehearse it alone */
+  const b = BEATS[idx];
+  document.documentElement.style.setProperty('--c', b.c);
+
+  document.getElementById('pr-tag').textContent = `${String(idx + 1).padStart(2, '0')} · ${b.label} · ${b.sec}s`;
+  document.getElementById('pr-say').innerHTML = b.say
+    ? b.say : '<span class="empty">— not written yet —</span>';
+
+  /* word count vs. the beat's spoken budget — catches an over-written beat before the room does */
+  const words = b.say ? b.say.trim().split(/\s+/).length : 0;
+  const cap = Math.round(b.sec * WPS);
+  const wc = document.getElementById('pr-wc');
+  wc.textContent = `${words}w / ~${cap}w`;
+  wc.classList.toggle('over', words > cap);
+  paint();
+}
+
+/* the budget bar: filled segments behind you, a live-filling one under you */
+function paint(){
+  let before = 0;
+  BEATS.forEach((b, i) => {
+    const seg = budget.children[i], fill = seg.firstElementChild;
+    seg.classList.toggle('done', i < idx);
+    if (i < idx){ fill.style.width = '100%'; }
+    else if (i === idx){
+      const inBeat = Math.max(0, elapsed - before);
+      fill.style.width = Math.min(100, (inBeat / b.sec) * 100) + '%';
+      seg.classList.toggle('over', inBeat > b.sec);
+    } else { fill.style.width = '0%'; seg.classList.remove('over'); }
+    before += b.sec;
+  });
+  const m = Math.floor(elapsed / 60), s = Math.floor(elapsed % 60);
+  const clock = document.getElementById('clock');
+  clock.textContent = `${m}:${String(s).padStart(2, '0')} / 1:00`;
+  clock.classList.toggle('over', elapsed > TOTAL);
+
+  /* seconds left in the beat you are on right now */
+  const left = STARTS[idx] + BEATS[idx].sec - elapsed;
+  const el = document.getElementById('pr-left');
+  el.textContent = (left < 0 ? '+' : '') + Math.abs(left).toFixed(1) + 's';
+  el.classList.toggle('over', left < 0);
+}
+
+/* ── controls ───────────────────────────────────────────────────────────── */
+/* Moving through beats means you are presenting, so the clock starts itself — nobody should have
+   to remember to press START before they begin talking. */
+function go(d){
+  if (!running) toggleRun();
+  jump(Math.min(BEATS.length - 1, Math.max(0, idx + d)));
+}
+function jump(i){
+  idx = i;
+  if (auto) elapsed = STARTS[i];   /* in auto mode the clock follows you when you skip ahead */
+  render();
+}
+
+function toggleRun(){
+  running = !running;
+  document.getElementById('btn-run').textContent = running ? '❚❚ PAUSE' : '▶ START';
+  if (running){
+    tickId = setInterval(() => {
+      elapsed += 0.1;
+      if (auto){
+        /* the last beat is the floor: run past 60s rather than stopping, so overtime is visible */
+        let target = BEATS.length - 1;
+        for (let i = 0; i < BEATS.length; i++){ if (elapsed < STARTS[i] + BEATS[i].sec){ target = i; break; } }
+        if (target !== idx){ idx = target; render(); return; }
+      }
+      paint();
+    }, 100);
+  } else { clearInterval(tickId); }
+}
+
+function toggleAuto(){
+  auto = !auto;
+  document.getElementById('btn-auto').classList.toggle('on', auto);
+  if (auto) elapsed = STARTS[idx];   /* re-sync so the slides do not jump when you switch modes */
+  render();
+}
+function reset(){
+  if (running) toggleRun();
+  elapsed = 0; idx = 0; render();
+}
+function togglePrompter(){
+  const off = document.body.classList.toggle('noprompt');
+  document.getElementById('btn-script').classList.toggle('on', !off);
+}
+function toggleOverview(){
+  const on = document.body.classList.toggle('ov');
+  document.getElementById('btn-ov').classList.toggle('on', on);
+  document.querySelectorAll('.beat').forEach(el => el.classList.toggle('on', on || +el.dataset.i === idx));
+}
+
+addEventListener('keydown', e => {
+  if (e.target.matches('input,textarea')) return;
+  const k = e.key.toLowerCase();
+  if (k === ' ' || k === 'arrowright'){ e.preventDefault(); go(1); }
+  else if (k === 'arrowleft'){ e.preventDefault(); go(-1); }
+  else if (k === 'a') toggleAuto();
+  else if (k === 's') togglePrompter();
+  else if (k === 'o') toggleOverview();
+  else if (k === 'r') reset();
+  else if (k === 'enter') toggleRun();
+});
+
+const fromHash = parseInt(location.hash.slice(1), 10);
+if (fromHash >= 1 && fromHash <= BEATS.length) idx = fromHash - 1;
+render();
+</script>
+</body>
+</html>

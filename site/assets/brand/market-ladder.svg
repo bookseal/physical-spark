@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Revenue ladder with rising price and falling volume</title>
+  <path d="M90 266L122 249V257H610L574 266 610 275H122V283Z" fill="#948468" stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M60 250v-34a18 18 0 0 1 18-18h97v52Z" fill="#948468"/>
+    <path d="M175 250v-60a18 18 0 0 1 18-18h97v78Z" fill="#0e9a89"/>
+    <path d="M290 250v-92a18 18 0 0 1 18-18h97v110Z" fill="#2f6fd0"/>
+    <path d="M405 250v-130a18 18 0 0 1 18-18h97v148Z" fill="#e6a413"/>
+    <path d="M520 250v-175a18 18 0 0 1 18-18h97v193Z" fill="#e0442e"/>
+    <path d="M85 210C190 194 295 164 402 118C510 72 589 50 660 42" fill="none"/>
+    <path d="M660 42l-31 4 13 24Z" fill="#2b211a"/>
+    <circle cx="118" cy="198" r="5" fill="#2b211a" stroke="none"/>
+    <circle cx="233" cy="172" r="5" fill="#2b211a" stroke="none"/>
+    <circle cx="348" cy="140" r="5" fill="#2b211a" stroke="none"/>
+    <circle cx="463" cy="102" r="5" fill="#2b211a" stroke="none"/>
+    <circle cx="578" cy="57" r="5" fill="#2b211a" stroke="none"/>
+  </g>
+</svg>

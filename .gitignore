@@ -24,3 +24,8 @@ node_modules/
 
 # Obsidian local vault config (machine-specific)
 /.obsidian/
+
+# local agent + python caches
+.claude/
+__pycache__/
+*.pyc

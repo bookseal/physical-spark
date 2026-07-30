@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img" aria-labelledby="title">
+  <title id="title">Peer review cards trading feedback with the favorite rising to the top</title>
+  <g fill="none" stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="66" y="136" width="164" height="104" rx="24" fill="#fbf5e9"/>
+    <path d="M128 168l42 20-42 20z" fill="#e0442e"/>
+    <path d="M184 154l8 8-8 8-8-8z" fill="#e6a413"/>
+    <rect x="278" y="88" width="164" height="104" rx="24" fill="#fbf5e9"/>
+    <path d="M340 120l42 20-42 20z" fill="#e0442e"/>
+    <path d="M396 106l8 8-8 8-8-8z" fill="#e6a413"/>
+    <rect x="490" y="136" width="164" height="104" rx="24" fill="#fbf5e9"/>
+    <path d="M552 168l42 20-42 20z" fill="#e0442e"/>
+    <path d="M608 154l8 8-8 8-8-8z" fill="#e6a413"/>
+    <path d="M350 38l11 18h22l-15 13 6 21-19-11-19 11 6-21-15-13h22z" fill="#e6a413"/>
+    <path d="M212 124c31-39 61-57 91-57 31 0 61 18 91 57" stroke="#2f6fd0" stroke-width="6" stroke-dasharray="10 10"/>
+    <path d="M388 115l14 2-6 13z" fill="#2f6fd0" stroke="none"/>
+    <path d="M424 124c31-39 61-57 91-57 31 0 61 18 91 57" stroke="#2f6fd0" stroke-width="6" stroke-dasharray="10 10"/>
+    <path d="M600 115l14 2-6 13z" fill="#2f6fd0" stroke="none"/>
+    <path d="M520 247c-58 28-117 42-176 42s-118-14-176-42" stroke="#2f6fd0" stroke-width="6" stroke-dasharray="10 10"/>
+    <path d="M181 244l-3 14 15-2z" fill="#2f6fd0" stroke="none"/>
+  </g>
+</svg>

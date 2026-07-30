@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title">
+  <title id="title">Mission 3 Red Light Green Light glyph</title>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="28" cy="52" r="16" fill="#e0442e" stroke="#2b211a" stroke-width="6"/>
+    <path d="M21 52h14" stroke="#fbf5e9" stroke-width="6"/>
+    <path d="M56 46c6-7 12-7 18 0s12 7 18 0 12-7 18 0" stroke="#0e9a89" stroke-width="8"/>
+    <path d="M56 62c6-7 12-7 18 0s12 7 18 0" stroke="#0e9a89" stroke-width="8"/>
+    <path d="M92 62h18" stroke="#2b211a" stroke-width="8"/>
+    <path d="M54 82h56" stroke="#948468" stroke-width="4"/>
+  </g>
+</svg>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <title>Physical Spark — Missions</title>
 <meta name="description" content="The Physical Spark curriculum: three robot-arm missions from 'Pat me on the back' to 'Red Light, Green Light'.">
 <style>
@@ -44,6 +45,9 @@
   .mcard:hover{transform:translateY(-2px); box-shadow:0 14px 34px var(--shadow);}
   .mcard .top{display:flex; align-items:baseline; gap:12px;}
   .mcard .n{font-family:ui-monospace,monospace; font-size:34px; font-weight:900; color:var(--c); line-height:1;}
+  .mcard .mglyph{height:52px; width:auto; margin-left:auto; align-self:center; flex:0 0 auto;}
+  .mhero .mglyph{height:74px; width:auto; display:block; margin-bottom:10px;}
+  @media(max-width:520px){ .mcard .mglyph{display:none;} }
   .mcard h3{margin:0; font-size:21px; color:var(--fg);} .mcard .sub{color:var(--muted); font-size:14px; margin:4px 0 0;}
   .mcard .meta{font-family:ui-monospace,monospace; font-size:11px; color:var(--muted); margin:10px 0 8px;}
   .bar{height:8px; background:var(--line); border-radius:99px; overflow:hidden;}
@@ -105,9 +109,11 @@
 </head>
 <body>
 <nav><div class="wrap">
-  <a class="back" href="../index.html" style="font-weight:900;text-transform:uppercase;color:var(--fg);">Physical<b style="color:var(--red)"> Spark</b></a>
+  <a class="back" href="../index.html" style="font-weight:900;text-transform:uppercase;color:var(--fg);display:inline-flex;align-items:center;gap:8px;"><img src="../assets/brand/logo-mark.svg" alt="" style="height:24px;width:auto;display:block;">Physical<b style="color:var(--red)"> Spark</b></a>
   <span class="sp"></span>
   <a class="back" href="../join.html">Join</a>
+  <a class="back" href="../market.html">Market</a>
+  <a class="back" href="../pitch.html">60s pitch</a>
   <a class="back" href="../funding.html">국비</a>
   <a class="back" href="/docs">📓 Playbook</a>
   <span id="pr-auth-slot" style="margin:0 8px;font-size:13px;font-weight:600"></span>
@@ -151,7 +157,7 @@ const COURSES = [
         note:'When you can watch AI push the T-block into place, you\'ve done real Physical AI on a laptop. From here, recording your own sim data (gym-hil) and Mission 1 are the next steps.',
         chk:'You can say in one line each what an environment, a policy, and a dataset are.'},
     ]},
-  { id:'m1', num:1, color:'var(--red)', title:'Pat me on the back', sub:'Build the arm and make it gently pat your back — a warm first win.',
+  { id:'m1', glyph:'mission-1-pat', num:1, color:'var(--red)', title:'Pat me on the back', sub:'Build the arm and make it gently pat your back — a warm first win.',
     level:'Beginner', time:'~1 hour', device:'Mac-friendly (sim)',
     build:'A robot arm that sweeps left↔right to pat your back — recorded as a short clip you can post. The point isn\'t skill, it\'s <b>attachment</b>: the robot you built comforts you.',
     lessons:[
@@ -169,7 +175,7 @@ const COURSES = [
       {t:'Post & peer-review', c:'Upload your clip, then <b>review one other person\'s run</b>. What made theirs gentle/convincing? This loop — not the code — is the product.',
         chk:'You posted your clip and reviewed one peer.'},
     ]},
-  { id:'m2', num:2, color:'var(--blue)', title:'Pick & place', sub:'Grab an object and move it — the "Hello World" of manipulation.',
+  { id:'m2', glyph:'mission-2-pick', num:2, color:'var(--blue)', title:'Pick & place', sub:'Grab an object and move it — the "Hello World" of manipulation.',
     level:'Beginner', time:'~2 hours', device:'sim or real',
     build:'A run where the arm <b>picks up an object and places it</b> somewhere else. You\'ll also record it as a small <b>dataset</b> — the raw material machines learn from.',
     lessons:[
@@ -186,7 +192,7 @@ const COURSES = [
       {t:'Peek: imitation learning', c:'With a dataset, a small policy can <b>learn to imitate</b> your demos (behavioral cloning). You don\'t have to train one yet — just know this is the bridge from "I did it" to "the robot does it". Read the deep-dive: <a href="imitation-learning.html">Learning by Showing</a> (behavioral cloning → ACT → diffusion → VLA), or see the whole path in the <a href="study-map.html">Study Map</a>.',
         chk:'You know a dataset can train a policy to imitate you.'},
     ]},
-  { id:'m3', num:3, color:'var(--gold)', title:'Red Light, Green Light', sub:'The robot moves while you speak, and freezes the instant you stop. The one Squid Game made famous.',
+  { id:'m3', glyph:'mission-3-light', num:3, color:'var(--gold)', title:'Red Light, Green Light', sub:'The robot moves while you speak, and freezes the instant you stop. The one Squid Game made famous.',
     level:'Intermediate', time:'~4 hours', device:'peer-review shines here',
     build:'The ace demo: say the phrase, the arm moves; stop talking, it <b>freezes</b>. There\'s no single right answer — which is exactly why peer review matters most here.',
     lessons:[
@@ -226,7 +232,7 @@ function renderHub(){
   const op=overallPct();
   let cards=COURSES.map(m=>`
     <a class="mcard" style="--c:${m.color}" href="#/${m.id}">
-      <div class="top"><span class="n">${m.num}</span><div><h3>${m.title}</h3><div class="sub">${m.sub}</div></div></div>
+      <div class="top"><span class="n">${m.num}</span><div><h3>${m.title}</h3><div class="sub">${m.sub}</div></div>${m.glyph?`<img class="mglyph" src="../assets/brand/${m.glyph}.svg" alt="">`:''}</div>
       <div class="meta">${m.level} · ${m.time} · ${m.device}</div>
       <div class="bar"><i style="width:${mPct(m)}%"></i></div>
       <div class="pct">${mPct(m)}% complete</div>
@@ -238,6 +244,10 @@ function renderHub(){
         <p>Three robot-arm challenges, sim-first. Work through them, post your runs, review each other. This is a
            living <b>v0 curriculum</b> — built in public, rough on purpose.</p>
         <div class="ring-wrap"><div class="ring" style="--p:${op}"><div><b>${op}%</b><small>your run</small></div></div></div>
+        <img src="../assets/brand/hero-1-redlight.svg" style="width:100%;max-width:600px;height:auto;display:block;margin:14px auto 0;"
+          alt="A robot arm frozen mid-reach beside a red stop signal and a speech waveform flattening into a straight line">
+        <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:6px auto 0;">
+          mission 3 — the arm moves while you speak, and freezes when you stop</p>
       </div>
       <div class="cards">${cards}</div>
       <h2 style="text-align:center;margin:44px 0 0;font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.02em;">Companion <b style="color:var(--red)">guides</b></h2>
@@ -271,6 +281,7 @@ function renderMission(m){
   app.innerHTML=`
     <div class="wrap">
       <div class="mhero" style="--c:${m.color}">
+        ${m.glyph?`<img class="mglyph" src="../assets/brand/${m.glyph}.svg" alt="">`:''}
         <div class="n mono">MISSION ${m.num}</div>
         <h1>${m.title}</h1>
         <div class="sub">${m.sub}</div>
