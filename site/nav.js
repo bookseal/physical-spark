@@ -29,7 +29,7 @@
     { href: "/courses/", label: "Missions", match: /^\/courses\/?$/ },
     { href: "/market.html", label: "Market" },
     { href: "/pitch.html", label: "60s pitch" },
-    { href: "/funding.html", label: "\uad6d\ube44" },
+    { href: "/funding.html", label: "\uc790\uae08 \uc870\ub2ec" },
     { href: "/docs", label: "\ud83d\udcd3 Playbook" },
     { href: "/join.html", label: "\ud83d\ude4b Join us", accent: true },
     { href: "https://github.com/bookseal/physical-spark", label: "GitHub", ext: true }

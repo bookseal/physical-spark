@@ -4,7 +4,7 @@
 > this file holds the argument and the receipts. Checked July 2026 — **subsidy rules move, so
 > re-verify before spending money or committing a launch date.**
 >
-> 관련: [국비 지원 뚫는 법 (한국 심화)](../../site/funding.html) ·
+> 관련: [자금 조달 — 정부·VC·미국](../../site/funding.html) ·
 > [Physical AI Korea playbook](../07-strategy/physical-ai-korea-playbook.md) ·
 > [Market landscape](market-landscape.md) · [The "Hate" Map](hate-map.md)
 
