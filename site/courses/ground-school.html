@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Ground School — robot sim background knowledge</title>
 <style>
   :root{
@@ -35,7 +36,7 @@
   h2,h3{text-wrap:balance;}
 
   /* sticky bar + contents menu */
-  .bar{position:sticky; top:0; z-index:40; background:rgba(244,241,234,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:11px 0;}
+  .bar{position:sticky; top:54px; z-index:40; background:rgba(244,241,234,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:11px 0;}
   .bar-in{max-width:740px; margin:0 auto; padding:0 20px; display:flex; align-items:center; gap:12px;}
   .brand{font-family:var(--mono); font-weight:700; font-size:14px; color:var(--ink); text-decoration:none; white-space:nowrap;}
   .brand b{color:var(--accent);}
@@ -136,7 +137,6 @@
 
 <div class="bar">
   <div class="bar-in">
-    <a class="brand" href="https://physical-spark.bit-habit.com/courses/#/m1">PHYSICAL <b>SPARK</b></a>
     <div class="prog"><i id="pbar"></i></div>
     <span class="pct" id="pct">0%</span>
     <button class="toc-btn" id="tocBtn">☰ Chapters</button>
@@ -1570,3 +1570,5 @@ python -c "import torch; print(torch.backends.mps.is_available())"</pre></div>
 
   refresh(); show(currentId());
 </script>
+
+<script src="/nav.js"></script>
