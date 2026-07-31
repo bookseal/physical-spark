@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
-<title>국비 지원 뚫는 법 — Physical AI 교육</title>
-<meta name="description" content="대한민국 국비지원 교육(내일배움카드·KDT·새싹)을 Physical AI/로보틱스 온라인 학교로 활용하는 현실적인 방법 — 그리고 정부 루트 vs Nomad Coders식 직접 모델의 정직한 판단.">
+<title>미국 VC까지, 커넥션으로 — 자금 조달 전략</title>
+<meta name="description" content="목표는 하나 — 미국 VC 투자. 정부 지원금도 한국 VC도 거기까지 가는 도구다. 2026년 7월 시애틀에서 받은 진단, 이미 손에 쥔 커넥션 지도, 그리고 플립의 실제 비용까지.">
 <style>
   :root{
     --paper:#f4f1ea; --card:#fbf9f4; --card2:#f0ebdd; --card3:#eae3d2;
@@ -14,6 +14,8 @@
     --line:#e4decf; --line-strong:#d8d0bd;
     --good:#3f7a52; --good-soft:#e3efe4;
     --blue:#3a5a86; --blue-soft:#e6ecf4;
+    --gold:#8a6d1f; --gold-soft:#f4ecd6;
+    --purple:#6b4c86; --purple-soft:#ece4f2;
     --serif:Georgia,"Times New Roman","Noto Serif KR",serif;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
     --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -47,10 +49,26 @@
   .sec h2{font-family:var(--serif); font-size:clamp(24px,5.5vw,32px); margin:8px 0 4px;}
   .sec .sub{color:var(--muted); margin:0 0 8px;}
   h3{font-family:var(--serif); font-size:21px; margin:26px 0 6px;}
+  h4{font-size:16px; margin:20px 0 2px;}
 
   .concept{background:var(--card); border:1px solid var(--line-strong); border-left:4px solid var(--accent); border-radius:12px; padding:15px 17px; margin:16px 0;}
   .concept .lbl{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 6px;}
   .concept .word{font-family:var(--serif); font-size:19px; font-weight:700; margin:0 0 4px;}
+
+  /* ── attributed quote ── */
+  .q{background:var(--card); border:1px solid var(--line-strong); border-radius:12px;
+     padding:15px 17px 12px; margin:15px 0;}
+  .q p{margin:0 0 9px; font-family:var(--serif); font-size:17.5px; line-height:1.66;}
+  .q p:before{content:"“"; color:var(--faint);} .q p:after{content:"”"; color:var(--faint);}
+  .q .by{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--muted);}
+  .chip{font-family:var(--mono); font-size:10.5px; font-weight:800; letter-spacing:.08em;
+    text-transform:uppercase; padding:2px 8px; border-radius:999px; border:1px solid;}
+  .chip.gemini{color:var(--blue); border-color:#cdd8e6; background:var(--blue-soft);}
+  .chip.grok{color:var(--purple); border-color:#d6c8e2; background:var(--purple-soft);}
+  .chip.team{color:var(--good); border-color:#bcd9c2; background:var(--good-soft);}
+  .q.gemini{border-left:4px solid var(--blue);}
+  .q.grok{border-left:4px solid var(--purple);}
+  .q.team{border-left:4px solid var(--good);}
 
   .card-b{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:14px 0;}
   .card-b .h{font-weight:700; font-size:17px; margin:0 0 4px; display:flex; gap:9px; align-items:baseline; flex-wrap:wrap;}
@@ -58,6 +76,7 @@
   .tag{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.05em; padding:2px 8px; border-radius:999px; border:1px solid var(--line-strong); color:var(--muted); background:var(--card2);}
   .tag.easy{color:var(--good); border-color:#bcd9c2; background:var(--good-soft);}
   .tag.hard{color:var(--accent-deep); border-color:#e3b3a8; background:var(--accent-soft);}
+  .tag.free{color:var(--gold); border-color:#ddcb9a; background:var(--gold-soft);}
 
   table.tbl{width:100%; border-collapse:collapse; margin:16px 0; font-size:15px; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
   table.tbl th, table.tbl td{padding:11px 13px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line);}
@@ -72,12 +91,64 @@
   .money .m .c{font-size:13.5px; color:var(--muted);}
   @media(max-width:520px){ .money{grid-template-columns:1fr;} }
 
+  /* ── connection map ── */
+  .tier{font-family:var(--mono); font-size:11px; font-weight:800; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--faint); margin:24px 0 8px;
+    display:flex; align-items:center; gap:10px;}
+  .tier:after{content:""; flex:1; height:1px; background:var(--line-strong);}
+  .nodes{display:grid; grid-template-columns:1fr 1fr; gap:11px; margin:10px 0 4px;}
+  .node{background:var(--card); border:1px solid var(--line-strong); border-top:3px solid var(--c,var(--accent));
+    border-radius:12px; padding:13px 15px;}
+  .node .n-who{font-weight:800; font-size:15.5px; margin:0 0 2px;}
+  .node .n-what{font-size:13.5px; color:var(--muted); margin:0 0 8px; line-height:1.55;}
+  .node .n-act{font-family:var(--mono); font-size:12px; color:var(--c,var(--accent)); font-weight:700;
+    border-top:1px dashed var(--line-strong); padding-top:7px; margin:0;}
+  @media(max-width:600px){ .nodes{grid-template-columns:1fr;} }
+
+  /* ── timeline ── */
+  .tl{border-left:2px solid var(--line-strong); margin:18px 0; padding:0;}
+  .tl .ev{display:grid; grid-template-columns:auto 1fr; gap:14px; padding:11px 0 11px 18px; position:relative;}
+  .tl .ev::before{content:""; position:absolute; left:-7px; top:19px; width:12px; height:12px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--accent);}
+  .tl .ev.soft::before{border-color:var(--line-strong);}
+  .tl .when{font-family:var(--mono); font-size:12.5px; font-weight:800; color:var(--accent-deep);
+    background:var(--accent-soft); border-radius:7px; padding:4px 9px; height:fit-content; white-space:nowrap;}
+  .tl .ev.soft .when{color:var(--muted); background:var(--card2);}
+  .tl .tb b{display:block; font-size:16px;}
+  .tl .tb span{font-size:14.5px; color:var(--muted);}
+  @media(max-width:520px){ .tl .ev{grid-template-columns:1fr; gap:5px;} .tl .when{justify-self:start;} }
+
+  /* ── placeholder: a visible slot for content you'll write yourself ── */
+  .ph{border:1.5px dashed var(--line-strong); background:repeating-linear-gradient(135deg,
+      transparent 0 10px, rgba(147,139,125,.05) 10px 20px);
+    border-radius:12px; padding:14px 16px; margin:14px 0; color:var(--muted); font-size:15px;}
+  .ph .cap{font-family:var(--mono); font-size:10.5px; font-weight:800; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--faint); margin:0 0 7px;}
+  .ph ul{margin:6px 0 0; padding-left:20px;} .ph li{margin:4px 0;}
+  .ph p{margin:5px 0;}
+
+  .verify{font-family:var(--mono); font-size:11px; font-weight:700; color:var(--accent-deep);
+    background:var(--accent-soft); border:1px solid #e3b3a8; border-radius:5px; padding:1px 6px; white-space:nowrap;}
+
+  /* ── provisional: filled in as a first draft, meant to be overwritten ── */
+  .prov{background:var(--gold-soft); border:1px solid #ddcb9a; border-left:4px solid var(--gold);
+    border-radius:12px; padding:14px 16px; margin:14px 0;}
+  .prov .cap{font-family:var(--mono); font-size:10.5px; font-weight:800; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--gold); margin:0 0 8px; display:flex; gap:8px;
+    align-items:center; flex-wrap:wrap;}
+  .prov .cap b{background:var(--gold); color:#fff; border-radius:4px; padding:1px 6px; letter-spacing:.06em;}
+  .prov p{margin:6px 0; font-size:15.5px;}
+  .prov ul,.prov ol{margin:6px 0 0; padding-left:20px;} .prov li{margin:5px 0; font-size:15.5px;}
+  .prov table.tbl{background:#fdfaf1; margin:10px 0 4px;}
+
   .check{margin:14px 0; padding:14px 16px; background:var(--card2); border:1px solid var(--line); border-radius:12px;}
   .check .cap{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin:0 0 8px;}
   .check label{display:flex; align-items:flex-start; gap:11px; padding:8px 6px; cursor:pointer; font-size:15.5px;}
   .check input{margin-top:3px; width:19px; height:19px; accent-color:var(--accent); flex:none;}
   .check input:checked + span{color:var(--faint); text-decoration:line-through;}
 
+  .srcs h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--faint); margin:20px 0 2px;}
   .srcs a{display:block; padding:9px 2px; border-bottom:1px solid var(--line); text-decoration:none;}
   .srcs a:last-child{border-bottom:none;}
   .srcs .s-t{font-weight:600; color:var(--ink);}
@@ -106,150 +177,627 @@
 
 
 <div class="wrap">
-  <p class="eyebrow">사업 전략 · 국비 지원 · <a href="market.html" style="color:inherit">3개 시장 중 🇰🇷 한국편</a></p>
-  <h1>국비 지원, 어떻게 뚫나</h1>
-  <p style="margin:0 0 14px; font-size:14px; color:#948468;">
-    한국·미국·싱가포르는 <b>교육비를 내는 주체</b>부터 다릅니다 — 한국은 국가, 미국은 기업, 싱가포르는
-    국가 크레딧(단, 조건이 까다롭습니다). 이 페이지는 그중 <b>한국 엔진</b>만 깊게 다룹니다.
-    세 나라를 한 장에서 비교하려면 → <a href="market.html">Market: where this gets sold</a></p>
+  <p class="eyebrow">사업 전략 · 자금 조달 · <a href="market.html" style="color:inherit">시장 3개국은 여기</a></p>
+  <h1>미국 VC까지,<br>커넥션으로</h1>
+  <p class="lede">목표는 하나다 — <strong>미국 VC의 투자</strong>. 정부 지원금도, 국비도, 한국 VC도 전부
+    거기까지 가는 도구다. 그리고 그 문은 자본이 아니라 <strong>사람</strong>이 연다.</p>
+
   <img src="assets/brand/market-3-engines.svg" style="width:100%;max-width:560px;height:auto;display:block;margin:6px auto 18px;"
-    alt="정부 청사·오피스 빌딩·신용카드 세 블록이 하나의 깔때기로 모이는 그림">
-  <p class="disc" style="text-align:center;margin:0 0 8px;">🇰🇷 국가 예산 · 🇺🇸 기업 예산 · 🇸🇬 기관을 거친 국가 크레딧 — <b>이 페이지는 맨 왼쪽 엔진만 다룹니다</b></p>
-  <p class="lede">Physical AI 온라인 학교로 대한민국 국비지원 교육(내일배움카드·KDT·새싹)을 활용하는 현실적인 길 — 그리고 정부 루트가 정말 답인지, 아니면 <em>Nomad Coders식 직접 모델</em>이 나은지에 대한 정직한 판단.</p>
+    alt="세 개의 자금 엔진이 하나의 깔때기로 모이는 그림">
+  <p class="disc" style="text-align:center;margin:0 0 8px;">
+    돈에는 <b>가격표</b>가 있습니다 — 정부는 서류와 시간을, 한국 VC는 지분을, 미국 VC는 <b>당신이 실제로 거기 있을 것</b>을 요구합니다.</p>
 
   <div class="bluf">
     <p class="lbl">한눈에 (결론 먼저)</p>
-    <p style="margin:0;">온라인 전용 신규 사업자가 국비 <b>훈련기관 승인</b>을 직접 받는 건 <b>느리고 시설·실적 요건이 무겁다.</b> 빠른 합법 진입 순서는 ① <b>KDT/새싹 강사로 등록</b>(즉시, 기관 불필요) → ② <b>기존 훈련기관·새싹 교육파트너로 트랙 공동운영</b> → ③ 실적 쌓은 뒤 <b>자체 인증</b>. 그리고 핵심: Physical AI는 KDT에서 <b>실제로 펀딩되지만 거의 전부 오프라인 풀타임 하드웨어 부트캠프</b>라, 네 <b>온라인 피어리뷰 모델과 정면으로 충돌</b>한다. → <b>정부는 '병렬 채널'(강사 + B2B 납품)로, 온라인 제품은 Nomad Coders식 직접 모델로.</b></p>
+    <p style="margin:0;">2026년 7월, 시애틀에서 현직 미국 VC에게 받은 진단은 한 줄이었다 —
+      <b>"지금 세팅으로는 US VC 투자를 받기 어렵다."</b> 문제는 아이디어가 아니라 <b>구조</b>다(한국 법인 · 한국 오퍼레이션 · 한국인만 있는 팀).
+      그런데 같은 대화에서 <b>해법도 세 개</b> 나왔다: ① <b>cap table이 없는 SAFE 단계면 플립이 가능하다</b> —
+      투자가 쌓이면 세금 때문에 사실상 불가능해지니 <b>지금이 가장 싼 시점</b>이다. ② 창업자가 미국 전문가일 필요는 없다,
+      <b>여기서 functional한 팀</b>이면 된다. ③ 그 VC는 <b>first-time founder를 가장 선호</b>한다.
+      → 그래서 할 일은 돈을 구하는 게 아니라 <b>사람을 구하는 것</b>이고,
+      다행히 <b>이미 손에 쥔 커넥션이 생각보다 많다</b>(§3).</p>
   </div>
+
+  <div class="ph" style="margin-top:18px;">
+    <p class="cap">이 페이지의 출처 표기에 관하여</p>
+    <p style="margin:0;">아래 인용 중 일부는 <strong>비공개 대화</strong>에서 나온 것이라, 발화자를 밝히지 않고
+      <span class="chip gemini">Gemini</span> <span class="chip grok">Grok</span> 라벨로 익명 처리했습니다.
+      내용은 손대지 않았고 <strong>누가 말했는지만</strong> 가렸습니다.
+      팀 내부 발언은 <span class="chip team">Team</span>으로 실명 표기합니다.</p>
+    <p style="margin:10px 0 0;"><span style="font-family:var(--mono);font-size:10.5px;font-weight:800;letter-spacing:.06em;background:var(--gold);color:#fff;border-radius:4px;padding:1px 6px;">잠정</span>
+      배지가 붙은 노란 박스는 <strong>덮어쓰라고 채워 넣은 초안</strong>입니다 — 합의된 결론이 아니라 논의의 출발점입니다.</p>
+  </div>
+
+  <!-- ===== 0 ===== -->
+  <section class="sec">
+    <h2>0. 좌표 — 우리는 지금 어디에 서 있나</h2>
+    <p class="sub">전략을 읽기 전에, 지금 이 순간의 사실관계부터.</p>
+
+    <p>기찬과 태빈은 지금 <strong>시애틀</strong>에 있다. (재)경산이노베이션아카데미가 운영하는
+      <strong>2026년 제2차 글로벌 교육 프로그램</strong>(6월 22일~8월 14일, 8주)에
+      <strong>42경산 15명 + 42서울 15명, 총 30명</strong>이 선발돼 와 있고,
+      공동 주관은 <strong>워싱턴기술산업협회(WTIA)</strong>다. 마이크로소프트·아마존·보잉·스타벅스·익스피디아를 방문했고,
+      <strong>보이저 캐피탈·트릴로지 에쿼티 파트너스</strong>, <strong>앨런 인공지능 연구소(AI2)</strong>가 프로그램에 엮여 있으며,
+      <strong>시애틀 테크 위크</strong>(올해 4회차, 250개 이상 이벤트·2만 9천 명 등록)에도 참가했다.</p>
+
+    <div class="concept" style="border-left-color:var(--accent-deep);">
+      <p class="lbl">가장 중요한 사실</p>
+      <p class="word">8주차에 현지 VC 대상 <em>피치 데이</em>가 잡혀 있다</p>
+      <p style="margin:.4rem 0 0;">이 프로그램의 명시적 목표는 견학이 아니라
+        <strong>"아이디어 발굴부터 실제 투자 유치까지 실전 비즈니스의 전 과정을 완수"</strong>하는 것이다.
+        즉 이 페이지는 참고 문서가 아니라 <strong>며칠 뒤 쓰는 실행 문서</strong>다.
+        1차 프로그램에서는 3개 팀이 '모두의 창업' 1차를 통과했고, 1개 팀이 글로벌 AI 해커톤에서 <strong>1,200팀 중 4위</strong>를 했다 —
+        비교 기준선이 이미 있다는 뜻이다.</p>
+    </div>
+
+    <p><strong>그리고 위에서 성과 압력이 내려온다.</strong> 이 사업은 <strong>과기정통부</strong> 지원이고,
+      부처도 학장도 <strong>창업·창업지원이라는 형태의 성과</strong>를 원한다. 보통 이건 부담으로 읽히지만,
+      뒤집으면 <strong>기관 전체가 우리 편이 될 이유</strong>다 — 우리가 성과를 내면 그들의 성과가 된다.
+      이 페이지의 커넥션 전략은 대부분 여기서 출발한다.</p>
+
+    <div class="q team">
+      <p>우리가 한국에서 우물 안 개구리였다는 걸 이제 알았습니다. 너무 늦게 깨달았어요.</p>
+      <div class="by"><span class="chip team">Team</span> 이기찬 · 2026-07-30</div>
+    </div>
+  </section>
 
   <!-- ===== 1 ===== -->
   <section class="sec">
-    <h2>1. 한국 국비 시스템 지도</h2>
-    <p class="sub">돈은 개인에게, 승인은 과정마다. 큰 그림부터.</p>
+    <h2>1. 진단 — 왜 지금 세팅으로는 안 되는가</h2>
+    <p class="sub">듣기 싫지만 정확한 이야기. 이걸 먼저 인정해야 나머지가 설계된다.</p>
 
-    <div class="concept">
-      <p class="lbl">한 문장</p>
-      <p class="word">국민내일배움카드 → 적합훈련과정 심사</p>
-      <p style="margin:.4rem 0 0;">정부는 <strong>개인</strong>에게 훈련비를 주고(내일배움카드), 그 돈으로 들을 수 있는 <strong>과정</strong>은 <strong>직업능력심사평가원(KSQA)</strong>이 사전 심사해 '적합'으로 승인한 것만이다. 즉 <strong>기관·과정 승인</strong>이 관문이다.</p>
+    <div class="q gemini">
+      <p>저희 같은 US VC는 <strong>미국에 법인이 있고, 여기서 실제로 오퍼레이션을 하고 있는 분들</strong>한테 투자합니다.
+        지금 세팅으로 US VC 투자받기는 어렵습니다.</p>
+      <div class="by"><span class="chip gemini">Gemini</span> 현직 미국 VC · 이스라엘계 GP 하우스</div>
     </div>
 
-    <h3>세 갈래 프로그램</h3>
-    <ul>
-      <li><strong>KDT (K-Digital Training, 고용노동부)</strong> — 디지털 핵심 실무인재. <strong>2026년 'AI 캠퍼스'로 개편</strong>, 약 1만 명 목표. AI 엔지니어·응용개발 우선. 대학·대형 부트캠프가 운영기관의 대부분. 여기에 <strong>Physical AI/로보틱스 트랙이 실제로 있다</strong>(아래 2절).</li>
-      <li><strong>새싹 (SeSAC, 서울시 청년취업사관학교 · 운영 SBA)</strong> — 서울 캠퍼스 네트워크, 학생 무료·취업연계. 강사는 '현업 실전 전문가'. <strong>교육파트너 통합모집(연 2회)</strong>으로 외부 기관이 트랙을 제안·운영한다 — <strong>소규모 사업자의 현실적 진입점.</strong></li>
-      <li><strong>원격(온라인) 훈련</strong> — 내일배움카드로 온라인도 가능하지만 <strong>별도의 더 까다로운 관문</strong>: KSQA의 <strong>LMS 인증평가</strong>(신규기관 1년 → 3년 → 5년) + <strong>콘텐츠심사</strong>, 그리고 HRD-Net 실시간 연동·모바일 OTP·2시간 자동 로그아웃·탭 이탈 감지 같은 <strong>부정방지 LMS</strong> 요건. 준비에 <strong>3~6개월</strong>, 과정심사는 연 ~7회.</li>
-    </ul>
+    <p>이유는 감정이 아니라 구조다. 해외 투자자 입장에서 <strong>한국 법인이 한국 시장에서 오퍼레이션하는 IT</strong>는
+      성장에 천장이 있고, <strong>엑싯 마켓이 없다</strong>. 그래서 어느 정도 크면 대부분 플랫폼으로 방향을 튼다 —
+      매출 수백억, 시리즈 B를 지나도 마찬가지다.</p>
+
+    <div class="q gemini">
+      <p>한국에서 유니콘 되는 것도 괜찮죠. 근데 <strong>유니콘에서 그칠 수</strong> 있어요.
+        그리고 미국 투자자한테 투자받고 한국 시장으로 재진입하는 건 되게 어렵습니다.</p>
+      <div class="by"><span class="chip gemini">Gemini</span></div>
+    </div>
+
+    <h3>가장 아까운 탈락 사유 — "나중에 갈게요"</h3>
+    <div class="q gemini">
+      <p>"내가 여기서 케이스 만들고 PoC 만들고 6개월, 1년 있다가 그때 들어올게" — 이렇게 하시면 저희는 투자 안 합니다.
+        <strong>딱 보면 느껴져요.</strong> 말은 미국에서 시작하겠다는데 결국 그냥 한국에 있을 사람인지.
+        너무 아깝지만 그런 분들은 다른 하우스로 넘깁니다.</p>
+      <div class="by"><span class="chip gemini">Gemini</span></div>
+    </div>
+    <p>이게 이 페이지 전체에서 <strong>가장 실무적으로 중요한 한 문장</strong>이다.
+      "한국에서 검증하고 나중에 미국"이라는, 가장 안전해 보이는 계획이 <strong>정확히 탈락 사유</strong>다.
+      실사에서 걸러지는 게 숫자가 아니라 <strong>진심의 방향</strong>이라는 뜻이기도 하다.</p>
+
+    <h3>레퍼런스 모델 — 이스라엘</h3>
+    <div class="q gemini">
+      <p>이스라엘은 <strong>옵션이 없어요.</strong> 마켓이 없잖아요. 그래서 Day 1부터 글로벌 마켓을 지향해서 시작합니다.
+        그래서 유니콘이 그렇게 많이 나오는 거예요.</p>
+      <div class="by"><span class="chip gemini">Gemini</span></div>
+    </div>
+    <div class="money">
+      <div class="m"><div class="n">인구당 유니콘 1위</div><div class="c">이스라엘 · 유니콘 42개, 생태계 가치 $335B</div></div>
+      <div class="m"><div class="n">시민 1,400명당 1개</div><div class="c">스타트업 밀도 (미국은 4,500명당 1개)</div></div>
+      <div class="m"><div class="n">인구 0.1% → 유니콘 33%</div><div class="c">세계 사이버보안 유니콘 중 이스라엘 비중</div></div>
+      <div class="m"><div class="n">193개</div><div class="c">미국에 본사를 둔 한국계 스타트업 (2026.04)</div></div>
+    </div>
+    <p style="font-size:15px;color:var(--muted);margin:.4rem 0 0;">
+      한국의 국내 시장은 이스라엘보다 크다 — 그게 오히려 <b>덫</b>이다. "여기서도 먹고살 만하다"가 성립하기 때문에
+      Day 1 글로벌을 선택하지 않게 된다. 미국에 본사를 둔 한국계 스타트업은 2022년 16개에서 2025년 약 40개로 늘어
+      누적 193개가 됐다 — <b>이미 난 길이고, 아직 붐비지 않는다.</b></p>
   </section>
 
   <!-- ===== 2 ===== -->
   <section class="sec">
-    <h2>2. Physical AI는 국비로 지원되나?</h2>
-    <p class="sub">된다 — 단, 거의 전부 오프라인 하드웨어 부트캠프다.</p>
-    <p>이건 확인된 사실이다. 2026 KDT 'AI 캠퍼스'에 <strong>Physical AI/자율주행·협동로봇 트랙</strong>이 실제로 선정·운영 중이다:</p>
-    <ul>
-      <li><strong>서울대 기계공학부</strong> — "Physical AI 기반 자율주행 및 협동로봇 SW 엔지니어 부트캠프" (~6개월 풀타임, 6축 협동로봇 + AGV).</li>
-      <li><strong>인하대</strong> — 2026 KDT AI 캠퍼스 운영기관, "AI 기반 미래자동차 자율주행 SW 개발자" <strong>960시간</strong>.</li>
-      <li><strong>솔데스크 AI 캠퍼스</strong> — "자율주행 로봇 &amp; 디지털트윈 융합" (풀타임, 무료).</li>
-    </ul>
-    <div class="concept" style="border-left-color:var(--accent-deep);">
-      <p class="lbl">핵심 긴장</p>
-      <p style="margin:0;">funded 사례는 <strong>전부 오프라인 · 풀타임(900시간+) · 하드웨어 중심</strong>이다. 로보틱스는 본질적으로 hands-on이라 <strong>온라인 전용은 가장 약한 펀딩 궁합</strong>이고, '자기주도 피어리뷰' 포맷은 원격훈련의 <strong>고정 콘텐츠·진도 추적 규정과 충돌</strong>한다. → 온라인 전용 Physical AI로 국비를 받은 선례는 못 찾았다. <strong>온라인 국비는 사실상 불가</strong>로 보고 설계하라.</p>
+    <h2>2. 그런데 같은 대화에서 열린 문 세 개</h2>
+    <p class="sub">진단은 나쁘지만 처방은 전부 우리가 지금 할 수 있는 것들이다.</p>
+
+    <div class="card-b">
+      <div class="h"><span class="rank">1</span> 아무것도 없는 <strong>지금</strong>이 플립이 가장 싼 시점이다 <span class="tag easy">시간 민감</span></div>
+      <div class="q gemini" style="margin:10px 0 0;">
+        <p>cap table이 제대로 안 짜져 있는, 그냥 <strong>SAFE로 진행하는 경우에는 플립을 할 수가 있어요.</strong>
+          투자자들이 많이 들어와 있고 밸류에이션이 크면 <strong>taxation 문제</strong>가 생겨서 비용이 엄청나게 생깁니다.
+          그러면 호적 다 파서 나오는 게 불가능해져요.</p>
+        <div class="by"><span class="chip gemini">Gemini</span></div>
+      </div>
+      <p style="margin:.6rem 0 0;">한국 투자·정부지원이 쌓일수록 미국행 비용이 <strong>비선형으로</strong> 오른다는 뜻이다.
+        <strong>이 항목은 유통기한이 있다</strong> — 아래 §6에서 실제 비용과 절차를 본다.</p>
+    </div>
+
+    <div class="card-b">
+      <div class="h"><span class="rank">2</span> 창업자가 미국 전문가일 필요는 없다 — <strong>팀</strong>이면 된다 <span class="tag">해결 가능</span></div>
+      <div class="q gemini" style="margin:10px 0 0;">
+        <p>US VC가 보는 건 <strong>이 팀이 여기서 functional한지</strong>, 여기서 더 클 수 있는지예요.
+          본인이 파운더로서 그렇지 않더라도, 비전이 있고 아이디어가 있으면 <strong>파트너를 만들면 되는 겁니다.</strong>
+          어드바이저든, 저희 같은 VC든 — 파트너를 잘 만들면 여기서 랜딩하는 걸 도와줍니다.</p>
+        <div class="by"><span class="chip gemini">Gemini</span></div>
+      </div>
+      <p style="margin:.6rem 0 0;">"미국 생활을 얼마 안 해봤는데 미국인을 위한 프로덕트를 만들 수 있을까"라는 걱정에 대한 답이
+        <strong>혼자 하지 말라</strong>는 것이었다. 이건 §3의 커넥션 지도가 곧바로 답이 되는 문제다.
+        <a href="/docs/07-strategy/physical-ai-korea-playbook.md">Playbook</a>이 이미 말한
+        "학교 자체가 공동창업자 리크루팅 퍼널"과 정확히 같은 결론.</p>
+    </div>
+
+    <div class="card-b">
+      <div class="h"><span class="rank">3</span> 그 하우스는 <strong>first-time founder</strong>를 가장 선호한다 <span class="tag easy">우리에게 유리</span></div>
+      <div class="q gemini" style="margin:10px 0 0;">
+        <p>제가 지향하는 게 <strong>첫 사업 하시는 분들</strong>이에요. 퍼스트 타임 파운더, 우리가 <strong>첫 책을 써주는 것</strong>을
+          제일 좋아합니다. 왜냐하면 그게 <strong>멀티플이 가장 크니까.</strong></p>
+        <div class="by"><span class="chip gemini">Gemini</span></div>
+      </div>
+      <p style="margin:.6rem 0 0;">경력 없음이 감점이 아니라 <strong>선호 조건</strong>인 몇 안 되는 자리다.
+        그리고 대화는 이렇게 닫혔다 — <strong>"네트워크 쌓고, 같이 파운더 할 사람들 인맥 쌓아서, 나와서 제대로."</strong>
+        즉 <strong>지금은 거절이 아니라 유예</strong>이고, 유예 기간에 해야 할 일이 명시됐다.</p>
+    </div>
+
+    <div class="prov">
+      <p class="cap"><b>잠정</b> 이 세 문을 우리 상황에 옮기면</p>
+      <ul>
+        <li><strong>플립 데드라인 — 한국에서 지분을 파는 첫 거래 직전까지.</strong>
+          날짜가 아니라 <em>사건</em>으로 잡는다. 비희석(강사료·수강료·창업지원금)은 시계를 돌리지 않고,
+          <strong>주주가 한 명이라도 늘어나는 순간</strong> 플립 비용이 오르기 시작한다.
+          → 한국 VC/AC와 텀시트를 논의하기 <strong>전에</strong> §6 상담을 끝내 둔다.</li>
+        <li><strong>팀에서 비어 있는 자리는 둘, 우선순위는 미국 GTM이 먼저다.</strong>
+          로보틱스 하드웨어는 <a href="/docs/07-strategy/physical-ai-korea-playbook.md">Playbook</a>이
+          지적한 대로 반드시 필요하지만, <span class="chip gemini">Gemini</span>가 본 건
+          <em>"이 팀이 여기서 functional한가"</em>였다. 하드웨어 공동창업자는 학교가 퍼널로 뽑을 수 있고(§3),
+          <strong>미국에서 말이 통하는 사람은 학교로 못 뽑는다</strong> — 그래서 이쪽이 먼저다.</li>
+        <li><strong>"나중에 갈게요"로 안 들리려면 — 미국에 <em>주소·사람·기록</em> 셋 중 둘.</strong>
+          지금 확보 가능한 건 <strong>사람</strong>(창발·KSC·피치데이에서 만든 실제 관계)과
+          <strong>기록</strong>(영어로 공개된 커리큘럼·데모·빌드 로그)이다. 법인 주소는 그 다음.
+          → <strong>모든 산출물을 영어로 먼저 낸다</strong>는 규칙 하나가 이 항목의 대부분을 해결한다.</li>
+      </ul>
     </div>
   </section>
 
   <!-- ===== 3 ===== -->
   <section class="sec">
-    <h2>3. 진입 경로 — 쉬운 순서대로</h2>
-    <p class="sub">넌 4년차 AI 엔지니어다. 그 사실이 1번을 즉시 가능하게 한다.</p>
+    <h2>3. 커넥션 지도</h2>
+    <p class="sub">이 페이지의 핵심. 돈은 사람을 통해서만 온다 — 그 사람들이 이미 몇 명이나 손에 있는지 세어본다.</p>
 
-    <div class="card-b">
-      <div class="h"><span class="rank">1</span> KDT/새싹 <strong>강사</strong>로 등록 <span class="tag easy">가장 쉬움 · 즉시</span></div>
-      <p style="margin:.3rem 0 0;">KDT 과정을 가르치는 데엔 보통 <strong>NCS확인강사 자격 + 강사 보수교육 + 관련 경력 3년 이상</strong>이면 되고, 정식 <strong>직업능력개발훈련교사 자격증은 '우대'일 뿐 필수가 아니다.</strong> 너는 4년차 + 3년 경력 기준을 이미 충족한다. <strong>KOREATECH의 'K-디지털 교·강사 Pool'</strong>에 등록하면 시설·심사 없이 새싹/KDT 파트너에서 바로 가르칠 수 있다. <strong>가장 빠른 합법 진입 = 지금 이거부터.</strong></p>
+    <p class="tier">Tier 1 · 이미 손에 있는 것</p>
+    <div class="nodes">
+      <div class="node" style="--c:var(--accent)">
+        <p class="n-who">학장 이헌수 (42경산)</p>
+        <p class="n-what">IBM Korea → Bell Canada Research → <b>Cisco 미국 본사</b> → 삼성전자, 그리고
+          <b>과기정통부 KIC 실리콘밸리 초대 센터장</b>. IT 경력 40년.
+          우리가 찾던 "미국 물 먹은 사람 + 정부 채널"이 <b>이미 조직도 맨 위에</b> 있다.</p>
+        <p class="n-act">→ 성과 압력을 <b>공동 목표</b>로 재프레이밍. 실리콘밸리 시절 네트워크를 직접 요청.</p>
+      </div>
+      <div class="node" style="--c:var(--blue)">
+        <p class="n-who"><span class="chip gemini">Gemini</span> 현직 미국 VC</p>
+        <p class="n-what">이스라엘계 GP 하우스, 크로스보더 소싱. 한국에 자주 오고 2026년 3월
+          <b>MIT GSW(경북대)</b>에서 강연. <b>경산이노베이션아카데미를 이미 알고 있고</b>
+          컨퍼런스 초대까지 받았던 상태.</p>
+        <p class="n-act">→ 링크드인 연결 완료. <b>다음 방한 일정에 경산 강연</b>을 학장 라인으로 성사시킨다.</p>
+      </div>
+      <div class="node" style="--c:var(--purple)">
+        <p class="n-who"><span class="chip grok">Grok</span> 하드웨어·현지 멘토</p>
+        <p class="n-what">시애틀 현장 멘토. 한인 커뮤니티 진입로를 직접 열어주고 있고,
+          피치 준비를 함께 본다. 하드웨어/방산 관점과 <b>"투자 못 받는 아이디어는 아이디어가 아니다"</b>는 원칙.</p>
+        <p class="n-act">→ 8월 피치 리허설. 현지 정착자 인터뷰 세팅.</p>
+      </div>
+      <div class="node" style="--c:var(--good)">
+        <p class="n-who">WTIA · 프로그램 VC 라인</p>
+        <p class="n-what">프로그램 공동 주관 <b>워싱턴기술산업협회(WTIA)</b>,
+          <b>보이저 캐피탈</b>·<b>트릴로지 에쿼티 파트너스</b>, <b>앨런 AI 연구소(AI2)</b>,
+          1:1 멘토 매칭. <b>8주차 피치 데이의 청중이 바로 이들</b>.</p>
+        <p class="n-act">→ 피치 데이를 <b>종료가 아니라 시작</b>으로 쓴다 — 후속 미팅 확보가 진짜 성과.</p>
+      </div>
     </div>
 
-    <div class="card-b">
-      <div class="h"><span class="rank">2</span> 새싹 <strong>교육파트너</strong> / 기존 훈련기관과 트랙 공동운영 <span class="tag">몇 개월</span></div>
-      <p style="margin:.3rem 0 0;">새싹은 <strong>교육파트너 통합모집(연 2회, 상·하반기)</strong>으로 외부 기관이 과정을 제안한다. 또는 <strong>이미 인증을 가진 훈련기관과 손잡아</strong> — 그들이 자격을 대고, 너는 커리큘럼·운영을 대는 방식. 새 커리큘럼이 국비에 닿는 <strong>가장 흔한 경로</strong>다. (단 새싹은 서울 캠퍼스 기반 <strong>오프라인 지향</strong> → 하이브리드 제안이 유리.)</p>
+    <p class="tier">Tier 2 · 손 뻗으면 닿는 것</p>
+    <div class="nodes">
+      <div class="node" style="--c:var(--blue)">
+        <p class="n-who">창발 (Changbal Society)</p>
+        <p class="n-what">시애틀 한인 IT 전문가 커뮤니티. 2014년 마이크로소프트 데이터 사이언티스트가 창립,
+          현재 <b>501(c)(3) 비영리 · 활동 회원 700명+ / 등록 1,800명+</b>.
+          아마존·마이크로소프트·구글 현직자 중심, 오리건·밴쿠버까지 확장.</p>
+        <p class="n-act">→ 태빈 AI 스터디 합류 완료. 피크닉·세미나 참석 중. <b>세미나 연사로 올라서기</b>가 다음 단계.</p>
+      </div>
+      <div class="node" style="--c:var(--good)">
+        <p class="n-who">KSC 시애틀 (중진공)</p>
+        <p class="n-what">다운타운 시애틀 소재 <b>대한민국 정부 공식 기관</b>. 오피스·BD 코스 제공,
+          <b>어드바이저 1,000명+</b>, 아마존·보잉·코스트코 소개 채널.
+          2026년 초 기준 <b>18건 투자</b> 집행. 워싱턴주 한인상공회의소와 협력 중.</p>
+        <p class="n-act">→ 지금 시애틀에 있는 동안 <b>직접 방문</b>. 프로그램 자격요건 확인.</p>
+      </div>
+      <div class="node" style="--c:var(--gold)">
+        <p class="n-who">KIC 실리콘밸리 · SVC</p>
+        <p class="n-what">학장이 <b>초대 센터장</b>을 지낸 그 기관. 2026년 1월 실리콘밸리에
+          <b>스타트업 벤처 캠퍼스(SVC)</b>가 열려 KSC와 한국벤처투자(KVIC) 해외사무소가 한 주소에 모였다.
+          딥테크 특화 트랙은 2026년 최대 <b>3억원</b>.</p>
+        <p class="n-act">→ 학장 소개로 접근. <b>가장 짧은 인트로 경로</b>일 가능성이 높다.</p>
+      </div>
+      <div class="node" style="--c:var(--purple)">
+        <p class="n-who">한인 신앙·지역 커뮤니티</p>
+        <p class="n-what">한인회, 한인교회, 불교 모임. 정착 1세대 엔지니어·간호사·은퇴 교수들.
+          투자자는 아니지만 <b>"어떻게 정착했는가"의 1차 데이터</b>이고, 대부분 대기업 현직자와 연결돼 있다.</p>
+        <p class="n-act">→ 이미 참석 중. 개별 스토리를 <b>기록</b>해 자산화한다.</p>
+      </div>
     </div>
 
-    <div class="card-b">
-      <div class="h"><span class="rank">3</span> <strong>자체 훈련기관 인증</strong> (원격이면 KSQA 원격 인증까지) <span class="tag hard">느림 · 어려움</span></div>
-      <p style="margin:.3rem 0 0;">시설·인력·재무건전성 + 2년 실적이 있어야 유리하고, 신규 기관은 낮은 등급부터 시작해 대학·대형 부트캠프와 경쟁한다. <strong>실적을 쌓은 뒤</strong>에 노려라. 온라인까지 고집하면 <strong>두 번째 관문(KSQA LMS 인증 + 콘텐츠심사)</strong>이 더해지고 과정당 지원금은 낮다 — 로보틱스엔 경제성이 나쁘다.</p>
+    <div class="q grok">
+      <p>교과서 보는 거랑 똑같은 거야. <strong>여기 정착한 사람들이 어떻게 정착했고 어떻게 사는지</strong> —
+        그 현실을 듣는 게 낫지. 그리고 <strong>이 사람들만 연결시켜서 따로 세미나 하나 만들어.</strong></p>
+      <div class="by"><span class="chip grok">Grok</span></div>
+    </div>
+    <p>이 조언의 뒷문장이 진짜다. 네트워킹의 결과물을 <strong>모임으로 되돌려주는 순간</strong>,
+      참석자에서 <strong>허브</strong>가 된다. 우리는 이미 학교를 운영하고 있으니 <strong>가장 잘하는 일</strong>이기도 하다 —
+      그리고 이건 §2의 "팀에서 비어 있는 자리"를 채우는 리크루팅 퍼널이기도 하다.</p>
+
+    <p class="tier">Tier 3 · 국가 레벨의 순풍</p>
+    <div class="nodes">
+      <div class="node" style="--c:var(--accent)">
+        <p class="n-who">국민연금 × 실리콘밸리 6개 VC</p>
+        <p class="n-what">2026년 7월 25일 샌프란시스코 벤처투자 밋업(대통령 주재) 직후,
+          국민연금이 <b>세쿼이아·a16z·제너럴 캐탈리스트·코슬라·라이트스피드·NEA</b>와 MOU.
+          합산 운용자산 <b>3,000억 달러+</b>. 한국 스타트업의 해외 투자 유치 지원이 명시 목적.</p>
+        <p class="n-act">→ 우리가 직접 닿을 수는 없지만, <b>한국계 창업자에 대한 온도가 사상 최고</b>라는 신호.</p>
+      </div>
+      <div class="node" style="--c:var(--gold)">
+        <p class="n-who">과기정통부 · 경산시</p>
+        <p class="n-what">42경산은 <b>과기정통부 국비 사업</b>이고, 2026년부터 대전·경남으로 확산 중.
+          부처와 학장 모두 <b>창업 성과</b>를 원한다.</p>
+        <p class="n-act">→ 우리의 성과 = 그들의 성과. <b>가장 협조를 얻기 쉬운 시기</b>다.</p>
+      </div>
+    </div>
+
+    <div class="prov">
+      <p class="cap"><b>잠정</b> 커넥션 원장(ledger) — v0</p>
+      <p>커넥션은 기억이 아니라 <strong>기록</strong>으로 관리해야 살아남는다.
+        아래는 <strong>이미 확정된 노드만</strong> 먼저 채운 초안이고,
+        피치 데이·창발에서 만난 <strong>개인 실명은 만난 당일에 직접 추가</strong>해야 한다 — 그게 이 표의 본체다.</p>
+      <div class="wrap-x"><table class="tbl">
+        <tr><th>노드</th><th>담당</th><th>상태</th><th>다음 액션 · 기한</th></tr>
+        <tr><td>학장 이헌수</td><td>기찬</td><td>관계 있음</td><td>KIC 실리콘밸리·Cisco 시절 인트로를 <b>구체적 이름 단위로</b> 요청 · <b>~8/14</b></td></tr>
+        <tr><td>Gemini (US VC)</td><td>기찬</td><td>링크드인 연결</td><td>다음 방한 시 <b>경산 강연</b> 성사 (학장 라인 경유) · <b>D+30</b></td></tr>
+        <tr><td>Grok (현지 멘토)</td><td>기찬 · 태빈</td><td>주 단위 접촉</td><td>피치 리허설 · 현지 정착자 인터뷰 세팅 · <b>~8/10</b></td></tr>
+        <tr><td>WTIA · 피치데이 VC</td><td>기찬</td><td>프로그램 경유</td><td>참석 VC 전원 <b>후속 미팅을 그 자리에서</b> 요청 · <b>8/11~12</b></td></tr>
+        <tr><td>창발</td><td>태빈</td><td>AI 스터디 합류</td><td>정기 활동 등록 → <b>세미나 연사 지원</b> · <b>D+30</b></td></tr>
+        <tr><td>KSC 시애틀</td><td>미정</td><td>미접촉</td><td>다운타운 오피스 <b>직접 방문</b>, 자격요건 확인 · <b>~8/13</b></td></tr>
+        <tr><td>한인회·교회·불교모임</td><td>태빈 · 정민</td><td>참석 중</td><td>정착 스토리 <b>기록</b> → 다시 만날 3명 지정 · <b>~8/14</b></td></tr>
+        <tr><td>공동창업자 후보</td><td>전원</td><td>탐색 중</td><td>42경산·42서울 30명 중 <b>3~5명</b> 좁히기 · <b>D+90</b></td></tr>
+      </table></div>
+      <p style="margin-top:10px;"><strong>역할 분담(잠정)</strong> — 기찬: 기관·VC 라인 / 태빈: 한인 커뮤니티·네트워킹 /
+        정민: 기록·팔로업 관리. <em>정민 역할은 본인 협의 후 확정할 것.</em></p>
     </div>
   </section>
 
   <!-- ===== 4 ===== -->
   <section class="sec">
-    <h2>4. 정부 vs Nomad Coders식 직접 모델</h2>
-    <p class="sub">"정부 학원을 온라인으로 차리는 게 쉬울까?"에 대한 답 — 채널을 분리하라.</p>
+    <h2>4. 두 조언이 갈라지는 지점</h2>
+    <p class="sub">둘 다 맞다. 다만 <strong>다른 게임</strong>을 말하고 있다 — 어느 게임을 할지는 우리가 고른다.</p>
 
     <div class="wrap-x"><table class="tbl">
-      <tr><th>항목</th><th>정부(국비) 루트</th><th>직접(Nomad Coders식)</th></tr>
-      <tr><td>승인/심사</td><td>기관·과정·(원격)LMS 심사 — 무겁고 느림</td><td>없음 — 오늘 열 수 있음</td></tr>
-      <tr><td>가격 결정권</td><td>정부 규정·단가에 종속</td><td>내가 정함 (구독·기수제)</td></tr>
-      <tr><td>온라인 적합성</td><td>하드웨어·오프라인 강제, 온라인 전용 사실상 불가</td><td>온라인 네이티브</td></tr>
-      <tr><td>파는 것</td><td>보조금(무료 수강생)</td><td><strong>'완주'</strong> (피어리뷰·기록·갤러리)</td></tr>
-      <tr><td>해자</td><td>인증·정부 관계</td><td>커뮤니티·축적 데이터 (카피 불가)</td></tr>
-      <tr><td>속도</td><td>반기~연 단위 사이클</td><td>즉시</td></tr>
+      <tr><th></th><th><span class="chip grok">Grok</span> 현장·하드웨어 관점</th><th><span class="chip gemini">Gemini</span> US VC 관점</th></tr>
+      <tr><td>한국 시장</td><td>작다 → <b>하드웨어 수주</b>로 먹고살아야</td><td>작다 → <b>Day 1부터 나가야</b></td></tr>
+      <tr><td>한국 VC</td><td>"진짜 VC가 아니다 — 정부 돈을 나눠주는 것" → <b>기죽지 마라</b></td><td>언급 없음. 대신 <b>미국 법인·미국 오퍼레이션</b>이 전제</td></tr>
+      <tr><td>돈의 원칙</td><td><b>자기 돈으로 하지 마라.</b> 못 받으면 아이디어가 약한 것</td><td>SAFE 단계 유지 = <b>플립 가능성 보존</b></td></tr>
+      <tr><td>먼저 할 일</td><td><b>정착자에게 현실을 들어라</b>, 그리고 그들을 연결하는 판을 깔아라</td><td><b>네트워크와 파운더 인맥</b>을 쌓고 나서 제대로 나와라</td></tr>
+      <tr><td>결론</td><td colspan="2" style="white-space:normal;">놀랍게도 <b>같은 행동</b>을 가리킨다 — <b>지금 시애틀에서 사람을 만나라.</b>
+        차이는 그 다음이다: Grok은 한국에서 팔 물건을, Gemini는 미국에서 클 법인을 본다.</td></tr>
     </table></div>
 
-    <div class="concept">
-      <p class="lbl">추천 — 채널을 나눠라</p>
-      <p style="margin:.3rem 0 0;"><strong>온라인 피어리뷰 제품은 Nomad Coders식 직접 모델로</strong> 운영하라(가격·유통 자기 통제, '완주'를 판다 — 무료 국비의 약점이 곧 네 강점: <a href="./#/m1">MIT·하버드 이수율 3% vs 46%</a>). <strong>정부는 병렬 채널</strong>로 둔다: (a) <strong>강사</strong>로 지금 바로 수익화, (b) 커리큘럼을 <strong>국비 오프라인 부트캠프에 B2B 납품</strong>. 이건 저장소의 <code>career-and-services §7</code>가 이미 던진 "경쟁이 아니라 납품" 아이디어와 정확히 맞다.</p>
+    <div class="q grok">
+      <p>절대 <strong>자기 돈으로 사업하지 마라.</strong> 무조건 투자를 받아라.
+        투자를 못 받는다면 <strong>그 아이디어는 별로인 거다.</strong></p>
+      <div class="by"><span class="chip grok">Grok</span></div>
+    </div>
+    <div class="q grok">
+      <p>한국엔 진짜 VC가 없어. 다 정부 돈 받아서 나눠주는 거야. 그러니까 <strong>기죽지 마라</strong> —
+        너희가 돈을 요구할 때.</p>
+      <div class="by"><span class="chip grok">Grok</span> · 관점이자 협상 태도에 대한 조언</div>
+    </div>
+
+    <h3>지정학 — 지금 한국 여권이 자산인 이유</h3>
+    <div class="q grok">
+      <p>지금은 중국이라면 전부 눈을 켜고 봐. 스파이로 보더라고. <strong>근데 한국 사람은 그렇게 안 봐.</strong>
+        그게 좀 장점이 있어.</p>
+      <div class="by"><span class="chip grok">Grok</span></div>
+    </div>
+    <p>미국 자본·인수 시장에서 국적 심사가 강해진 국면에서, 한국 창업자는 <strong>상대적 프리미엄</strong>을 받고 있다.
+      실제로 국민연금-실리콘밸리 VC MOU 자리에서 a16z 측은 <strong>"미국의 소프트웨어·AI와 한국의 반도체·로보틱스·제조 역량의 결합"</strong>을,
+      코슬라 측은 <strong>"한국은 인재 강국이고 벤처 투자는 인재를 따라간다"</strong>를 언급했다.
+      <strong>Physical AI는 이 문장에 정확히 올라타는 분야</strong>다 — 우리 포지션과 국가 서사가 겹치는, 흔치 않은 구간.</p>
+
+    <div class="prov">
+      <p class="cap"><b>잠정</b> 우리는 어느 게임을 하는가</p>
+      <p style="font-family:var(--serif); font-size:18px; line-height:1.6;">
+        <strong>본선은 미국이고, 한국은 런웨이다.</strong> 한국에서 버는 돈(강사료·수강료·커리큘럼 납품)은
+        <strong>시간을 사는 데만 쓰고</strong>, 회사의 종착지를 한국으로 굳히는 거래 — 특히 지분이 걸린 거래 — 는
+        플립 판단이 끝날 때까지 미룬다.</p>
+      <p>Grok의 "한국은 하드웨어 수주로 먹고살아야 한다"는 진단은 <strong>한국 시장에 대해서는 맞다.</strong>
+        다만 그건 <em>제조업 관점의 생존 전략</em>이고, 우리 자산은 공장이 아니라
+        <strong>사람(수료생)과 데이터(teleop demonstration)</strong>다 — 둘 다 국경을 넘길 수 있는 형태다.
+        그래서 같은 진단에서 우리는 반대 결론을 낸다: <strong>한국 시장이 작으니 하드웨어가 아니라 국경을 넘긴다.</strong></p>
+      <p style="margin-bottom:0;"><strong>이 문장이 틀렸다고 판단되면 그때 바꾸면 된다 — 다만 지금은 하나로 정해두는 게
+        두 개를 열어두는 것보다 낫다.</strong> <span class="chip gemini">Gemini</span>가 말한 탈락 사유가
+        정확히 "둘 다 열어둔 사람"이었기 때문이다.</p>
     </div>
   </section>
 
   <!-- ===== 5 ===== -->
   <section class="sec">
-    <h2>5. 돈 &amp; 타임라인 (2026)</h2>
-    <div class="money">
-      <div class="m"><div class="n">300~500만원</div><div class="c">내일배움카드 1인 한도 / 5년</div></div>
-      <div class="m"><div class="n">≤ 10% (최대 60만원)</div><div class="c">2026 KDT 자부담 (이전 대개 무료)</div></div>
-      <div class="m"><div class="n">월 11.6~20만원</div><div class="c">훈련장려금 (KDT 2026 상향 20만원)</div></div>
-      <div class="m"><div class="n">연 2회 / 즉시</div><div class="c">새싹 파트너 모집 / 강사풀 등록</div></div>
-      <div class="m"><div class="n">1만 명 · 자부담 0원</div><div class="c">2026 상반기 신설 <b>KDT AI Campus</b> 양성 목표</div></div>
+    <h2>5. 먼저 간 사람들 — 세 가지 경로</h2>
+    <p class="sub">한국계 창업자가 미국 자본에 닿은 방식은 크게 셋이고, 결과가 다르다.</p>
+
+    <div class="wrap-x"><table class="tbl">
+      <tr><th>유형</th><th>사례</th><th>어떻게 했나</th><th>시사점</th></tr>
+      <tr><td>Day 1 미국</td><td><b>Moloco</b></td><td>창업자가 구글에서 YouTube ML·안드로이드 데이터 시스템을 만든 뒤,
+        <b>구글 동료 2명과 2013년 실리콘밸리에서 창업</b>. 실리콘밸리 최초 한국인 유니콘, 현재 기업가치 4조원+.
+        한국 지사 매출 627억·인력 180명으로 <b>역으로 한국에 투자</b>.</td>
+        <td>가장 강한 경로. 단 <b>미국 빅테크 경력이 선행</b>됐다.</td></tr>
+      <tr><td>Day 1 미국<br>(R&amp;D는 한국)</td><td><b>Twelve Labs</b></td><td>2021년 실리콘밸리 창업, <b>한국인 5명</b>, SF 본사 + 핵심 R&amp;D 한국.
+        시리즈 B <b>1억 달러</b>를 NEA·네이버벤처스 공동 리드로, 아마존 참여. 누적 2억 달러+.</td>
+        <td><b>지금 우리가 복제 가능한 형태에 가장 가깝다</b> — 팀은 한국인, 법인은 미국.</td></tr>
+      <tr><td>한국 법인<br>+ 미국 확장</td><td><b>Upstage</b></td><td>2024년 실리콘밸리에 미국법인 설립(공동창업자가 미국법인 대표),
+        시리즈 C 1차 1,800억으로 국내 생성형 AI 첫 유니콘. 리드는 실리콘밸리 VC.</td>
+        <td>가능하다 — 단 <span class="chip gemini">Gemini</span>는 이 유형을 <b>"천장이 정해진 케이스"</b>로 분류했다.</td></tr>
+    </table></div>
+
+    <div class="concept">
+      <p class="lbl">읽는 법</p>
+      <p style="margin:0;">Twelve Labs가 중요한 이유는 <strong>미국 빅테크 경력 없이도 성립한 최근 사례</strong>이기 때문이다.
+        본사는 미국, 사람은 한국 — <span class="chip gemini">Gemini</span>가 말한
+        <strong>"미국에 법인이 있고 여기서 오퍼레이션"</strong> 요건을 충족하면서 팀의 실체는 한국에 남긴 구조다.
+        <strong>우리가 벤치마킹할 대상은 Moloco가 아니라 여기다.</strong></p>
     </div>
-    <div class="bluf" style="margin-top:14px;">
-      <p class="lbl">2026 신규 — AI Campus가 자부담 규칙의 예외다</p>
-      <p style="margin:0;">2026년 1월 1일 개강분부터 <b>일반 KDT는 최대 10% 자부담</b>이 붙지만,
-        상반기 신설되는 <b>AI Campus 트랙은 전액 국비 · 자부담 0원</b>으로 <b>AI 인재 1만 명</b> 양성을
-        목표로 합니다. Physical AI를 "AI 트랙"으로 프레이밍할 수 있다면 자부담 장벽이 사라지는
-        유일한 통로이고, 반대로 "로봇/하드웨어 트랙"으로 분류되면 해당이 안 됩니다.
-        <b>어느 분류로 들어가는지가 가격 경쟁력을 통째로 바꾸므로, 공고문에서 이것부터 확인할 것.</b>
-        (출처: <a href="https://sprint.codeit.kr/blog/kdt-application-guide" target="_blank" rel="noopener">2026 KDT 수강 가이드</a>)</p>
+
+    <div class="q team">
+      <p>돈은 상관없고 <strong>미국에 진출하는 회사만</strong> 봅니다. 한국에서 돈 버는 건 재미가 없어요. 너무 작아요.
+        남의 월급 받아가면서 경험을 쌓아보겠습니다.</p>
+      <div class="by"><span class="chip team">Team</span> 이기찬 — 취업 선택 기준에 대해</div>
     </div>
-    <p style="font-size:15px; color:var(--muted); margin:.6rem 0 0;">과정 승인: 새싹 교육파트너는 반기 사이클, KDT 운영기관 선정은 연 1회(2026 결과 2월 발표, 신규 기관 첫해 확률 낮음), 원격 인증은 콘텐츠 등록심사 상시 + 과정심사 연 ~7회로 첫 과정까지 3~6개월. <strong>강사풀 등록은 상시/즉시 — 가장 빠른 유급 진입.</strong></p>
+    <p>이건 <span class="chip gemini">Gemini</span>의 마지막 조언과 정확히 같은 전략이다 —
+      <strong>"네트워크 쌓고, 같이 파운더 할 사람들 인맥 쌓아서, 나와서 제대로."</strong>
+      취업이 창업의 반대가 아니라 <strong>창업의 전 단계</strong>가 되는 경로이고, Moloco가 실제로 그렇게 만들어졌다.</p>
+
+    <div class="prov">
+      <p class="cap"><b>잠정</b> 우리가 고르는 유형 — <span style="letter-spacing:0;text-transform:none;">Twelve Labs 형</span></p>
+      <p><strong>미국 법인 · 한국 팀.</strong> Moloco 형(창업 전 미국 빅테크 경력)은 지금 복제할 수 없고,
+        Upstage 형(한국 법인 + 미국 확장)은 <span class="chip gemini">Gemini</span> 기준으로 천장이 있다.
+        남는 건 <strong>본사만 먼저 넘기고 사람은 한국에 두는</strong> 형태다.</p>
+      <p style="margin-bottom:6px;"><strong>이 선택이 12개월의 행동을 바꾸는 지점 넷:</strong></p>
+      <ol style="margin-top:0;">
+        <li><strong>산출물은 영어가 기본.</strong> 커리큘럼·데모·리포트·이 사이트까지 —
+          한국어는 번역본으로 둔다. (지금은 반대로 돼 있다.)</li>
+        <li><strong>한국 지분 거래는 플립 상담 이후로.</strong> 비희석 지원금과 매출은 계속 가져가되,
+          주주가 늘어나는 결정은 §6이 끝나기 전엔 하지 않는다.</li>
+        <li><strong>미국 쪽 사람을 먼저 채운다.</strong> 하드웨어 공동창업자는 학교가 뽑아주지만
+          미국 GTM 파트너는 그렇지 않다 (§2-2).</li>
+        <li><strong>데이터 플라이휠을 지금부터 축적.</strong> 기수 제출물 = LeRobot demonstration.
+          이게 <em>법인 위치와 무관하게</em> 따라오는 유일한 자산이다.</li>
+      </ol>
+      <p style="margin-bottom:0;"><em>참고: Twelve Labs는 2021년 창업이고 시리즈 B가 2026년이다 —
+        빠른 길이라기보다 <strong>현실적인 길</strong>로 골랐다.</em></p>
+    </div>
   </section>
 
   <!-- ===== 6 ===== -->
   <section class="sec">
-    <h2>6. 지금 할 일</h2>
+    <h2>6. 플립의 실제 — 비용, 기한, 함정</h2>
+    <p class="sub">"미국 법인"이 구체적으로 무엇을 의미하는지. 여기부터는 <strong>전문가 확인이 필요한 영역</strong>이다.</p>
+
+    <p><strong>플립(flip)</strong>은 단순히 미국에 법인을 하나 더 세우는 게 아니라,
+      <strong>미국 법인을 모회사로 두고 한국 법인을 자회사로 재편</strong>하는 지주구조 전환이다.
+      대부분의 미국 VC 펀드가 <strong>미국 등록 법인에만 투자</strong>하기 때문에 사실상 통과의례에 가깝다.</p>
+
+    <div class="wrap-x"><table class="tbl">
+      <tr><th>항목</th><th>일반적으로 알려진 것</th></tr>
+      <tr><td>형태</td><td><b>Delaware C-Corp</b>이 사실상 표준</td></tr>
+      <tr><td>기간</td><td>실무상 <b>3~6개월</b>. 초기·단순 구조에서 잘 진행되면 훨씬 짧아진다는 자료도 있음</td></tr>
+      <tr><td>비용</td><td>법무·회계 <b>수천만 원대</b>로 언급됨 <span class="verify">우리 케이스는 확인 필요</span></td></tr>
+      <tr><td>최대 난관</td><td>서류가 아니라 <b>기존 주주 전원의 동의</b> — 사실상 모든 주주가 참여해야 한다</td></tr>
+      <tr><td>세금</td><td>주식 교환 시점의 <b>과세</b>가 핵심 변수. 초기일수록 유리 <span class="verify">필수 확인</span></td></tr>
+      <tr><td>외환</td><td>해외직접투자 신고 등 <b>외국환거래 절차</b> <span class="verify">필수 확인</span></td></tr>
+    </table></div>
+
+    <div class="concept" style="border-left-color:var(--blue);">
+      <p class="lbl">왜 미국 VC는 미국 법인을 고집하는가 — QSBS</p>
+      <p style="margin:0;">미국 세법 <strong>Section 1202(QSBS)</strong>는 적격 소규모 사업 주식의 양도차익을
+        연방세에서 대규모로 면제해준다. 2025년 7월 개정(OBBBA) 이후 발행 주식 기준으로
+        한도는 <strong>$10M → $15M</strong>, 총자산 기준은 <strong>$50M → $75M</strong>로 올랐고,
+        보유기간도 5년 일괄에서 <strong>3년 50% / 4년 75% / 5년 100%</strong>로 완화됐다.
+        <strong>C-Corp이어야만 적용된다</strong> — 미국 VC가 구조를 요구하는 건 취향이 아니라 <strong>수익률 계산</strong>이다.
+        (주의: 캘리포니아 등 일부 주는 이 면제에 비순응.)</p>
+    </div>
+
+    <div class="ph">
+      <p class="cap">✎ 이 페이지에서 유일하게 비워 둔 칸 <span class="verify">추정 금지</span></p>
+      <p style="margin:0 0 6px;">다른 칸은 전부 잠정 초안이라도 채워 넣었지만, <strong>여기만은 비워 둡니다.</strong>
+        추정치를 적어두면 나중에 그게 사실로 굳고, 이 네 항목은 <strong>틀렸을 때 곧바로 돈과 체류 자격이 걸리는</strong> 문제이기 때문입니다.</p>
+      <ul>
+        <li>우리 케이스의 <strong>플립 실비용과 소요 기간</strong></li>
+        <li>플립 시점 <strong>과세</strong> — 지금 하면 얼마, 1년 뒤면 얼마</li>
+        <li><strong>정부지원금·TIPS 수령 이력</strong>이 플립에 거는 제약 (환수·승인 여부)</li>
+        <li>비자 카테고리(O-1 / E-2 / L-1 등) 중 <strong>본인에게 실제로 열려 있는 것</strong></li>
+      </ul>
+      <p style="margin-top:8px;">이 네 줄은 <strong>숫자를 지어내면 안 되는 항목</strong>입니다.
+        국제조세·스타트업 전문 법무법인과 이민 전문 변호사 답변으로만 채우세요.
+        <strong>시애틀에 있는 동안 현지 상담을 잡는 게 가장 효율적</strong>입니다.</p>
+    </div>
+  </section>
+
+  <!-- ===== 7 ===== -->
+  <section class="sec">
+    <h2>7. 한국 트랙 — 버리지 않는다, 다만 <em>목적</em>이 바뀐다</h2>
+    <p class="sub">정부 돈은 목적지가 아니라 <strong>연료</strong>다. 단, 너무 많이 실으면 이륙을 못 한다.</p>
+
+    <p>미국이 목표라고 해서 한국 자금을 무시할 이유는 없다. 다만 역할을 명확히 해야 한다 —
+      <strong>런웨이와 레퍼런스를 사는 것</strong>이지, 회사의 종착지를 정하는 게 아니다.
+      그리고 §2의 경고가 여기에 걸린다: <strong>한국 투자·지분이 쌓일수록 플립 비용이 오른다.</strong></p>
+
+    <div class="wrap-x"><table class="tbl">
+      <tr><th>수단</th><th>성격</th><th>미국행에 미치는 영향</th></tr>
+      <tr><td>강사료·수강료</td><td>매출 (지분 0)</td><td><b>영향 없음</b> — 가장 안전한 런웨이. 지금 당장 가능</td></tr>
+      <tr><td>커리큘럼 B2B 납품</td><td>매출 (지분 0)</td><td><b>영향 없음</b> + 레퍼런스로 남는다</td></tr>
+      <tr><td>예비/초기창업패키지</td><td>비희석 지원금</td><td>대체로 가볍지만 <b>사업자 형태·정산 의무</b>가 붙는다 <span class="verify">확인</span></td></tr>
+      <tr><td>한국 VC 투자</td><td>희석</td><td><b>주주가 늘어난다 = 플립 난이도 상승</b></td></tr>
+      <tr><td>TIPS</td><td>희석 + 매칭 R&amp;D</td><td><b>가장 무겁다</b> — 큰 금액과 정부 R&amp;D가 얽히면 미국행이 사실상 어려워질 수 있다 <span class="verify">필수 확인</span></td></tr>
+    </table></div>
+
+    <h3>국비교육(KDT·새싹)은 투자가 아니라 <em>매출 채널</em>이다</h3>
+    <p>정부는 <strong>수강생 개인</strong>에게 훈련비를 주고, 그 돈으로 들을 수 있는 과정만
+      직업능력심사평가원(KSQA)이 사전 승인한다. 우리 입장에서 국비는 <strong>지분 없는 매출 + 정부 레퍼런스</strong>이지
+      자본 조달이 아니다 — <strong>그래서 플립을 방해하지 않는다.</strong> 이게 이 트랙의 가장 큰 장점이다.</p>
+    <ul>
+      <li><strong>강사 등록</strong> — NCS확인강사 + 경력 3년이면 되고 훈련교사 자격증은 우대사항일 뿐.
+        <strong>KOREATECH K-디지털 교·강사 Pool</strong> 등록이 가장 빠른 합법 진입.</li>
+      <li><strong>커리큘럼 납품</strong> — 새싹 교육파트너 통합모집(연 2회) 또는 기존 KDT 훈련기관과 공동운영.
+        무료·하드웨어 제공 부트캠프와 <strong>경쟁하지 말고 납품</strong>한다.</li>
+      <li><strong>온라인 전용 국비는 보류</strong> — KSQA LMS 인증 + 콘텐츠심사라는 별도 관문(3~6개월)이 있고,
+        Physical AI 국비 과정은 전부 오프라인·풀타임·하드웨어 중심이라 우리 포맷과 충돌한다.</li>
+    </ul>
+
+    <div class="q team">
+      <p>피지컬 AI 부트캠프들이 엄청 옛날 방식이에요. <strong>바이브 코딩 하는 사람한테 C언어부터</strong> 가르치려고 해요.
+        우리는 <strong>VLA로 바로</strong> 들어갑니다.</p>
+      <div class="by"><span class="chip team">Team</span> 이기찬</div>
+    </div>
+    <p style="font-size:15px;color:var(--muted);">
+      이 문장은 국비 전략이 아니라 <b>제품 차별화</b>다 — 그리고 피치 데크에 들어가야 할 문장이다.
+      "왜 지금 우리인가"에 대한 가장 구체적인 답이기 때문.</p>
+  </section>
+
+  <!-- ===== 8 ===== -->
+  <section class="sec">
+    <h2>8. 실행 — 8월 14일까지, 그리고 그 후</h2>
+    <p class="sub">시애틀에 있는 <strong>남은 시간이 가장 비싼 자산</strong>이다. 귀국하면 같은 미팅에 비행기값이 붙는다.</p>
+
+    <div class="tl">
+      <div class="ev">
+        <span class="when">~8/10</span>
+        <div class="tb"><b>피치 준비 · 현지 상담</b><span>피치 리허설. 플립·비자 상담을 <em>시애틀에 있을 때</em> 잡는다.
+          KSC 시애틀 방문.</span></div>
+      </div>
+      <div class="ev">
+        <span class="when">8/11~12</span>
+        <div class="tb"><b>피치 데이 (현지 VC)</b><span>목표는 수상이 아니라 <em>후속 미팅 확보</em>. 명함이 아니라 다음 약속을 받는다.</span></div>
+      </div>
+      <div class="ev">
+        <span class="when">8/13</span>
+        <div class="tb"><b>멘토 합동 만찬</b><span>30명 교육생 + 각자의 멘토가 모이는 자리 — <em>이 방이 곧 커넥션 지도</em>다.</span></div>
+      </div>
+      <div class="ev">
+        <span class="when">8/14</span>
+        <div class="tb"><b>프로그램 종료 · 귀국</b><span>이 날짜 이후 모든 커넥션은 <em>원격으로 유지</em>해야 한다 — 그래서 그 전에 기록해야 한다.</span></div>
+      </div>
+      <div class="ev soft">
+        <span class="when">D+30</span>
+        <div class="tb"><b>학장 라인 가동</b><span>KIC 실리콘밸리 인트로 요청. <span class="chip gemini">Gemini</span> 방한 시 경산 강연 성사.</span></div>
+      </div>
+      <div class="ev soft">
+        <span class="when">D+90</span>
+        <div class="tb"><b>구조 결정</b><span>플립 시점 확정 또는 명시적 연기. 공동창업자 후보 좁히기.</span></div>
+      </div>
+    </div>
+
     <div class="check">
-      <p class="cap">✓ 다음 단계 체크리스트</p>
-      <label><input type="checkbox" class="cpx" data-key="f1"><span>KOREATECH <strong>K-디지털 교·강사 Pool</strong>에 등록 (NCS확인강사 + 보수교육 확인).</span></label>
-      <label><input type="checkbox" class="cpx" data-key="f2"><span>다음 <strong>새싹 교육파트너 통합모집 공고</strong>를 공지 게시판에서 확인 (또는 sesac@sba.seoul.kr 문의) — 정확한 자격요건(법인/시설/재무)을 RFP에서 확보.</span></label>
-      <label><input type="checkbox" class="cpx" data-key="f3"><span>Physical AI 운영 중인 <strong>KDT 훈련기관 1~2곳에 커리큘럼 납품/공동운영</strong> 콜드 제안.</span></label>
-      <label><input type="checkbox" class="cpx" data-key="f4"><span>온라인 제품은 <strong>Nomad Coders식 기수제·피어리뷰</strong>로 별도 런칭 — 국비와 분리.</span></label>
-      <label><input type="checkbox" class="cpx" data-key="f5"><span>원격 국비는 <strong>보류</strong> (KSQA LMS 인증 + 콘텐츠심사 부담 대비 실익 낮음). 실적 쌓인 뒤 재검토.</span></label>
+      <p class="cap">✓ 지금 — 시애틀에 있는 동안만 할 수 있는 것</p>
+      <label><input type="checkbox" class="cpx" data-key="s1"><span><strong>KSC 시애틀</strong> 방문 — 정부 공식 기관, 다운타운. 프로그램·자격요건 직접 확인.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="s2"><span><strong>플립·비자 상담</strong> 현지에서 예약 (§6의 네 항목).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="s3"><span>피치 데이 참석 VC 전원 <strong>후속 미팅 요청</strong> — 그 자리에서, 이메일 말고.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="s4"><span><strong>창발</strong> 정기 활동 등록 · 다음 세미나 <strong>연사 지원</strong>.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="s5"><span>만난 사람 전원을 <strong>커넥션 원장</strong>에 기록 (§3 placeholder).</span></label>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ 커넥션 — 사람으로 푸는 것</p>
+      <label><input type="checkbox" class="cpx" data-key="c1"><span><strong>학장 이헌수</strong>님께 KIC 실리콘밸리·Cisco 시절 네트워크 인트로를 <strong>구체적으로</strong> 요청.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c2"><span><span class="chip gemini">Gemini</span> 다음 <strong>방한 일정에 경산 강연</strong> 성사 — 학장 라인으로.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c3"><span>42경산·42서울 <strong>30명 중에서 공동창업자 후보</strong> 3~5명 식별.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="c4"><span>미국 현지에서 <strong>functional한 파트너</strong> 후보 리스트 시작 (§2-2).</span></label>
+    </div>
+
+    <div class="check">
+      <p class="cap">✓ 구조 — 시간이 걸리는 것</p>
+      <label><input type="checkbox" class="cpx" data-key="f1"><span><strong>플립 데드라인</strong>을 날짜로 확정 — "SAFE 단계를 언제까지 유지할 것인가".</span></label>
+      <label><input type="checkbox" class="cpx" data-key="f2"><span>한국 투자 유치 전에 <strong>플립 영향 검토</strong>를 반드시 선행 (§7 표).</span></label>
+      <label><input type="checkbox" class="cpx" data-key="f3"><span><strong>강사료·수강료</strong> 라인 가동 — 지분 없는 런웨이부터.</span></label>
+      <label><input type="checkbox" class="cpx" data-key="f4"><span>기수 제출물을 전부 <strong>LeRobot demonstration으로 축적</strong> — 데이터가 곧 투자 논거.</span></label>
+    </div>
+  </section>
+
+  <!-- ===== 9 ===== -->
+  <section class="sec">
+    <h2>9. 안 하기로 한 것</h2>
+    <p class="sub">쓰지 않기로 한 결정도 전략이다.</p>
+    <ul>
+      <li><strong>"한국에서 검증하고 1년 뒤 미국"</strong> — <span class="chip gemini">Gemini</span>가 명시한
+        <strong>탈락 사유 1번</strong>. 가장 안전해 보이는 계획이 가장 확실한 거절이다.</li>
+      <li><strong>온라인 전용 국비 인증</strong> — KSQA 이중 관문 대비 실익 낮음 (§7).</li>
+      <li><strong>무료 국비 부트캠프와 커리큘럼·가격 경쟁</strong> — 하드웨어까지 주는 무상 과정은 이길 수 없다. 경쟁이 아니라 납품.</li>
+      <li><strong>Plug and Play (지금은 아님)</strong> — 시드 펀드가 아니라 대기업 매칭 기관이고 한국 오피스는 핀테크/스마트시티 중심.
+        대기업이 파일럿할 B2B 제품이 생긴 뒤 재검토.</li>
+      <li><strong>자기 돈으로 버티기</strong> — <span class="chip grok">Grok</span>의 첫 번째 원칙.</li>
+    </ul>
+    <div class="prov">
+      <p class="cap"><b>잠정</b> 추가로 안 하기로 한 것</p>
+      <ul>
+        <li><strong>TIPS를 미국행보다 먼저 추진하기</strong> — 금액은 가장 크지만 정부 R&amp;D와 운영사 지분이
+          동시에 얽혀 플립 난이도를 가장 크게 올린다 (§7). <em>플립 판단이 끝난 뒤에 다시 본다.</em></li>
+        <li><strong>자체 훈련기관 인증 취득</strong> — 시설·인력·재무 + 2년 실적이 필요하고,
+          대학·대형 부트캠프와 정면 경쟁이다. 우리는 <strong>납품 측</strong>에 선다.</li>
+        <li><strong>한국어 우선으로 만들기</strong> — 지금까지의 기본값이었지만 §5 선택과 정면으로 충돌한다.
+          <em>영어를 원본으로 바꾼다.</em></li>
+        <li><strong>피치 데이 결과를 성패로 해석하기</strong> — 목표는 수상이 아니라 <strong>후속 미팅</strong>이다.
+          한 번의 발표로 투자가 결정되는 자리가 아니고, 그렇게 기대하면 관계 관리를 안 하게 된다.</li>
+      </ul>
+      <p style="margin-bottom:0;"><em>여기 적힌 건 "영원히 안 함"이 아니라 <strong>"지금 순서가 아님"</strong>이다 —
+        각 항목마다 다시 볼 조건을 함께 적어 두었다.</em></p>
     </div>
   </section>
 
   <!-- ===== 출처 ===== -->
   <section class="sec">
-    <h2>7. 출처</h2>
-    <p class="sub">1차 자료 위주. 국가 정책은 자주 바뀌니 신청 전 원문 재확인.</p>
+    <h2>10. 출처</h2>
+    <p class="sub">1차 자료 위주. 정책·프로그램 조건은 자주 바뀌니 실행 전 원문 재확인.</p>
     <div class="srcs">
-      <a href="https://www.work24.go.kr/hr/a/a/1100/trnnCrsInf2.do?pageId=6" target="_blank" rel="noopener"><span class="s-t">고용24 — K-Digital Training</span><br><span class="s-u">work24.go.kr</span></a>
-      <a href="https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260201202" target="_blank" rel="noopener"><span class="s-t">고용노동부 — 2026 KDT 운영기관 선정 결과 (2026-02-26)</span><br><span class="s-u">moel.go.kr</span></a>
-      <a href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EA%B5%AD%EB%AF%BC%EB%82%B4%EC%9D%BC%EB%B0%B0%EC%9B%80%EC%B9%B4%EB%93%9C%EC%9A%B4%EC%98%81%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener"><span class="s-t">국민내일배움카드 운영규정 (법령)</span><br><span class="s-u">law.go.kr</span></a>
-      <a href="https://www.ksqa.or.kr/?pid=HP0205" target="_blank" rel="noopener"><span class="s-t">직업능력심사평가원(KSQA) — 원격훈련 심사</span><br><span class="s-u">ksqa.or.kr (국내 IP 전용)</span></a>
-      <a href="https://www.e-simsa.or.kr/guide/unemployedPersionGuide.do" target="_blank" rel="noopener"><span class="s-t">원격훈련 심사시스템 (e-simsa)</span><br><span class="s-u">e-simsa.or.kr</span></a>
-      <a href="https://www.moel.go.kr/info/lawinfo/instruction/view.do?bbs_seq=20230301138" target="_blank" rel="noopener"><span class="s-t">직업능력개발훈련교사 자격기준 (고시 2023-13호)</span><br><span class="s-u">moel.go.kr</span></a>
+      <h4>우리 프로그램 · 42경산</h4>
+      <a href="https://www.koreatimenews.com/news/article.html?no=1181988" target="_blank" rel="noopener"><span class="s-t">42경산 제2차 글로벌 교육 프로그램 — 시애틀 8주, WTIA 공동주관, 8주차 피치 데이</span><br><span class="s-u">koreatimenews.com</span></a>
+      <a href="https://www.42network.org/blog/heonsoo-rhee-what-excites-me-the-most-is-that-at-42-we-are-part-of-a-community-that-thrives-on-excellence/" target="_blank" rel="noopener"><span class="s-t">42 Network — 이헌수 학장 인터뷰 (IBM·Cisco·삼성, KIC 실리콘밸리 초대 센터장)</span><br><span class="s-u">42network.org</span></a>
+      <a href="https://www.42network.org/blog/42-gyeongsan-shaping-global-leaders-for-a-digital-future/" target="_blank" rel="noopener"><span class="s-t">42 Network — 42 Gyeongsan 개요 (2023 설립, 규모·지원자 수)</span><br><span class="s-u">42network.org</span></a>
+      <a href="https://gsia.kr/" target="_blank" rel="noopener"><span class="s-t">(재)경산이노베이션아카데미</span><br><span class="s-u">gsia.kr</span></a>
+
+      <h4>시애틀 네트워크</h4>
+      <a href="https://www.changbal.org/en/about" target="_blank" rel="noopener"><span class="s-t">창발(Changbal Society) — 시애틀 한인 IT 커뮤니티, 501(c)(3)</span><br><span class="s-u">changbal.org</span></a>
+      <a href="https://k-startupcenter.org/eng/CMS/Contents/Contents.do?mCode=MN023" target="_blank" rel="noopener"><span class="s-t">K-Startup Center 시애틀 — 중진공 운영, 다운타운 시애틀</span><br><span class="s-u">k-startupcenter.org</span></a>
+      <a href="https://www.kicsv.org/" target="_blank" rel="noopener"><span class="s-t">KIC 실리콘밸리 (Korea Innovation Center)</span><br><span class="s-u">kicsv.org</span></a>
+      <a href="https://www.geekwire.com/calendar-event/seattle-tech-week/" target="_blank" rel="noopener"><span class="s-t">Seattle Tech Week — 4회차, 250+ 이벤트</span><br><span class="s-u">geekwire.com</span></a>
+
+      <h4>미국 VC · 한국 스타트업 (2026)</h4>
+      <a href="https://en.sedaily.com/finance/2026/07/26/national-pension-service-partners-with-6-top-silicon-valley" target="_blank" rel="noopener"><span class="s-t">국민연금 × 실리콘밸리 6개 VC MOU (2026-07-26) — 세쿼이아·a16z·GC·코슬라·라이트스피드·NEA</span><br><span class="s-u">en.sedaily.com</span></a>
+      <a href="https://en.sedaily.com/finance/2026/07/21/k-startups-win-over-sequoia-grow-presence-in-silicon-valley" target="_blank" rel="noopener"><span class="s-t">미국 본사 한국계 스타트업 193개 (2026.04 기준), 2022년 16개 → 2025년 ~40개</span><br><span class="s-u">en.sedaily.com</span></a>
+      <a href="https://en.sedaily.com/finance/2026/07/20/k-startups-earn-in-us-invest-in-korea-from-silicon-valley" target="_blank" rel="noopener"><span class="s-t">Moloco·Sendbird·Twelve Labs — 미국에서 벌어 한국에 R&amp;D·채용으로 환류</span><br><span class="s-u">en.sedaily.com</span></a>
+      <a href="https://en.sedaily.com/news/2026/07/02/video-ai-startup-twelvelabs-raises-150-billion-won-backed" target="_blank" rel="noopener"><span class="s-t">Twelve Labs 시리즈 B $100M — NEA·네이버벤처스 공동 리드, 아마존 참여</span><br><span class="s-u">en.sedaily.com</span></a>
+      <a href="https://koreatechtoday.com/ad-tech-startup-moloco-becomes-first-korean-unicorn-in-silicon-valley/" target="_blank" rel="noopener"><span class="s-t">Moloco — 실리콘밸리 최초 한국인 창업 유니콘 (창업자 前 구글)</span><br><span class="s-u">koreatechtoday.com</span></a>
+      <a href="https://www.venturesquare.net/1076198/" target="_blank" rel="noopener"><span class="s-t">업스테이지 시리즈 C 1차 1,800억 — 국내 생성형 AI 첫 유니콘</span><br><span class="s-u">venturesquare.net</span></a>
+
+      <h4>구조 · 세제</h4>
+      <a href="https://lawmission.net/articles/20260128fliptous/" target="_blank" rel="noopener"><span class="s-t">한국 스타트업을 위한 FLIP 전략과 크로스보더 구조 (2026)</span><br><span class="s-u">lawmission.net</span></a>
+      <a href="https://story.law/knowledge/delaware-flip/" target="_blank" rel="noopener"><span class="s-t">Delaware Flip — 비미국 창업자가 미국 투자자에게 조달하려면</span><br><span class="s-u">story.law</span></a>
+      <a href="https://www.sdocpa.com/qualified-small-business-stock-qsbs-guide/" target="_blank" rel="noopener"><span class="s-t">QSBS Guide 2026 — Section 1202, OBBBA 개정 반영</span><br><span class="s-u">sdocpa.com</span></a>
+
+      <h4>한국 정부 트랙</h4>
+      <a href="https://www.mss.go.kr/" target="_blank" rel="noopener"><span class="s-t">중소벤처기업부 — 예비/초기창업패키지 공고</span><br><span class="s-u">mss.go.kr</span></a>
+      <a href="https://www.jointips.or.kr/" target="_blank" rel="noopener"><span class="s-t">TIPS — 민간투자주도형 기술창업지원</span><br><span class="s-u">jointips.or.kr</span></a>
       <a href="https://hrdi.koreatech.ac.kr/?m1=gallery_detail&menu_id=11&board_id=482&board_content_id=34201" target="_blank" rel="noopener"><span class="s-t">KOREATECH — K-디지털 교·강사 Pool</span><br><span class="s-u">hrdi.koreatech.ac.kr</span></a>
-      <a href="https://sesac.seoul.kr/sesac/board/B000000016/postList.do" target="_blank" rel="noopener"><span class="s-t">새싹(SeSAC) — 교육파트너 공지 게시판</span><br><span class="s-u">sesac.seoul.kr</span></a>
-      <a href="https://sesac.seoul.kr" target="_blank" rel="noopener"><span class="s-t">새싹(SeSAC) — 청년취업사관학교</span><br><span class="s-u">sesac.seoul.kr · 문의 sesac@sba.seoul.kr</span></a>
+      <a href="https://sesac.seoul.kr/sesac/board/B000000016/postList.do" target="_blank" rel="noopener"><span class="s-t">새싹(SeSAC) — 교육파트너 공지</span><br><span class="s-u">sesac.seoul.kr</span></a>
+
+      <h4>더 깊이</h4>
+      <a href="/docs/07-strategy/physical-ai-korea-playbook.md"><span class="s-t">Playbook — Physical AI Korea 전략 노트 (교차검증본)</span><br><span class="s-u">docs/07-strategy/physical-ai-korea-playbook.md</span></a>
+      <a href="market.html"><span class="s-t">Market — 3개국이 교육비를 내는 세 가지 방식</span><br><span class="s-u">site/market.html</span></a>
     </div>
-    <p class="disc">※ 이 문서는 2026-07 기준 리서치 요약이며 법·제도 자문이 아니다. 새싹 교육파트너의 정확한 자격요건, KDT 운영기관 재무·심사 배점, 원격훈련 인증 등급/주기는 각 공고 첨부문서로 최종 확인할 것. ksqa.or.kr·e-simsa.or.kr은 국내 IP만 접속되는 경우가 있다.</p>
+    <p class="disc">※ 이 문서는 2026-07 기준 정리이며 법률·세무·투자 자문이 아니다.
+      <b>플립의 과세·절차·비용, 비자 카테고리, 정부지원금 수령 이력이 거는 제약</b>은 반드시 전문가 확인을 거칠 것 —
+      해당 항목은 <span class="verify">확인 필요</span>로만 표시하고 숫자를 적지 않았다.
+      인용문은 비공개 대화를 정리·익명화한 것으로, 발화자를 특정할 수 있는 정보는 의도적으로 제거했다.
+      국내 공고 조건(자격·배점·주기)은 각 공고 첨부문서가 최종본이다.</p>
   </section>
 
   <nav class="chapnav">
@@ -257,7 +805,7 @@
     <a class="next" href="courses/"><span class="cn-k">3장 →</span><span class="cn-t">직접 해보기</span></a>
   </nav>
 
-  <p class="footer">Physical Spark · 국비 지원 가이드 · 정부는 병렬 채널, 제품은 직접 모델</p>
+  <p class="footer">Physical Spark · 자금 조달 전략 · 돈은 사람을 통해서만 온다</p>
 </div>
 
 <script>
