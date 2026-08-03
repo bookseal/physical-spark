@@ -10,7 +10,7 @@
 
 ---
 
-## 0. The thesis — commoditization is an argument *for* this school
+## 0. The thesis — commoditization is an argument *for* this engine
 
 Generating software stopped being the hard part. Describe an app, it appears. So the price of "I
 can use the tool" collapsed and value moved up the stack: deciding **what** to build and **why**,

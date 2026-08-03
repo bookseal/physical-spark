@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <title>Physical Spark — Missions</title>
-<meta name="description" content="The Physical Spark curriculum: three robot-arm missions from 'Pat me on the back' to 'Red Light, Green Light'.">
+<meta name="description" content="The Physical Spark mission map: three robot-arm missions from 'Pat me on the back' to 'Red Light, Green Light'.">
 <style>
   :root{
     --bg:#fbf5e9; --bg2:#f5ecd8; --fg:#2b211a; --muted:#948468; --line:#e8dcc4; --card:#fffdf9;
@@ -114,17 +114,17 @@
   <a class="next" href="/docs"><span class="cn-k">4장 →</span><span class="cn-t">더 깊이 · Playbook</span></a>
 </nav></div>
 <div class="toast" id="toast"></div>
-<footer><div class="wrap mono">PHYSICAL SPARK · curriculum v0 · <a href="study-map.html">Study Map</a> · <a href="../join.html">Join</a> · <a href="../funding.html">자금 조달</a> · <a href="/docs">Playbook</a></div></footer>
+<footer><div class="wrap mono">PHYSICAL SPARK · mission map v0 · <a href="study-map.html">Study Map</a> · <a href="../join.html">Join</a> · <a href="../funding.html">자금 조달</a> · <a href="/docs">Playbook</a></div></footer>
 
 <script>
 
-/* ---------------- curriculum data (v0 — living draft) ---------------- */
+/* ---------------- mission-map data (v0 — living draft) ---------------- */
 const COURSES = [
   { id:'m0', num:0, color:'var(--teal)', title:'Setup & First Simulation', sub:'From an empty Mac to a running robot simulation — your first win, no GPU needed.',
     level:'Beginner', time:'~1 hour', device:'Mac (CPU/MPS · no GPU)',
-    build:'A working <b>Hugging Face LeRobot</b> dev environment on your MacBook, and your <b>first simulation</b> rendered to a video you can watch. This is the foundation the whole course stands on — do it once, reuse it everywhere.',
+    build:'A working <b>Hugging Face LeRobot</b> dev environment on your MacBook, and your <b>first simulation</b> rendered to a video you can watch. This is the foundation the whole track stands on — do it once, reuse it everywhere.',
     lessons:[
-      {t:'What you\'ll do (and the Mac reality)', c:'By the end you\'ll have installed <a href="https://github.com/huggingface/lerobot" target="_blank">LeRobot</a>, opened a real <b>MuJoCo</b> physics sim, and saved a video of it. All on a Mac, on CPU — <b>no NVIDIA GPU required</b>. New to the ideas? <a href="ground-school.html">Ground School</a> explains everything — environment, policy, spaces, MuJoCo, mjpython — before you run a single command.',
+      {t:'What you\'ll do (and the Mac reality)', c:'By the end you\'ll have installed <a href="https://github.com/huggingface/lerobot" target="_blank">LeRobot</a>, opened a real <b>MuJoCo</b> physics sim, and saved a video of it. All on a Mac, on CPU — <b>no NVIDIA GPU required</b>. New to the ideas? <a href="ground-school.html">Ground Control</a> explains everything — environment, policy, spaces, MuJoCo, mjpython — before you run a single command.',
         note:'Honest scope: the SO-101 arm *in simulation* needs NVIDIA Isaac (Linux + RTX). On a Mac you learn the exact same toolchain with LeRobot\'s MuJoCo gyms (here: <b>PushT</b>). Everything you learn transfers; only the heavy GPU training moves to the cloud later.',
         chk:'You understand: install LeRobot → run a MuJoCo sim → watch it. Mac + CPU is enough for this.'},
       {t:'Create a Python environment', c:'We isolate everything in a fresh env so nothing on your Mac breaks. Using <a href="https://conda-forge.org/download/" target="_blank">miniforge</a>/conda (recommended by LeRobot). Python <b>3.12</b>.',
@@ -150,7 +150,7 @@ const COURSES = [
     level:'Beginner', time:'~1 hour', device:'Mac-friendly (sim)',
     build:'A robot arm that sweeps left↔right to pat your back — recorded as a short clip you can post. The point isn\'t skill, it\'s <b>attachment</b>: the robot you built comforts you.',
     lessons:[
-      {t:'Set up your dev world', c:'Install the LeRobot toolchain on your Mac (Apple Silicon works). This is the same stack the whole course uses. See <a href="../../lab/tutorials/00_sim-setup-before-pat-me.md">the sim-setup tutorial</a> for the full path. Two companion reads: <a href="ground-school.html">Ground School</a> (read-first background — every concept, the math, 80 pre-solved pitfalls) and <a href="pat-me-on-the-back.html">Pat me on the back — hands-on</a> (a click-through, checkpoint-by-checkpoint version of this mission).',
+      {t:'Set up your dev world', c:'Install the LeRobot toolchain on your Mac (Apple Silicon works). This is the same stack the whole track uses. See <a href="../../lab/tutorials/00_sim-setup-before-pat-me.md">the sim-setup tutorial</a> for the full path. Two companion reads: <a href="ground-school.html">Ground Control</a> (read-first background — every concept, the math, 80 pre-solved pitfalls) and <a href="pat-me-on-the-back.html">Pat me on the back — hands-on</a> (a click-through, checkpoint-by-checkpoint version of this mission).',
         code:'conda create -y -n lerobot python=3.12\nconda activate lerobot\ngit clone https://github.com/huggingface/lerobot.git && cd lerobot\npip install -e ".[pusht,aloha]"',
         chk:'`conda activate lerobot` works and `python -c "import lerobot"` runs with no error.'},
       {t:'Meet the arm (in simulation)', c:'A robot arm has <b>joints (DOF)</b>, links, and an <b>end-effector</b> (the gripper). The SO-101 is 6-DOF. You don\'t need the real arm yet — run a LeRobot sim env to watch a policy move an arm and get a feel for joint control.',
@@ -231,7 +231,7 @@ function renderHub(){
       <div class="hub-head">
         <h1>The <b>Missions</b></h1>
         <p>Three robot-arm challenges, sim-first. Work through them, post your runs, review each other. This is a
-           living <b>v0 curriculum</b> — built in public, rough on purpose.</p>
+           living <b>v0 mission map</b> — built in public, rough on purpose.</p>
         <div class="ring-wrap"><div class="ring" style="--p:${op}"><div><b>${op}%</b><small>your run</small></div></div></div>
         <img src="../assets/brand/hero-1-redlight.svg" style="width:100%;max-width:600px;height:auto;display:block;margin:14px auto 0;"
           alt="A robot arm frozen mid-reach beside a red stop signal and a speech waveform flattening into a straight line">
@@ -243,7 +243,7 @@ function renderHub(){
       <p style="text-align:center;color:var(--muted);margin:6px auto 20px;max-width:540px;">Optional deep-dive reads that pair with the missions — learn the theory, then follow the hands-on.</p>
       <div class="cards" style="padding-top:0">
         <a class="mcard" style="--c:var(--teal)" href="ground-school.html">
-          <div class="top"><span class="n">📚</span><div><h3>Ground School</h3><div class="sub">Read-first background — every concept, the math, and ~80 pre-solved pitfalls. Skim before you build.</div></div></div>
+          <div class="top"><span class="n">📚</span><div><h3>Ground Control</h3><div class="sub">Read-first background — every concept, the math, and ~80 pre-solved pitfalls. Skim before you build.</div></div></div>
           <div class="meta">Companion · ~10 hours · read-first</div>
         </a>
         <a class="mcard" style="--c:var(--red)" href="pat-me-on-the-back.html">
@@ -306,7 +306,7 @@ function route(){
 
   // The chapter pager is static markup outside #app, so it survives every re-render.
   // Mission views carry their own .mnav, so showing both would stack two pagers —
-  // hide it mid-curriculum and bring it back on the last mission, where finishing the
+  // hide it mid-track and bring it back on the last mission, where finishing the
   // course and finishing this chapter of the reading path are the same moment.
   const last = COURSES[COURSES.length-1];
   document.getElementById('chapnav').style.display = (!m || m.id===last.id) ? '' : 'none';

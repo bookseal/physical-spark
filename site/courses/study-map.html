@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Study Map — what to learn, in order</title>
-<meta name="description" content="The Physical Spark study path: the concepts and skills under each mission, from Ground School to 'grab that' — with learning objectives, tools, and the checkpoint that proves each one.">
+<meta name="description" content="The Physical Spark study path: the concepts and skills under each mission, from Ground Control to 'grab that' — with learning objectives, tools, and the checkpoint that proves each one.">
 <style>
   :root{
     --paper:#f4f1ea; --card:#fbf9f4; --card2:#f0ebdd; --card3:#eae3d2;
@@ -75,12 +75,12 @@
 
 
 <div class="wrap">
-  <p class="eyebrow">Curriculum · Study map</p>
+  <p class="eyebrow">Mission map · Study map</p>
   <h1>What to learn, in order</h1>
   <p class="lede">The missions are the <em>journey</em>. This is the <em>map underneath</em>: the concepts and skills each mission rests on, why they matter, and the checkpoint that proves you've got them. Read it to see where you are — and what's still a draft.</p>
 
   <div class="concept">
-    <p class="lbl">The spine of the whole curriculum</p>
+    <p class="lbl">The spine of the whole mission map</p>
     <div class="spine">
       <span class="node">🦾 arm</span><span class="arr">→</span>
       <span class="node">✊ hand</span><span class="arr">→</span>
@@ -100,13 +100,13 @@
     <p class="sub">Concept-first, on your phone. No hardware, no code yet.</p>
 
     <div class="unit">
-      <div class="u-head"><span class="u-num">GS</span><span class="u-title">Ground School</span><span class="status done">live</span></div>
+      <div class="u-head"><span class="u-num">GS</span><span class="u-title">Ground Control</span><span class="status done">live</span></div>
       <div class="row"><div class="k">You'll learn</div><div class="v">Why we train in simulation, the agent–environment loop, Gymnasium's five methods, action spaces &amp; the −1…1 normalization math, and ALOHA teleoperation.</div></div>
       <div class="row"><div class="k">Why</div><div class="v">So the hands-on part feels easy, not scary — the vocabulary of robot learning in plain words.</div></div>
       <div class="row"><div class="k">Prereqs</div><div class="v">None. A phone and curiosity.</div></div>
       <div class="row"><div class="k">Tools</div><div class="v tools">read-only · MuJoCo / Gymnasium concepts</div></div>
       <div class="row"><div class="k">Checkpoint</div><div class="v">You can draw the loop from memory and read <code>Box(-1,1,(14,))</code> out loud.</div></div>
-      <a class="go" href="./ground-school.html">Open Ground School →</a>
+      <a class="go" href="./ground-school.html">Open Ground Control →</a>
     </div>
   </section>
 
@@ -119,7 +119,7 @@
       <div class="u-head"><span class="u-num">M2</span><span class="u-title">Learning by Showing — imitation learning</span><span class="status done">live</span></div>
       <div class="row"><div class="k">You'll learn</div><div class="v">Behavioral cloning; the <code>LeRobotDataset</code>; compounding error (why "just copy" drifts); and the fixes — action chunking (ACT), diffusion policy, and where VLAs fit.</div></div>
       <div class="row"><div class="k">Why</div><div class="v">This is <em>the</em> conceptual keystone: Mission 2 records demos and trains a policy, and every 2026 frontier model is built from these pieces.</div></div>
-      <div class="row"><div class="k">Prereqs</div><div class="v">Ground School.</div></div>
+      <div class="row"><div class="k">Prereqs</div><div class="v">Ground Control.</div></div>
       <div class="row"><div class="k">Tools</div><div class="v tools">LeRobot · ACT · Diffusion Policy · SmolVLA</div></div>
       <div class="row"><div class="k">Checkpoint</div><div class="v">You can explain compounding error, and why chunking and diffusion fight it.</div></div>
       <a class="go" href="./imitation-learning.html">Open the deep-dive →</a>
@@ -157,7 +157,7 @@
         <li><strong>Camera calibration</strong> (intrinsics) and <strong>hand-eye calibration</strong> — mapping what the camera sees to where the arm must move.</li>
       </ul></div></div>
       <div class="row"><div class="k">Why</div><div class="v">This is the real inflection point — from "an arm that moves as programmed" to "a robot that sees and decides." No calibration, no reliable grasp.</div></div>
-      <div class="row"><div class="k">Prereqs</div><div class="v">Ground School; a webcam, then a RealSense D435i (~$344).</div></div>
+      <div class="row"><div class="k">Prereqs</div><div class="v">Ground Control; a webcam, then a RealSense D435i (~$344).</div></div>
       <div class="row"><div class="k">Tools</div><div class="v tools">Intel RealSense D435i · OpenCV · point-cloud basics</div></div>
       <div class="row"><div class="k">Checkpoint</div><div class="v">You can turn a pixel the camera sees into an arm target the gripper can reach.</div></div>
     </div>
@@ -173,8 +173,8 @@
 
     <div class="unit">
       <div class="u-head"><span class="u-num">M6</span><span class="u-title">"저거 집어" — language → grasp → execute</span><span class="status todo">to write</span></div>
-      <div class="row"><div class="k">You'll learn</div><div class="v">The full 2-stage pipeline: <strong>language grounding</strong> (LangSAM / Grounded-SAM2 turns "the red cup" into a mask) → <strong>GraspGen</strong> (a 6-DoF grasp on that object) → motion planning → execute. This IS the graduation demo.</div></div>
-      <div class="row"><div class="k">Why</div><div class="v">It's the whole point of the school — the video a recruiter watches. The résumé is a URL, not a PDF.</div></div>
+      <div class="row"><div class="k">You'll learn</div><div class="v">The full 2-stage pipeline: <strong>language grounding</strong> (LangSAM / Grounded-SAM2 turns "the red cup" into a mask) → <strong>GraspGen</strong> (a 6-DoF grasp on that object) → motion planning → execute. This IS the final demo — the one that proves the record.</div></div>
+      <div class="row"><div class="k">Why</div><div class="v">It's the whole point of the arena — the video a recruiter watches. The résumé is a URL, not a PDF.</div></div>
       <div class="row"><div class="k">Prereqs</div><div class="v">Eyes + Grasp Anything (+ the VLA unit for context).</div></div>
       <div class="row"><div class="k">Tools</div><div class="v tools">LangSAM / Grounded-SAM2 · GraspGen · LeRobot</div></div>
       <div class="row"><div class="k">Checkpoint</div><div class="v">You say "grab that," it picks an unseen object, and the clip passes peer review.</div></div>
@@ -196,8 +196,8 @@
     <p class="sub">Deliberately outside the main line, documented honestly.</p>
     <div class="unit">
       <div class="u-head"><span class="u-num">↔</span><span class="u-title">ROS2 bridge (optional)</span><span class="status todo">to write</span></div>
-      <div class="row"><div class="k">You'll learn</div><div class="v">Enough ROS2 to move from our learning-layer curriculum toward the middleware Korean job postings ask for — nodes, topics, and where a learned policy plugs in.</div></div>
-      <div class="row"><div class="k">Why</div><div class="v">We teach the <em>policy</em> layer, not middleware — but the market often wants ROS2. This is the documented "next step," to be built the moment a graduate is blocked on it in hiring.</div></div>
+      <div class="row"><div class="k">You'll learn</div><div class="v">Enough ROS2 to move from our learning-layer track toward the middleware Korean job postings ask for — nodes, topics, and where a learned policy plugs in.</div></div>
+      <div class="row"><div class="k">Why</div><div class="v">We prove the <em>policy</em> layer, not middleware — but the market often wants ROS2. This is the documented "next step," to be built the moment a player is blocked on it in hiring.</div></div>
       <div class="row"><div class="k">Prereqs</div><div class="v">Missions 2–6.</div></div>
       <div class="row"><div class="k">Tools</div><div class="v tools">ROS2 · rclpy</div></div>
       <div class="row"><div class="k">Checkpoint</div><div class="v">You can wrap a trained policy as a ROS2 node.</div></div>

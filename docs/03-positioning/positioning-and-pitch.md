@@ -1,6 +1,6 @@
 # 포지셔닝 & 피치 — Value Proposition + Madlibs Pitch
 
-> 스타트업 트레이닝 과정의 포지셔닝 실습을, 우리 프로젝트(**Physical Spark** — Physical AI 피어리뷰 학교)에
+> 스타트업 트레이닝 과정의 포지셔닝 실습을, 우리 프로젝트(**Physical Spark** — Physical AI 데이터·인재 엔진)에
 > 맞춰 푼 작업 기록.
 
 ---

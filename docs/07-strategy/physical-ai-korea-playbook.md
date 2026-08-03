@@ -17,7 +17,7 @@
 
 The strongest evidence-backed version of the plan:
 
-> **Physical Spark is a peer-review school whose *real product* is a vetted talent pool
+> **Physical Spark is a data + talent engine whose *real product* is a vetted talent pool
 > plus a teleoperation/behavior-data flywheel — feeding Korea's under-served SME robot
 > systems-integration (SI) layer. You run the software/orchestration side; a robotics
 > co-founder (whom the school itself recruits) owns hardware. Fund it with government
@@ -40,10 +40,10 @@ The honest starting point: the founder is a ~4-yr **AI product engineer** (Écol
 
 - **The AI-generalist / orchestrator thesis is real, with a ceiling.** Solo-founded ventures are now ~36% of new starts, and one operator can now run team-scale *software* via agent orchestration. But every serious source flags the ceiling explicitly: solo + AI carries **software**, not physical deployment, safety, hardware ops. ([Fortune, 2026-05](https://fortune.com/2026/05/18/solo-founders-ai-automation-entire-teams-entrepreneurs/); ["Solo Founder Ceiling," Foundra 2026-05](https://www.foundra.ai/key-reads/solo-founder-ceiling-ai-stack-hire-first-may-2026-fortune)) The founder's profile fits **orchestrating robotics *software***, not building robot mechanics.
 - **Stay on the software / policy / deployment layer, on COTS hardware.** Industry guidance is blunt: a **software-first play on commodity hardware (SO-101 / LeRobot)** is "faster, cheaper, and the right approach for most application-layer robotics startups," and **the training dataset is more defensible than the model or the code**. ([Silicon Valley Robotics startup guide, 2026](https://www.roboticscenter.ai/blog/robot-startup-guide)) This is *already* the curriculum's stance — it deliberately cuts ROS/embedded/LiDAR/5-finger hands to teach the learning-policy layer ([`curriculum-vision.md`](../01-concept/curriculum-vision.md), [`04-arm-hand-eye.md`](../../knowledge/04-arm-hand-eye.md)).
-- **A robotics / ME co-founder is non-optional.** The same sources call a **solo non-technical robotics founder a fundraising red flag**, and say "robotics companies fail when the team lacks either hardware or software depth." ([SVRC](https://www.roboticscenter.ai/blog/robot-startup-guide)) The winning move: **the school is the recruiting funnel** — you meet the strongest robotics builder in Korea by teaching hundreds of them.
+- **A robotics / ME co-founder is non-optional.** The same sources call a **solo non-technical robotics founder a fundraising red flag**, and say "robotics companies fail when the team lacks either hardware or software depth." ([SVRC](https://www.roboticscenter.ai/blog/robot-startup-guide)) The winning move: **the league is the recruiting funnel** — you meet the strongest robotics builder in Korea by running seasons hundreds of them play.
 - **TIPS is designed for exactly your gap.** You don't need a hardware pedigree yourself if a **deep-tech operator (accelerator/VC) invests first and vouches for you** — that's the whole TIPS mechanism (§3). The operator supplies the technical credibility a grant panel wants.
 
-> **Mental reframe:** you're not "a non-engineer trying to do robotics." You're the **AI-orchestration + go-to-market + community** half of a robotics team, assembling the other half through the school. That is a fundable shape; a solo hardware claim is not.
+> **Mental reframe:** you're not "a non-engineer trying to do robotics." You're the **AI-orchestration + go-to-market + community** half of a robotics team, assembling the other half through the league. That is a fundable shape; a solo hardware claim is not.
 
 ---
 
@@ -80,7 +80,7 @@ Money for this profile exists — it's just **not** at PnP. In order:
 4. **TIPS — deep-tech track:** operator invests ≥₩300M, government matches **R&D up to ~₩1.5B**. This is how you get real money **without a personal hardware pedigree** — the operator underwrites you. ([TIPS](https://www.jointips.or.kr/); [Kakao Ventures TIPS guide](https://www.kakao.vc/blog/TIPS-eligibility-2025))
 5. **Stretch, in parallel: Y Combinator.** Genuinely solo-founder-friendly (W26 ~11% solo) and at its most hardware/edu-friendly ever; **$500K standard deal**; weights founder + rate-of-progress over pedigree. The one that most rewards the "42-style peer-learning + LeRobot" story. ([YC deal](https://www.ycombinator.com/deal); [Apply](https://www.ycombinator.com/apply))
 
-> **Framing tip — you have two decks, don't blend them.** *Edtech/community* ("42-style peer-review robotics school") opens Mashup/Primer/SparkLabs/YC and AI-upskilling programs, and your non-engineer profile is an *asset* there. *Physical-AI deep-tech* ("operator-training + manipulation-data pipeline") opens 블루포인트/퓨처플레이/TIPS and the 딥테크 로봇/AI grants. **Recommended umbrella: a "Physical AI talent pipeline"** that produces both a scarce operator workforce *and* real LeRobot manipulation data — it qualifies for the deep-tech grants now and still tells a clean edtech story.
+> **Framing tip — you have two decks, don't blend them.** *Edtech/community* ("42-style peer-review robotics league") opens Mashup/Primer/SparkLabs/YC and AI-upskilling programs, and your non-engineer profile is an *asset* there. *Physical-AI deep-tech* ("operator-training + manipulation-data pipeline") opens 블루포인트/퓨처플레이/TIPS and the 딥테크 로봇/AI grants. **Recommended umbrella: a "Physical AI talent pipeline"** that produces both a scarce operator workforce *and* real LeRobot manipulation data — it qualifies for the deep-tech grants now and still tells a clean edtech story.
 
 ---
 

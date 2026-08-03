@@ -1,18 +1,18 @@
 # Product Concept — "Pat me on the back" → "Red Light, Green Light"
 
-> Building-in-public notes for **Physical Spark** — a peer-review school for Physical AI.
+> Building-in-public notes for **Physical Spark** — the data + talent engine for Physical AI.
 > Premise: **client #1 is us.** We buy a low-cost robot arm, assemble it ourselves, and turn
 > the act of learning into the product itself.
 
 ---
 
-## 1. Core idea — an "École 42-style peer-review school for Physical AI"
+## 1. Core idea — an "École 42-style peer-review league for Physical AI"
 
 Like École 42:
 - **No instructor.** We hand out a reasonable project as an **assignment**.
 - An online system where learners **peer-review** how each other solved it.
 - Everyone rates each other, and the **most-liked solution videos rise to the top.**
-- Difficulty starts **low enough that an elementary-school kid can finish mission 1** — the "42"
+- Difficulty starts **low enough that a complete beginner can finish mission 1** — the "42"
   of Physical AI, with a YouTube-style UGC layer on top.
 
 **What makes it different:** the big open-source players (Hugging Face, NVIDIA) give you *content*
@@ -55,7 +55,7 @@ gallery"** — the structure you actually learn by doing.
 ## 3. Textbook vs. platform — this is the fork in the road
 
 - **Sell it as a textbook (content):** it gets copied. You compete with free YouTube lectures. That is
-  the "feels like a cram-school workbook" trap.
+  the "feels like a workbook" trap.
 - **Sell it as a platform:** the product is not the curriculum but **① the peer-evaluation system
   ② the likes gallery (UGC) ③ the data that accumulates** (who posted which solution, and what makes a
   good one). Copying the content doesn't help a competitor — the people and the records pile up on our

@@ -166,14 +166,14 @@
   <div class="tags">
     <span class="tag">Intermediate</span>
     <span class="tag">~2 hours (read at your pace)</span>
-    <span class="tag">After Ground School</span>
+    <span class="tag">After Ground Control</span>
     <span class="tag">Deepens Mission 2 · Pick &amp; Place</span>
   </div>
 
   <div class="howto">
     <b>Where this sits:</b>
     <ul>
-      <li><b>Ground School</b> taught the two ways a robot learns. This deep-dive opens up the one we start with — <b>imitation</b> — end to end.</li>
+      <li><b>Ground Control</b> taught the two ways a robot learns. This deep-dive opens up the one we start with — <b>imitation</b> — end to end.</li>
       <li>Read a chapter, guess the <b>◆ QUIZ</b>, then tap to check. Tick the <b>checklist</b> at the end — progress saves on this device.</li>
       <li>Still no terminal. This is the <em>why</em> under Mission 2's "record a demo, train a policy." The commands live in the mission itself.</li>
     </ul>
@@ -189,7 +189,7 @@
     <h2>Copy the human: behavioral cloning</h2>
     <p class="ch-sum">The simplest way to teach a robot a skill is to record a person doing it, then train the robot to predict "what would the human do here?"</p>
 
-    <p>In Ground School you met the two families: <strong>imitation learning</strong> (a human shows how) and <strong>reinforcement learning</strong> (trial and error for a reward). For robot arms we almost always <em>start</em> with imitation — it needs no reward to hand-design, and no million crashes. You just <strong>demonstrate</strong>.</p>
+    <p>In Ground Control you met the two families: <strong>imitation learning</strong> (a human shows how) and <strong>reinforcement learning</strong> (trial and error for a reward). For robot arms we almost always <em>start</em> with imitation — it needs no reward to hand-design, and no million crashes. You just <strong>demonstrate</strong>.</p>
 
     <p>The most basic form has a blunt name: <strong>behavioral cloning (BC)</strong>. It's ordinary supervised learning. You collect a pile of <code>(observation, action)</code> pairs from a human expert, and you train a network to map one to the other — exactly like image classification maps <code>(picture → label)</code>, except here it's <code>(what the robot sees → what to do next)</code>.</p>
 
@@ -199,7 +199,7 @@
       <p>Train a <strong>policy</strong> — the robot's brain, written <code>π<sub>θ</sub>(action | observation)</code> — to reproduce the expert's action for each observation it saw. No reward, no exploration. It's "supervised learning on demonstrations."</p>
     </div>
 
-    <p>Remember from Ground School: <strong>policy = the brain, observation = what it sees, action = what it does</strong>. BC just fits that brain to a human's recorded behavior.</p>
+    <p>Remember from Ground Control: <strong>policy = the brain, observation = what it sees, action = what it does</strong>. BC just fits that brain to a human's recorded behavior.</p>
 
     <div class="mermaid-wrap"><pre class="mermaid">
 flowchart LR
@@ -247,7 +247,7 @@ flowchart LR
     <h2>The dataset is the fuel: LeRobotDataset</h2>
     <p class="ch-sum">Before any learning, you need demonstrations in a standard shape. That shape is the LeRobotDataset — the root of the whole ladder.</p>
 
-    <p>Where do the <code>(observation, action)</code> pairs come from? From <strong>tele-operation</strong>. Recall ALOHA's leader–follower trick from Ground School: you move the small <em>leader</em> arm; the <em>follower</em> copies it and does the real task; and while you puppeteer, the system records everything.</p>
+    <p>Where do the <code>(observation, action)</code> pairs come from? From <strong>tele-operation</strong>. Recall ALOHA's leader–follower trick from Ground Control: you move the small <em>leader</em> arm; the <em>follower</em> copies it and does the real task; and while you puppeteer, the system records everything.</p>
 
     <p>"Everything" is several synchronized streams, sampled ~30–50 times a second:</p>
     <ul>
@@ -267,7 +267,7 @@ flowchart LR
 lerobot-record --robot.type=so101_follower --dataset.repo_id=me/pick_place
 <span class="cmt"># then a policy trains on that dataset (next chapters explain HOW)</span></pre></div>
 
-    <p>Two details that matter later. First, the actions are <strong>normalized</strong> — remember the −1…1 ruler from Ground School? Datasets store statistics so every joint is on a comparable scale. Second, the observation is <em>multimodal</em>: pixels <em>and</em> numbers together. A good policy has to read both.</p>
+    <p>Two details that matter later. First, the actions are <strong>normalized</strong> — remember the −1…1 ruler from Ground Control? Datasets store statistics so every joint is on a comparable scale. Second, the observation is <em>multimodal</em>: pixels <em>and</em> numbers together. A good policy has to read both.</p>
 
     <div class="math">
       <p class="lbl">Rule of thumb · how many demos?</p>
