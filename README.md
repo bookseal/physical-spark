@@ -124,6 +124,7 @@ The platform is built in public too — each moving part gets a plain-language, 
 The site is live at **https://physical-spark.bit-habit.com** and grows one piece at a time — here's the running state:
 
 - ✅ **Landing** — warm Re-Volt theme + a playable mini-game.
+- ✅ **Company** ([`/company.html`](https://physical-spark.bit-habit.com/company.html)) — what we are, the three-layer model, team and roadmap.
 - ✅ **Missions** ([`/courses`](https://physical-spark.bit-habit.com/courses/)) — dynamic mission map:
   **Mission 0 — Setup & First Simulation** (install LeRobot on a Mac, run your first MuJoCo sim), then Missions 1–3
   (Pat me → Pick & place → Red Light, Green Light).

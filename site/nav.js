@@ -27,6 +27,7 @@
      and /join.html are already written this way across the existing pages. */
   var LINKS = [
     { href: "/courses/", label: "Missions", match: /^\/courses\/?$/ },
+    { href: "/company.html", label: "Company" },
     { href: "/market.html", label: "Market" },
     { href: "/pitch.html", label: "60s pitch" },
     { href: "/funding.html", label: "\uc790\uae08 \uc870\ub2ec" },

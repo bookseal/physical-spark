@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical Spark — the data + talent engine for Physical AI</title>
+<meta name="description" content="Kaggle for robot arms. Developers solve gamified robot missions and peer-review each other's runs on video. Two assets accumulate: verified robot demonstration data, and verified records of who can actually do the work. We sell both to robotics companies.">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<style>
+
+  /* palette inherited from site/index.html — one warm-light "Re-Volt" mood, no dark mode */
+  :root{
+    --bg:#fbf5e9; --bg2:#f5ecd8; --fg:#2b211a; --muted:#948468; --line:#e8dcc4; --card:#fffdf9;
+    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --amber:#f4b21a;
+    --accent:#e0442e; --shadow:rgba(120,80,20,.18);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--fg); line-height:1.65; overflow-x:hidden;
+    font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans","Apple SD Gothic Neo",sans-serif;}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 22px;}
+  h2.sec{font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;}
+  h3.lead{font-size:clamp(22px,4vw,34px); margin:0 0 20px; font-weight:800; letter-spacing:-.015em;}
+  section{padding:54px 0; border-top:1px solid var(--line);}
+  p{max-width:74ch;}
+
+  nav{position:sticky; top:0; z-index:20; backdrop-filter:blur(8px);
+    background:color-mix(in srgb,var(--bg) 84%,transparent); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; gap:18px; height:54px;}
+  nav .brand{font-weight:900; letter-spacing:-.01em; text-transform:uppercase; font-size:15px; color:var(--fg);
+    display:flex; align-items:center; gap:8px;}
+  nav .brand img{height:24px; width:auto; display:block;}
+  nav .brand b{color:var(--red);}
+  nav .links{margin-left:auto; display:flex; gap:16px; align-items:center; flex-wrap:wrap;}
+  nav .links a{color:var(--muted); font-size:13px; font-weight:600;}
+  nav .links a:hover{color:var(--red); text-decoration:none;}
+  nav .links a.on{color:var(--red);}
+
+  header.hero{padding:64px 0 44px;}
+  .badge{display:inline-block; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--line); background:var(--card); border-radius:999px; padding:5px 14px; margin-bottom:20px;}
+  h1.title{margin:0; font-size:clamp(32px,6.4vw,60px); line-height:1.04; font-weight:900; letter-spacing:-.025em;}
+  h1.title em{font-style:normal; color:var(--red); text-shadow:0 3px 0 color-mix(in srgb,var(--red) 26%,transparent);}
+  .tag{margin:20px 0 0; max-width:70ch; color:var(--muted); font-size:clamp(15px,2.2vw,19px);}
+  .tag b{color:var(--fg);}
+
+  .fig{width:100%; height:auto; display:block; margin:26px 0 6px; max-width:760px;}
+  .figcap{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 8px;}
+
+  /* stat tiles — the right form for a handful of headline numbers */
+  .row{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin:26px 0 0;}
+  .tile{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c,var(--red));
+    border-radius:15px; padding:16px 18px; box-shadow:0 6px 20px var(--shadow);}
+  .tile .big{font-weight:900; font-size:clamp(22px,3.2vw,30px); line-height:1.12; letter-spacing:-.02em;}
+  .tile .cap{font-size:13px; color:var(--muted); margin-top:5px;}
+  .tile .src{font-size:11px; color:var(--muted); margin-top:7px;}
+
+  /* country comparison */
+  .tbl{width:100%; overflow-x:auto; margin-top:24px;}
+  table{border-collapse:collapse; width:100%; min-width:720px; font-size:14px; background:var(--card);
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;}
+  th,td{text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  thead th{background:var(--bg2); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);}
+  tbody th{font-weight:800; white-space:nowrap; width:150px; color:var(--fg);}
+  tr:last-child td, tr:last-child th{border-bottom:none;}
+  td b{color:var(--fg);}
+  .flag{font-size:16px; margin-right:5px;}
+
+  /* the correction callout — the credibility moment of this page */
+  .warn{margin-top:26px; background:var(--card); border:1px solid var(--line); border-left:6px solid var(--red);
+    border-radius:14px; padding:20px 22px; box-shadow:0 8px 26px var(--shadow);}
+  .warn h4{margin:0 0 8px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--red);}
+  .warn p{margin:0 0 10px;}
+  .warn p:last-child{margin-bottom:0;}
+  .warn .strike{color:var(--muted); text-decoration:line-through;}
+
+  /* the ladder */
+  .rungs{list-style:none; margin:24px 0 0; padding:0; display:grid; gap:10px;}
+  .rungs li{background:var(--card); border:1px solid var(--line); border-left:5px solid var(--c);
+    border-radius:12px; padding:13px 16px; display:flex; gap:14px; align-items:baseline; flex-wrap:wrap;}
+  .rungs .n{font-weight:900; color:var(--c); min-width:22px;}
+  .rungs .t{font-weight:800; min-width:210px;}
+  .rungs .d{color:var(--muted); font-size:14px; flex:1; min-width:240px;}
+  .rungs .price{color:var(--fg); display:inline-block; margin-top:5px;}
+
+  .split2{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:24px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:15px; padding:18px 20px;
+    box-shadow:0 6px 20px var(--shadow);}
+  .card h4{margin:0 0 8px; font-size:16px; font-weight:800;}
+  .card ul{margin:0; padding-left:18px; color:var(--muted); font-size:14px;}
+  .card li{margin-bottom:5px;}
+
+  .srclist{font-size:13px; color:var(--muted); padding-left:18px;}
+  .srclist li{margin-bottom:7px;}
+
+  footer{border-top:1px solid var(--line); padding:26px 0 44px; color:var(--muted); font-size:13px;}
+  /* company page only — the three-layer model needs a "which layer" chip */
+  .layer{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:10.5px;
+    font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--c);
+    border:1px solid currentColor; border-radius:999px; padding:1px 8px; margin-left:8px;}
+  .who{margin-top:24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;}
+  .who .p{background:var(--card); border:1px solid var(--line); border-radius:15px; padding:20px 22px;
+    box-shadow:0 6px 20px var(--shadow);}
+  .who .p .nm{font-size:18px; font-weight:900; letter-spacing:-.01em;}
+  .who .p .rl{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:11px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin:3px 0 10px;}
+  .who .p p{margin:0; color:var(--muted); font-size:14.5px;}
+  .who .p p b{color:var(--fg);}
+  .road{list-style:none; margin:24px 0 0; padding:0; border-left:2px solid var(--line);}
+  .road li{position:relative; padding:0 0 20px 22px;}
+  .road li::before{content:""; position:absolute; left:-7px; top:7px; width:12px; height:12px;
+    border-radius:50%; background:var(--bg); border:2px solid var(--c,var(--red));}
+  .road .st{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:11px;
+    font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--c,var(--red));}
+  .road .tx{display:block; margin-top:3px;}
+  .road .tx b{font-weight:800;}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <span class="badge mono">Physical Spark · company</span>
+  <h1 class="title">We are forging the<br><em>next million robotics developers.</em></h1>
+  <p class="tag"><b>Physical Spark is the data and talent engine for Physical AI.</b>
+    Developers solve gamified robot missions, peer-review each other's runs on video, and climb a
+    board. Two assets accumulate automatically — <b>verified robot demonstration data</b>, and
+    <b>verified records of who can actually do the work</b>. We sell both to robotics companies.
+    The missions are how they arrive.</p>
+  <div class="row" style="margin-top:26px;">
+    <div class="tile" style="--c:var(--red)"><div class="big">Kaggle for robot arms.</div>
+      <div class="cap">A competition platform whose by-product is the dataset and the ranked talent
+        the field is short of.</div></div>
+  </div>
+</div></header>
+
+<!-- ────────────────────────────────────────────────────────────── why now ── -->
+<section id="why"><div class="wrap">
+  <h2 class="sec">Why now</h2>
+  <h3 class="lead">The hard part stopped being the model. It is the data, and then it is the people.</h3>
+
+  <div class="split2">
+    <div class="card">
+      <h4>The data bottleneck</h4>
+      <p style="margin:0 0 10px; color:var(--muted); font-size:14.5px;">Robot bodies got cheap and robot
+        brains got funded. What nobody has enough of is <b style="color:var(--fg)">real manipulation
+        data</b> — many hands, many rooms, many failures. Labs generate it in-house, which is expensive
+        and narrow: one building, one set of habits, one definition of "done".</p>
+      <p style="margin:0; color:var(--muted); font-size:14.5px;">A leaderboard generates it as a
+        by-product of people wanting to win. And the step that usually costs the most and therefore
+        gets skipped — <b style="color:var(--fg)">labelling quality</b> — is already happening, because
+        peer review <em>is</em> the label.</p>
+    </div>
+    <div class="card">
+      <h4>Then the bottleneck moves</h4>
+      <p style="margin:0 0 10px; color:var(--muted); font-size:14.5px;">As robot foundation models keep
+        getting better at the general case, the scarce thing stops being the policy and starts being
+        <b style="color:var(--fg)">the person who can put one in front of a real machine, in a real
+        building, and make it hold</b>.</p>
+      <p style="margin:0; color:var(--muted); font-size:14.5px;">We are not putting a date on that.
+        We are saying that when it happens, the useful thing to own is a ranked list of people whose
+        work is already on video, dated and reviewed — and that list has to be built before the demand
+        shows up, not after.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="tile" style="--c:var(--red)"><div class="big">$407B</div>
+      <div class="cap">enterprise AI spending in 2026, up 34.8% from $302B</div>
+      <div class="src">Value Add VC</div></div>
+    <div class="tile" style="--c:var(--teal)"><div class="big">86%</div>
+      <div class="cap">of enterprises are raising their AI budget this year — about 2% are cutting</div>
+      <div class="src">Value Add VC</div></div>
+  </div>
+</div></section>
+
+<!-- ──────────────────────────────────────────────────────── business model ── -->
+<section id="model"><div class="wrap">
+  <h2 class="sec">Business model</h2>
+  <h3 class="lead">Three layers, one loop.</h3>
+
+  <ol class="rungs">
+    <li style="--c:var(--red)"><span class="n mono">1</span>
+      <span class="t">Mission seasons<span class="layer">early revenue</span></span>
+      <span class="d">Paid, time-boxed seasons with a completion deposit. Cash from day one — and the
+        acquisition channel for everything above it. This is the layer that makes the data arrive.</span></li>
+    <li style="--c:var(--teal)"><span class="n mono">2</span>
+      <span class="t">Datasets &amp; benchmarks for labs<span class="layer">the core business</span></span>
+      <span class="d">Verified demonstrations in LeRobot format with the peer review attached as a
+        quality label. Plus sponsored seasons: a lab posts the task it actually cares about and buys
+        the spread — what works, what breaks, how often — instead of one polished demo.</span></li>
+    <li style="--c:var(--blue)"><span class="n mono">3</span>
+      <span class="t">Verified talent pipeline<span class="layer">expansion</span></span>
+      <span class="d">The board as a ranked, video-backed supply of Physical AI engineers.
+        Introductions first, placement later. A skill proven on camera outranks a line on a CV,
+        and it comes with a date.</span></li>
+  </ol>
+
+  <div class="warn" style="border-left-color:var(--teal);">
+    <h4>Why this is one business, not three</h4>
+    <p>Layer 1 is <b>how the data arrives</b>. Layer 3 is <b>what the data proves about the people who
+      made it</b>. Layer 2 is <b>the thing we actually sell</b>.</p>
+    <p style="margin-bottom:0;">The flywheel is that each season makes the next dataset and the next
+      group of ranked builders both larger and cheaper to produce. Missions are the acquisition
+      channel; they are not the product.</p>
+  </div>
+
+  <p style="margin-top:20px; color:var(--muted); font-size:13px;">Season pricing is published on the
+    <a href="market.html">market page</a> as first-season numbers, not a rate card. Layers 2 and 3 are
+    not priced here because those products do not exist yet.</p>
+</div></section>
+
+<!-- ───────────────────────────────────────────────────────────────── team ── -->
+<section id="team"><div class="wrap">
+  <h2 class="sec">Team</h2>
+  <h3 class="lead">Two people who have spent their careers on the same question: can this person actually do the thing?</h3>
+
+  <div class="who">
+    <div class="p">
+      <div class="nm">Jungmin Hong</div>
+      <div class="rl">Chief Executive Officer</div>
+      <p>Has spent close to a decade turning hard technical subjects into something a working adult can
+        actually finish — writing the material, designing the assessment, and watching exactly where
+        people drop out. Currently a lead AI instructor at <b>Eduwill</b>, teaching AI at national scale.
+        Before that, an <b>AI Platform Engineer at Upstage</b>, Korea's document-AI unicorn, which is
+        where the requirements of the people <em>training</em> the models stopped being abstract.
+        Now runs that same loop on robot arms: design the mission, design the proof, watch the drop-off.</p>
+    </div>
+    <div class="p">
+      <div class="nm">Gichan Lee</div>
+      <div class="rl">Partnerships &amp; ecosystem</div>
+      <p>Builds the relationships the seasons run on — the labs, programs and developer communities that
+        turn a mission into a sponsored benchmark, and a benchmark into a hiring pipeline. Software
+        engineer by training; spends his time where the robotics community actually gathers rather than
+        where it is written about.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ────────────────────────────────────────────────────────────── roadmap ── -->
+<section id="roadmap"><div class="wrap">
+  <h2 class="sec">Roadmap</h2>
+  <h3 class="lead">Written as states, not dates.</h3>
+
+  <ul class="road">
+    <li style="--c:var(--red)"><span class="st">Now</span>
+      <span class="tx"><b>The loop runs end to end in simulation.</b> Missions are live, the board is
+        live, and anyone with a laptop can complete a run without owning a robot.</span></li>
+    <li style="--c:var(--gold)"><span class="st">Next</span>
+      <span class="tx"><b>Run upload and the peer-review gallery.</b> Every verified run lands in the
+        dataset in LeRobot format, with its review attached.</span></li>
+    <li style="--c:var(--teal)"><span class="st">Then</span>
+      <span class="tx"><b>Season one, run in the open.</b> The numbers we report are completion rate and
+        review throughput — the two that say whether the engine actually turns.</span></li>
+    <li style="--c:var(--blue)"><span class="st">After that</span>
+      <span class="tx"><b>The first lab-posted benchmark season.</b> An outside team defines the task;
+        the board attacks it. That is the first time layer 2 is a product and not a plan.</span></li>
+    <li style="--c:var(--muted)"><span class="st">The direction</span>
+      <span class="tx"><b>The board is where a robotics company looks first</b> — for the demonstrations
+        and for the person.</span></li>
+  </ul>
+
+  <div class="warn" style="margin-top:28px;">
+    <h4>What is shipped, and what is not</h4>
+    <p style="margin-bottom:0;">Everything above that is not shipped is written as an intention, not a
+      claim. What <em>is</em> shipped is linked: the <a href="/">landing page</a>, the
+      <a href="courses/">missions</a>, and the <a href="market.html">market analysis</a> with its
+      sources. We have no user numbers, no dataset size and no partnerships to report yet — when we do,
+      they will appear here with a date on them.</p>
+  </div>
+</div></section>
+
+<footer><div class="wrap mono">
+  PHYSICAL SPARK · <a href="/">the landing page →</a> ·
+  <a href="market.html">where this gets sold →</a> ·
+  <a href="https://github.com/bookseal/physical-spark" target="_blank" rel="noopener">github.com/bookseal</a>
+</div></footer>
+
+<script src="/nav.js"></script>
+</body>
+</html>
