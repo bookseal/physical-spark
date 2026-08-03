@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
-<title>Physical Spark — a peer-review school for Physical AI</title>
-<meta name="description" content="Robotics that feels like play. Give a robot arm a mission, solve it, peer-review each other's runs. Start in simulation — no robot required.">
+<title>Physical Spark — the data + talent engine for Physical AI</title>
+<meta name="description" content="Kaggle for robot arms. Developers solve gamified robot missions, peer-review each other's runs on video, and climb a board. Every verified run becomes robot demonstration data and a proof-of-work record.">
 <style>
   /* single warm-light "Re-Volt" palette — no dark mode (one consistent mood; the game has none) */
   :root{
@@ -105,6 +105,10 @@
   .step{background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:18px;}
   .step .k{font-family:ui-monospace,monospace; color:var(--red); font-weight:800; font-size:13px;}
   .step h4{margin:8px 0 4px; font-size:16px;} .step p{margin:0; color:var(--muted); font-size:13.5px;}
+  /* what a step leaves behind — the reason the loop is an engine and not a syllabus */
+  .step .out{margin:9px 0 0; font-family:ui-monospace,monospace; font-size:11.5px;
+    letter-spacing:.03em; text-transform:uppercase; color:var(--red);
+    border-top:1px dashed var(--line); padding-top:8px;}
   /* stat variant of .step — a handful of headline numbers, not a chart */
   .step.stat .big{font-weight:900; font-size:clamp(24px,3.4vw,32px); letter-spacing:-.02em; line-height:1.1; margin-bottom:4px;}
   .step.stat .src{font-family:ui-monospace,monospace; font-size:11px; color:var(--muted); margin-top:8px;}
@@ -188,17 +192,22 @@
 
 <header class="hero"><div class="wrap">
   <span class="badge mono">Physical AI · data + talent engine</span>
-  <h1 class="title"><span class="l1">Physical</span><br><span class="l2">Spark</span></h1>
-  <p class="tag"><b>Robotics that feels like play.</b> Give a robot arm a mission, solve it, then
-    <b>peer-review</b> each other's runs. Start in simulation — no robot required.</p>
+  <!-- Headline alternates kept on purpose — swap in place, do not stack:
+       "The Proving Ground for Physical AI."
+       "Where robot skills are proven — and robot data is born." -->
+  <h1 class="title"><span class="l1">We are forging the</span><br><span class="l2">next million</span><br><span class="l1">robotics developers.</span></h1>
+  <p class="tag"><b>Kaggle for robot arms.</b> Take a mission, run it, post the video — then
+    peer-review everyone else's. Two things stack up while you play: <b>verified demonstration
+    data</b> for the machines, and a <b>record of what you can actually do</b> for you.</p>
   <div class="cta">
     <button class="btn btn-start mono" onclick="location.href='#play'">▶ PRESS START</button>
-    <button class="btn btn-ghost" onclick="location.href='courses/'">See the missions</button>
+    <button class="btn btn-ghost" onclick="location.href='courses/'">Enter the proving ground</button>
+    <button class="btn btn-ghost" onclick="location.href='#labs'">For robotics labs</button>
   </div>
   <div class="hero-figure">
     <video class="hero-shot" src="assets/hero-rally.mp4" poster="assets/hero-rally-poster.jpg"
       autoplay muted loop playsinline aria-label="A small desktop robot arm rapidly stacking red, yellow and blue toy blocks"></video>
-    <p class="shot-cap mono">concept film — one mission run, block by block</p>
+    <p class="shot-cap mono">concept film — one mission run, one demonstration recorded</p>
   </div>
 </div></header>
 
@@ -267,6 +276,18 @@
       <p><b>Physical AI is the part that did not get commoditized.</b> A robot arm either picks up
         the block or it doesn't. No prompt gets you past a gripper that misses by two centimetres.
         That's why we grade on video — the work can't be faked, so the grade means something.</p>
+      <p><b>Which is also why the missions are only the surface.</b> Every run that survives review
+        is a labelled robot demonstration — recorded in the <b>LeRobot</b> format the open stack
+        already speaks, with the peer review attached as the quality label. Models for the physical
+        world are starved for exactly this: real attempts, including the ugly ones, judged by people
+        who tried the same task and know where it goes wrong. A leaderboard turns out to be a cheap
+        way to make that data show up.</p>
+      <p><b>And the bottleneck moves.</b> As robot foundation models keep getting better at the
+        general case, the scarce thing stops being the policy and starts being the person who can put
+        one in front of a real machine, in a real building, and make it hold. We are not putting a
+        date on that. We are saying that when it happens, the useful thing to own is a ranked list of
+        people whose work is already on video, dated and reviewed — and that list is being built now,
+        one run at a time.</p>
       <p style="margin-bottom:0"><a href="market.html">Who actually pays for this, in three
         countries →</a></p>
     </div>
@@ -282,14 +303,14 @@
 
 <section id="how"><div class="wrap">
   <h2 class="sec">The loop</h2>
-  <h3 class="lead">Not a course. A playground with a scoreboard.</h3>
+  <h3 class="lead">Not a course. An arena with a scoreboard — and a dataset underneath.</h3>
   <img src="assets/brand/hero-4-circuit.svg" style="width:100%;max-width:640px;height:auto;display:block;margin:0 auto 22px;"
     alt="A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery">
   <div class="loop">
-    <div class="step"><div class="k">01 · PLAY</div><h4>Take a mission</h4><p>Run a robot-arm challenge — in sim today, on real hardware later.</p></div>
-    <div class="step"><div class="k">02 · POST</div><h4>Upload your run</h4><p>Drop a short clip. Rough is fine — it's a playground.</p></div>
-    <div class="step"><div class="k">03 · REVIEW</div><h4>Peer-review</h4><p>You review others; they review you. École-42 style — no lecturer, no answer key.</p></div>
-    <div class="step"><div class="k">04 · RISE</div><h4>Climb the board</h4><p>The most-liked runs take pole. Records that can't be copied.</p></div>
+    <div class="step"><div class="k">01 · PLAY</div><h4>Take a mission</h4><p>Run a robot-arm challenge — in sim today, on real hardware later.</p><p class="out">Output → one attempt, timestamped.</p></div>
+    <div class="step"><div class="k">02 · POST</div><h4>Upload your run</h4><p>Drop the clip. The takes that failed count too — those are the ones the models never get to see.</p><p class="out">Output → one demonstration added to the dataset.</p></div>
+    <div class="step"><div class="k">03 · REVIEW</div><h4>Peer-review</h4><p>You judge other people's runs; they judge yours. École-42 style — no lecturer, no answer key.</p><p class="out">Output → one verified quality label.</p></div>
+    <div class="step"><div class="k">04 · RISE</div><h4>Climb the board</h4><p>The runs that survive review take pole. Rankings move. The record does not.</p><p class="out">Output → a proof-of-work record no résumé can fake.</p></div>
   </div>
 </div></section>
 
@@ -300,7 +321,9 @@
     <div>
       <p>No RC car, really — the missions run on the <b>SO-101</b>, the low-cost, open-source 3D-printed
       robot arm from the Hugging Face LeRobot ecosystem. Learn it in <b>simulation on your own laptop</b> first;
-      buy the arm only when you're ready.</p>
+      buy the arm only when you're ready. That is the whole thesis in hardware form: the arm the big
+      labs treat as a toy is the one anyone can own, print and break. Cheap, open and everywhere beats
+      expensive, closed and rare — it is the only way this data gets made by more than five companies.</p>
       <p class="mono" style="font-size:13px; color:var(--muted);">6-DOF · open-source (Apache-2.0) · a few hundred dollars · Mac-friendly sim path</p>
     </div>
     <div>
@@ -335,6 +358,28 @@
     <div class="row"><span class="rank">3</span><span class="who">@sim_first <small>Pat me — done entirely in MuJoCo</small></span><span class="likes">♥ 121</span></div>
   </div>
   <p style="color:var(--muted); font-size:12px; margin-top:10px;">↑ illustrative — the real gallery fills up as runs come in.</p>
+</div></section>
+
+<section id="labs"><div class="wrap">
+  <h2 class="sec">For robotics labs</h2>
+  <h3 class="lead">You need demonstrations and you need people. Both fall out of the same loop.</h3>
+  <div class="loop">
+    <div class="step"><div class="k">01 · DATA</div><h4>Verified demonstrations</h4>
+      <p>Runs in the <b>LeRobot</b> format your stack already reads, each one carrying the peer review
+      beside it as a quality label — so you can filter before you train instead of after.</p></div>
+    <div class="step"><div class="k">02 · BENCHMARK</div><h4>The task you actually care about</h4>
+      <p>Post a task as a season. People attempt it, review each other, and you get the spread — what
+      works, what breaks, and how often — instead of one polished demo from one lab.</p></div>
+    <div class="step"><div class="k">03 · TALENT</div><h4>People whose work is on video</h4>
+      <p>The board is a ranked list of builders you can watch before you ever talk to one. A skill
+      proven on camera outranks a line on a CV, and it comes with a date.</p></div>
+  </div>
+  <div style="text-align:center; margin-top:26px;">
+    <a class="btn btn-start mono" style="display:inline-block;"
+      href="https://github.com/bookseal/physical-spark/issues" target="_blank" rel="noopener">▶ Tell us the task you need data for</a>
+  </div>
+  <p style="color:var(--muted); font-size:12px; margin-top:12px; text-align:center;">
+    Early, and built in the open — open an issue and we will tell you exactly what exists today.</p>
 </div></section>
 
 <section id="roadmap"><div class="wrap">
@@ -376,7 +421,7 @@
     <div class="rcard" style="--c:var(--gold)">
       <span class="rn">2</span>
       <div class="rbody">
-        <h4><a href="funding.html">사업 전략 — 미국 VC까지</a> <span class="rmeta">전략 · 커넥션</span></h4>
+        <h4><a href="funding.html">사업 전략 — 자금 조달</a> <span class="rmeta">전략 · 커넥션</span></h4>
         <p>목표는 미국 VC 투자 하나. 2026년 7월 시애틀에서 받은 진단과, 이미 손에 쥔 커넥션 지도.</p>
       </div>
       <span class="rgo">→</span>
