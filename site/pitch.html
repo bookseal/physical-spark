@@ -272,6 +272,21 @@
 /* ─────────────────────────────────────────────────────────────────────────
    BEATS — the 60-second pitch, as data.
 
+   AUDIENCE: an investor. Every beat answers a question a fund actually asks,
+   in the order they ask it — what is it, why now, what do you know that we do
+   not, why does it not get eaten, why you, what do you want. The long-form
+   version of this same argument is company.html; this is the elevator.
+
+   THE CLOSE IS A NUMBER WE HAVE NOT EARNED YET. Raising is the goal. What the
+   deck refuses to do is name a figure before season one has told us what the
+   server bill actually looks like under load. Said out loud that reads as
+   discipline rather than hedging: we are not guessing at a raise, we are going
+   to go and find out what to ask for.
+
+   ⚠ funding.html §4 still says "we do not take investment". That was the older
+   strategy and it is now withdrawn — the two documents disagree until someone
+   rewrites §4. An investor who reads both will notice.
+
    `say` is the script, written to be read aloud verbatim and to flow from one
    beat into the next. Read beats 1→6 back to back and you have the whole pitch.
    `sec` values must sum to 60; the budget bar derives its widths from them.
@@ -284,12 +299,12 @@ const BEATS = [
     hero: 'assets/brand/hero-4-circuit.svg',
     heroAlt: 'A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery',
     head: 'Kaggle for <em>robot arms.</em>',
-    sub: 'Developers play robot missions. Every run they finish becomes robot training data.',
+    sub: 'Developers compete on robot missions. We keep what the competition produces.',
     html: '',
-    say: 'Physical Spark is Kaggle for robot arms. Developers play robot missions, and every run becomes robot training data.'
+    say: 'Physical Spark is Kaggle for robot arms. Developers compete on robot missions, and we keep what the competition produces.'
   },
   {
-    sec: 10, c: 'var(--blue)', label: 'The problem',
+    sec: 10, c: 'var(--blue)', label: 'Why now',
     hero: 'assets/brand/hero-2-gap.svg',
     heroAlt: 'A steep gold line arriving high and early, a slow dashed blue line still far below it, with the wedge between them shaded red',
     head: 'The models are ready.<br>The <em>data is not.</em>',
@@ -299,81 +314,73 @@ const BEATS = [
       <div class="tile"><div class="big">Labs go narrow</div><div class="cap">a few rooms, a few tasks, one lab's idea of correct</div></div>
       <div class="tile"><div class="big">$407B</div><div class="cap">enterprise AI spending in 2026, up 34.8% — Value Add VC</div></div>
     </div>`,
-    say: 'Robot models are ready. The data is not. A real demonstration means a human hand moving a real arm. You cannot scrape that.'
+    say: 'Robot models are ready; the data is not. Text was lying around online. A human hand moving a real arm never was.'
   },
   {
-    sec: 10, c: 'var(--teal)', label: 'How it works',
+    sec: 10, c: 'var(--teal)', label: 'The insight',
     hero: 'assets/brand/hero-3-peerreview.svg',
     heroAlt: 'Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon',
-    head: 'We give a mission.<br>You send a <em>video.</em>',
-    sub: 'Players grade each other, the way École 42 does it with code.',
+    head: 'The <em>grading</em> is the product.',
+    sub: 'Labelling is the most expensive step in robot data. We do not pay for it.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Video is the test</div><div class="cap">it works, or it does not</div></div>
+      <div class="tile"><div class="big">Video is the test</div><div class="cap">a robot skill either works or it does not</div></div>
       <div class="tile"><div class="big">Players grade players</div><div class="cap">no answer key — the run is the evidence</div></div>
-      <div class="tile"><div class="big">Every review is a label</div><div class="cap">the step that normally costs the most, done by the crowd</div></div>
+      <div class="tile"><div class="big">Reviews are labels</div><div class="cap">the step labs pay most for, paid for here in competition</div></div>
     </div>`,
-    say: 'You cannot test a robot skill with a quiz. So players send video and grade each other. Every review becomes a quality label.'
+    say: 'Labelling is the priciest step in robot data. We do not pay for it. Players grade each other because they want to rank.'
   },
   {
-    sec: 12, c: 'var(--gold)', label: 'Why not them',
+    sec: 12, c: 'var(--gold)', label: 'Why it compounds',
     hero: 'assets/brand/market-commoditized.svg',
     heroAlt: 'A grey curve rising then flattening into a crowded plateau, and a teal curve crossing above it and still climbing, with the gap between them shaded gold',
-    /* NOTE — the knockout line below is a first draft, safe to swap.
-       The three tiles are the research: who else is in this space and what each
-       of them actually leaves behind. `head` and `say` are the positioning call
-       on top of that research, and there are at least three defensible framings:
-         (a) accumulation — their output evaporates, ours compounds   ← taken
-         (b) form — a certificate or a trophy versus a trainable dataset
-         (c) altitude — we are not their rival, we are the layer above them
-       (c) keeps Hugging Face and NVIDIA friendly but invites "so why not just
-       build it themselves?", which costs more than 12 seconds to answer.
-       If you swap it: `head` may use <br> and <em>…</em> (the <em> takes the
-       beat's accent colour and a drop shadow — put the payload word there), and
-       `say` is read at ~2.5 words/second, so 30 words is the ceiling before the
-       teleprompter counter turns red. */
     head: 'Their output evaporates.<br>Ours <em>compounds.</em>',
-    sub: '',
+    sub: 'Copy the missions all you like. The record is what you cannot copy.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Tools, not data</div><div class="cap">Hugging Face and NVIDIA give the stack away. We are built on it — LeRobot format, open hardware.</div></div>
-      <div class="tile"><div class="big">Courses end</div><div class="cap">a bootcamp hands you a certificate and closes. Nothing is left standing behind it.</div></div>
-      <div class="tile"><div class="big">Leagues hand out trophies</div><div class="cap">FIRST, VEX and RoboMaster own real community. Their output is a winner, not a training set.</div></div>
+      <div class="tile"><div class="big">Tools, not data</div><div class="cap">Hugging Face and NVIDIA give the stack away. We are built on it — and we keep the output.</div></div>
+      <div class="tile"><div class="big">Courses end</div><div class="cap">a bootcamp hands over a certificate and closes. Nothing is left standing behind it.</div></div>
+      <div class="tile"><div class="big">Leagues end in trophies</div><div class="cap">FIRST, VEX and RoboMaster own real community. A winner is not a training set.</div></div>
     </div>`,
-    say: 'Hugging Face and NVIDIA give the tools away; we run on top. A course ends in a certificate, a league ends in a trophy. Ours ends in a dataset.'
+    say: 'Hugging Face and NVIDIA give tools away; we sit on top. A course ends in a certificate, a league in a trophy. Ours ends in a dataset.'
   },
   {
     sec: 10, c: 'var(--amber)', label: 'Why me',
     hero: 'assets/brand/hero-5-bench.svg',
     heroAlt: 'A workbench with a half-assembled robot arm, an open notebook, a camera on a tripod and a mug',
     head: 'My last app kept <em>90%</em><br>of its users for two years.',
-    sub: 'Same rule here: pay a deposit, lose it if you quit.',
+    sub: 'The hard part of this business is retention, not robotics. I have done it once.',
     html: `<div class="row">
       <div class="tile"><div class="big">2 yrs · 90%</div><div class="cap">my last app — users who stayed</div></div>
-      <div class="tile"><div class="big">Deposit rule</div><div class="cap">what made them stay, moved onto this</div></div>
+      <div class="tile"><div class="big">Deposit rule</div><div class="cap">the mechanic that did it — I know how to design for finishing</div></div>
       <div class="tile"><div class="big">Player one</div><div class="cap">I run every mission first and write down where I got stuck</div></div>
     </div>`,
-    say: 'My last app kept ninety percent of its users for two years. They paid a deposit and lost it if they quit.'
+    /* the deposit is stated in the PAST tense on purpose — the next beat says playing
+       here is free, and "they paid a deposit" spoken ten seconds earlier reads as a
+       contradiction to anyone only half listening. */
+    say: 'The hard part here is keeping people. My last app kept ninety percent for two years, because quitting cost them money.'
   },
   {
     sec: 10, c: 'var(--red)', label: 'The ask',
     hero: '',
     heroAlt: '',
-    head: 'I am not asking for money.<br>I need <em>twelve players.</em>',
-    /* NOTE — still open: the two numbers below ("twelve players", "six weeks from September")
-       are placeholders picked so the deck reads end to end. Replace them with the season size
-       and start date you will promise out loud, and keep `sub`, `html` and `say` in sync.
-       The price points on market.html carry the live open marker for this same decision.
-       Pick a number you can hit: a public promise you miss is worse than a smaller one you
-       land, because the next pitch opens with whether you landed it.
-       This deck asks for PLAYERS, not capital — the investor conversation lives on
-       company.html, which carries the three-layer model and the roadmap. A room you are
-       recruiting from is not a room you are raising from. */
-    sub: 'Season one, six weeks from September. Introduce me to them.',
+    head: 'We are not naming a number.<br>We are going to <em>earn it.</em>',
+    /* NOTE — this beat is the pitch's only unhedged promise, so keep it cheap to keep.
+       It says three things and no more: playing is free, labelling costs us nothing,
+       and servers are the one line that grows. It deliberately does NOT say how many
+       players, how much a season costs, or how large the raise is — none of those are
+       decided, and a number you miss is worse than a number you never gave, because
+       the next meeting opens with whether you hit it.
+       "Free at the door, paid tiers above it" is the top of the revenue ladder on
+       market.html, whose rung 1 currently reads "cheap" rather than "free" — worth a
+       one-word reconciliation before this deck is shown beside that page.
+       When season one produces a real server bill, this is the beat that changes:
+       the number goes in and the promise turns into a result. */
+    sub: 'Free at the door, paid tiers above it. The only cost that scales is servers.',
     html: `<div class="row">
-      <div class="tile"><div class="big">12 players</div><div class="cap">season one — that is all I want</div></div>
-      <div class="tile"><div class="big">6 weeks</div><div class="cap">long enough to finish, short enough to count</div></div>
-      <div class="tile"><div class="big">Runs + reviews</div><div class="cap">the two numbers I bring you next time</div></div>
+      <div class="tile"><div class="big">Free to play</div><div class="cap">nothing stands between a developer and their first run</div></div>
+      <div class="tile"><div class="big">$0 to label</div><div class="cap">the priciest line in robot data is not on our books</div></div>
+      <div class="tile"><div class="big">Servers</div><div class="cap">the one cost that grows with players — season one tells us how fast</div></div>
     </div>`,
-    say: 'I am not asking for money. Twelve players, six weeks, from September. Next time I show you what they left behind.'
+    say: 'Playing is free. Our only real cost is servers. Season one shows how fast that scales, and what raise we have earned.'
   },
 ];
 
