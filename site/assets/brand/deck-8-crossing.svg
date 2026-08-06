@@ -1,48 +1,70 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
-  <title>Real people stranded on one cliff edge and unfilled roles drawn as dashed outlines on the other, with a red arch spanning the gap between them</title>
+  <title>People searching on one cliff edge and the same faces drawn as absences on the other, with a red arch spanning the gap</title>
   <style>
-    /* Loops, not one-shots. A slide is display:none until it is shown, but the SVG
-       document keeps running the whole time — a play-once animation would always
-       have finished before anyone saw it. */
-    /* resting state below is the FINISHED drawing, so if the animation never runs
-       the picture is still whole. Only the keyframes hide anything. */
+    /* Loops, not one-shots — a beat is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away. */
     @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
     .arch{stroke-dasharray:250; stroke-dashoffset:0; animation:span 5s ease-in-out infinite;}
     .rung{opacity:1; animation:rung 5s ease-in-out infinite;}
     .rung:nth-child(2){animation-delay:.12s} .rung:nth-child(3){animation-delay:.24s}
     @keyframes span{0%,4%{stroke-dashoffset:250}30%{stroke-dashoffset:0}88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:250}}
     @keyframes rung{0%,26%{opacity:0}38%,88%{opacity:1}96%,100%{opacity:0}}
+    /* the empty seats keep waiting to be filled */
+    .vacant{animation:waiting 3.2s ease-in-out infinite;}
+    .vacant:nth-of-type(2){animation-delay:.3s} .vacant:nth-of-type(3){animation-delay:.6s}
+    @keyframes waiting{0%,100%{opacity:.45}50%{opacity:1}}
   </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- the two edges, and the gap that has no floor -->
-    <path d="M52 208h206v62" stroke-width="9"/>
-    <path d="M462 270v-62h206" stroke-width="9"/>
+    <path d="M40 214h218v56" stroke-width="9"/>
+    <path d="M462 270v-56h218" stroke-width="9"/>
 
-    <!-- the people who are already here -->
-    <g stroke-width="7">
-      <circle cx="92" cy="152" r="13" fill="#fbf5e9"/>
-      <path d="M72 196v-10a20 20 0 0 1 40 0v10z" fill="#fbf5e9"/>
-      <circle cx="152" cy="152" r="13" fill="#fbf5e9"/>
-      <path d="M132 196v-10a20 20 0 0 1 40 0v10z" fill="#fbf5e9"/>
-      <circle cx="212" cy="152" r="13" fill="#fbf5e9"/>
-      <path d="M192 196v-10a20 20 0 0 1 40 0v10z" fill="#fbf5e9"/>
+    <!-- people who are here, looking, and not being seen -->
+    <g stroke-width="6">
+      <circle cx="84" cy="180" r="28" fill="#e6a413"/>
+      <circle cx="75" cy="175" r="4" fill="#2b211a" stroke="none"/>
+      <circle cx="93" cy="175" r="4" fill="#2b211a" stroke="none"/>
+      <path d="M66 163q7-5 13-2M88 162q6-3 14 2" stroke-width="4"/>
+      <path d="M76 193q8 5 16 0" stroke-width="5"/>
+      <circle cx="152" cy="180" r="28" fill="#e6a413"/>
+      <circle cx="143" cy="175" r="4" fill="#2b211a" stroke="none"/>
+      <circle cx="161" cy="175" r="4" fill="#2b211a" stroke="none"/>
+      <path d="M134 163q7-5 13-2M156 162q6-3 14 2" stroke-width="4"/>
+      <path d="M144 193q8 5 16 0" stroke-width="5"/>
+      <circle cx="220" cy="180" r="28" fill="#e6a413"/>
+      <circle cx="211" cy="175" r="4" fill="#2b211a" stroke="none"/>
+      <circle cx="229" cy="175" r="4" fill="#2b211a" stroke="none"/>
+      <path d="M202 163q7-5 13-2M224 162q6-3 14 2" stroke-width="4"/>
+      <path d="M212 193q8 5 16 0" stroke-width="5"/>
     </g>
 
-    <!-- the roles nobody can fill: the same shape, drawn as an outline of nothing -->
-    <g stroke-width="6" stroke-dasharray="6 7">
-      <circle cx="508" cy="152" r="13"/>
-      <path d="M488 196v-10a20 20 0 0 1 40 0v10"/>
-      <circle cx="568" cy="152" r="13"/>
-      <path d="M548 196v-10a20 20 0 0 1 40 0v10"/>
-      <circle cx="628" cy="152" r="13"/>
-      <path d="M608 196v-10a20 20 0 0 1 40 0v10"/>
+    <!-- the same face, on the other side, with nobody in it -->
+    <g stroke="#e0442e" stroke-width="5">
+      <g class="vacant">
+        <circle cx="512" cy="180" r="28" stroke-dasharray="8 9"/>
+        <circle cx="503" cy="175" r="3.5" stroke-dasharray="3 4"/>
+        <circle cx="521" cy="175" r="3.5" stroke-dasharray="3 4"/>
+        <path d="M504 193q8 5 16 0" stroke-dasharray="5 6"/>
+      </g>
+      <g class="vacant">
+        <circle cx="580" cy="180" r="28" stroke-dasharray="8 9"/>
+        <circle cx="571" cy="175" r="3.5" stroke-dasharray="3 4"/>
+        <circle cx="589" cy="175" r="3.5" stroke-dasharray="3 4"/>
+        <path d="M572 193q8 5 16 0" stroke-dasharray="5 6"/>
+      </g>
+      <g class="vacant">
+        <circle cx="648" cy="180" r="28" stroke-dasharray="8 9"/>
+        <circle cx="639" cy="175" r="3.5" stroke-dasharray="3 4"/>
+        <circle cx="657" cy="175" r="3.5" stroke-dasharray="3 4"/>
+        <path d="M640 193q8 5 16 0" stroke-dasharray="5 6"/>
+      </g>
     </g>
 
     <!-- the crossing -->
-    <path class="arch" d="M258 204C300 130 420 130 462 204" stroke="#e0442e" stroke-width="12"/>
+    <path class="arch" d="M258 210C300 136 420 136 462 210" stroke="#e0442e" stroke-width="12"/>
     <g stroke="#e0442e" stroke-width="7">
-      <path class="rung" d="M300 168v36"/><path class="rung" d="M360 148v56"/><path class="rung" d="M420 168v36"/>
+      <path class="rung" d="M300 174v36"/><path class="rung" d="M360 154v56"/><path class="rung" d="M420 174v36"/>
     </g>
   </g>
 </svg>

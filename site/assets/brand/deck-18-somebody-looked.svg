@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A run on video with a peer's tick on it, and the face of the person whose work finally got watched</title>
+  <style>
+    /* Loops, not one-shots — a beat is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .tick{stroke-dasharray:60; stroke-dashoffset:0; animation:mark 4.4s ease-in-out infinite;}
+    @keyframes mark{0%,14%{stroke-dashoffset:60}30%,86%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:60}}
+    .lit{animation:lit 4.4s ease-in-out infinite; transform-origin:590px 156px;}
+    @keyframes lit{0%,30%{transform:scale(.94)}44%{transform:scale(1.06)}56%,100%{transform:scale(1)}}
+    .beam{animation:beam 4.4s ease-in-out infinite;}
+    @keyframes beam{0%,32%{opacity:0}46%,86%{opacity:1}96%,100%{opacity:0}}
+  </style>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- your run, on video -->
+    <g stroke-width="7">
+      <path d="M56 92h248a12 12 0 0 1 12 12v112a12 12 0 0 1-12 12H56a12 12 0 0 1-12-12V104a12 12 0 0 1 12-12z" fill="#fbf5e9"/>
+      <path d="M148 128l64 32-64 32z" fill="#e0442e"/>
+    </g>
+
+    <!-- somebody watched it, and left a mark -->
+    <path class="tick" d="M240 208l16 16 30-34" stroke="#0e9a89" stroke-width="10"/>
+
+    <!-- and it reached you -->
+    <g class="beam" stroke="#e6a413" stroke-width="7">
+      <path d="M348 160h44M352 124l38 14M352 196l38-14"/>
+    </g>
+
+    <!-- the face of being seen -->
+    <g class="lit" stroke-width="7">
+      <circle cx="590" cy="156" r="62" fill="#e6a413"/>
+      <path d="M562 138q13-13 26 0" stroke-width="8"/>
+      <path d="M596 138q13-13 26 0" stroke-width="8"/>
+      <path d="M560 174q30 28 60 0" stroke-width="8" fill="#fbf5e9"/>
+    </g>
+  </g>
+</svg>
