@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>피트레인 — 산업 소개 스켈레톤 작업대</title>
+<meta name="description" content="10분 피치덱 앞단의 Physical AI 산업 소개를 짜기 위한 작업대. 답은 없고 질문만 있다 — 답을 채우면 그게 스켈레톤이 된다.">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://physical-spark.bit-habit.com/pit.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Physical Spark">
+<meta property="og:title" content="피트레인 — 산업 소개 스켈레톤 작업대">
+<meta property="og:description" content="10분 피치덱 앞단의 Physical AI 산업 소개를 짜기 위한 작업대. 답은 없고 질문만 있다.">
+<meta property="og:url" content="https://physical-spark.bit-habit.com/pit.html">
+<meta property="og:image" content="https://physical-spark.bit-habit.com/assets/hero-rally-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="피트레인 — 산업 소개 스켈레톤 작업대">
+<meta name="twitter:description" content="10분 피치덱 앞단의 Physical AI 산업 소개를 짜기 위한 작업대. 답은 없고 질문만 있다.">
+<meta name="twitter:image" content="https://physical-spark.bit-habit.com/assets/hero-rally-poster.jpg">
+<style>
+  /* palette shared with funding.html — the "paper" family used for long-form Korean
+     working documents, as opposed to the "Re-Volt" game palette on index/pitch. */
+  :root{
+    --paper:#f4f1ea; --card:#fbf9f4; --card2:#f0ebdd; --card3:#eae3d2;
+    --ink:#1c1a17; --muted:#6b6459; --faint:#938b7d;
+    --accent:#b8402e; --accent-soft:#f3e0d9; --accent-deep:#9a3324;
+    --line:#e4decf; --line-strong:#d8d0bd;
+    --good:#3f7a52; --good-soft:#e3efe4;
+    --blue:#3a5a86; --blue-soft:#e6ecf4;
+    --gold:#8a6d1f; --gold-soft:#f4ecd6;
+    --serif:Georgia,"Times New Roman","Noto Serif KR",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  /* one visual world, same as the rest of the site — do not half-invert on a dark phone */
+  :root, :root[data-theme="dark"], :root[data-theme="light"]{ color-scheme:only light; }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+    line-height:1.72; font-size:17px; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:780px; margin:0 auto; padding:0 20px 120px;}
+  a{color:var(--accent-deep);}
+
+  /* ── masthead ─────────────────────────────────────────────────────────── */
+  header.top{padding:54px 0 30px; border-bottom:1px solid var(--line-strong); margin-bottom:34px;}
+  .eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--faint); margin:0 0 14px;}
+  h1{font-family:var(--serif); font-size:clamp(30px,5.2vw,46px); line-height:1.12; margin:0 0 16px;
+    letter-spacing:-.02em; font-weight:700;}
+  h1 em{font-style:normal; color:var(--accent);}
+  .lede{font-size:18.5px; color:var(--muted); margin:0;}
+  .lede b{color:var(--ink);}
+
+  /* ── sections ─────────────────────────────────────────────────────────── */
+  section{margin:0 0 52px;}
+  h2{font-family:var(--serif); font-size:26px; margin:0 0 6px; letter-spacing:-.01em; font-weight:700;}
+  h2 .num{font-family:var(--mono); font-size:13px; color:var(--accent); letter-spacing:.08em;
+    display:block; margin-bottom:5px; font-weight:700;}
+  h3{font-size:18px; margin:26px 0 8px; letter-spacing:-.01em;}
+  p{margin:0 0 14px;}
+  .sub{color:var(--muted); margin:0 0 20px;}
+
+  /* the box that states a working rule — the actual 요령 */
+  .rule{background:var(--card); border:1px solid var(--line-strong); border-left:4px solid var(--accent);
+    border-radius:12px; padding:14px 17px; margin:14px 0;}
+  .rule .lbl{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); font-weight:700; margin:0 0 6px;}
+  .rule p:last-child{margin-bottom:0;}
+  .rule.blue{border-left-color:var(--blue); background:var(--blue-soft);}
+  .rule.blue .lbl{color:var(--blue);}
+  .rule.gold{border-left-color:var(--gold); background:var(--gold-soft);}
+  .rule.gold .lbl{color:var(--gold);}
+
+  /* ── the worksheet ────────────────────────────────────────────────────── */
+  .q{background:var(--card); border:1px solid var(--line-strong); border-radius:14px;
+    padding:20px 22px; margin:18px 0;}
+  .q .qn{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--faint); font-weight:700; margin:0 0 8px; display:flex; align-items:center; gap:10px;}
+  .q .qn .dot{width:8px; height:8px; border-radius:50%; background:var(--line-strong); flex:0 0 auto;}
+  .q.filled .qn .dot{background:var(--good);}
+  .q .ask{font-family:var(--serif); font-size:21px; line-height:1.42; font-weight:700; margin:0 0 10px;}
+  .q .hint{font-size:14.5px; color:var(--muted); margin:0 0 14px;}
+  .q .hint b{color:var(--ink);}
+  textarea{width:100%; min-height:92px; resize:vertical; font-family:var(--sans); font-size:16px;
+    line-height:1.65; color:var(--ink); background:var(--paper); border:1px solid var(--line-strong);
+    border-radius:10px; padding:12px 14px;}
+  textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft);}
+  textarea::placeholder{color:var(--faint);}
+
+  /* ── checklist ────────────────────────────────────────────────────────── */
+  .check{background:var(--card2); border:1px solid var(--line-strong); border-radius:14px; padding:16px 19px;}
+  .check label{display:flex; gap:11px; align-items:flex-start; padding:7px 0; cursor:pointer; font-size:15.5px;}
+  .check input{margin-top:6px; flex:0 0 auto; width:16px; height:16px; accent-color:var(--accent);}
+  .check input:checked + span{color:var(--faint); text-decoration:line-through;}
+
+  /* ── tables ───────────────────────────────────────────────────────────── */
+  .wrap-x{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:16px 0;}
+  table{border-collapse:collapse; width:100%; font-size:15px; min-width:520px;}
+  th,td{border:1px solid var(--line-strong); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:var(--card3); font-size:13px; letter-spacing:.02em;}
+  td code{font-family:var(--mono); font-size:12.5px; background:var(--card2); padding:1px 5px;
+    border-radius:4px; white-space:nowrap;}
+
+  ul{margin:0 0 14px; padding-left:22px;}
+  li{margin-bottom:7px;}
+
+  /* ── the copy bar — the whole point of the page ───────────────────────── */
+  .bar{position:sticky; bottom:0; z-index:20; margin:0 -20px; padding:13px 20px;
+    background:color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter:blur(8px);
+    border-top:1px solid var(--line-strong); display:flex; align-items:center; gap:11px; flex-wrap:wrap;}
+  .btn{font-weight:700; font-size:14.5px; padding:11px 18px; border-radius:11px; cursor:pointer;
+    border:1px solid transparent; font-family:var(--sans);}
+  .btn-go{background:var(--accent); color:#fff;}
+  .btn-go:hover{background:var(--accent-deep);}
+  .btn-go.done{background:var(--good);}
+  .btn-ghost{background:var(--card); color:var(--muted); border-color:var(--line-strong);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+  .prog{margin-left:auto; font-family:var(--mono); font-size:12.5px; color:var(--muted);}
+  .prog b{color:var(--accent); font-size:15px;}
+
+  footer{border-top:1px solid var(--line-strong); margin-top:20px; padding:22px 0 0;
+    font-family:var(--mono); font-size:12px; color:var(--faint);}
+
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .q{padding:16px 15px;} .q .ask{font-size:18.5px;}
+    .rule{padding:12px 14px;}
+    .prog{margin-left:0; width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Pit lane · 내부 작업대 · 공개 페이지</p>
+  <h1>산업 소개는 설명이 아니라<br><em>질문을 심는 일</em>이다.</h1>
+  <p class="lede">10분 덱 앞의 2~3분. <b>여기엔 답이 없다 — 질문만 있다.</b>
+    답을 채우면 그게 스켈레톤이 된다. 다 채우면 아래 버튼으로 한 번에 복사해서 이어서 다듬으면 된다.</p>
+</header>
+
+<!-- ═══════════════ 0. 왜 이 순서인가 ═══════════════ -->
+<section>
+  <h2><span class="num">00 · 먼저 읽을 것</span>성공한 산업 소개의 신호</h2>
+  <p class="sub">청중이 똑똑해지는 게 아니다. <b>못 기다리게 되는 것</b>이다.</p>
+
+  <p>산업 소개가 실패하는 가장 흔한 방식은 틀리는 게 아니라 <strong>맞는데 무관심한 것</strong>이다.
+    청중은 배웠고, 고개를 끄덕였고, 아무것도 궁금해지지 않았다. 그 상태로 제품 파트에 들어가면
+    제품은 <em>정보</em>가 되지 <em>답</em>이 되지 못한다.</p>
+
+  <div class="rule">
+    <p class="lbl">기준 하나</p>
+    <p>소개가 끝났을 때 청중 머릿속에 <strong>질문 하나</strong>가 생겨 있어야 한다.
+      그리고 그 질문의 답이 <strong>우리 제품</strong>이어야 한다.
+      그래서 스켈레톤은 위에서부터 쓰는 게 아니라 <strong>그 질문을 먼저 정하고 거꾸로</strong> 짠다.</p>
+  </div>
+
+  <h3>그래서 흐름은 이렇게 된다</h3>
+  <p>산업에서 시작하지 않는다. <strong>변화</strong>에서 시작한다. 청중이 "나랑 무슨 상관인가"를
+    빨리 찾지 못하면 나머지는 들리지 않기 때문이다.</p>
+  <div class="wrap-x"><table>
+    <tr><th>순서</th><th>하는 일</th><th>여기서 청중의 상태</th></tr>
+    <tr><td>① 변화</td><td>5년 전엔 안 됐는데 지금 되는 것</td><td>"어, 그게 됐다고?"</td></tr>
+    <tr><td>② 판돈</td><td>그래서 무엇이 걸려 있나</td><td>"크네."</td></tr>
+    <tr><td>③ 병목</td><td>다 갖춰졌는데 없는 것</td><td>"그럼 그게 왜 아직 없지?"</td></tr>
+    <tr><td>④ 다리</td><td>병목 → 우리</td><td>제품 파트로 넘어갈 준비 완료</td></tr>
+  </table></div>
+  <p>③에서 생긴 질문이 곧 ⓪에서 정한 그 질문이다. 앞뒤가 맞지 않으면 ①~③ 중 하나가 잘못 골라진 것이다.</p>
+</section>
+
+<!-- ═══════════════ 1. VC/심사위원 대응 요령 ═══════════════ -->
+<section>
+  <h2><span class="num">01 · 듣는 사람</span>VC와 심사위원은 다르게 듣는다</h2>
+  <p class="sub">같은 3분이어도 두 방은 다른 걸 채점한다.</p>
+
+  <div class="rule blue">
+    <p class="lbl">VC</p>
+    <p>산업을 <strong>이미 안다고 가정하지 말되, 모른다고 말하지도 않는다</strong>는 걸 기억한다.
+      그래서 용어는 풀어주되 가르치는 톤이 되면 안 된다 — <em>"아시겠지만"</em> 한 마디로
+      체면을 지켜주고 지나간다.</p>
+    <p>VC가 산업 소개에서 실제로 채점하는 건 사실의 양이 아니라 하나다:
+      <strong>왜 이 사람이 이 산업을 남보다 잘 아는가.</strong>
+      사실을 열 개 나열하는 것보다 <strong>남들이 안 하는 해석 하나</strong>가 그걸 증명한다.</p>
+    <p style="margin-bottom:0;">그리고 VC의 시계는 "이게 언제 돈이 되나"다. 소개가 길어지면
+      그 시계가 먼저 울린다. <strong>2~3분을 넘기지 않는다.</strong></p>
+  </div>
+
+  <div class="rule gold">
+    <p class="lbl">대회 심사위원</p>
+    <p>이쪽은 <strong>모른다고 인정할 수 있는 사람들</strong>이다. 그래서 용어를 조금 더 풀어도 되고,
+      비유가 더 잘 먹는다.</p>
+    <p style="margin-bottom:0;">대신 <strong>"그래서 뭐가 새로운데"를 훨씬 빨리</strong> 줘야 한다.
+      채점표에는 보통 "차별성" 칸이 따로 있고, 심사위원은 그 칸을 채울 문장을 찾으면서 듣는다.
+      그 문장을 <strong>받아적기 좋은 형태로</strong> 한 번 던져주는 게 유리하다.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ 2. 질문지 ═══════════════ -->
+<section>
+  <h2><span class="num">02 · 질문지</span>답을 채우면 그게 스켈레톤이다</h2>
+  <p class="sub">순서대로 쓰지 않아도 된다. 다만 <b>Q1을 먼저 정하는 것</b>만은 지키는 게 좋다 — 나머지가 전부 여기에 매달린다.</p>
+
+  <div class="q" data-k="q1">
+    <p class="qn"><span class="dot"></span>Q1 · 심을 질문</p>
+    <p class="ask">이 소개가 끝났을 때, 청중 머릿속에 남아야 할 질문 한 문장은?</p>
+    <p class="hint">청중의 언어로 쓴다 — <b>전문용어 0개</b>. 검사 두 가지: ① 그 질문의 답이 우리 제품이 아니면
+      틀린 질문이다. ② 답이 너무 뻔하면 청중은 "알고 있었다"고 느낀다. 좋은 질문은
+      <b>답이 우리 쪽에 있는데 청중이 아직 모르는</b> 것이다.</p>
+    <textarea placeholder="한 문장."></textarea>
+  </div>
+
+  <div class="q" data-k="q2">
+    <p class="qn"><span class="dot"></span>Q2 · 청중 좌표</p>
+    <p class="ask">이 방에 있는 사람들은 로봇을 마지막으로 어디서 봤나?</p>
+    <p class="hint">뉴스의 휴머노이드? 공장 컨베이어? 집의 청소기? 거기가 출발점이다.
+      이어서 <b>이미 아는 단어</b>와 <b>설명해야만 하는 단어</b>를 나눠 적는다.
+      설명이 필요한 단어는 <b>3개까지</b> — 4번째부터 청중은 듣기를 멈추고 따라잡기를 시작한다.
+      <a href="/docs#knowledge%2F00-foundations.md">용어 사전</a>은 <b>고르는</b> 용도가 아니라 <b>버릴 것을 정하는</b> 용도로 쓴다.</p>
+    <textarea placeholder="마지막으로 본 곳 / 이미 아는 단어 / 설명이 필요한 단어 3개"></textarea>
+  </div>
+
+  <div class="q" data-k="q3">
+    <p class="qn"><span class="dot"></span>Q3 · 변화</p>
+    <p class="ask">5년 전엔 안 됐는데 지금은 되는 것 하나는?</p>
+    <p class="hint">숫자 없이 한 문장. <b>"AI가 몸을 얻는다"류의 시적인 문장은 정보가 0이다</b> —
+      청중은 감탄하고 잊는다. 대신 <b>5년 전이었다면 실패했을 구체적인 행동 하나</b>를 말한다.
+      행동이어야 그림이 그려지고, 그림이 그려져야 다음 문장이 들린다.</p>
+    <textarea placeholder="한 문장. 숫자 없이."></textarea>
+  </div>
+
+  <div class="q" data-k="q4">
+    <p class="qn"><span class="dot"></span>Q4 · 판돈</p>
+    <p class="ask">그 변화로 무엇이 걸려 있나? 그리고 그걸 증명하는 숫자 <em>하나</em>는?</p>
+    <p class="hint">숫자는 <b>하나만</b>. 두 개부터는 아무것도 안 남는다. 그리고 그 숫자엔 출처가 있어야 한다 —
+      출처를 못 대면 안 쓰는 쪽이 강하다. 아래 <b>재료 색인</b>에 이미 출처가 붙은 숫자들이 있다.</p>
+    <textarea placeholder="걸려 있는 것 / 숫자 하나 + 출처"></textarea>
+  </div>
+
+  <div class="q" data-k="q5">
+    <p class="qn"><span class="dot"></span>Q5 · 병목</p>
+    <p class="ask">다 갖춰졌는데 없는 것은? 그리고 그건 왜 돈으로 안 풀리나?</p>
+    <p class="hint">이게 이 소개의 심장이다. <b>돈으로 풀리면 병목이 아니라 비용이다.</b>
+      병목이라고 부르려면 "돈이 있어도 못 사는 이유"를 댈 수 있어야 한다.
+      그 이유를 못 대면 청중은 "큰 회사가 그냥 사면 되잖아"로 끝낸다.</p>
+    <textarea placeholder="없는 것 / 돈으로 안 풀리는 이유"></textarea>
+  </div>
+
+  <div class="q" data-k="q6">
+    <p class="qn"><span class="dot"></span>Q6 · 다리</p>
+    <p class="ask">병목과 우리 사이를 잇는 문장 한 개는?</p>
+    <p class="hint">이 문장이 안 써지면 <b>제품이 아니라 소개가 틀린 것</b>이다.
+      제품을 고치지 말고 Q3~Q5를 다시 고른다. 이 문장이 나오는 순간 산업 소개는 끝나고
+      정민님 덱의 제품 파트가 시작된다 — <b>이어붙이는 지점</b>이므로 정민님과 문장을 맞춰본다.</p>
+    <textarea placeholder="한 문장."></textarea>
+  </div>
+
+  <div class="q" data-k="q7">
+    <p class="qn"><span class="dot"></span>Q7 · 버릴 것</p>
+    <p class="ask">알고 있지만 <em>말하지 않기로</em> 한 것 세 가지는?</p>
+    <p class="hint">아는 걸 다 말하면 아무것도 전달되지 않는다. 2~3분에 들어갈 수 있는 건 많아야 네 문장이다.
+      버린 목록을 적어두면 사라지는 게 아니라 <b>Q&amp;A에서 꺼낼 탄약</b>이 된다 —
+      질문이 들어왔을 때 즉답이 나오는 게 준비된 사람의 신호다.</p>
+    <textarea placeholder="1. / 2. / 3."></textarea>
+  </div>
+
+  <div class="q" data-k="q8">
+    <p class="qn"><span class="dot"></span>Q8 · 열려 있는 것</p>
+    <p class="ask">아직 못 정한 것, 확인이 필요한 사실, 물어봐야 할 것은?</p>
+    <p class="hint">여기 적은 건 그대로 다음 작업 목록이 된다. 비워두지 말고
+      <b>"모른다"고 적는 것</b>이 낫다 — 복사해서 붙였을 때 이게 가장 먼저 처리할 항목이 된다.</p>
+    <textarea placeholder="확인 필요한 것들."></textarea>
+  </div>
+</section>
+
+<!-- ═══════════════ 3. 초안 검사 ═══════════════ -->
+<section>
+  <h2><span class="num">03 · 초안이 생긴 뒤</span>돌려볼 검사</h2>
+  <p class="sub">쓰는 동안엔 못 보이고, 다 쓰고 나서야 보이는 것들.</p>
+
+  <div class="check">
+    <label><input type="checkbox" class="cx" data-key="v1"><span><b>질문 검사</b> — 소개만 읽어주고 "지금 뭐가 궁금하세요?"라고 물었을 때, Q1에 적은 질문이 나오나?</span></label>
+    <label><input type="checkbox" class="cx" data-key="v2"><span><b>삭제 검사</b> — 각 장에 대해: 이걸 빼면 마지막 질문이 약해지나? 아니면 뺀다.</span></label>
+    <label><input type="checkbox" class="cx" data-key="v3"><span><b>순서 검사</b> — 병목(Q5)을 맨 앞으로 옮겨도 말이 되나? 되면 그렇게 한다. 대개 그게 더 세다.</span></label>
+    <label><input type="checkbox" class="cx" data-key="v4"><span><b>용어 검사</b> — 설명해야 하는 단어가 3개를 넘지 않나?</span></label>
+    <label><input type="checkbox" class="cx" data-key="v5"><span><b>숫자 검사</b> — 숫자가 하나뿐이고, 출처를 즉시 댈 수 있나?</span></label>
+    <label><input type="checkbox" class="cx" data-key="v6"><span><b>시간 검사</b> — 소리 내어 읽어서 3분을 넘지 않나? (눈으로 읽으면 항상 짧게 느껴진다)</span></label>
+    <label><input type="checkbox" class="cx" data-key="v7"><span><b>이음새 검사</b> — Q6의 문장이 정민님 덱의 첫 슬라이드와 자연스럽게 붙나?</span></label>
+    <label><input type="checkbox" class="cx" data-key="v8"><span><b>정직 검사</b> — 우리가 아직 안 만든 걸 만든 것처럼 들리는 문장이 없나?</span></label>
+  </div>
+</section>
+
+<!-- ═══════════════ 4. 실패 모드 ═══════════════ -->
+<section>
+  <h2><span class="num">04 · 자주 나는 사고</span>Physical AI 소개 특유의 함정</h2>
+  <p class="sub">일반적인 피치 조언이 아니라, 이 분야에서 반복해서 관찰되는 것들.</p>
+
+  <div class="wrap-x"><table>
+    <tr><th>함정</th><th>왜 망하나</th></tr>
+    <tr><td><b>휴머노이드 사진으로 시작</b></td><td>가장 잘 알려졌지만 가장 먼 것. 청중이 <em>"저건 아직 멀었잖아"</em>로 마음을 닫고, 그 뒤 문장이 전부 그 프레임에 갇힌다.</td></tr>
+    <tr><td><b>스택을 아래부터 설명</b></td><td>DOF → 액추에이터 → 역기구학 → 미들웨어. 배우는 순서로는 맞지만 <em>부품 설명</em>이지 판돈이 아니다. 비전문가는 스택에 관심이 없다.</td></tr>
+    <tr><td><b>"시장이 몇 조원"으로 시작</b></td><td>모두가 그렇게 시작한다. 그래서 아무도 안 듣는다. 숫자는 판돈을 <em>확인</em>시키는 데 쓰지 판돈을 <em>주장</em>하는 데 쓰지 않는다.</td></tr>
+    <tr><td><b>비유로 규모를 빌림</b></td><td>"인터넷 초창기 같다"로 <em>모양</em>을 빌리는 건 된다. 거기서 성장률이나 시장 크기까지 빌려오면 그건 지어낸 숫자가 된다.</td></tr>
+    <tr><td><b>경쟁사를 산업 소개에 넣음</b></td><td>방어적으로 들린다. 아직 아무도 우리를 의심하지 않았는데 변명이 먼저 나온 셈. 경쟁은 제품 파트의 일이다.</td></tr>
+    <tr><td><b>용어를 4개 이상 설명</b></td><td>4번째부터 청중은 듣기를 멈추고 <em>따라잡기</em>를 시작한다. 그 순간부터 뒤의 내용은 전달되지 않는다.</td></tr>
+  </table></div>
+
+  <div class="rule">
+    <p class="lbl">방향 주의</p>
+    <p>우리 저장소의 지식 문서는 <strong>두 방향이 섞여 있다.</strong>
+      <a href="/docs#knowledge%2F00-foundations.md">기초 지식 지도</a>는 <strong>아래→위</strong>(하드웨어 → 제어 → 미들웨어 → 모델)로 되어 있다 —
+      배우기엔 완벽하고 <strong>피칭엔 정확히 반대</strong>다.
+      반면 <a href="/docs#knowledge%2F05-robotics-company-atlas.md">기업 지도</a>는 <em>"돈과 병목은 어느 층에 있나"</em>로 시작한다 —
+      <strong>이건 이미 피치 방향</strong>이다. 재료를 가져올 땐 어느 쪽에서 가져오는지 의식하고 쓴다.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ 5. 재료 색인 ═══════════════ -->
+<section>
+  <h2><span class="num">05 · 재료 색인</span>근거는 이미 저장소에 있다</h2>
+  <p class="sub">백지에서 리서치하지 않는다. <b>조립</b>한다.</p>
+
+  <div class="wrap-x"><table>
+    <tr><th>하려는 말</th><th>어디에</th></tr>
+    <tr><td>돈과 병목이 스택 <b>어느 층</b>에 있나</td><td><a href="/docs#knowledge%2F05-robotics-company-atlas.md">기업 지도</a> §0</td></tr>
+    <tr><td>가치사슬 5층 (몸·손·눈·뇌·응용)</td><td>같은 문서 §1</td></tr>
+    <tr><td>산업별 지형 — 우주·국방·물류·제조·휴머노이드·건설</td><td>같은 문서 §2~§8</td></tr>
+    <tr><td>2025~26 <b>메가라운드 타임라인</b></td><td>같은 문서 §8.5</td></tr>
+    <tr><td>두 세계 — ROS 진영 vs 학습 진영</td><td><a href="/docs#knowledge%2F00-foundations.md">기초 지식 지도</a> §0</td></tr>
+    <tr><td><b>용어 정의</b> (층별)</td><td>같은 문서 §2</td></tr>
+    <tr><td>로봇 엔지니어 <b>일자리 숫자</b></td><td><a href="/docs#knowledge%2F01-job-market-ros-vs-physical-ai.md">일자리 시장</a> §1</td></tr>
+    <tr><td>시장이 <b>왜 지금</b> 열렸나 (3대 구조 변화)</td><td><a href="/docs#docs%2F02-market%2Fmarket-landscape.md">시장 지형</a> §1</td></tr>
+    <tr><td>미국 / 중국 플레이어</td><td>같은 문서 §3, §4</td></tr>
+    <tr><td>비어 있는 자리 (포지션 후보)</td><td>같은 문서 §5</td></tr>
+    <tr><td>엔터프라이즈 AI 지출 <code>$407B</code> · <code>86%</code></td><td><a href="/docs#docs%2F02-market%2Fglobal-market.md">글로벌 시장</a> §1</td></tr>
+    <tr><td>세 나라 세 가지 자금 엔진</td><td>같은 문서 §1</td></tr>
+    <tr><td>경쟁 교육 상품에 대한 <b>실제 불만</b></td><td><a href="/docs#docs%2F02-market%2Fhate-map.md">헤이트 맵</a></td></tr>
+    <tr><td>우리 포지셔닝 문장 (Madlibs)</td><td><a href="/docs#docs%2F03-positioning%2Fpositioning-and-pitch.md">포지셔닝</a> §숙제 B</td></tr>
+  </table></div>
+
+  <div class="rule blue">
+    <p class="lbl">이미 공개된 숫자만</p>
+    <p style="margin-bottom:0;">새 숫자를 만들지 않는다. 사이트에 이미 나가 있는 수치
+      (<code>$407B</code>, <code>86%</code>, SO-101 가격대)는 출처가 붙어 있어서 그대로 쓸 수 있고,
+      <strong>덱과 사이트가 어긋나지 않는다</strong>는 부수 효과도 있다.
+      질문이 들어왔을 때 "저희 사이트에 출처 있습니다"만큼 조용히 강한 답이 없다.</p>
+  </div>
+</section>
+
+<footer>
+  PHYSICAL SPARK · pit lane ·
+  <a href="/pitch.html">← 60초 덱</a> ·
+  <a href="/funding.html">자금 조달</a> ·
+  <a href="/docs">Playbook</a><br>
+  입력한 내용은 이 브라우저에만 저장된다(localStorage). 서버로 전송되지 않는다.
+</footer>
+
+</div><!-- /.wrap -->
+
+<div class="bar">
+  <button class="btn btn-go" id="copy" onclick="copyAll()">전부 복사</button>
+  <button class="btn btn-ghost" id="reset" onclick="resetAll()">초기화</button>
+  <span class="prog" id="prog"></span>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────────
+   The page is a worksheet, not a document. Answers live in localStorage under
+   PIT_KEY and never leave the browser. The copy button assembles them into one
+   markdown blob shaped to be pasted straight back into a Claude Code session —
+   so questions travel WITH the answers, and blanks are marked rather than
+   dropped, because a visible blank is the next task.
+   ───────────────────────────────────────────────────────────────────────── */
+const PIT_KEY = 'pit_answers';
+const areas = [...document.querySelectorAll('.q')];
+const boxes = [...document.querySelectorAll('.cx')];
+
+function load(){
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(PIT_KEY) || '{}'); } catch (e) {}
+  areas.forEach(q => {
+    const t = q.querySelector('textarea');
+    if (saved[q.dataset.k]) t.value = saved[q.dataset.k];
+  });
+  boxes.forEach(b => { b.checked = !!saved['chk_' + b.dataset.key]; });
+  paint();
+}
+
+function save(){
+  const out = {};
+  areas.forEach(q => { out[q.dataset.k] = q.querySelector('textarea').value; });
+  boxes.forEach(b => { out['chk_' + b.dataset.key] = b.checked; });
+  try { localStorage.setItem(PIT_KEY, JSON.stringify(out)); } catch (e) {}
+  paint();
+}
+
+/* green dot on answered questions + a count in the sticky bar */
+function paint(){
+  let n = 0;
+  areas.forEach(q => {
+    const filled = q.querySelector('textarea').value.trim().length > 0;
+    q.classList.toggle('filled', filled);
+    if (filled) n++;
+  });
+  const c = boxes.filter(b => b.checked).length;
+  document.getElementById('prog').innerHTML =
+    '질문 <b>' + n + '</b>/' + areas.length + ' · 검사 <b>' + c + '</b>/' + boxes.length;
+}
+
+areas.forEach(q => q.querySelector('textarea').addEventListener('input', save));
+boxes.forEach(b => b.addEventListener('change', save));
+
+/* ── assemble the paste-ready blob ──────────────────────────────────────── */
+function blob(){
+  const d = new Date();
+  const stamp = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  let out = '# Physical AI 산업 소개 — 스켈레톤 작업본\n';
+  out += '> pit.html에서 작성 · ' + stamp + '\n\n';
+
+  areas.forEach(q => {
+    const label = q.querySelector('.qn').textContent.trim();
+    const ask = q.querySelector('.ask').textContent.trim();
+    const val = q.querySelector('textarea').value.trim();
+    out += '## ' + label + '\n**' + ask + '**\n\n' + (val || '_(아직 비어 있음)_') + '\n\n';
+  });
+
+  const done = boxes.filter(b => b.checked);
+  const todo = boxes.filter(b => !b.checked);
+  out += '## 초안 검사\n';
+  if (done.length) out += done.map(b => '- [x] ' + b.nextElementSibling.textContent.trim()).join('\n') + '\n';
+  if (todo.length) out += todo.map(b => '- [ ] ' + b.nextElementSibling.textContent.trim()).join('\n') + '\n';
+  return out;
+}
+
+function copyAll(){
+  const btn = document.getElementById('copy');
+  const text = blob();
+  const ok = () => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = '전부 복사'; btn.classList.remove('done'); }, 1800);
+  };
+  /* the async clipboard API needs a secure context; fall back for file:// and http */
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(ok, () => legacy(text, ok));
+  } else {
+    legacy(text, ok);
+  }
+}
+
+function legacy(text, ok){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-1000px;left:0;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); ok(); }
+  catch (e) { alert('복사에 실패했습니다. 텍스트를 직접 선택해 주세요.'); }
+  document.body.removeChild(ta);
+}
+
+/* two-click reset — a confirm() dialog would block the page, and losing a
+   morning of writing to one stray click is worse than an extra tap */
+let armed = false, armTimer = null;
+function resetAll(){
+  const btn = document.getElementById('reset');
+  if (!armed){
+    armed = true;
+    btn.textContent = '정말 지울까요? 다시 누르면 삭제';
+    armTimer = setTimeout(() => { armed = false; btn.textContent = '초기화'; }, 4000);
+    return;
+  }
+  clearTimeout(armTimer);
+  armed = false;
+  btn.textContent = '초기화';
+  areas.forEach(q => { q.querySelector('textarea').value = ''; });
+  boxes.forEach(b => { b.checked = false; });
+  save();
+}
+
+load();
+</script>
+
+<script src="/nav.js"></script>
+</body>
+</html>

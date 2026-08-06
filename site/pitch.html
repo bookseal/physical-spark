@@ -64,6 +64,11 @@
     padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;}
   .tbtn:hover{border-color:var(--red); color:var(--red);}
   .tbtn.on{background:var(--red); border-color:var(--red); color:#fff;}
+  /* The door to the workbench. Presentation mode is for SHOWING the deck; overview
+     mode is for WORKING on it — and nobody being pitched to presses O. So the link
+     out to pit.html exists only once you have already opened the deck up to edit it. */
+  .pitlink{display:none; text-decoration:none; align-items:center; gap:5px;}
+  body.ov .pitlink{display:inline-flex;}
 
   /* ── the slide ────────────────────────────────────────────────────────── */
   .stage{position:relative; z-index:1; height:100%; display:flex; align-items:center; justify-content:center;
@@ -244,6 +249,7 @@
     <button class="tbtn on" id="btn-auto" onclick="toggleAuto()">Auto A</button>
     <button class="tbtn on" id="btn-script" onclick="togglePrompter()">Script S</button>
     <button class="tbtn" id="btn-ov" onclick="toggleOverview()">Overview O</button>
+    <a class="tbtn pitlink" href="/pit.html" title="피트레인 — 산업 소개 스켈레톤 작업대">PIT ↗</a>
   </span>
 </div></div>
 
