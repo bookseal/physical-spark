@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Real people stranded on one cliff edge and unfilled roles drawn as dashed outlines on the other, with a red arch spanning the gap between them</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- the two edges, and the gap that has no floor -->
+    <path d="M52 208h206v62" stroke-width="9"/>
+    <path d="M462 270v-62h206" stroke-width="9"/>
+
+    <!-- the people who are already here -->
+    <g stroke-width="7">
+      <circle cx="92" cy="152" r="13" fill="#fbf5e9"/>
+      <path d="M72 196v-10a20 20 0 0 1 40 0v10z" fill="#fbf5e9"/>
+      <circle cx="152" cy="152" r="13" fill="#fbf5e9"/>
+      <path d="M132 196v-10a20 20 0 0 1 40 0v10z" fill="#fbf5e9"/>
+      <circle cx="212" cy="152" r="13" fill="#fbf5e9"/>
+      <path d="M192 196v-10a20 20 0 0 1 40 0v10z" fill="#fbf5e9"/>
+    </g>
+
+    <!-- the roles nobody can fill: the same shape, drawn as an outline of nothing -->
+    <g stroke-width="6" stroke-dasharray="6 7">
+      <circle cx="508" cy="152" r="13"/>
+      <path d="M488 196v-10a20 20 0 0 1 40 0v10"/>
+      <circle cx="568" cy="152" r="13"/>
+      <path d="M548 196v-10a20 20 0 0 1 40 0v10"/>
+      <circle cx="628" cy="152" r="13"/>
+      <path d="M608 196v-10a20 20 0 0 1 40 0v10"/>
+    </g>
+
+    <!-- the crossing -->
+    <path d="M258 204C300 130 420 130 462 204" stroke="#e0442e" stroke-width="12"/>
+    <path d="M300 168v36M360 148v56M420 168v36" stroke="#e0442e" stroke-width="7"/>
+  </g>
+</svg>
