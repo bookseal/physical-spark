@@ -30,6 +30,7 @@
     <!-- the face of being seen -->
     <g class="lit" stroke-width="7">
       <circle cx="590" cy="156" r="62" fill="#e6a413"/>
+      <path d="M558 114q7-28 37-22" stroke-width="7"/>
       <path d="M562 138q13-13 26 0" stroke-width="8"/>
       <path d="M596 138q13-13 26 0" stroke-width="8"/>
       <path d="M560 174q30 28 60 0" stroke-width="8" fill="#fbf5e9"/>

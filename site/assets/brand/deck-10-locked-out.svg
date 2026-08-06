@@ -27,6 +27,9 @@
 
     <!-- the person, on this side of it, not asking -->
     <circle cx="382" cy="176" r="42" fill="#e6a413" stroke-width="7"/>
+    <!-- one curl of hair: the only thing that marks him as the same person
+         on slides 8, 12 and 18. Keep it identical everywhere. -->
+    <path d="M360 140q5-19 25-15" stroke-width="6"/>
     <path d="M364 168q9 8 18 0" stroke-width="6"/>
     <path d="M386 168q9 8 18 0" stroke-width="6"/>
     <path d="M368 198h28" stroke-width="6"/>

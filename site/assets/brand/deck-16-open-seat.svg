@@ -1,37 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
-  <title>Four people standing together and a fifth outline left open, with an arrow pointing into the gap</title>
+  <title>Four people standing together, one of them the person we have been following, with a fifth place still open beside them</title>
   <style>
-    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
-       running. The resting state below is the finished drawing; only keyframes
-       remove anything, so if animation never runs the picture is still whole. */
+    /* Loops, not one-shots — a beat is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away. */
     @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
     .invite{animation:nudge 2.4s ease-in-out infinite;}
     @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(16px)}}
     .seat{animation:waiting 2.4s ease-in-out infinite;}
     @keyframes waiting{0%,100%{opacity:.5}50%{opacity:1}}
   </style>
-  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
 
-    <!-- the people already here -->
-    <g stroke-width="8">
-      <circle cx="92" cy="128" r="24" fill="#fbf5e9"/>
-      <path d="M56 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
-      <circle cx="196" cy="128" r="24" fill="#fbf5e9"/>
-      <path d="M160 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
-      <circle cx="300" cy="128" r="24" fill="#fbf5e9"/>
-      <path d="M264 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
-      <circle cx="404" cy="128" r="24" fill="#fbf5e9"/>
-      <path d="M368 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
+    <!-- the ground they are standing on -->
+    <path d="M46 250h628" stroke-width="5"/>
+
+    <!-- HIM. Same curl as slides 7, 8 and 12 — he made it across. -->
+    <circle cx="112" cy="180" r="46" fill="#e6a413"/>
+    <path d="M88 138q7-21 28-16" stroke-width="6"/>
+    <path d="M92 168q10-10 20 0" stroke-width="7"/>
+    <path d="M118 168q10-10 20 0" stroke-width="7"/>
+    <path d="M90 196q22 20 44 0" stroke-width="7" fill="#fbf5e9"/>
+
+    <!-- and the people already doing this with him -->
+    <g stroke-width="7">
+      <circle cx="238" cy="180" r="46" fill="#e6a413"/>
+      <circle cx="224" cy="172" r="6" fill="#2b211a" stroke="none"/>
+      <circle cx="252" cy="172" r="6" fill="#2b211a" stroke="none"/>
+      <path d="M222 200q16 10 32 0" stroke-width="7"/>
+
+      <circle cx="364" cy="180" r="46" fill="#e6a413"/>
+      <circle cx="350" cy="172" r="6" fill="#2b211a" stroke="none"/>
+      <circle cx="378" cy="172" r="6" fill="#2b211a" stroke="none"/>
+      <path d="M348 200q16 10 32 0" stroke-width="7"/>
+
+      <circle cx="490" cy="180" r="46" fill="#e6a413"/>
+      <circle cx="476" cy="172" r="6" fill="#2b211a" stroke="none"/>
+      <circle cx="504" cy="172" r="6" fill="#2b211a" stroke="none"/>
+      <path d="M474 200q16 10 32 0" stroke-width="7"/>
     </g>
 
     <!-- the place that is still open -->
-    <g stroke="#e0442e" stroke-width="7" stroke-dasharray="8 9" class="seat">
-      <circle cx="616" cy="128" r="24"/>
-      <path d="M580 214v-22a36 36 0 0 1 72 0v22"/>
+    <g class="seat" stroke="#e0442e" stroke-width="6" stroke-dasharray="9 10">
+      <circle cx="640" cy="180" r="46"/>
+      <circle cx="626" cy="172" r="5" stroke-dasharray="3 4"/>
+      <circle cx="654" cy="172" r="5" stroke-dasharray="3 4"/>
+      <path d="M624 200q16 10 32 0" stroke-dasharray="6 7"/>
     </g>
 
     <!-- for you -->
-    <g class="invite"><path d="M470 172h84" stroke="#e0442e" stroke-width="10"/>
-      <path d="M554 172l-22-14v28z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/></g>
+    <g class="invite">
+      <path d="M548 180h30" stroke="#e0442e" stroke-width="9"/>
+      <path d="M578 180l-18-12v24z" fill="#e0442e" stroke="#e0442e" stroke-width="6"/>
+    </g>
   </g>
 </svg>
