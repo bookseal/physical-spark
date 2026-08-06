@@ -1,36 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
-  <title>A queue of software product windows being swallowed by a large open mouth, the ones already inside reduced to dashed outlines</title>
+  <title>Someone watching the software they built being swallowed, the ones already inside reduced to dashed outlines</title>
   <style>
-    /* Loops, not one-shots. A slide is display:none until it is shown, but the SVG
-       document keeps running the whole time — a play-once animation would always
-       have finished before anyone saw it. */
+    /* Loops, not one-shots — a beat is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away. */
     @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
     .queue{animation:shuffle 3.4s cubic-bezier(.5,0,.5,1) infinite;}
-    @keyframes shuffle{0%,58%{transform:translateX(0)}82%,100%{transform:translateX(96px)}}
+    @keyframes shuffle{0%,58%{transform:translateX(0)}82%,100%{transform:translateX(84px)}}
     .gone{animation:swallow 3.4s ease-in-out infinite;}
     @keyframes swallow{0%,58%{opacity:1}80%,100%{opacity:0}}
   </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
-    <!-- products still standing -->
+    <!-- HIM. First appearance: it is happening to somebody. Same curl throughout. -->
+    <g stroke-width="7">
+      <circle cx="88" cy="152" r="40" fill="#e6a413"/>
+      <path d="M67 118q5-18 24-14" stroke-width="6"/>
+      <circle cx="76" cy="146" r="5" fill="#2b211a" stroke="none"/>
+      <circle cx="102" cy="146" r="5" fill="#2b211a" stroke="none"/>
+      <path d="M76 176q12-7 24 0" stroke-width="6"/>
+    </g>
+
+    <!-- what he built -->
     <g stroke-width="7" class="queue">
-      <rect x="46" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
-      <path d="M46 136h78"/>
-      <rect x="142" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
-      <path d="M142 136h78"/>
-      <rect x="238" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
-      <path d="M238 136h78"/>
+      <rect x="164" y="122" width="70" height="60" rx="9" fill="#fbf5e9"/>
+      <path d="M164 142h70"/>
+      <rect x="250" y="122" width="70" height="60" rx="9" fill="#fbf5e9"/>
+      <path d="M250 142h70"/>
+      <rect x="336" y="122" width="70" height="60" rx="9" fill="#fbf5e9"/>
+      <path d="M336 142h70"/>
     </g>
 
     <!-- going in: the same shape, with nothing left in it -->
     <g stroke-width="6" stroke-dasharray="7 8" class="gone">
-      <rect x="336" y="120" width="62" height="56" rx="8"/>
-      <rect x="418" y="128" width="44" height="40" rx="7"/>
+      <rect x="424" y="128" width="56" height="50" rx="8"/>
+      <rect x="496" y="134" width="40" height="38" rx="7"/>
     </g>
 
     <!-- the mouth, open toward them -->
-    <path d="M580 150 L502 105 A90 90 0 1 1 502 195 Z"
+    <path d="M600 152 L538 116 A72 72 0 1 1 538 188 Z"
           fill="#e0442e" stroke="#2b211a" stroke-width="8"/>
-    <circle cx="596" cy="112" r="10" fill="#fbf5e9" stroke="#2b211a" stroke-width="7"/>
+    <circle cx="614" cy="120" r="9" fill="#fbf5e9" stroke="#2b211a" stroke-width="6"/>
   </g>
 </svg>
