@@ -71,8 +71,13 @@
   body.ov .pitlink{display:inline-flex;}
 
   /* ── the slide ────────────────────────────────────────────────────────── */
-  .stage{position:relative; z-index:1; height:100%; display:flex; align-items:center; justify-content:center;
-    padding:78px 22px calc(64px + var(--prompter)); transition:padding .2s ease;}
+  /* PROJECTED, THE BOTTOM FIFTH OF THE SCREEN IS NOT THERE. Screens hang low, heads
+     are in the way, and the last 20% of a slide is read by nobody in the room. So the
+     stage fills from the TOP and permanently reserves that band — max() keeps whichever
+     is larger, the dead zone or the teleprompter, so rehearsing and presenting agree. */
+  .stage{position:relative; z-index:1; height:100%; display:flex; align-items:flex-start;
+    justify-content:center;
+    padding:70px 22px max(20vh, calc(56px + var(--prompter))); transition:padding .2s ease;}
   .beat{max-width:1140px; width:100%; display:none;}
   .beat.on{display:block; animation:pop .34s cubic-bezier(.2,.9,.3,1.2);}
   @keyframes pop{from{opacity:0; transform:translateY(14px) scale(.985);} to{opacity:1; transform:none;}}
