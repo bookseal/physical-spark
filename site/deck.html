@@ -137,8 +137,11 @@
   /* a card can carry more than one mark — now and before — so they sit in a row
      and share the slot rather than one of them setting the height alone */
   .person .org{margin-top:auto; display:flex; align-items:center; gap:14px;
-    min-height:34px; flex-wrap:wrap;}
-  .person .org img.mk{max-height:30px; max-width:46%; width:auto; display:block; object-fit:contain;}
+    min-height:30px; flex-wrap:wrap; gap:12px;}
+  /* up to three marks share the slot, so they are sized by height and allowed to
+     wrap — a wide wordmark next to a square one must not squash the others */
+  .person .org img.mk{max-height:24px; max-width:100%; width:auto; display:block;
+    object-fit:contain; flex:0 0 auto;}
   .person .org .wm{font-weight:900; font-size:14px; letter-spacing:-.01em; color:var(--fg);
     border:2px solid var(--fg); border-radius:8px; padding:5px 11px; white-space:nowrap;}
   .person.num{justify-content:center; gap:4px;}
@@ -434,15 +437,19 @@ const BEATS = [
       </div>
       <div class="person">
         <div class="nm">Gichan Lee</div>
-        <div class="rl">CPO · AI product engineer, KIBA</div>
-        <div class="org"><img class="mk" src="assets/brand/org-kiba.png" alt="KIBA" data-wm="한국경영분석연구원"></div>
+        <div class="rl">CPO · KIBA now · Concentrix, FPT before</div>
+        <div class="org">
+          <img class="mk" src="assets/brand/org-kiba.png" alt="KIBA" data-wm="KIBA">
+          <img class="mk" src="assets/brand/org-concentrix.png" alt="Concentrix" data-wm="CONCENTRIX">
+          <img class="mk" src="assets/brand/org-fpt.png" alt="FPT Software" data-wm="FPT">
+        </div>
       </div>
       <div class="person num">
         <div class="big">90%</div>
-        <div class="rl">bit habit · running 2 years</div>
+        <div class="rl">user retention · bit habit · 2 years</div>
       </div>
     </div>`,
-    say: 'Jungmin is our CEO — lead AI instructor at Eduwill, teaching AI at national scale, and before that an AI Platform Engineer at Upstage, Korea\'s document AI unicorn. I am Gichan, chief product officer, and an AI product engineer at KIBA. And we have run a habit app called bit habit together for over two years, at ninety percent retention. Keeping people is the hard part of everything I am about to describe.'
+    say: 'Jungmin is our CEO — lead AI instructor at Eduwill, teaching AI at national scale, and before that an AI Platform Engineer at Upstage, Korea\'s document AI unicorn. I am Gichan, chief product officer — an AI product engineer at KIBA now, and at Concentrix and FPT Software before that. And we have run a habit app called bit habit together for over two years, at ninety percent retention. Keeping people is the hard part of everything I am about to describe.'
   },
   {
     sec: 35, c: 'var(--red)', label: 'Developers',
@@ -451,7 +458,7 @@ const BEATS = [
     head: 'Developers cannot<br>get <em>hired.</em>',
     sub: 'The cause is AI, and it is not subtle.',
     html: `<div class="row">
-      <div class="tile"><div class="big">$1T</div><div class="cap">software value gone in seven days</div><div class="src">Feb 2026 · "the SaaSpocalypse"</div></div>
+      <div class="tile"><div class="big">$1T</div><div class="cap">of software market value, gone in a week</div><div class="src">Feb 2026 · "the SaaSpocalypse"</div></div>
       <div class="tile"><div class="big">5% → 40%</div><div class="cap">of apps get an AI agent by year end</div><div class="src">Gartner</div></div>
       <div class="tile"><div class="big">The new job</div><div class="cap">forward deployed engineer</div></div>
     </div>`,
@@ -464,8 +471,8 @@ const BEATS = [
     head: 'One job is hiring<br>like <em>crazy.</em>',
     sub: 'The forward deployed engineer — the person who puts AI inside a company.',
     html: `<div class="row">
-      <div class="tile"><div class="big">5% → 70%</div><div class="cap">of companies hiring one, in two quarters</div><div class="src">TechCrunch, Jul 2026</div></div>
-      <div class="tile"><div class="big">#1</div><div class="cap">hardest skill to hire, worldwide</div><div class="src">ManpowerGroup · 39,063 employers · 41 countries</div></div>
+      <div class="tile"><div class="big">5% → 70%</div><div class="cap">of companies hiring an FDE, in two quarters</div><div class="src">TechCrunch, Jul 2026</div></div>
+      <div class="tile"><div class="big">#1</div><div class="cap">AI is the hardest skill to hire, worldwide</div><div class="src">ManpowerGroup · 39,063 employers · 41 countries</div></div>
       <div class="tile"><div class="big">72%</div><div class="cap">of employers cannot fill roles</div><div class="src">same survey</div></div>
     </div>`,
     say: 'And yet one job is hiring like mad. At the start of this year, five to ten percent of companies planned to hire a forward deployed engineer. By the end of the second quarter it was seventy. And ManpowerGroup asked thirty-nine thousand employers across forty-one countries what is hardest to hire. For the first time on record, the answer was AI skills. So the jobs exist. They just cannot be filled.'
@@ -477,7 +484,7 @@ const BEATS = [
     head: 'The coding test is dead.<br>Now it is <em>take-homes.</em>',
     sub: 'Take-homes and hackathons. Candidates already train for them.',
     html: `<div class="row">
-      <div class="tile"><div class="big">17,000 / 2,000</div><div class="cap">claim it / can do it</div><div class="src">TechCrunch, Jul 2026</div></div>
+      <div class="tile"><div class="big">17,000 / 2,000</div><div class="cap">US engineers who claim it / who can do it</div><div class="src">TechCrunch, Jul 2026</div></div>
       <div class="tile"><div class="big">Coding test</div><div class="cap">measures what AI now does</div></div>
       <div class="tile"><div class="big">No veterans</div><div class="cap">the job is two years old</div></div>
     </div>`,
@@ -491,7 +498,7 @@ const BEATS = [
     sub: 'The body got cheap. The brain did not.',
     html: `<div class="row">
       <div class="tile"><div class="big">VLA</div><div class="cap">say it, and the arm moves</div></div>
-      <div class="tile"><div class="big">$130–250</div><div class="cap">an open source arm</div></div>
+      <div class="tile"><div class="big">$130–250</div><div class="cap">the price of an open source arm</div></div>
       <div class="tile"><div class="big">1,220</div><div class="cap">robots per 10,000 workers · Korea is first</div><div class="src">IFR World Robotics 2025</div></div>
     </div>`,
     say: 'Now look at robots. Five years ago you could say "move that box over there" and nothing happened. VLA changed that — you can tell a robot what to do in language. And an arm is a couple of hundred dollars. So next year those same companies want the same engineer, plus a factory floor. Korea has more robots per worker than anywhere on earth.'
