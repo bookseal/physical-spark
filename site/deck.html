@@ -585,17 +585,22 @@ const BEATS = [
     say: 'Here is what actually runs today: the missions, the leaderboard, and the whole loop working in the simulator. Not yet: uploading a run, the review gallery, and the record itself. Anything I have not shown you, I am telling you we plan to build — not that it exists.'
   },
   {
-    sec: 40, c: 'var(--amber)', label: 'Season one',
+    sec: 40, c: 'var(--amber)', label: 'How we get there',
     hero: 'assets/brand/deck-6-season-one.svg',
     heroAlt: 'A grid of thirty small circles with three filled red, beside a bar divided into six segments ending in a flag',
-    head: 'Thirty players.<br><em>Six weeks.</em>',
-    sub: 'Run in the open, starting from zero.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">30</div><div class="cap">enough reviewers that nobody grades their own grader</div></div>
-      <div class="tile"><div class="big">6 weeks</div><div class="cap">one full mission arc</div></div>
-      <div class="tile"><div class="big">Two numbers</div><div class="cap">finish rate, and reviews per run</div></div>
+    head: 'We are writing the missions<br>by <em>doing them.</em>',
+    sub: 'Then together. Then with the factories.',
+    /* The roadmap is three steps and the middle one is season one, which used to
+       stand alone as a promise. Standing alone it read as an experiment; standing
+       here it reads as the part where the loop starts turning, which is what it
+       actually is. Step three is also where beat 12's rubric comes from — we do
+       not get to co-write marking criteria until there is something to show. */
+    html: `<div class="stack">
+      <div class="lay"><span class="t">Now</span><span class="d">I am learning Physical AI and turning what I learn into the missions. That is the course.</span></div>
+      <div class="lay ours"><span class="t">Season one</span><span class="d">thirty players, six weeks, in the open — doing it together instead of alone</span></div>
+      <div class="lay"><span class="t">Then</span><span class="d">we ask factories what they actually need done, and those answers become the missions</span></div>
     </div>`,
-    say: 'Season one is thirty players over six weeks. Thirty is not ambition, it is a requirement — below that the same few people grade each other and the review stops meaning anything. I will come back with finish rate and reviews per run.'
+    say: 'Here is how we get there. Right now I am learning Physical AI and turning what I learn into the missions — that is the course. Season one is thirty players doing it together instead of alone, six weeks, run in the open, and I come back with finish rate and reviews per run. Then, once there is something to show, we go to the factories and ask what they actually need done. Those answers become the missions — and that is how the marking criteria end up written with them rather than by us.'
   },
   {
     sec: 35, c: 'var(--red)', label: 'The ask',
