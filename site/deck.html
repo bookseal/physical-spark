@@ -103,7 +103,11 @@
   .tile{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c);
     border-radius:14px; padding:13px 15px; box-shadow:0 5px 16px var(--shadow);}
   .tile .big{font-weight:900; font-size:clamp(17px,2.1vw,25px); line-height:1.15; letter-spacing:-.02em;}
-  .tile .cap{font-size:12px; color:var(--muted); margin-top:4px; line-height:1.45;}
+  /* Read from the back of a room, not from a laptop. Small grey type under a big
+     number is decoration; nobody in row three gets it. Keep captions to a few
+     words so this size still fits the card. */
+  .tile .cap{font-size:clamp(13px,1.35vw,16px); color:var(--fg); margin-top:6px;
+    line-height:1.32; font-weight:600; letter-spacing:-.005em;}
   .tile img{height:40px; width:auto; display:block; margin-bottom:8px;}
   .tile.plain{border-top-color:var(--line);}
   /* attribution under a borrowed number. Deliberately small and quiet — it has to be
@@ -150,7 +154,7 @@
   .stack .lay .n{font-family:ui-monospace,monospace; font-size:11.5px; font-weight:800;
     color:var(--muted); min-width:16px;}
   .stack .lay .t{font-weight:800; font-size:14px; min-width:135px;}
-  .stack .lay .d{color:var(--muted); font-size:12.5px; flex:1; min-width:180px;}
+  .stack .lay .d{color:var(--fg); font-size:clamp(12.5px,1.25vw,15px); flex:1; min-width:180px; font-weight:500;}
   .stack .lay.ours{border-left-color:var(--red);
     background:color-mix(in srgb,var(--red) 7%,var(--card));}
   .stack .lay.ours .t{color:var(--red);}
@@ -274,7 +278,7 @@
       padding-bottom:6px; -webkit-overflow-scrolling:touch;}
     .row::-webkit-scrollbar{display:none;}
     .tile{flex:0 0 70%; scroll-snap-align:start; padding:11px 13px; border-radius:12px;}
-    .tile .big{font-size:19px;} .tile .cap{font-size:11.5px;}
+    .tile .big{font-size:19px;} .tile .cap{font-size:13px;}
     .tile img{height:34px; margin-bottom:6px;}
     .loop{gap:7px; margin-top:14px;}
     .loop .node{padding:8px 11px; font-size:12px;} .loop .node span{font-size:9px;}
@@ -436,9 +440,9 @@ const BEATS = [
     head: 'Developers cannot<br>get <em>hired.</em>',
     sub: 'The cause is AI, and it is not subtle.',
     html: `<div class="row">
-      <div class="tile"><div class="big">$1T</div><div class="cap">wiped off software companies in seven days, February 2026 — the worst selloff in over a decade</div><div class="src">"the SaaSpocalypse"</div></div>
-      <div class="tile"><div class="big">5% → 40%</div><div class="cap">of company apps will carry an AI agent by the end of 2026</div><div class="src">Gartner</div></div>
-      <div class="tile"><div class="big">Who replaces it</div><div class="cap">forward deployed engineers — building inside one company what used to be bought off a shelf</div></div>
+      <div class="tile"><div class="big">$1T</div><div class="cap">software value gone in seven days</div><div class="src">Feb 2026 · "the SaaSpocalypse"</div></div>
+      <div class="tile"><div class="big">5% → 40%</div><div class="cap">of apps get an AI agent by year end</div><div class="src">Gartner</div></div>
+      <div class="tile"><div class="big">The new job</div><div class="cap">forward deployed engineer</div></div>
     </div>`,
     say: 'Start with what is happening to developers right now. In February, software companies lost more than a trillion dollars of value in a single week, on the fear that agents replace the products companies used to buy. Gartner expects an AI agent inside forty percent of company apps by the end of this year, up from under five. So the work is moving — away from building a product, toward deploying one inside somebody else\'s company. That job already has a name: forward deployed engineer.'
   },
@@ -449,9 +453,9 @@ const BEATS = [
     head: 'One job is hiring<br>like <em>crazy.</em>',
     sub: 'The forward deployed engineer — the person who puts AI inside a company.',
     html: `<div class="row">
-      <div class="tile"><div class="big">5% → 70%</div><div class="cap">companies planning to hire forward deployed engineers, Q1 to Q2 2026</div><div class="src">TechCrunch, Jul 2026</div></div>
-      <div class="tile"><div class="big">#1</div><div class="cap">AI skills are now the hardest to hire on earth — first time on record</div><div class="src">ManpowerGroup · 39,063 employers · 41 countries</div></div>
-      <div class="tile"><div class="big">72%</div><div class="cap">of employers cannot fill the roles they have open</div><div class="src">same survey</div></div>
+      <div class="tile"><div class="big">5% → 70%</div><div class="cap">of companies hiring one, in two quarters</div><div class="src">TechCrunch, Jul 2026</div></div>
+      <div class="tile"><div class="big">#1</div><div class="cap">hardest skill to hire, worldwide</div><div class="src">ManpowerGroup · 39,063 employers · 41 countries</div></div>
+      <div class="tile"><div class="big">72%</div><div class="cap">of employers cannot fill roles</div><div class="src">same survey</div></div>
     </div>`,
     say: 'And yet one job is hiring like mad. At the start of this year, five to ten percent of companies planned to hire a forward deployed engineer. By the end of the second quarter it was seventy. And ManpowerGroup asked thirty-nine thousand employers across forty-one countries what is hardest to hire. For the first time on record, the answer was AI skills. So the jobs exist. They just cannot be filled.'
   },
@@ -462,9 +466,9 @@ const BEATS = [
     head: 'The coding test is dead.<br>Now it is <em>take-homes.</em>',
     sub: 'Take-homes and hackathons. Candidates already train for them.',
     html: `<div class="row">
-      <div class="tile"><div class="big">17,000 / 2,000</div><div class="cap">on the US market, versus those who can actually deliver</div><div class="src">TechCrunch, Jul 2026</div></div>
-      <div class="tile"><div class="big">The coding test broke</div><div class="cap">it measured exactly the part AI now does for you</div></div>
-      <div class="tile"><div class="big">No veterans exist</div><div class="cap">the role is two years old. Experience cannot be the filter, because nobody has any.</div></div>
+      <div class="tile"><div class="big">17,000 / 2,000</div><div class="cap">claim it / can do it</div><div class="src">TechCrunch, Jul 2026</div></div>
+      <div class="tile"><div class="big">Coding test</div><div class="cap">measures what AI now does</div></div>
+      <div class="tile"><div class="big">No veterans</div><div class="cap">the job is two years old</div></div>
     </div>`,
     say: 'Because nobody can tell who is real. One study counted seventeen thousand forward deployed engineers on the US market, and about two thousand who can actually deliver. The coding test cannot separate them — it measured exactly the part AI now does for you. And nobody has ten years in a role that is two years old. So what is left is take-home projects and hackathons, and candidates now train for those instead of for interviews.'
   },
@@ -475,9 +479,9 @@ const BEATS = [
     head: 'Next year the same problem<br>hits <em>robots.</em>',
     sub: 'The body got cheap. The brain did not.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Say it, and it moves</div><div class="cap">five years ago "move that box" did nothing. VLA changed that.</div></div>
-      <div class="tile"><div class="big">$130–250</div><div class="cap">an open source arm. Hardware stopped being the barrier.</div></div>
-      <div class="tile"><div class="big">1,220</div><div class="cap">robots per 10,000 manufacturing workers — Korea, first in the world, 4× the US</div><div class="src">IFR World Robotics 2025</div></div>
+      <div class="tile"><div class="big">VLA</div><div class="cap">say it, and the arm moves</div></div>
+      <div class="tile"><div class="big">$130–250</div><div class="cap">an open source arm</div></div>
+      <div class="tile"><div class="big">1,220</div><div class="cap">robots per 10,000 workers · Korea is first</div><div class="src">IFR World Robotics 2025</div></div>
     </div>`,
     say: 'Now look at robots. Five years ago you could say "move that box over there" and nothing happened. VLA changed that — you can tell a robot what to do in language. And an arm is a couple of hundred dollars. So next year those same companies want the same engineer, plus a factory floor. Korea has more robots per worker than anywhere on earth.'
   },
@@ -487,9 +491,9 @@ const BEATS = [
     head: 'With robots,<br>even that <em>breaks.</em>',
     sub: 'You cannot post a take-home that needs hardware.',
     html: `<div class="row">
-      <div class="tile"><div class="big">No take-home</div><div class="cap">you cannot mail somebody an arm, a bench and two days of setup</div></div>
-      <div class="tile"><div class="big">No veterans</div><div class="cap">the job does not exist yet, so nobody has done it before</div></div>
-      <div class="tile"><div class="big">No recruiter</div><div class="cap">nobody in hiring can watch a robot run and say whether it was any good</div></div>
+      <div class="tile"><div class="big">No take-home</div><div class="cap">you cannot mail them an arm</div></div>
+      <div class="tile"><div class="big">No veterans</div><div class="cap">the job does not exist yet</div></div>
+      <div class="tile"><div class="big">No recruiter</div><div class="cap">cannot judge a robot run</div></div>
     </div>`,
     say: 'Now ask what happens when the same wave reaches robots. The take-home breaks first — you cannot post an assignment that needs an arm, a bench and two days of setup. There are no veterans, because the job does not exist yet. And no recruiter can watch a robot run and tell you whether it was any good. Every tool they have just stopped working.'
   },
@@ -500,9 +504,9 @@ const BEATS = [
     head: 'Developers on one side.<br>Open jobs on the <em>other.</em>',
     sub: 'Nothing in between. That gap is the company.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Developers</div><div class="cap">plenty of them, looking. Nothing on a CV proves they can do this new job.</div></div>
-      <div class="tile"><div class="big">Companies</div><div class="cap">plenty of open roles. No way to tell who can actually do it.</div></div>
-      <div class="tile" style="--c:var(--red)"><div class="big">Us</div><div class="cap">the crossing. Every attempt recorded, so both sides can see each other.</div></div>
+      <div class="tile"><div class="big">Developers</div><div class="cap">looking. Cannot prove it.</div></div>
+      <div class="tile"><div class="big">Companies</div><div class="cap">hiring. Cannot tell who.</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">Us</div><div class="cap">every attempt on record</div></div>
     </div>`,
     say: 'So here is the shape. On one side, developers who cannot get hired, with nothing on a CV that proves they can do this. On the other, companies with open roles and no way to tell who is real. Neither side can reach the other. We are the crossing.'
   },
@@ -513,9 +517,9 @@ const BEATS = [
     head: 'With software you can practise.<br>With robots you <em>cannot.</em>',
     sub: 'This is the part that is different, and worse.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Software</div><div class="cap">an API key and a laptop. You can build something tonight.</div></div>
-      <div class="tile"><div class="big">Robots</div><div class="cap">hardware, somewhere to put it, and no idea what to learn first</div></div>
-      <div class="tile"><div class="big">And no feedback</div><div class="cap">nobody grades your run, so you cannot tell whether you are getting better</div></div>
+      <div class="tile"><div class="big">Software</div><div class="cap">an API key and a laptop</div></div>
+      <div class="tile"><div class="big">Robots</div><div class="cap">hardware, space, no map</div></div>
+      <div class="tile"><div class="big">No feedback</div><div class="cap">nobody grades your run</div></div>
     </div>`,
     say: 'But robotics has a second problem software does not have. To practise AI engineering you need an API key and a laptop. To practise robotics you need hardware, somewhere to put it, and someone to tell you what to learn first. And nobody grades your work, so you cannot tell whether you are improving. That is why developers do not cross. It is not fear. There is no way in.'
   },
@@ -528,9 +532,9 @@ const BEATS = [
     head: 'I was going to learn this<br><em>alone.</em>',
     sub: 'That turned out to be the worst possible plan.',
     html: `<div class="row">
-      <div class="tile"><div class="big">My day job</div><div class="cap">AI product engineer — automating work with models, inside a company</div></div>
-      <div class="tile"><div class="big">What is coming</div><div class="cap">the same work, on machines that move. I wanted to be ready for it.</div></div>
-      <div class="tile"><div class="big">The turn</div><div class="cap">alone is slow, and proves nothing to anyone. There are a lot of people exactly like me.</div></div>
+      <div class="tile"><div class="big">My day job</div><div class="cap">automating work with models</div></div>
+      <div class="tile"><div class="big">What is coming</div><div class="cap">the same work, on machines</div></div>
+      <div class="tile"><div class="big">The turn</div><div class="cap">alone proves nothing</div></div>
     </div>`,
     say: 'A word on why this exists. My day job is automating work with models inside a company. Looking at what is coming, I wanted to learn Physical AI, and I was going to do it alone. Then it was obvious that alone is slow and proves nothing to a hiring manager — and that there are a lot of people exactly like me. So I am building the course as I learn it.'
   },
@@ -541,9 +545,9 @@ const BEATS = [
     head: 'So we made a course<br>you can start <em>tonight.</em>',
     sub: 'Simulator tonight. A real arm when you want one.',
     html: `<div class="row">
-      <div class="tile"><img src="assets/brand/mission-1-pat.svg" alt=""><div class="big" style="font-size:17px">Pat me on the back</div><div class="cap">an easy first win — on purpose</div></div>
-      <div class="tile"><img src="assets/brand/mission-2-pick.svg" alt=""><div class="big" style="font-size:17px">Pick &amp; place</div><div class="cap">the steps that get harder</div></div>
-      <div class="tile"><img src="assets/brand/mission-3-light.svg" alt=""><div class="big" style="font-size:17px">Red Light, Green Light</div><div class="cap">no right answer — so grading each other is the only way</div></div>
+      <div class="tile"><img src="assets/brand/mission-1-pat.svg" alt=""><div class="big" style="font-size:17px">Pat me on the back</div><div class="cap">an easy first win</div></div>
+      <div class="tile"><img src="assets/brand/mission-2-pick.svg" alt=""><div class="big" style="font-size:17px">Pick &amp; place</div><div class="cap">it gets harder</div></div>
+      <div class="tile"><img src="assets/brand/mission-3-light.svg" alt=""><div class="big" style="font-size:17px">Red Light, Green Light</div><div class="cap">no right answer</div></div>
     </div>`,
     say: 'A mission map that starts in a simulator, so you begin tonight with no robot and no money. Mission one is deliberately easy — the arm pats you on the back. Then pick and place. Then an open problem with no right answer at all. And the missions are written in the open: the people doing them help write the next one.'
   },
@@ -554,10 +558,10 @@ const BEATS = [
     head: 'Then we make it<br>a <em>competition.</em>',
     sub: 'A season with fixed dates, and a board.',
     html: `<div class="row">
-      <div class="tile"><div class="big">PLAY</div><div class="cap">one attempt, timestamped</div></div>
-      <div class="tile"><div class="big">POST</div><div class="cap">a video of your run</div></div>
-      <div class="tile"><div class="big">REVIEW</div><div class="cap">somebody else's</div></div>
-      <div class="tile"><div class="big">RISE</div><div class="cap">move up the board</div></div>
+      <div class="tile"><div class="big">PLAY</div><div class="cap">one attempt</div></div>
+      <div class="tile"><div class="big">POST</div><div class="cap">a video of it</div></div>
+      <div class="tile"><div class="big">REVIEW</div><div class="cap">somebody else's run</div></div>
+      <div class="tile"><div class="big">RISE</div><div class="cap">up the board</div></div>
     </div>`,
     say: 'Then we make it a competition. A season with fixed dates, and a leaderboard. You play a mission, you post a video of your run, you review somebody else\'s, you move up the board. People finish things when other people are watching. That is the whole reason our last app held ninety percent.'
   },
@@ -568,9 +572,9 @@ const BEATS = [
     head: 'Players grade<br><em>each other.</em>',
     sub: 'The École 42 model, moved onto robots.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Video is the test</div><div class="cap">the arm did it, or it did not. Nothing to argue about.</div></div>
-      <div class="tile"><div class="big">Peers grade peers</div><div class="cap">no answer key. The run is the evidence.</div></div>
-      <div class="tile"><div class="big">Written feedback</div><div class="cap">attached to the run — the thing nobody gets when they learn alone</div></div>
+      <div class="tile"><div class="big">Video is the test</div><div class="cap">it worked, or it did not</div></div>
+      <div class="tile"><div class="big">Peers grade peers</div><div class="cap">no answer key</div></div>
+      <div class="tile"><div class="big">Written feedback</div><div class="cap">attached to the run</div></div>
     </div>`,
     say: 'And they grade each other. You cannot test a robot skill with a quiz — either the arm did the thing or it did not, and the video shows which. So players review each other, the way École 42 does it with code. Every review leaves written feedback attached to a run. That is exactly what nobody gets learning alone.'
   },
@@ -581,9 +585,9 @@ const BEATS = [
     head: 'We become the headhunter<br>for <em>Physical AI.</em>',
     sub: 'Except the judgement already happened, on video, by peers.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Not a certificate</div><div class="cap">a list of attempts, each with video, reviews and a date</div></div>
-      <div class="tile" style="--c:var(--red)"><div class="big">They write the rubric</div><div class="cap">we set the marking criteria with the people who do the hiring, so the record already means something to them</div></div>
-      <div class="tile"><div class="big">What we sell</div><div class="cap">the shortlist — to the companies that cannot build one themselves</div></div>
+      <div class="tile"><div class="big">Not a certificate</div><div class="cap">a list of graded attempts</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">They write the rubric</div><div class="cap">companies set the criteria</div></div>
+      <div class="tile"><div class="big">What we sell</div><div class="cap">the shortlist</div></div>
     </div>`,
     say: 'So that is what we become. A headhunter for Physical AI — except we are not judging from a CV and a phone call. The judgement already happened, on video, by peers, against criteria we wrote with the companies who will be doing the hiring. What piles up is a list of attempts that cannot be faked. What we sell is the shortlist, to the companies that cannot build one themselves.'
   },
@@ -596,8 +600,8 @@ const BEATS = [
     head: 'What is live,<br>and what is <em>not.</em>',
     sub: 'Running today, versus written down as an intention.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Live</div><div class="cap">the missions, the leaderboard, and the loop running end to end in simulation</div></div>
-      <div class="tile"><div class="big">Not yet</div><div class="cap">uploading a run, the review gallery, and the record itself</div></div>
+      <div class="tile"><div class="big">Live</div><div class="cap">missions · leaderboard · the loop in sim</div></div>
+      <div class="tile"><div class="big">Not yet</div><div class="cap">run upload · gallery · the record</div></div>
     </div>`,
     say: 'Here is what actually runs today: the missions, the leaderboard, and the whole loop working in the simulator. Not yet: uploading a run, the review gallery, and the record itself. Anything I have not shown you, I am telling you we plan to build — not that it exists.'
   },
@@ -619,16 +623,21 @@ const BEATS = [
     say: 'Here is how we get there. Right now I am learning Physical AI and turning what I learn into the missions — that is the course. Season one is thirty players doing it together instead of alone, six weeks, run in the open, and I come back with finish rate and reviews per run. Then, once there is something to show, we go to the factories and ask what they actually need done. Those answers become the missions — and that is how the marking criteria end up written with them rather than by us.'
   },
   {
-    sec: 35, c: 'var(--red)', label: 'The ask',
+    sec: 35, c: 'var(--red)', label: 'Join us',
     hero: '', heroAlt: '',
-    head: 'We are not naming a number.<br>We are going to <em>earn it.</em>',
-    sub: 'We would rather earn the number than guess at it.',
+    head: 'Want to build<br>this <em>with us?</em>',
+    sub: 'Play it, then help write the next one.',
+    /* The deck deliberately does not close on a number. The economics are still
+       said out loud — free to play, players do the grading, servers are the only
+       cost that grows — but the last thing on the wall is an invitation. In a VC
+       room that reads stronger than an ask: a room can decline a request, and it
+       cannot decline something that is already happening without them. */
     html: `<div class="row">
-      <div class="tile"><div class="big">Free to play</div><div class="cap">nothing stands between a developer and their first run</div></div>
-      <div class="tile"><div class="big">$0 to grade</div><div class="cap">the most expensive step in this business is done by the players</div></div>
-      <div class="tile"><div class="big">Servers</div><div class="cap">the only cost that grows with players. Season one tells us how fast.</div></div>
+      <div class="tile"><div class="big">Play it</div><div class="cap">free, tonight, in the simulator</div></div>
+      <div class="tile"><div class="big">Build it</div><div class="cap">write the mission that comes next</div></div>
+      <div class="tile" style="--c:var(--teal)"><div class="big">Bring a problem</div><div class="cap">run a factory? we will make it a mission</div></div>
     </div>`,
-    say: 'Playing is free. Grading costs us nothing, because the players do it. Our only real cost is servers. Season one tells us how fast that scales, and what raise we have earned the right to ask for. That is the number I want you to watch.'
+    say: 'So the ask is not money. Playing is free, the players do the grading, and our only real cost is servers. What I actually want is people to build this with. Play a mission tonight in the simulator, then help write the next one, the way an open source contributor would. And if you run a factory, bring us the thing you need done — we will turn it into a mission.'
   },
 ];
 
