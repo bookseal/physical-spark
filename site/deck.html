@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Physical Spark — the 60-second pitch</title>
-<meta name="description" content="Physical Spark in sixty seconds. Every beat carries a time budget, and the words you say sit on a teleprompter under the slide.">
+<title>Physical Spark — the 10-minute pitch</title>
+<meta name="description" content="Physical Spark in ten minutes. Seventeen beats on a time budget, with the words you say on a teleprompter under the slide.">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
-<link rel="canonical" href="https://physical-spark.bit-habit.com/pitch.html">
+<link rel="canonical" href="https://physical-spark.bit-habit.com/deck.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Physical Spark">
-<meta property="og:title" content="Physical Spark — the 60-second pitch">
-<meta property="og:description" content="Physical Spark in sixty seconds. Every beat carries a time budget, and the words you say sit on a teleprompter under the slide.">
-<meta property="og:url" content="https://physical-spark.bit-habit.com/pitch.html">
+<meta property="og:title" content="Physical Spark — the 10-minute pitch">
+<meta property="og:description" content="Physical Spark in ten minutes. Seventeen beats on a time budget, with the words you say on a teleprompter under the slide.">
+<meta property="og:url" content="https://physical-spark.bit-habit.com/deck.html">
 <meta property="og:image" content="https://physical-spark.bit-habit.com/assets/hero-rally-poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Physical Spark — the 60-second pitch">
-<meta name="twitter:description" content="Physical Spark in sixty seconds. Every beat carries a time budget, and the words you say sit on a teleprompter under the slide.">
+<meta name="twitter:title" content="Physical Spark — the 10-minute pitch">
+<meta name="twitter:description" content="Physical Spark in ten minutes. Seventeen beats on a time budget, with the words you say on a teleprompter under the slide.">
 <meta name="twitter:image" content="https://physical-spark.bit-habit.com/assets/hero-rally-poster.jpg">
 <style>
   /* palette inherited from site/index.html — one warm-light "Re-Volt" mood, no dark mode */
@@ -51,7 +51,7 @@
   .logo{color:inherit; text-decoration:none;}
   .logo:hover b{text-decoration:underline;}
   .logo b{color:var(--red);}
-  .budget{flex:1; display:flex; gap:3px; height:12px; min-width:120px;}
+  .budget{flex:1; display:flex; gap:2px; height:12px; min-width:120px;}
   .seg{flex:var(--w); background:var(--bg2); border:1px solid var(--line); border-radius:3px;
     position:relative; overflow:hidden; cursor:pointer;}
   .seg i{position:absolute; inset:0; width:0%; background:var(--sc); display:block;}
@@ -102,6 +102,29 @@
   .tile .cap{font-size:12px; color:var(--muted); margin-top:4px; line-height:1.45;}
   .tile img{height:40px; width:auto; display:block; margin-bottom:8px;}
   .tile.plain{border-top-color:var(--line);}
+  /* attribution under a borrowed number. Deliberately small and quiet — it has to be
+     there so the claim is checkable, without competing with the number itself. */
+  .tile .src{font-size:10.5px; color:var(--muted); margin-top:6px; letter-spacing:.02em;
+    border-top:1px dashed var(--line); padding-top:5px; line-height:1.35;}
+
+  /* the stack — used once, on the positioning beat. A vertical ladder because the
+     point is which rung we stand on, not what the rungs are. Only the rungs we
+     actually take get the red edge; the rest are deliberately quiet. */
+  .stack{margin-top:20px; display:grid; gap:6px;}
+  .stack .lay{display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    background:var(--card); border:1px solid var(--line); border-left:5px solid var(--line);
+    border-radius:11px; padding:9px 14px; box-shadow:0 3px 10px var(--shadow);}
+  .stack .lay .n{font-family:ui-monospace,monospace; font-size:12px; font-weight:800;
+    color:var(--muted); min-width:18px;}
+  .stack .lay .t{font-weight:800; font-size:15px; min-width:140px;}
+  .stack .lay .d{color:var(--muted); font-size:13px; flex:1; min-width:180px;}
+  .stack .lay.ours{border-left-color:var(--red);
+    background:color-mix(in srgb,var(--red) 7%,var(--card));}
+  .stack .lay.ours .t{color:var(--red);}
+  @media (max-width:820px){
+    .stack{gap:4px;} .stack .lay{padding:7px 11px; gap:8px;}
+    .stack .lay .t{font-size:13px; min-width:110px;} .stack .lay .d{font-size:11.5px;}
+  }
 
   @media (max-width:900px){
     .split{grid-template-columns:1fr; gap:18px;}
@@ -244,12 +267,12 @@
 <div class="hud"><div class="hud-in">
   <a class="logo" href="/" title="Physical Spark — home"><img src="assets/brand/logo-mark.svg" alt=""> Physical<b>&nbsp;Spark</b></a>
   <div class="budget" id="budget"></div>
-  <span class="clock mono" id="clock">0:00 / 1:00</span>
+  <span class="clock mono" id="clock">0:00 / 10:00</span>
   <span class="tools">
     <button class="tbtn on" id="btn-auto" onclick="toggleAuto()">Auto A</button>
     <button class="tbtn on" id="btn-script" onclick="togglePrompter()">Script S</button>
     <button class="tbtn" id="btn-ov" onclick="toggleOverview()">Overview O</button>
-    <a class="tbtn pitlink" href="/deck.html" title="The 10-minute version">10min ↗</a>
+    <a class="tbtn pitlink" href="/pitch.html" title="The 60-second version">60s ↗</a>
     <a class="tbtn pitlink" href="/pit.html" title="피트레인 — 작업대">PIT ↗</a>
   </span>
 </div></div>
@@ -277,130 +300,274 @@
 
 <script>
 /* ─────────────────────────────────────────────────────────────────────────
-   BEATS — the 60-second pitch, as data.
+   BEATS — the 10-minute pitch, as data.
 
-   AUDIENCE: an investor. Every beat answers a question a fund actually asks,
-   in the order they ask it — what is it, why now, what do you know that we do
-   not, why does it not get eaten, why you, what do you want. The long-form
-   version of this same argument is company.html; this is the elevator.
+   AUDIENCE: an investor. Only an investor. An earlier draft tried to serve a
+   competition jury as well and the two rooms want opposite things — a jury will
+   admit it does not know the field and needs the terms opened up, an investor
+   will not admit it and needs the interpretation instead. Serving both blunted
+   every beat. This deck picks the investor.
 
-   THE CLOSE IS A NUMBER WE HAVE NOT EARNED YET. Raising is the goal. What the
-   deck refuses to do is name a figure before season one has told us what the
-   server bill actually looks like under load. Said out loud that reads as
-   discipline rather than hedging: we are not guessing at a raise, we are going
-   to go and find out what to ask for.
+   Four acts, nineteen beats, 600 seconds exactly. Same engine as pitch.html,
+   so a renderer fix in either is worth porting to the other.
 
-   The long-form version of the same position is the strategy memo, now at
-   docs/07-strategy/us-vc-connections.html §4 (it used to be site/funding.html).
-   Its §4 was rewritten on 2026-08-03 to match: raising is the goal, the shape
-   of the money is the condition. Keep the two in step — an investor who reads
-   both will notice if they drift.
+     ACT 1  beats 1-6    2:50   the setup     — why the room should care
+     ACT 2  beats 7-12   3:15   the product   — what we built, and where it sits
+     ACT 3  beats 13-16  2:15   the business  — what accumulates, and who pays
+     ACT 4  beats 17-19  1:40   the ask       — why us, and what we want
 
-   `say` is the script, written to be read aloud verbatim and to flow from one
-   beat into the next. Read beats 1→6 back to back and you have the whole pitch.
-   `sec` values must sum to 60; the budget bar derives its widths from them.
-   Delivery runs ~2.5 words/second, so an 8s beat is ~20 words — the teleprompter
-   shows a live word count against that budget and turns red when a beat is overwritten.
+   Act 1 is the industry intro worked out on pit.html, translated and widened.
+   Its job is to plant one question by the end of beat 4 — "how would you even
+   spot that person?" — so beat 6 can answer it. Do not reorder that act:
+   leading with the bottleneck makes the room hear an education company, and
+   after that everything gets measured against bootcamps.
+
+   Beats 3-5 are the only place with borrowed numbers, and every one of them is
+   attributed on the slide. Do not add a number here that you cannot source out
+   loud in one sentence.
+
+   `say` is the script, read aloud verbatim, written to flow beat into beat.
+   `sec` values must sum to 600; the budget bar derives its widths from them.
+   Delivery runs ~2.5 words/second, so a 40s beat is ~100 words — the prompter
+   counts live and turns red past the budget.
+
+   Slides carry as few words as possible. Detail belongs in `say`, where the
+   presenter reads it — not on the wall, where the audience reads it instead of
+   listening to you.
    ───────────────────────────────────────────────────────────────────────── */
 const BEATS = [
+
+  /* ══ ACT 1 · the setup ══════════════════════════════════════════════════ */
   {
-    sec: 8, c: 'var(--red)', label: 'What it is',
-    hero: 'assets/brand/hero-4-circuit.svg',
-    heroAlt: 'A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery',
-    head: 'Kaggle for <em>robot arms.</em>',
-    sub: 'Developers compete on robot missions. We keep what the competition produces.',
+    sec: 25, c: 'var(--red)', label: 'Your job',
+    hero: '', heroAlt: '',
+    head: 'Software is becoming<br>a <em>commodity.</em>',
+    sub: 'What is left is the side with a body.',
     html: '',
-    say: 'Physical Spark is Kaggle for robot arms. Developers compete on robot missions, and we keep what the competition produces.'
+    say: 'Most of what we build is software. SaaS, internal tools, AI transformation. Right now Claude and ChatGPT and Gemini are doing that work — because it is software. When making software becomes a commodity, what is left is the side with a body.'
   },
   {
-    sec: 10, c: 'var(--blue)', label: 'Why now',
+    sec: 30, c: 'var(--blue)', label: 'The change',
+    hero: 'assets/brand/hero-1-redlight.svg',
+    heroAlt: 'A robot arm frozen mid-reach beside a red stop signal and a speech waveform flattening into a straight line',
+    head: 'Five years ago,<br>this did <em>nothing.</em>',
+    sub: 'Now you can tell a robot what to do.',
+    html: '',
+    say: 'Five years ago you could say "move that box over there" and nothing would happen. Same as talking to a computer before large language models. Now we do it ten times a day. That is happening for robots now. It is called VLA — the only acronym today.'
+  },
+  {
+    sec: 30, c: 'var(--gold)', label: 'The demand',
     hero: 'assets/brand/hero-2-gap.svg',
     heroAlt: 'A steep gold line arriving high and early, a slow dashed blue line still far below it, with the wedge between them shaded red',
-    head: 'The models are ready.<br>The <em>data is not.</em>',
+    head: 'Everyone is hiring<br>the <em>same person.</em>',
     sub: '',
     html: `<div class="row">
-      <div class="tile"><div class="big">Not scrapable</div><div class="cap">text and images were lying around online. A hand moving a real arm never was.</div></div>
-      <div class="tile"><div class="big">Labs go narrow</div><div class="cap">a few rooms, a few tasks, one lab's idea of correct</div></div>
-      <div class="tile"><div class="big">$407B</div><div class="cap">enterprise AI spending in 2026, up 34.8% — Value Add VC</div></div>
+      <div class="tile"><div class="big">5% → 70%</div><div class="cap">companies planning to hire forward deployed engineers, Q1 to Q2 2026</div><div class="src">TechCrunch, Jul 2026</div></div>
+      <div class="tile"><div class="big">#1</div><div class="cap">AI skills are now the hardest to hire on earth — first time on record</div><div class="src">ManpowerGroup, 39,063 employers / 41 countries</div></div>
+      <div class="tile"><div class="big">72%</div><div class="cap">of employers cannot fill the roles they have open</div><div class="src">same survey</div></div>
     </div>`,
-    say: 'Robot models are ready; the data is not. Text was lying around online. A human hand moving a real arm never was.'
+    say: 'This is not a Korean problem. At the start of this year, five to ten percent of companies planned to hire forward deployed engineers. By the end of the second quarter it was seventy. And ManpowerGroup asked thirty-nine thousand employers across forty-one countries what is hardest to hire. For the first time on record, the answer was AI skills.'
   },
   {
-    sec: 10, c: 'var(--teal)', label: 'The insight',
+    sec: 40, c: 'var(--red)', label: 'The bottleneck',
+    hero: 'assets/brand/deck-2-nobody-can-tell.svg',
+    heroAlt: 'A fan of five identical featureless documents under a large question mark, one outlined in gold but indistinguishable from the rest',
+    head: 'Seventeen thousand say they can.<br><em>Two thousand can.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">17,000 / 2,000</div><div class="cap">forward deployed engineers on the US market, versus those who can actually deliver</div><div class="src">TechCrunch, Jul 2026</div></div>
+      <div class="tile"><div class="big">So: hackathons</div><div class="cap">companies run them because a résumé does not work. The market already admitted this.</div></div>
+      <div class="tile"><div class="big">Worse next year</div><div class="cap">every robot setup is different hardware, so experience will not even compare</div></div>
+    </div>`,
+    say: 'One study counted seventeen thousand forward deployed engineers on the US market, and about two thousand who can actually deliver. Nobody can tell which is which from a résumé. So companies run hackathons instead — the market admitting in public that paper does not work. Now add hardware, where every setup differs. Could a recruiter spot that person?'
+  },
+  {
+    sec: 25, c: 'var(--teal)', label: 'Next year',
+    hero: '', heroAlt: '',
+    head: 'Next year they need one<br>who knows the <em>factory floor.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">1,220</div><div class="cap">robots per 10,000 manufacturing workers — Korea, first in the world</div><div class="src">IFR World Robotics 2025</div></div>
+      <div class="tile"><div class="big">4×</div><div class="cap">the United States. Nine times the world average.</div></div>
+      <div class="tile"><div class="big">2030</div><div class="cap">Korean national policy target: lead Physical AI</div></div>
+    </div>`,
+    say: 'Next year those same companies will want that engineer to understand a factory floor. Korea runs one thousand two hundred and twenty robots per ten thousand manufacturing workers — four times the United States, first in the world. The test bed is here.'
+  },
+  {
+    sec: 20, c: 'var(--gold)', label: 'The bridge',
+    hero: '', heroAlt: '',
+    head: 'We run that hackathon<br><em>permanently.</em>',
+    sub: '',
+    html: '',
+    say: 'So we run that hackathon permanently. Every attempt is recorded, and the recording is the answer to the question I just asked.'
+  },
+
+  /* ══ ACT 2 · the product ════════════════════════════════════════════════ */
+  {
+    sec: 35, c: 'var(--red)', label: 'What it is',
+    hero: '', heroAlt: '',
+    head: 'Kaggle for <em>robot arms.</em>',
+    sub: 'A mission. A video. A grade from your peers.',
+    html: `<div class="row">
+      <div class="tile"><img src="assets/brand/mission-1-pat.svg" alt=""><div class="big" style="font-size:17px">Pat me on the back</div><div class="cap">an easy first win — on purpose</div></div>
+      <div class="tile"><img src="assets/brand/mission-2-pick.svg" alt=""><div class="big" style="font-size:17px">Pick &amp; place</div><div class="cap">the steps that get harder</div></div>
+      <div class="tile"><img src="assets/brand/mission-3-light.svg" alt=""><div class="big" style="font-size:17px">Red Light, Green Light</div><div class="cap">no right answer — so grading each other is the only way</div></div>
+    </div>`,
+    say: 'Physical Spark is Kaggle for robot arms. We post a mission. You send a video of your attempt. Other players grade it. You climb a leaderboard. The first mission runs on a laptop, so nobody needs a robot or money to begin.'
+  },
+  {
+    sec: 35, c: 'var(--blue)', label: 'Where we sit',
+    hero: '', heroAlt: '',
+    head: 'Robotics is six layers deep.<br>We take <em>two.</em>',
+    sub: '',
+    html: `<div class="stack">
+      <div class="lay ours"><span class="n">6</span><span class="t">Policy &amp; learning</span><span class="d">what to do — imitation, RL, VLA. This is Physical AI.</span></div>
+      <div class="lay ours"><span class="n">5</span><span class="t">Simulation</span><span class="d">practice with no hardware — Isaac, MuJoCo</span></div>
+      <div class="lay"><span class="n">4</span><span class="t">Middleware</span><span class="d">ROS — the wiring between the parts</span></div>
+      <div class="lay"><span class="n">3</span><span class="t">Control</span><span class="d">kinematics, PID — how far to turn a motor</span></div>
+      <div class="lay"><span class="n">2</span><span class="t">Firmware</span><span class="d">talking to motors and sensors directly</span></div>
+      <div class="lay"><span class="n">1</span><span class="t">Hardware</span><span class="d">arms, actuators, grippers — we use one open arm and stop</span></div>
+    </div>`,
+    say: 'Robotics engineering is a stack, like network layers. Six of them. A six-month bootcamp tries to cover all six, and you finish mastering none — that is why the graduates are hard to place. We take the top two, plus one open source arm at the bottom, and we ignore the rest on purpose.'
+  },
+  {
+    sec: 35, c: 'var(--gold)', label: 'The loop',
+    hero: 'assets/brand/hero-4-circuit.svg',
+    heroAlt: 'A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery',
+    head: 'Play. Post. Review. <em>Rise.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">PLAY</div><div class="cap">one attempt, timestamped</div></div>
+      <div class="tile"><div class="big">POST</div><div class="cap">one demonstration added to the dataset</div></div>
+      <div class="tile"><div class="big">REVIEW</div><div class="cap">one verified quality label</div></div>
+      <div class="tile"><div class="big">RISE</div><div class="cap">a record no résumé can fake</div></div>
+    </div>`,
+    say: 'Four steps. Play a mission, post the run, review somebody else\'s, rise on the board. Every turn of that loop leaves two things behind — a labelled demonstration for the machines, and a record of what a person can actually do.'
+  },
+  {
+    sec: 30, c: 'var(--blue)', label: 'Why video',
+    hero: 'assets/brand/mission-3-light.svg',
+    heroAlt: 'A traffic signal beside a robot arm caught between moving and freezing',
+    head: 'You cannot test a robot skill<br>with a <em>quiz.</em>',
+    sub: '',
+    html: '',
+    say: 'You cannot test a robot skill with a quiz. Either the arm did the thing or it did not, and the video shows which. That is why the work cannot be faked — and why the grade means something.'
+  },
+  {
+    sec: 30, c: 'var(--teal)', label: 'The grading',
     hero: 'assets/brand/hero-3-peerreview.svg',
     heroAlt: 'Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon',
     head: 'The <em>grading</em> is the product.',
-    sub: 'Labelling is the most expensive step in robot data. We do not pay for it.',
+    sub: '',
     html: `<div class="row">
-      <div class="tile"><div class="big">Video is the test</div><div class="cap">a robot skill either works or it does not</div></div>
-      <div class="tile"><div class="big">Players grade players</div><div class="cap">no answer key — the run is the evidence</div></div>
-      <div class="tile"><div class="big">Reviews are labels</div><div class="cap">the step labs pay most for, paid for here in competition</div></div>
+      <div class="tile"><div class="big">Peers grade peers</div><div class="cap">the École 42 model, moved onto robots</div></div>
+      <div class="tile"><div class="big">$0 to label</div><div class="cap">the priciest step in robot data, off our books</div></div>
+      <div class="tile"><div class="big">Every review</div><div class="cap">becomes a quality label on a demonstration</div></div>
     </div>`,
-    say: 'Labelling is the priciest step in robot data. We do not pay for it. Players grade each other because they want to rank.'
+    say: 'Labelling is the most expensive step in robot data. We do not pay for it. Players grade each other because they want to rank. It is the École 42 model, moved onto robots.'
   },
   {
-    sec: 12, c: 'var(--gold)', label: 'Why it compounds',
+    sec: 30, c: 'var(--gold)', label: 'Start free',
+    hero: '', heroAlt: '',
+    head: 'Start tonight.<br><em>No robot. No money.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Simulator first</div><div class="cap">sim to real, in that order</div></div>
+      <div class="tile"><div class="big">SO-101</div><div class="cap">open hardware, a few hundred dollars, when you want it</div></div>
+      <div class="tile"><div class="big">Free at the door</div><div class="cap">the paid tiers sit above it</div></div>
+    </div>`,
+    say: 'You start in a simulator tonight. No robot, no money, no permission. When you want real hardware it is an open source arm for a few hundred dollars. Free at the door — the paid tiers sit above it.'
+  },
+
+  /* ══ ACT 3 · the business ═══════════════════════════════════════════════ */
+  {
+    sec: 35, c: 'var(--teal)', label: 'What accumulates',
+    hero: '', heroAlt: '',
+    head: 'Two piles grow<br>while they <em>play.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Verified data</div><div class="cap">LeRobot format, with the peer review attached as its quality label</div></div>
+      <div class="tile"><div class="big">Proof of work</div><div class="cap">who can actually do this, on video, timestamped</div></div>
+    </div>`,
+    say: 'Two things stack up while people play. Verified demonstration data in LeRobot format, with the peer review attached as its quality label. And a record of who can actually do this, on video. We sell both to robotics companies.'
+  },
+  {
+    sec: 35, c: 'var(--gold)', label: 'Who pays',
+    hero: 'assets/brand/market-ladder.svg',
+    heroAlt: 'A five-step staircase rising left to right with an arrow climbing over it, and a tapered arrow beneath pointing back the other way',
+    head: 'Free at the door.<br>Paid <em>above it.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Seasons</div><div class="cap">live, fixed dates, real completion rates</div></div>
+      <div class="tile"><div class="big">Datasets</div><div class="cap">curated and benchmarked, for labs</div></div>
+      <div class="tile"><div class="big">Talent</div><div class="cap">verified, for the companies that cannot hire today</div></div>
+    </div>`,
+    say: 'Playing is free — that is the top of the funnel, not the business. Above it: live seasons with fixed dates, curated datasets for labs, and a verified talent pipeline for the companies we just talked about.'
+  },
+  {
+    sec: 35, c: 'var(--red)', label: 'Why it compounds',
     hero: 'assets/brand/market-commoditized.svg',
     heroAlt: 'A grey curve rising then flattening into a crowded plateau, and a teal curve crossing above it and still climbing, with the gap between them shaded gold',
     head: 'Their output evaporates.<br>Ours <em>compounds.</em>',
-    sub: 'Copy the missions all you like. The record is what you cannot copy.',
+    sub: '',
     html: `<div class="row">
-      <div class="tile"><div class="big">Tools, not data</div><div class="cap">Hugging Face and NVIDIA give the stack away. We are built on it — and we keep the output.</div></div>
-      <div class="tile"><div class="big">Courses end</div><div class="cap">a bootcamp hands over a certificate and closes. Nothing is left standing behind it.</div></div>
-      <div class="tile"><div class="big">Leagues end in trophies</div><div class="cap">FIRST, VEX and RoboMaster own real community. A winner is not a training set.</div></div>
+      <div class="tile"><div class="big">Tools, not data</div><div class="cap">Hugging Face and NVIDIA give the stack away. We run on it.</div></div>
+      <div class="tile"><div class="big">Courses end</div><div class="cap">a bootcamp hands over a certificate and closes</div></div>
+      <div class="tile"><div class="big">Leagues end</div><div class="cap">in a trophy. A winner is not a training set.</div></div>
     </div>`,
-    say: 'Hugging Face and NVIDIA give tools away; we sit on top. A course ends in a certificate, a league in a trophy. Ours ends in someone a company can recognise.'
+    say: 'Hugging Face and NVIDIA give the tools away, and we are built on them. A bootcamp ends in a certificate. A league ends in a trophy. Ours ends in a dataset, and a ranked list of people. Copy the missions all you like — the record is the part you cannot copy.'
   },
   {
-    sec: 10, c: 'var(--amber)', label: 'Why me',
+    sec: 30, c: 'var(--blue)', label: 'Shipped or not',
+    hero: 'assets/brand/deck-5-shipped-or-not.svg',
+    heroAlt: 'A vertical divider with three solid checked cards on the left and three empty dashed cards on the right',
+    head: 'What is live,<br>and what is <em>not.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Live</div><div class="cap">missions, leaderboard, the loop running end to end in simulation</div></div>
+      <div class="tile"><div class="big">Not yet</div><div class="cap">run upload, the peer review gallery, the dataset itself</div></div>
+    </div>`,
+    say: 'Here is what is actually live: the missions, the leaderboard, and the loop running end to end in simulation. Not live yet: run upload, the review gallery, the dataset. Everything not shipped is written as an intention, not a claim.'
+  },
+
+  /* ══ ACT 4 · the ask ════════════════════════════════════════════════════ */
+  {
+    sec: 30, c: 'var(--amber)', label: 'Why us',
     hero: 'assets/brand/hero-5-bench.svg',
     heroAlt: 'A workbench with a half-assembled robot arm, an open notebook, a camera on a tripod and a mug',
-    head: 'My last app kept <em>90%</em><br>of its users for two years.',
-    sub: 'The hard part of this business is retention, not robotics. I have done it once.',
+    head: 'The hard part is <em>retention.</em><br>We have done it once.',
+    sub: '',
     html: `<div class="row">
       <div class="tile"><div class="big">2 yrs · 90%</div><div class="cap">my last app — users who stayed</div></div>
-      <div class="tile"><div class="big">Deposit rule</div><div class="cap">the mechanic that did it — I know how to design for finishing</div></div>
-      <div class="tile"><div class="big">Player one</div><div class="cap">I run every mission first and write down where I got stuck</div></div>
+      <div class="tile"><div class="big">Deposit rule</div><div class="cap">quitting cost them money. It worked.</div></div>
+      <div class="tile"><div class="big">A decade teaching</div><div class="cap">turning hard technical subjects into something adults finish</div></div>
     </div>`,
-    /* the deposit is stated in the PAST tense on purpose — the next beat says playing
-       here is free, and "they paid a deposit" spoken ten seconds earlier reads as a
-       contradiction to anyone only half listening. */
-    say: 'The hard part here is keeping people. My last app kept ninety percent for two years, because quitting cost them money.'
+    say: 'The hard part of this is not robotics, it is keeping people. My last app held ninety percent of its users for two years, because quitting cost them money. And our chief executive has spent close to a decade making hard technical subjects finishable.'
   },
   {
-    sec: 10, c: 'var(--red)', label: 'The ask',
-    hero: '',
-    heroAlt: '',
+    sec: 35, c: 'var(--gold)', label: 'Season one',
+    hero: 'assets/brand/deck-6-season-one.svg',
+    heroAlt: 'A grid of thirty small circles with three filled red, beside a bar divided into six segments ending in a flag',
+    head: 'Thirty players.<br><em>Six weeks.</em>',
+    sub: '',
+    html: `<div class="row">
+      <div class="tile"><div class="big">30</div><div class="cap">enough reviewers that nobody grades their own grader</div></div>
+      <div class="tile"><div class="big">6 weeks</div><div class="cap">one full mission arc, run in the open</div></div>
+      <div class="tile"><div class="big">Two numbers</div><div class="cap">finish rate, and reviews per run</div></div>
+    </div>`,
+    say: 'Season one is thirty players over six weeks. Thirty is not ambition, it is a requirement — below that the same few people grade each other and the label stops meaning anything. I will come back with finish rate and reviews per run.'
+  },
+  {
+    sec: 35, c: 'var(--red)', label: 'The ask',
+    hero: '', heroAlt: '',
     head: 'We are not naming a number.<br>We are going to <em>earn it.</em>',
-    /* NOTE — this beat is the pitch's only unhedged promise, so keep it cheap to keep.
-       It says three things and no more: playing is free, labelling costs us nothing,
-       and servers are the one line that grows. It deliberately does NOT say how many
-       players, how much a season costs, or how large the raise is — none of those are
-       decided, and a number you miss is worse than a number you never gave, because
-       the next meeting opens with whether you hit it.
-       "Free at the door, paid tiers above it" is the top of the revenue ladder on
-       market.html, whose rung 1 currently reads "cheap" rather than "free" — worth a
-       one-word reconciliation before this deck is shown beside that page.
-       SEASON ONE IS 30 PLAYERS OVER 6 WEEKS, and both numbers have a reason that
-       survives being asked about out loud:
-         · 6 weeks is already the season length priced on market.html, and it is one
-           full mission arc — assemble and simulate, first graded run, open mission.
-         · 30 is a product requirement, not an ambition. The whole claim is that a
-           peer review IS the quality label, and that only holds if reviews are
-           independent. Much under twenty and the same handful of people end up
-           grading each other, which is exactly the bias a label is supposed to
-           remove. Much over forty and one person cannot referee the disputes in a
-           first season. Thirty gives every run three reviewers who are not reviewing
-           each other back.
-       When season one produces a real server bill, this is the beat that changes:
-       the number goes in and the promise turns into a result. */
-    sub: 'Free at the door, paid tiers above it. The only cost that scales is servers.',
+    sub: '',
     html: `<div class="row">
       <div class="tile"><div class="big">Free to play</div><div class="cap">nothing stands between a developer and their first run</div></div>
       <div class="tile"><div class="big">$0 to label</div><div class="cap">the priciest line in robot data is not on our books</div></div>
-      <div class="tile"><div class="big">30 players · 6 weeks</div><div class="cap">season one — enough reviewers that no one grades their own grader</div></div>
+      <div class="tile"><div class="big">Servers</div><div class="cap">the one cost that grows with players — season one tells us how fast</div></div>
     </div>`,
-    say: 'Playing is free. Our only real cost is servers. Thirty players, six weeks, and we will know what raise we have earned.'
+    say: 'Playing is free. Our only real cost is servers. Season one tells us how fast that scales, and what raise we have earned the right to ask for. That is the number I want you to watch.'
   },
 ];
 
@@ -473,7 +640,8 @@ function paint(){
   });
   const m = Math.floor(elapsed / 60), s = Math.floor(elapsed % 60);
   const clock = document.getElementById('clock');
-  clock.textContent = `${m}:${String(s).padStart(2, '0')} / 1:00`;
+  clock.textContent = `${m}:${String(s).padStart(2, '0')} / ` +
+    `${Math.floor(TOTAL / 60)}:${String(TOTAL % 60).padStart(2, '0')}`;
   clock.classList.toggle('over', elapsed > TOTAL);
 
   /* seconds left in the beat you are on right now */

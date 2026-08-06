@@ -33,7 +33,7 @@
     { href: "/market.html", label: "Market" },
     { href: "/courses/", label: "Missions", match: /^\/courses\/?$/ }
   ];
-  var CTA = { href: "/pitch.html", label: "60s pitch" };
+  var CTA = { href: "/deck.html", label: "10-min pitch" };
   var SECONDARY = [
     { href: "/join.html", label: "Join us" },
     { href: "/docs", label: "Playbook" },
