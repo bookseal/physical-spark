@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A single thin CV beside a tall stack of video frames, each one carrying a tick and a date</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- one sheet of paper, and not much on it -->
+    <g stroke-width="7">
+      <path d="M84 92h108a8 8 0 0 1 8 8v128a8 8 0 0 1-8 8H84a8 8 0 0 1-8-8V100a8 8 0 0 1 8-8z" fill="#fbf5e9"/>
+      <path d="M104 126h68M104 152h60M104 178h44" stroke-width="6"/>
+    </g>
+
+    <!-- versus: a run, and a run, and a run -->
+    <g stroke-width="7">
+      <path d="M306 68h300a10 10 0 0 1 10 10v44a10 10 0 0 1-10 10H306a10 10 0 0 1-10-10V78a10 10 0 0 1 10-10z" fill="#fbf5e9"/>
+      <path d="M306 148h300a10 10 0 0 1 10 10v44a10 10 0 0 1-10 10H306a10 10 0 0 1-10-10v-44a10 10 0 0 1 10-10z" fill="#fbf5e9"/>
+      <path d="M306 228h300a10 10 0 0 1 10 10v44a10 10 0 0 1-10 10H306a10 10 0 0 1-10-10v-44a10 10 0 0 1 10-10z" fill="#fbf5e9"/>
+    </g>
+
+    <!-- each one is a video -->
+    <g stroke-width="6">
+      <path d="M330 84l30 16-30 16z" fill="#fbf5e9"/>
+      <path d="M330 164l30 16-30 16z" fill="#fbf5e9"/>
+      <path d="M330 244l30 16-30 16z" fill="#fbf5e9"/>
+    </g>
+
+    <!-- graded -->
+    <g stroke="#0e9a89" stroke-width="9">
+      <path d="M568 100l12 12 22-26"/>
+      <path d="M568 180l12 12 22-26"/>
+      <path d="M568 260l12 12 22-26"/>
+    </g>
+
+    <!-- and dated -->
+    <g stroke="#e6a413" stroke-width="6">
+      <path d="M394 100h120M394 180h96M394 260h132"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>An open laptop anyone can start on, and a robot arm standing behind a locked barrier</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- LEFT: a laptop. Open, on, nothing in the way. -->
+    <g stroke-width="8">
+      <path d="M104 104h148a10 10 0 0 1 10 10v78H94v-78a10 10 0 0 1 10-10z" fill="#fbf5e9"/>
+      <path d="M74 218h208l16 20H58z" fill="#fbf5e9"/>
+    </g>
+    <g stroke="#0e9a89" stroke-width="7">
+      <path d="M178 60v22M142 72l11 17M214 72l-11 17"/>
+    </g>
+
+    <!-- the divider -->
+    <path d="M362 54v196" stroke-width="4" stroke-dasharray="10 12"/>
+
+    <!-- RIGHT: the arm, plainly visible — and out of reach -->
+    <g stroke-width="10">
+      <path d="M534 244v-70"/>
+      <path d="M534 174l54-48"/>
+      <path d="M588 126l44 16"/>
+    </g>
+    <g stroke-width="8">
+      <path d="M632 142l20-16M632 142l4 24"/>
+      <path d="M500 250h68" stroke-width="11"/>
+    </g>
+    <circle cx="534" cy="174" r="8" fill="#fbf5e9" stroke-width="7"/>
+
+    <!-- the barrier in front of it -->
+    <g stroke="#e0442e" stroke-width="9">
+      <path d="M428 120v134M676 120v134"/>
+      <path d="M428 200h248"/>
+    </g>
+
+    <!-- and it is locked -->
+    <g stroke-width="7">
+      <path d="M652 206a16 16 0 0 1 32 0v10"/>
+      <path d="M646 216h44a7 7 0 0 1 7 7v28a7 7 0 0 1-7 7h-44a7 7 0 0 1-7-7v-28a7 7 0 0 1 7-7z" fill="#fbf5e9"/>
+    </g>
+  </g>
+</svg>

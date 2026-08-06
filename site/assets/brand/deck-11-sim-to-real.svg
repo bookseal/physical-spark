@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A robot arm drawn as a dashed outline inside a monitor, and the same arm standing solid outside it, with an arrow leading from one to the other</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- the simulator -->
+    <g stroke-width="8">
+      <path d="M74 66h224a12 12 0 0 1 12 12v128a12 12 0 0 1-12 12H74a12 12 0 0 1-12-12V78a12 12 0 0 1 12-12z" fill="#fbf5e9"/>
+      <path d="M186 218v18M148 250h76" stroke-width="7"/>
+    </g>
+    <!-- an arm that is not really there yet -->
+    <g stroke-width="7" stroke-dasharray="9 9">
+      <path d="M150 190v-40"/>
+      <path d="M150 150l38-34"/>
+      <path d="M188 116l34 12"/>
+      <path d="M124 190h52"/>
+    </g>
+
+    <!-- out of the screen -->
+    <path d="M330 148h58" stroke="#e0442e" stroke-width="9"/>
+    <path d="M388 148l-20-13v26z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/>
+
+    <!-- the real one -->
+    <g stroke="#e0442e" stroke-width="11">
+      <path d="M498 244v-58"/>
+      <path d="M498 186l52-46"/>
+      <path d="M550 140l46 16"/>
+    </g>
+    <g stroke="#e0442e" stroke-width="8">
+      <path d="M596 156l20-16M596 156l4 26"/>
+    </g>
+    <path d="M462 250h72" stroke-width="11"/>
+    <circle cx="498" cy="186" r="8" fill="#fbf5e9" stroke-width="7"/>
+  </g>
+</svg>

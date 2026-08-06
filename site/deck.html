@@ -82,6 +82,10 @@
   .split{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:34px; align-items:center;}
   .split.solo{grid-template-columns:1fr;}
   .hero{width:100%; height:auto; display:block; max-height:34vh; object-fit:contain;}
+  /* a photograph is not line art — it needs an edge to sit on this paper, and it
+     should fill its box rather than float inside it */
+  .hero.photo{border-radius:16px; border:1px solid var(--line); object-fit:cover;
+    max-height:36vh; box-shadow:0 10px 30px var(--shadow);}
 
   .kicker{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
   .kicker .n{font-weight:900; font-size:13px; letter-spacing:.06em; color:#fff; background:var(--c);
@@ -387,8 +391,8 @@ const BEATS = [
   /* ══ the problem ════════════════════════════════════════════════════════ */
   {
     sec: 15, c: 'var(--red)', label: 'Physical Spark',
-    hero: 'assets/brand/logo-lockup.svg',
-    heroAlt: 'The Physical Spark logo lockup',
+    hero: 'assets/so101-real.jpg', heroClass: 'photo',
+    heroAlt: 'A 3D-printed SO-101 robot arm on a desk, gripper open, LeRobot sticker on the upper link',
     head: 'We make<br>Physical AI<br><em>field engineers.</em>',
     sub: '',
     html: '',
@@ -487,7 +491,8 @@ const BEATS = [
   },
   {
     sec: 40, c: 'var(--teal)', label: 'Why they cannot cross',
-    hero: '', heroAlt: '',
+    hero: 'assets/brand/deck-10-locked-out.svg',
+    heroAlt: 'An open laptop anyone can start on, and a robot arm standing behind a locked barrier',
     head: 'With software you can practise.<br>With robots you <em>cannot.</em>',
     sub: 'This is the part that is different, and worse.',
     html: `<div class="row">
@@ -514,7 +519,8 @@ const BEATS = [
   },
   {
     sec: 40, c: 'var(--gold)', label: 'The way in',
-    hero: '', heroAlt: '',
+    hero: 'assets/brand/deck-11-sim-to-real.svg',
+    heroAlt: 'A robot arm drawn as a dashed outline inside a monitor, and the same arm standing solid outside it, with an arrow leading from one to the other',
     head: 'So we built<br>the <em>way in.</em>',
     sub: 'Simulator tonight. A real arm when you want one.',
     html: `<div class="row">
@@ -553,7 +559,8 @@ const BEATS = [
   },
   {
     sec: 45, c: 'var(--gold)', label: 'What it becomes',
-    hero: '', heroAlt: '',
+    hero: 'assets/brand/deck-12-the-record.svg',
+    heroAlt: 'A single thin CV beside a tall stack of video frames, each one carrying a tick and a date',
     head: 'That record is what<br>manufacturers <em>hire from.</em>',
     sub: 'And they help write the marking criteria.',
     html: `<div class="row">
@@ -626,7 +633,7 @@ stage.innerHTML = BEATS.map((b, i) => `
         <h1 class="head">${b.head || '<span style="color:var(--muted)">— not written yet —</span>'}</h1>
         ${b.sub ? `<p class="sub">${b.sub}</p>` : ''}
       </div>
-      ${b.hero ? `<img class="hero" src="${b.hero}" alt="${b.heroAlt || ''}">` : ''}
+      ${b.hero ? `<img class="hero ${b.heroClass || ''}" src="${b.hero}" alt="${b.heroAlt || ''}">` : ''}
     </div>
     ${b.html || ''}
     <p class="inline-say">${b.say || ''}</p>
