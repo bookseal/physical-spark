@@ -1,5 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>An empty office chair pushed back from a desk while the screen keeps writing code by itself</title>
+  <style>
+    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
+       running. The resting state below is the finished drawing; only keyframes
+       remove anything, so if animation never runs the picture is still whole. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .typing{stroke-dasharray:170; stroke-dashoffset:0; animation:type 3.6s steps(14) infinite;}
+    @keyframes type{0%,8%{stroke-dashoffset:170}62%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:170}}
+    .caret{animation:caret 1s steps(1) infinite;}
+    @keyframes caret{0%,49%{opacity:1}50%,100%{opacity:0}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- floor -->
@@ -33,8 +43,8 @@
       <path d="M370 98h136"/>
       <path d="M386 126h152"/>
       <path d="M386 154h108"/>
-      <path d="M370 182h158" stroke="#e0442e"/>
+      <path class="typing" d="M370 182h158" stroke="#e0442e"/>
     </g>
-    <path d="M544 172v20" stroke="#e0442e" stroke-width="10"/>
+    <path class="caret" d="M544 172v20" stroke="#e0442e" stroke-width="10"/>
   </g>
 </svg>

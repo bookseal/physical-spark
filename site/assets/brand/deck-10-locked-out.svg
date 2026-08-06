@@ -1,5 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>An open laptop anyone can start on, and a robot arm standing behind a locked barrier</title>
+  <style>
+    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
+       running. The resting state below is the finished drawing; only keyframes
+       remove anything, so if animation never runs the picture is still whole. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .spark{animation:spark 3s ease-in-out infinite;}
+    @keyframes spark{0%,100%{opacity:.35;transform:translateY(3px)}45%{opacity:1;transform:translateY(-3px)}}
+    .lock{animation:rattle 3s ease-in-out infinite; transform-origin:668px 236px;}
+    @keyframes rattle{0%,54%,100%{transform:rotate(0)}60%{transform:rotate(-5deg)}66%{transform:rotate(5deg)}72%{transform:rotate(-3deg)}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- LEFT: a laptop. Open, on, nothing in the way. -->
@@ -7,7 +17,7 @@
       <path d="M104 104h148a10 10 0 0 1 10 10v78H94v-78a10 10 0 0 1 10-10z" fill="#fbf5e9"/>
       <path d="M74 218h208l16 20H58z" fill="#fbf5e9"/>
     </g>
-    <g stroke="#0e9a89" stroke-width="7">
+    <g stroke="#0e9a89" stroke-width="7" class="spark">
       <path d="M178 60v22M142 72l11 17M214 72l-11 17"/>
     </g>
 
@@ -33,7 +43,7 @@
     </g>
 
     <!-- and it is locked -->
-    <g stroke-width="7">
+    <g stroke-width="7" class="lock">
       <path d="M652 206a16 16 0 0 1 32 0v10"/>
       <path d="M646 216h44a7 7 0 0 1 7 7v28a7 7 0 0 1-7 7h-44a7 7 0 0 1-7-7v-28a7 7 0 0 1 7-7z" fill="#fbf5e9"/>
     </g>

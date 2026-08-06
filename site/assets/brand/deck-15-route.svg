@@ -1,11 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>A route with three stops: one behind, one being run now in red, and one still dashed ahead</title>
+  <style>
+    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
+       running. The resting state below is the finished drawing; only keyframes
+       remove anything, so if animation never runs the picture is still whole. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .ahead{animation:crawl 2.6s linear infinite;}
+    @keyframes crawl{to{stroke-dashoffset:-34}}
+    .now{animation:pulse 2.6s ease-in-out infinite; transform-origin:380px 176px;}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- the road so far -->
     <path d="M70 176h296" stroke-width="10"/>
     <!-- and the part not walked yet -->
-    <path d="M394 176h256" stroke-width="9" stroke-dasharray="16 18"/>
+    <path class="ahead" d="M394 176h256" stroke-width="9" stroke-dasharray="16 18"/>
 
     <!-- stop one: done -->
     <circle cx="112" cy="176" r="20" fill="#2b211a" stroke-width="8"/>
@@ -13,7 +23,7 @@
     <path d="M112 104h58l-14 18 14 18h-58z" fill="#fbf5e9" stroke-width="7"/>
 
     <!-- stop two: now -->
-    <circle cx="380" cy="176" r="26" fill="#fbf5e9" stroke="#e0442e" stroke-width="12"/>
+    <circle class="now" cx="380" cy="176" r="26" fill="#fbf5e9" stroke="#e0442e" stroke-width="12"/>
     <path d="M380 150v-46" stroke="#e0442e" stroke-width="9"/>
     <path d="M380 104h66l-16 20 16 20h-66z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/>
 

@@ -1,5 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>A robot arm drawn as a dashed outline inside a monitor, and the same arm standing solid outside it, with an arrow leading from one to the other</title>
+  <style>
+    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
+       running. The resting state below is the finished drawing; only keyframes
+       remove anything, so if animation never runs the picture is still whole. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .sim{animation:sim 4.2s ease-in-out infinite;}
+    @keyframes sim{0%,100%{opacity:1}56%,76%{opacity:.3}}
+    .cross{animation:cross 4.2s ease-in-out infinite;}
+    @keyframes cross{0%,30%{transform:translateX(0);opacity:1}62%,100%{transform:translateX(26px);opacity:.25}}
+    .real path{stroke-dasharray:120; stroke-dashoffset:0; animation:build 4.2s ease-in-out infinite;}
+    @keyframes build{0%,34%{stroke-dashoffset:120}58%,92%{stroke-dashoffset:0}100%{stroke-dashoffset:120}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- the simulator -->
@@ -8,7 +20,7 @@
       <path d="M186 218v18M148 250h76" stroke-width="7"/>
     </g>
     <!-- an arm that is not really there yet -->
-    <g stroke-width="7" stroke-dasharray="9 9">
+    <g stroke-width="7" stroke-dasharray="9 9" class="sim">
       <path d="M150 190v-40"/>
       <path d="M150 150l38-34"/>
       <path d="M188 116l34 12"/>
@@ -16,11 +28,11 @@
     </g>
 
     <!-- out of the screen -->
-    <path d="M330 148h58" stroke="#e0442e" stroke-width="9"/>
-    <path d="M388 148l-20-13v26z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/>
+    <g class="cross"><path d="M330 148h58" stroke="#e0442e" stroke-width="9"/>
+      <path d="M388 148l-20-13v26z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/></g>
 
     <!-- the real one -->
-    <g stroke="#e0442e" stroke-width="11">
+    <g stroke="#e0442e" stroke-width="11" class="real">
       <path d="M498 244v-58"/>
       <path d="M498 186l52-46"/>
       <path d="M550 140l46 16"/>

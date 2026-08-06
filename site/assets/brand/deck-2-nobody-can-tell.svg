@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img"><title>Nobody can tell who is qualified</title><g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round"><path d="M438 78c25-20 55-17 72 0 14 14 12 36-7 49-17 11-28 18-28 38v8" stroke-width="8"/><circle cx="475" cy="182" r="6" fill="#2b211a" stroke="none"/><rect x="206" y="116" width="88" height="112" rx="10" stroke-width="4" transform="rotate(-24 250 172)"/><rect x="245" y="108" width="88" height="112" rx="10" stroke="#e6a413" stroke-width="5" transform="rotate(-12 289 164)"/><rect x="286" y="116" width="88" height="112" rx="10" stroke-width="4" transform="rotate(0 330 172)"/><rect x="327" y="108" width="88" height="112" rx="10" stroke-width="4" transform="rotate(12 371 164)"/><rect x="368" y="116" width="88" height="112" rx="10" stroke-width="4" transform="rotate(24 412 172)"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img"><title>Nobody can tell who is qualified</title>
+  <style>
+    /* Loops, not one-shots — a beat is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .pick{animation:lift 4.4s ease-in-out infinite;}
+    @keyframes lift{0%,62%,100%{transform:translateY(0)}30%{transform:translateY(-18px)}}
+    .ask{animation:lean 4.4s ease-in-out infinite; transform-origin:492px 130px;}
+    @keyframes lean{0%,100%{transform:rotate(0)}42%{transform:rotate(-8deg)}72%{transform:rotate(4deg)}}
+  </style>
+<g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round"><g class="ask"><path d="M438 78c25-20 55-17 72 0 14 14 12 36-7 49-17 11-28 18-28 38v8" stroke-width="8"/><circle cx="475" cy="182" r="6" fill="#2b211a" stroke="none"/></g><rect x="206" y="116" width="88" height="112" rx="10" stroke-width="4" transform="rotate(-24 250 172)"/><rect class="pick" x="245" y="108" width="88" height="112" rx="10" stroke="#e6a413" stroke-width="5" transform="rotate(-12 289 164)"/><rect x="286" y="116" width="88" height="112" rx="10" stroke-width="4" transform="rotate(0 330 172)"/><rect x="327" y="108" width="88" height="112" rx="10" stroke-width="4" transform="rotate(12 371 164)"/><rect x="368" y="116" width="88" height="112" rx="10" stroke-width="4" transform="rotate(24 412 172)"/></g></svg>

@@ -1,5 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>A single thin CV beside a tall stack of video frames, each one carrying a tick and a date</title>
+  <style>
+    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
+       running. The resting state below is the finished drawing; only keyframes
+       remove anything, so if animation never runs the picture is still whole. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .grade path{stroke-dasharray:52; stroke-dashoffset:0; animation:grade 5s ease-in-out infinite;}
+    .grade path:nth-child(2){animation-delay:.3s} .grade path:nth-child(3){animation-delay:.6s}
+    @keyframes grade{0%,8%{stroke-dashoffset:52}22%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:52}}
+    .dates path{stroke-dasharray:140; stroke-dashoffset:0; animation:date 5s ease-in-out infinite;}
+    @keyframes date{0%,4%{stroke-dashoffset:140}20%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:140}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- one sheet of paper, and not much on it -->
@@ -23,14 +34,14 @@
     </g>
 
     <!-- graded -->
-    <g stroke="#0e9a89" stroke-width="9">
+    <g stroke="#0e9a89" stroke-width="9" class="grade">
       <path d="M568 100l12 12 22-26"/>
       <path d="M568 180l12 12 22-26"/>
       <path d="M568 260l12 12 22-26"/>
     </g>
 
     <!-- and dated -->
-    <g stroke="#e6a413" stroke-width="6">
+    <g stroke="#e6a413" stroke-width="6" class="dates">
       <path d="M394 100h120M394 180h96M394 260h132"/>
     </g>
   </g>

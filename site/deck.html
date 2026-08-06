@@ -54,12 +54,18 @@
   .budget{flex:1; display:flex; gap:2px; height:12px; min-width:120px;}
   .seg{flex:var(--w); background:var(--bg2); border:1px solid var(--line); border-radius:3px;
     position:relative; overflow:hidden; cursor:pointer;}
-  .seg i{position:absolute; inset:0; width:0%; background:var(--sc); display:block;}
+  /* One colour, not seventeen. Per-beat tints turned the bar into a rainbow that
+     read as decoration; a single fill reads as progress, which is what it is.
+     The segment divisions stay — they show where the time is spent. */
+  .seg i{position:absolute; inset:0; width:0%; background:var(--red); display:block;}
   .seg.done i{width:100%;}
   .seg.over{border-color:var(--red); box-shadow:0 0 0 2px color-mix(in srgb,var(--red) 25%,transparent);}
   .clock{font-weight:800; font-size:15px; min-width:74px; text-align:right; letter-spacing:.02em;}
   .clock.over{color:var(--red);}
-  .hud .tools{display:flex; gap:6px;}
+  /* The controls live at the bottom with the other controls. The header keeps only
+     what the room is meant to look at: the mark, the progress and the clock. */
+  .ctl .tools{display:flex; gap:6px; flex-wrap:wrap;}
+  @media (max-width:900px){ .ctl .tools{width:100%; order:5; justify-content:center;} }
   .tbtn{border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:9px;
     padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;}
   .tbtn:hover{border-color:var(--red); color:var(--red);}
@@ -350,14 +356,6 @@
   <a class="logo" href="/" title="Physical Spark — home"><img src="assets/brand/logo-mark.svg" alt=""> Physical<b>&nbsp;Spark</b></a>
   <div class="budget" id="budget"></div>
   <span class="clock mono" id="clock">0:00 / 10:00</span>
-  <span class="tools">
-    <button class="tbtn on" id="btn-auto" onclick="toggleAuto()">Auto A</button>
-    <button class="tbtn on" id="btn-script" onclick="togglePrompter()">Script S</button>
-    <button class="tbtn" id="btn-ov" onclick="toggleOverview()">Overview O</button>
-    <button class="tbtn" id="btn-full" onclick="toggleFull()">Full F</button>
-    <a class="tbtn pitlink" href="/pitch.html" title="The 60-second version">60s ↗</a>
-    <a class="tbtn pitlink" href="/docs#docs%2F07-strategy%2Fpit-lane-industry-intro.html" title="피트레인 — 작업대">PIT ↗</a>
-  </span>
 </div></div>
 
 <div class="chapters"><div class="chapters-in" id="chapters"></div></div>
@@ -378,6 +376,14 @@
   <button class="btn btn-ghost" onclick="go(-1)">← Prev</button>
   <button class="btn btn-ghost" onclick="go(1)">Next →</button>
   <button class="btn btn-ghost" onclick="reset()">↺</button>
+  <span class="tools">
+    <button class="tbtn on" id="btn-auto" onclick="toggleAuto()">Auto A</button>
+    <button class="tbtn on" id="btn-script" onclick="togglePrompter()">Script S</button>
+    <button class="tbtn" id="btn-ov" onclick="toggleOverview()">Overview O</button>
+    <button class="tbtn" id="btn-full" onclick="toggleFull()">Full F</button>
+    <a class="tbtn pitlink" href="/pitch.html" title="The 60-second version">60s ↗</a>
+    <a class="tbtn pitlink" href="/docs#docs%2F07-strategy%2Fpit-lane-industry-intro.html" title="피트레인 — 작업대">PIT ↗</a>
+  </span>
   <span class="keys">
     <kbd>space</kbd> next · <kbd>←</kbd><kbd>→</kbd> move · <kbd>F</kbd> full · <kbd>A</kbd> auto · <kbd>S</kbd> script · <kbd>O</kbd> overview · <kbd>R</kbd> reset · <kbd>enter</kbd> clock
   </span>
@@ -435,8 +441,9 @@ const BEATS = [
   /* ══ the problem ════════════════════════════════════════════════════════ */
   {
     sec: 15, c: 'var(--red)', label: 'Physical Spark',
-    hero: 'assets/so101-real.jpg', heroClass: 'photo',
-    heroAlt: 'A 3D-printed SO-101 robot arm on a desk, gripper open, LeRobot sticker on the upper link',
+    hero: 'assets/hero-rally.mp4', heroClass: 'photo',
+    heroPoster: 'assets/hero-rally-poster.jpg',
+    heroAlt: 'A small desktop robot arm rapidly stacking red, yellow and blue toy blocks',
     head: 'We make<br>Physical AI<br><em>field engineers.</em>',
     sub: '',
     html: '',
@@ -721,7 +728,10 @@ stage.innerHTML = BEATS.map((b, i) => `
         <h1 class="head">${b.head || '<span style="color:var(--muted)">— not written yet —</span>'}</h1>
         ${b.sub ? `<p class="sub">${b.sub}</p>` : ''}
       </div>
-      ${b.hero ? `<img class="hero ${b.heroClass || ''}" src="${b.hero}" alt="${b.heroAlt || ''}">` : ''}
+      ${b.hero ? (/\.mp4$/.test(b.hero)
+        ? `<video class="hero ${b.heroClass || ''}" src="${b.hero}" poster="${b.heroPoster || ''}"
+                 autoplay muted loop playsinline aria-label="${b.heroAlt || ''}"></video>`
+        : `<img class="hero ${b.heroClass || ''}" src="${b.hero}" alt="${b.heroAlt || ''}">`) : ''}
     </div>
     ${b.html || ''}
     <p class="inline-say">${b.say || ''}</p>

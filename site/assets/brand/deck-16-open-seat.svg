@@ -1,5 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>Four people standing together and a fifth outline left open, with an arrow pointing into the gap</title>
+  <style>
+    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
+       running. The resting state below is the finished drawing; only keyframes
+       remove anything, so if animation never runs the picture is still whole. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .invite{animation:nudge 2.4s ease-in-out infinite;}
+    @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(16px)}}
+    .seat{animation:waiting 2.4s ease-in-out infinite;}
+    @keyframes waiting{0%,100%{opacity:.5}50%{opacity:1}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- the people already here -->
@@ -15,13 +25,13 @@
     </g>
 
     <!-- the place that is still open -->
-    <g stroke="#e0442e" stroke-width="7" stroke-dasharray="8 9">
+    <g stroke="#e0442e" stroke-width="7" stroke-dasharray="8 9" class="seat">
       <circle cx="616" cy="128" r="24"/>
       <path d="M580 214v-22a36 36 0 0 1 72 0v22"/>
     </g>
 
     <!-- for you -->
-    <path d="M470 172h84" stroke="#e0442e" stroke-width="10"/>
-    <path d="M554 172l-22-14v28z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/>
+    <g class="invite"><path d="M470 172h84" stroke="#e0442e" stroke-width="10"/>
+      <path d="M554 172l-22-14v28z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/></g>
   </g>
 </svg>
