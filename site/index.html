@@ -182,6 +182,33 @@
   @media(max-width:560px){.chapnav{flex-direction:column;} .chapnav span.prev{display:none;}}
 
   footer{border-top:1px solid var(--line); padding:30px 0; color:var(--muted); font-size:13px; text-align:center;}
+
+  /* ── scroll experience ──────────────────────────────────────────────────
+     Native scroll-driven animation only: no library, no build step, and no
+     external host. Everything below is wrapped in @supports, so where the
+     browser does not implement it the page is simply the page — content is
+     visible by default and the animation is the enhancement, never the
+     carrier. Scroll is enhanced, never hijacked. */
+  @supports (animation-timeline: view()){
+    @media (prefers-reduced-motion:no-preference){
+      section > .wrap > *{
+        animation:ps-rise linear both;
+        animation-timeline:view();
+        animation-range:entry 5% entry 85%;
+      }
+      @keyframes ps-rise{
+        from{opacity:0; transform:translateY(22px)}
+        to  {opacity:1; transform:none}
+      }
+    }
+  }
+
+  /* #why-now becomes a sticky sequence: the curve holds still while the argument
+     scrolls past it. Pure position:sticky — the reader keeps full scroll control. */
+  @media (min-width:900px){
+    .whynow{align-items:start;}
+    .whynow > img{position:sticky; top:96px;}
+  }
 </style>
 </head>
 <body>
