@@ -4,9 +4,11 @@
     /* Loops, not one-shots. A slide is display:none until it is shown, but the SVG
        document keeps running the whole time — a play-once animation would always
        have finished before anyone saw it. */
+    /* resting state below is the FINISHED drawing, so if the animation never runs
+       the picture is still whole. Only the keyframes hide anything. */
     @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
-    .arch{stroke-dasharray:250; stroke-dashoffset:250; animation:span 5s ease-in-out infinite;}
-    .rung{opacity:0; animation:rung 5s ease-in-out infinite;}
+    .arch{stroke-dasharray:250; stroke-dashoffset:0; animation:span 5s ease-in-out infinite;}
+    .rung{opacity:1; animation:rung 5s ease-in-out infinite;}
     .rung:nth-child(2){animation-delay:.12s} .rung:nth-child(3){animation-delay:.24s}
     @keyframes span{0%,4%{stroke-dashoffset:250}30%{stroke-dashoffset:0}88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:250}}
     @keyframes rung{0%,26%{opacity:0}38%,88%{opacity:1}96%,100%{opacity:0}}
