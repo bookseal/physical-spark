@@ -554,7 +554,7 @@ const BEATS = [
 
   /* ══ what we built, and why ═════════════════════════════════════════════ */
   {
-    sec: 40, c: 'var(--gold)', label: 'The crossing',
+    sec: 35, c: 'var(--gold)', label: 'The crossing',
     hero: 'assets/brand/deck-8-crossing.svg',
     heroAlt: 'Real people stranded on one cliff edge and unfilled roles drawn as dashed outlines on the other, with a red arch spanning the gap between them',
     head: 'Developers on one side.<br>Open jobs on the <em>other.</em>',
@@ -580,7 +580,7 @@ const BEATS = [
     say: 'A word on why this exists. My day job is automating work with models inside a company. Looking at what is coming, I wanted to learn Physical AI, and I was going to do it alone. Then it was obvious that alone is slow and proves nothing to a hiring manager — and that there are a lot of people exactly like me. So I am building the course as I learn it.'
   },
   {
-    sec: 40, c: 'var(--gold)', label: 'The way in',
+    sec: 35, c: 'var(--gold)', label: 'The way in',
     hero: 'assets/brand/deck-11-sim-to-real.svg',
     heroAlt: 'A robot arm drawn as a dashed outline inside a monitor, and the same arm standing solid outside it, with an arrow leading from one to the other',
     head: 'So we made a course<br>you can start <em>tonight.</em>',
@@ -593,7 +593,7 @@ const BEATS = [
     say: 'A mission map that starts in a simulator, so you begin tonight with no robot and no money. Mission one is deliberately easy — the arm pats you on the back. Then pick and place. Then an open problem with no right answer at all. And the missions are written in the open: the people doing them help write the next one.'
   },
   {
-    sec: 35, c: 'var(--red)', label: 'The competition',
+    sec: 30, c: 'var(--red)', label: 'The competition',
     hero: 'assets/brand/hero-4-circuit.svg',
     heroAlt: 'A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery',
     head: 'Then we make it<br>a <em>competition.</em>',
@@ -607,7 +607,7 @@ const BEATS = [
     say: 'Then we make it a competition. A season with fixed dates, and a leaderboard. You play a mission, you post a video of your run, you review somebody else\'s, you move up the board. People finish things when other people are watching. That is the whole reason our last app held ninety percent.'
   },
   {
-    sec: 40, c: 'var(--teal)', label: 'Peer review',
+    sec: 35, c: 'var(--teal)', label: 'Peer review',
     hero: 'assets/brand/hero-3-peerreview.svg',
     heroAlt: 'Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon',
     head: 'Players grade<br><em>each other.</em>',
@@ -620,7 +620,7 @@ const BEATS = [
     say: 'And they grade each other. You cannot test a robot skill with a quiz — either the arm did the thing or it did not, and the video shows which. So players review each other, the way École 42 does it with code. Every review leaves written feedback attached to a run. That is exactly what nobody gets learning alone.'
   },
   {
-    sec: 40, c: 'var(--gold)', label: 'What it becomes',
+    sec: 35, c: 'var(--gold)', label: 'What it becomes',
     hero: 'assets/brand/deck-12-the-record.svg',
     heroAlt: 'A single thin CV beside a tall stack of video frames, each one carrying a tick and a date',
     head: 'We become the headhunter<br>for <em>Physical AI.</em>',
@@ -634,7 +634,25 @@ const BEATS = [
   },
 
   {
-    sec: 40, c: 'var(--gold)', label: 'Why not them',
+    sec: 35, c: 'var(--teal)', label: 'Whose budget',
+    hero: 'assets/brand/deck-17-two-budgets.svg',
+    heroAlt: 'A short stack of budget beside a much taller one, with the tall stack still growing',
+    head: 'We are not in the<br>training <em>budget.</em>',
+    sub: 'We are in the one they are already spending — and wasting.',
+    /* NO MARKET SIZE HERE, ON PURPOSE. A founder guessing a TAM is a founder a fund
+       corrects; naming the pocket and stopping lets them size it themselves, which
+       is both the thing they are better at and the thing that gets them invested in
+       the answer. Every number in this deck is sourced — one invented one would cost
+       more than this slide could ever earn. */
+    html: `<div class="row">
+      <div class="tile"><div class="big">Training budget</div><div class="cap">small, discretionary, cut first in a bad year</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">Hiring budget</div><div class="cap">already committed to a role they cannot fill</div></div>
+      <div class="tile"><div class="big">Paid on placement</div><div class="cap">a share of the salary, like any search</div></div>
+    </div>`,
+    say: 'One word on where the money comes from. Almost everyone in this space sells into a training budget — small, discretionary, the first thing cut in a bad year. We do not. A company with an unfilled role is already spending: on recruiters, on a search that is not converging, on the seat staying empty. That is the pocket we are in. I will let you size it — you are better at that than I am.'
+  },
+  {
+    sec: 35, c: 'var(--gold)', label: 'Why not them',
     hero: 'assets/brand/market-commoditized.svg',
     heroAlt: 'A grey curve rising then flattening into a crowded plateau, and a teal curve crossing above it and still climbing, with the gap between them shaded gold',
     head: 'Copy the missions.<br>You cannot copy the <em>record.</em>',
@@ -649,7 +667,7 @@ const BEATS = [
 
   /* ══ where we are, and what we want ═════════════════════════════════════ */
   {
-    sec: 35, c: 'var(--blue)', label: 'Shipped or not',
+    sec: 30, c: 'var(--blue)', label: 'Shipped or not',
     hero: 'assets/brand/deck-5-shipped-or-not.svg',
     heroAlt: 'A vertical divider with three solid checked cards on the left and three empty dashed cards on the right',
     head: 'What is live,<br>and what is <em>not.</em>',
@@ -706,8 +724,8 @@ const CHAPTERS = [
   { name: 'Intro',        upto: 2 },
   { name: 'Background',   upto: 5 },
   { name: 'The problem',  upto: 8 },
-  { name: 'The answer',   upto: 14 },
-  { name: "What's next",  upto: 17 },
+  { name: 'The answer',   upto: 15 },
+  { name: "What's next",  upto: 18 },
 ];
 
 /* ── derived state ──────────────────────────────────────────────────────── */
