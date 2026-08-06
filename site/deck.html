@@ -526,43 +526,17 @@ const BEATS = [
     say: 'Because nobody can tell who is real. One study counted seventeen thousand forward deployed engineers on the US market, and about two thousand who can actually deliver. The coding test cannot separate them — it measured exactly the part AI now does for you. And nobody has ten years in a role that is two years old. So what is left is take-home projects and hackathons, and candidates now train for those instead of for interviews.'
   },
   {
-    sec: 35, c: 'var(--blue)', label: 'Robots are next',
-    hero: 'assets/brand/hero-1-redlight.svg',
-    heroAlt: 'A robot arm frozen mid-reach beside a red stop signal and a speech waveform flattening into a straight line',
-    head: 'Next year the same problem<br>hits <em>robots.</em>',
-    sub: 'The body got cheap. The brain did not.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">VLA</div><div class="cap">say it, and the arm moves</div></div>
-      <div class="tile"><div class="big">$130–250</div><div class="cap">the price of an open source arm</div></div>
-      <div class="tile"><div class="big">1,220</div><div class="cap">robots per 10,000 workers · Korea is first</div><div class="src">IFR World Robotics 2025</div></div>
-    </div>`,
-    say: 'Now look at robots. Five years ago you could say "move that box over there" and nothing happened. VLA changed that — you can tell a robot what to do in language. And an arm is a couple of hundred dollars. So next year those same companies want the same engineer, plus a factory floor. Korea has more robots per worker than anywhere on earth.'
-  },
-  {
-    sec: 40, c: 'var(--red)', label: 'Robots break it',
+    sec: 40, c: 'var(--red)', label: 'Robots are next',
     hero: 'assets/brand/deck-14-filters-fail.svg',
     heroAlt: "A take-home assignment, a badge of experience and a recruiter's magnifier, each struck through",
-    head: 'With robots,<br>even that <em>breaks.</em>',
-    sub: 'You cannot post a take-home that needs hardware.',
+    head: 'Next year it hits robots.<br>And there <em>every filter breaks.</em>',
+    sub: 'The body got cheap. Telling people apart did not get easier.',
     html: `<div class="row">
-      <div class="tile"><div class="big">No take-home</div><div class="cap">you cannot mail them an arm</div></div>
-      <div class="tile"><div class="big">No veterans</div><div class="cap">the job does not exist yet</div></div>
-      <div class="tile"><div class="big">No recruiter</div><div class="cap">cannot judge a robot run</div></div>
+      <div class="tile"><div class="big">VLA</div><div class="cap">say it, and the arm moves</div></div>
+      <div class="tile"><div class="big">1,220</div><div class="cap">robots per 10,000 workers · Korea is first</div><div class="src">IFR World Robotics 2025</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">Every filter breaks</div><div class="cap">no take-home · no veterans · no recruiter</div></div>
     </div>`,
-    say: 'Now ask what happens when the same wave reaches robots. The take-home breaks first — you cannot post an assignment that needs an arm, a bench and two days of setup. There are no veterans, because the job does not exist yet. And no recruiter can watch a robot run and tell you whether it was any good. Every tool they have just stopped working.'
-  },
-  {
-    sec: 40, c: 'var(--gold)', label: 'The crossing',
-    hero: 'assets/brand/deck-8-crossing.svg',
-    heroAlt: 'Real people stranded on one cliff edge and unfilled roles drawn as dashed outlines on the other, with a red arch spanning the gap between them',
-    head: 'Developers on one side.<br>Open jobs on the <em>other.</em>',
-    sub: 'Nothing in between. That gap is the company.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">Developers</div><div class="cap">looking. Cannot prove it.</div></div>
-      <div class="tile"><div class="big">Companies</div><div class="cap">hiring. Cannot tell who.</div></div>
-      <div class="tile" style="--c:var(--red)"><div class="big">Us</div><div class="cap">every attempt on record</div></div>
-    </div>`,
-    say: 'So here is the shape. On one side, developers who cannot get hired, with nothing on a CV that proves they can do this. On the other, companies with open roles and no way to tell who is real. Neither side can reach the other. We are the crossing.'
+    say: 'Now look at robots. Five years ago you could say "move that box" and nothing happened. VLA changed that, and an arm is a couple of hundred dollars now. Korea has more robots per worker than anywhere on earth. So next year those same companies want that same engineer, plus a factory floor — and there every filter breaks at once. You cannot mail somebody an arm and a bench. There are no veterans, because the job does not exist yet. And no recruiter can watch a robot run and say whether it was good.'
   },
   {
     sec: 30, c: 'var(--teal)', label: 'Why they cannot cross',
@@ -579,6 +553,19 @@ const BEATS = [
   },
 
   /* ══ what we built, and why ═════════════════════════════════════════════ */
+  {
+    sec: 40, c: 'var(--gold)', label: 'The crossing',
+    hero: 'assets/brand/deck-8-crossing.svg',
+    heroAlt: 'Real people stranded on one cliff edge and unfilled roles drawn as dashed outlines on the other, with a red arch spanning the gap between them',
+    head: 'Developers on one side.<br>Open jobs on the <em>other.</em>',
+    sub: 'Nothing in between. That gap is the company.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Developers</div><div class="cap">looking. Cannot prove it.</div></div>
+      <div class="tile"><div class="big">Companies</div><div class="cap">hiring. Cannot tell who.</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">Us</div><div class="cap">every attempt on record</div></div>
+    </div>`,
+    say: 'So here is the shape. On one side, developers who cannot get hired, with nothing on a CV that proves they can do this. On the other, companies with open roles and no way to tell who is real. Neither side can reach the other. We are the crossing.'
+  },
   {
     sec: 35, c: 'var(--amber)', label: 'Why I started',
     hero: 'assets/brand/deck-7-empty-chair.svg',
@@ -597,7 +584,7 @@ const BEATS = [
     hero: 'assets/brand/deck-11-sim-to-real.svg',
     heroAlt: 'A robot arm drawn as a dashed outline inside a monitor, and the same arm standing solid outside it, with an arrow leading from one to the other',
     head: 'So we made a course<br>you can start <em>tonight.</em>',
-    sub: 'Simulator tonight. A real arm when you want one.',
+    sub: 'There was no way in. This is the way in.',
     html: `<div class="row">
       <div class="tile"><img src="assets/brand/mission-1-pat.svg" alt=""><div class="big" style="font-size:17px">Pat me on the back</div><div class="cap">an easy first win</div></div>
       <div class="tile"><img src="assets/brand/mission-2-pick.svg" alt=""><div class="big" style="font-size:17px">Pick &amp; place</div><div class="cap">it gets harder</div></div>
@@ -610,7 +597,7 @@ const BEATS = [
     hero: 'assets/brand/hero-4-circuit.svg',
     heroAlt: 'A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery',
     head: 'Then we make it<br>a <em>competition.</em>',
-    sub: 'A season with fixed dates, and a board.',
+    sub: 'Nobody finishes alone. People finish when others are watching.',
     html: `<div class="row">
       <div class="tile"><div class="big">PLAY</div><div class="cap">one attempt</div></div>
       <div class="tile"><div class="big">POST</div><div class="cap">a video of it</div></div>
@@ -624,7 +611,7 @@ const BEATS = [
     hero: 'assets/brand/hero-3-peerreview.svg',
     heroAlt: 'Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon',
     head: 'Players grade<br><em>each other.</em>',
-    sub: 'The École 42 model, moved onto robots.',
+    sub: 'Nobody was grading your run. Now somebody is.',
     html: `<div class="row">
       <div class="tile"><div class="big">Video is the test</div><div class="cap">it worked, or it did not</div></div>
       <div class="tile"><div class="big">Peers grade peers</div><div class="cap">no answer key</div></div>
@@ -633,7 +620,7 @@ const BEATS = [
     say: 'And they grade each other. You cannot test a robot skill with a quiz — either the arm did the thing or it did not, and the video shows which. So players review each other, the way École 42 does it with code. Every review leaves written feedback attached to a run. That is exactly what nobody gets learning alone.'
   },
   {
-    sec: 45, c: 'var(--gold)', label: 'What it becomes',
+    sec: 40, c: 'var(--gold)', label: 'What it becomes',
     hero: 'assets/brand/deck-12-the-record.svg',
     heroAlt: 'A single thin CV beside a tall stack of video frames, each one carrying a tick and a date',
     head: 'We become the headhunter<br>for <em>Physical AI.</em>',
@@ -644,6 +631,20 @@ const BEATS = [
       <div class="tile"><div class="big">What we sell</div><div class="cap">the shortlist</div></div>
     </div>`,
     say: 'So that is what we become. A headhunter for Physical AI — except we are not judging from a CV and a phone call. The judgement already happened, on video, by peers, against criteria we wrote with the companies who will be doing the hiring. What piles up is a list of attempts that cannot be faked. What we sell is the shortlist, to the companies that cannot build one themselves.'
+  },
+
+  {
+    sec: 40, c: 'var(--gold)', label: 'Why not them',
+    hero: 'assets/brand/market-commoditized.svg',
+    heroAlt: 'A grey curve rising then flattening into a crowded plateau, and a teal curve crossing above it and still climbing, with the gap between them shaded gold',
+    head: 'Copy the missions.<br>You cannot copy the <em>record.</em>',
+    sub: 'Everyone else hands something over and closes.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Tools, not data</div><div class="cap">Hugging Face and NVIDIA give the stack away. We run on it.</div></div>
+      <div class="tile"><div class="big">Courses end</div><div class="cap">a bootcamp hands over a certificate and closes</div></div>
+      <div class="tile"><div class="big">Leagues end</div><div class="cap">in a trophy. A winner is not a hiring list.</div></div>
+    </div>`,
+    say: 'The obvious question is why nobody else ends up with this. Hugging Face and NVIDIA give the tools away, and we are built on them. A bootcamp ends in a certificate and closes. A league ends in a trophy. Every one of them hands something over and stops. Ours does not stop — the record keeps growing, and the criteria are written with the people hiring from it. Copy the missions all you like. The record is the part you cannot copy.'
   },
 
   /* ══ where we are, and what we want ═════════════════════════════════════ */
@@ -704,7 +705,7 @@ const BEATS = [
 const CHAPTERS = [
   { name: 'Intro',        upto: 2 },
   { name: 'Background',   upto: 5 },
-  { name: 'The problem',  upto: 9 },
+  { name: 'The problem',  upto: 8 },
   { name: 'The answer',   upto: 14 },
   { name: "What's next",  upto: 17 },
 ];
