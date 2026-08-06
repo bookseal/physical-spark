@@ -1,5 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img" aria-labelledby="title">
   <title id="title">Robot arm freezing on a red light while speech flatlines</title>
+  <style>
+    /* Loops, not one-shots — a slide is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away.
+       Shared asset: this file also appears on index, pitch and the course map. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .wave{animation:speak 3.2s ease-in-out infinite;}
+    .wave:nth-of-type(2){animation-delay:.35s}
+    @keyframes speak{0%,100%{opacity:.32;transform:translateX(0)}45%{opacity:1;transform:translateX(-10px)}}
+    .stop{animation:hold 3.2s ease-in-out infinite;}
+    @keyframes hold{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    .heat{animation:heat 3.2s ease-in-out infinite;}
+    @keyframes heat{0%,100%{opacity:.3}50%{opacity:1}}
+  </style>
+
   <g fill="none" stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <rect x="38" y="230" width="162" height="30" rx="15" fill="#948468" stroke="none"/>
     <rect x="72" y="190" width="86" height="44" rx="16" fill="#e0442e"/>
@@ -9,11 +23,11 @@
     <circle cx="211" cy="168" r="13" fill="#fbf5e9"/>
     <path d="M223 175l52 34" stroke="#e0442e" stroke-width="16"/>
     <path d="M275 209l29-3M275 209l22 19" stroke-width="12"/>
-    <path d="M228 149l18 9M234 138l18 9M240 127l18 9" stroke="#e0442e"/>
-    <circle cx="364" cy="150" r="78" fill="#e0442e"/>
-    <rect x="306" y="136" width="116" height="28" rx="14" fill="#fbf5e9" stroke="none"/>
-    <path d="M489 121c18-20 37-20 55 0s37 20 55 0 37-20 55 0" stroke="#0e9a89" stroke-width="14"/>
-    <path d="M489 175c15-16 30-16 45 0s30 16 45 0 23 7 23 7" stroke="#0e9a89" stroke-width="14"/>
+    <path class="heat" d="M228 149l18 9M234 138l18 9M240 127l18 9" stroke="#e0442e"/>
+    <g class="stop" style="transform-origin:364px 150px"><circle cx="364" cy="150" r="78" fill="#e0442e"/>
+    <rect x="306" y="136" width="116" height="28" rx="14" fill="#fbf5e9" stroke="none"/></g>
+    <path class="wave" d="M489 121c18-20 37-20 55 0s37 20 55 0 37-20 55 0" stroke="#0e9a89" stroke-width="14"/>
+    <path class="wave" d="M489 175c15-16 30-16 45 0s30 16 45 0 23 7 23 7" stroke="#0e9a89" stroke-width="14"/>
     <path d="M600 182h98" stroke-width="10"/>
   </g>
 </svg>

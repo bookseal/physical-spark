@@ -1,17 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img" aria-labelledby="title">
   <title id="title">Peer review cards trading feedback with the favorite rising to the top</title>
+  <style>
+    /* Loops, not one-shots — a slide is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away.
+       Shared asset: this file also appears on index, pitch and the course map. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .flow{animation:flow 2.2s linear infinite;}
+    @keyframes flow{to{stroke-dashoffset:-40}}
+    .top{animation:rise 3.6s ease-in-out infinite;}
+    @keyframes rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    .crown{animation:crown 3.6s ease-in-out infinite;}
+    @keyframes crown{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(6deg)}}
+  </style>
+
   <g fill="none" stroke="#2b211a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <rect x="66" y="136" width="164" height="104" rx="24" fill="#fbf5e9"/>
     <path d="M128 168l42 20-42 20z" fill="#e0442e"/>
     <path d="M184 154l8 8-8 8-8-8z" fill="#e6a413"/>
-    <rect x="278" y="88" width="164" height="104" rx="24" fill="#fbf5e9"/>
+    <g class="top"><rect x="278" y="88" width="164" height="104" rx="24" fill="#fbf5e9"/>
     <path d="M340 120l42 20-42 20z" fill="#e0442e"/>
-    <path d="M396 106l8 8-8 8-8-8z" fill="#e6a413"/>
+    <path d="M396 106l8 8-8 8-8-8z" fill="#e6a413"/></g>
     <rect x="490" y="136" width="164" height="104" rx="24" fill="#fbf5e9"/>
     <path d="M552 168l42 20-42 20z" fill="#e0442e"/>
     <path d="M608 154l8 8-8 8-8-8z" fill="#e6a413"/>
-    <path d="M350 38l11 18h22l-15 13 6 21-19-11-19 11 6-21-15-13h22z" fill="#e6a413"/>
-    <path d="M212 124c31-39 61-57 91-57 31 0 61 18 91 57" stroke="#2f6fd0" stroke-width="6" stroke-dasharray="10 10"/>
+    <path class="crown" style="transform-origin:350px 60px" d="M350 38l11 18h22l-15 13 6 21-19-11-19 11 6-21-15-13h22z" fill="#e6a413"/>
+    <path class="flow" d="M212 124c31-39 61-57 91-57 31 0 61 18 91 57" stroke="#2f6fd0" stroke-width="6" stroke-dasharray="10 10"/>
     <path d="M388 115l14 2-6 13z" fill="#2f6fd0" stroke="none"/>
     <path d="M424 124c31-39 61-57 91-57 31 0 61 18 91 57" stroke="#2f6fd0" stroke-width="6" stroke-dasharray="10 10"/>
     <path d="M600 115l14 2-6 13z" fill="#2f6fd0" stroke="none"/>

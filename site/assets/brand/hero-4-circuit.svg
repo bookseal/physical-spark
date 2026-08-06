@@ -1,21 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>Mission, run, peer review, and gallery as a looping race track</title>
+  <style>
+    /* Loops, not one-shots — a slide is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away.
+       Shared asset: this file also appears on index, pitch and the course map. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .lane{animation:run 2.4s linear infinite;}
+    @keyframes run{to{stroke-dashoffset:-56}}
+    .stopmark{animation:visit 4.8s ease-in-out infinite;}
+    .stopmark:nth-of-type(2){animation-delay:1.2s}
+    .stopmark:nth-of-type(3){animation-delay:2.4s}
+    .stopmark:nth-of-type(4){animation-delay:3.6s}
+    @keyframes visit{0%,72%,100%{transform:scale(1)}12%{transform:scale(1.14)}30%{transform:scale(1)}}
+  </style>
+
   <g stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
     <path d="M178 78H542C594 78 626 110 626 150S594 222 542 222H178C126 222 94 190 94 150S126 78 178 78Z" fill="none" stroke="#948468" stroke-width="42"/>
-    <path d="M178 78H542C594 78 626 110 626 150S594 222 542 222H178C126 222 94 190 94 150S126 78 178 78Z" fill="none" stroke="#fbf5e9" stroke-width="6" stroke-dasharray="10 18"/>
+    <path d="M178 78H542C594 78 626 110 626 150S594 222 542 222H178C126 222 94 190 94 150S126 78 178 78Z" fill="none" stroke="#fbf5e9" stroke-width="6" stroke-dasharray="10 18" class="lane"/>
     <path d="M350 78l16 10-16 10Z" fill="#fbf5e9" stroke-width="3"/>
     <path d="M626 165l10-15-20 0Z" fill="#fbf5e9" stroke-width="3"/>
     <path d="M370 222l-16-10 16-10Z" fill="#fbf5e9" stroke-width="3"/>
     <path d="M94 135l-10 15 20 0Z" fill="#fbf5e9" stroke-width="3"/>
-    <circle cx="178" cy="78" r="28" fill="#e0442e" stroke-width="4"/>
+    <circle class="stopmark" style="transform-origin:178px 78px" cx="178" cy="78" r="28" fill="#e0442e" stroke-width="4"/>
     <path d="M168 62v28" fill="none" stroke-width="4"/>
     <path d="M168 62h18v8h-18zM168 78h18v12h-18z" fill="#fbf5e9" stroke="none"/>
-    <circle cx="542" cy="78" r="28" fill="#2f6fd0" stroke-width="4"/>
+    <circle class="stopmark" style="transform-origin:542px 78px" cx="542" cy="78" r="28" fill="#2f6fd0" stroke-width="4"/>
     <rect x="527" y="66" width="26" height="18" rx="5" fill="#fbf5e9" stroke-width="3"/>
     <path d="M537 70l11 5-11 5Z" fill="#2f6fd0" stroke="none"/>
-    <circle cx="542" cy="222" r="28" fill="#0e9a89" stroke-width="4"/>
+    <circle class="stopmark" style="transform-origin:542px 222px" cx="542" cy="222" r="28" fill="#0e9a89" stroke-width="4"/>
     <path d="M529 222h24M529 222l8-8M529 222l8 8M553 222l-8-8M553 222l-8 8" fill="none" stroke="#fbf5e9" stroke-width="4"/>
-    <circle cx="178" cy="222" r="28" fill="#e6a413" stroke-width="4"/>
+    <circle class="stopmark" style="transform-origin:178px 222px" cx="178" cy="222" r="28" fill="#e6a413" stroke-width="4"/>
     <path d="M178 206l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="#fbf5e9" stroke-width="3"/>
   </g>
 </svg>
