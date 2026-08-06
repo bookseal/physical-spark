@@ -131,6 +131,12 @@
     line-height:1.32; font-weight:600; letter-spacing:-.005em;}
   .tile img{height:40px; width:auto; display:block; margin-bottom:8px;}
   .tile.plain{border-top-color:var(--line);}
+  /* A QR has to survive a projector and a phone at the back of the room, so it gets
+     the whole tile rather than sitting next to text at icon size. */
+  .tile.qr{text-align:center; padding:11px 11px 9px;}
+  .tile.qr img{height:auto; width:100%; max-width:152px; margin:0 auto 7px; display:block;
+    border-radius:5px;}
+  .tile.qr .cap{margin-top:0; font-size:12px; letter-spacing:.01em; word-break:break-all;}
   /* attribution under a borrowed number. Deliberately small and quiet — it has to be
      there so the claim is checkable, without competing with the number itself. */
   .tile .src{font-size:10.5px; color:var(--muted); margin-top:6px; letter-spacing:.02em;
@@ -465,7 +471,7 @@ const BEATS = [
         <div class="rl">user retention · bit habit · 2 years</div>
       </div>
     </div>`,
-    say: 'Jungmin is our CEO — lead AI instructor at Eduwill, teaching AI at national scale, and before that an AI Platform Engineer at Upstage, Korea\'s document AI unicorn. I am Gichan, chief product officer — an AI product engineer at KIBA now, and at Concentrix and FPT Software before that. And we have run a habit app called bit habit together for over two years, at ninety percent retention. Keeping people is the hard part of everything I am about to describe.'
+    say: 'Jungmin is our CEO, and the lead AI instructor at Eduwill — before that an AI Platform Engineer at Upstage. I am Gichan, chief product officer. The rest is on the slide. And we have run a habit app called bit habit together for over two years, at ninety percent retention. Keeping people is the hard part of everything I am about to describe.'
   },
   {
     sec: 35, c: 'var(--red)', label: 'Developers',
@@ -674,8 +680,9 @@ const BEATS = [
       <div class="tile"><div class="big">Play it</div><div class="cap">free, tonight, in the simulator</div></div>
       <div class="tile"><div class="big">Build it</div><div class="cap">write the mission that comes next</div></div>
       <div class="tile" style="--c:var(--teal)"><div class="big">Bring a problem</div><div class="cap">run a factory? we will make it a mission</div></div>
+      <div class="tile qr" style="--c:var(--teal)"><img src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com"><div class="cap">physical-spark.bit-habit.com</div></div>
     </div>`,
-    say: 'So the ask is not money. Playing is free, the players do the grading, and our only real cost is servers. What I actually want is people to build this with. Play a mission tonight in the simulator, then help write the next one, the way an open source contributor would. And if you run a factory, bring us the thing you need done — we will turn it into a mission.'
+    say: 'So the ask is not money. Playing is free, the players do the grading, and our only real cost is servers. What I actually want is people to build this with. Play a mission tonight in the simulator, then help write the next one, the way an open source contributor would. And if you run a factory, bring us the thing you need done — we will turn it into a mission. The code on the right is where all of it lives.'
   },
 ];
 
