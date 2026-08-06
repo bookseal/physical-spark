@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>An empty office chair pushed back from a desk while the screen keeps writing code by itself</title>
+  <g fill="none" stroke="#2b211a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- floor -->
+    <path d="M60 268h600" stroke-width="5"/>
+
+    <!-- THE EMPTY CHAIR — pushed back, turned away. The subject of the picture. -->
+    <path d="M104 200h96" />                                  <!-- seat -->
+    <path d="M196 200v-88" />                                 <!-- back post -->
+    <path d="M176 112h34a8 8 0 0 1 8 8v52a8 8 0 0 1-8 8h-34z" fill="#fbf5e9"/>
+    <path d="M150 200v46" />                                  <!-- gas post -->
+    <path d="M112 252l38-8 38 8" />                           <!-- base -->
+    <circle cx="108" cy="258" r="8" fill="#fbf5e9" stroke-width="6"/>
+    <circle cx="192" cy="258" r="8" fill="#fbf5e9" stroke-width="6"/>
+
+    <!-- desk -->
+    <path d="M262 216h380" stroke-width="9"/>
+    <path d="M282 216v52M622 216v52" stroke-width="7"/>
+
+    <!-- a mug someone left behind, and the untouched keyboard -->
+    <path d="M296 208v-22h26v22z" fill="#fbf5e9" stroke-width="6"/>
+    <path d="M322 190h10a7 7 0 0 1 0 14h-10" stroke-width="5"/>
+    <path d="M356 208h104" stroke-width="7"/>
+
+    <!-- monitor, still on -->
+    <path d="M466 216v-14" stroke-width="7"/>
+    <path d="M442 216h48" stroke-width="7"/>
+    <path d="M352 66h228a12 12 0 0 1 12 12v112a12 12 0 0 1-12 12H352a12 12 0 0 1-12-12V78a12 12 0 0 1 12-12z" fill="#fbf5e9"/>
+
+    <!-- code writing itself. The red line is still being typed. -->
+    <g stroke-width="9" stroke-linecap="round">
+      <path d="M370 98h136"/>
+      <path d="M386 126h152"/>
+      <path d="M386 154h108"/>
+      <path d="M370 182h158" stroke="#e0442e"/>
+    </g>
+    <path d="M544 172v20" stroke="#e0442e" stroke-width="10"/>
+  </g>
+</svg>
