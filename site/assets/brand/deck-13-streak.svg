@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>An unbroken row of ticked days running off the edge of the frame</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
+    <g>
+      <rect x="46" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+      <rect x="128" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+      <rect x="210" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+      <rect x="292" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+      <rect x="374" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+      <rect x="456" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+      <rect x="538" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+      <rect x="620" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
+    </g>
+    <g stroke="#0e9a89" stroke-width="9">
+      <path d="M62 148l14 14 26-30"/>
+      <path d="M144 148l14 14 26-30"/>
+      <path d="M226 148l14 14 26-30"/>
+      <path d="M308 148l14 14 26-30"/>
+      <path d="M390 148l14 14 26-30"/>
+      <path d="M472 148l14 14 26-30"/>
+      <path d="M554 148l14 14 26-30"/>
+      <path d="M636 148l14 14 26-30"/>
+    </g>
+    <!-- and it keeps going -->
+    <g stroke="#e0442e" stroke-width="8">
+      <path d="M700 148h-8"/>
+    </g>
+    <path d="M46 216h638" stroke-width="5" stroke-dasharray="2 16"/>
+  </g>
+</svg>

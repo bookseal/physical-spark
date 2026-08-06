@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A take-home assignment, a badge of experience and a recruiter's magnifier, each struck through</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- the take-home -->
+    <g stroke-width="7">
+      <path d="M76 92h92a8 8 0 0 1 8 8v104a8 8 0 0 1-8 8H76a8 8 0 0 1-8-8V100a8 8 0 0 1 8-8z" fill="#fbf5e9"/>
+      <path d="M94 126h56M94 152h48M94 178h34" stroke-width="6"/>
+    </g>
+
+    <!-- experience -->
+    <g stroke-width="7">
+      <circle cx="360" cy="128" r="44" fill="#fbf5e9"/>
+      <path d="M334 166l-16 46 42-20 42 20-16-46" fill="#fbf5e9"/>
+      <path d="M340 128l14 14 26-30" stroke-width="8"/>
+    </g>
+
+    <!-- the recruiter, looking -->
+    <g stroke-width="8">
+      <circle cx="600" cy="126" r="46" fill="#fbf5e9"/>
+      <path d="M634 162l38 42"/>
+    </g>
+
+    <!-- none of them work -->
+    <g stroke="#e0442e" stroke-width="11">
+      <path d="M56 220L188 84"/>
+      <path d="M296 220L428 84"/>
+      <path d="M534 220L666 84"/>
+    </g>
+  </g>
+</svg>

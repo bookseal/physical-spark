@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Four people standing together and a fifth outline left open, with an arrow pointing into the gap</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- the people already here -->
+    <g stroke-width="8">
+      <circle cx="92" cy="128" r="24" fill="#fbf5e9"/>
+      <path d="M56 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
+      <circle cx="196" cy="128" r="24" fill="#fbf5e9"/>
+      <path d="M160 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
+      <circle cx="300" cy="128" r="24" fill="#fbf5e9"/>
+      <path d="M264 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
+      <circle cx="404" cy="128" r="24" fill="#fbf5e9"/>
+      <path d="M368 214v-22a36 36 0 0 1 72 0v22z" fill="#fbf5e9"/>
+    </g>
+
+    <!-- the place that is still open -->
+    <g stroke="#e0442e" stroke-width="7" stroke-dasharray="8 9">
+      <circle cx="616" cy="128" r="24"/>
+      <path d="M580 214v-22a36 36 0 0 1 72 0v22"/>
+    </g>
+
+    <!-- for you -->
+    <path d="M470 172h84" stroke="#e0442e" stroke-width="10"/>
+    <path d="M554 172l-22-14v28z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/>
+  </g>
+</svg>

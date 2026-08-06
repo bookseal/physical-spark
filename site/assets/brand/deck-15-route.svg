@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A route with three stops: one behind, one being run now in red, and one still dashed ahead</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- the road so far -->
+    <path d="M70 176h296" stroke-width="10"/>
+    <!-- and the part not walked yet -->
+    <path d="M394 176h256" stroke-width="9" stroke-dasharray="16 18"/>
+
+    <!-- stop one: done -->
+    <circle cx="112" cy="176" r="20" fill="#2b211a" stroke-width="8"/>
+    <path d="M112 156v-52" stroke-width="8"/>
+    <path d="M112 104h58l-14 18 14 18h-58z" fill="#fbf5e9" stroke-width="7"/>
+
+    <!-- stop two: now -->
+    <circle cx="380" cy="176" r="26" fill="#fbf5e9" stroke="#e0442e" stroke-width="12"/>
+    <path d="M380 150v-46" stroke="#e0442e" stroke-width="9"/>
+    <path d="M380 104h66l-16 20 16 20h-66z" fill="#e0442e" stroke="#e0442e" stroke-width="7"/>
+
+    <!-- stop three: not yet -->
+    <circle cx="646" cy="176" r="20" fill="#fbf5e9" stroke-width="7" stroke-dasharray="7 8"/>
+    <path d="M646 156v-52" stroke-width="7" stroke-dasharray="7 8"/>
+    <path d="M646 104h58l-14 18 14 18h-58z" stroke-width="6" stroke-dasharray="7 8"/>
+  </g>
+</svg>
