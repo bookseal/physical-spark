@@ -1,9 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
-  <title>A single thin CV beside a tall stack of video frames, each one carrying a tick and a date</title>
+  <title>One blank card from the earlier pile, small and tilted, beside a growing stack of runs each carrying a play head, a date and a peer's tick</title>
   <style>
-    /* Loops, not one-shots — the slide is hidden until shown but the SVG keeps
-       running. The resting state below is the finished drawing; only keyframes
-       remove anything, so if animation never runs the picture is still whole. */
+    /* Loops, not one-shots — a beat is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away. */
     @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
     .grade path{stroke-dasharray:52; stroke-dashoffset:0; animation:grade 5s ease-in-out infinite;}
     .grade path:nth-child(2){animation-delay:.3s} .grade path:nth-child(3){animation-delay:.6s}
@@ -13,13 +12,11 @@
   </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
-    <!-- one sheet of paper, and not much on it -->
-    <g stroke-width="7">
-      <path d="M84 92h108a8 8 0 0 1 8 8v128a8 8 0 0 1-8 8H84a8 8 0 0 1-8-8V100a8 8 0 0 1 8-8z" fill="#fbf5e9"/>
-      <path d="M104 126h68M104 152h60M104 178h44" stroke-width="6"/>
-    </g>
+    <!-- The paper from slide 5. Same size, same corners, same blankness, same tilt
+         as one of the cards he was hiding behind — so the room recognises it. -->
+    <rect x="86" y="126" width="88" height="112" rx="10" stroke-width="4" transform="rotate(-12 130 182)"/>
 
-    <!-- versus: a run, and a run, and a run -->
+    <!-- and what he has instead now -->
     <g stroke-width="7">
       <path d="M306 68h300a10 10 0 0 1 10 10v44a10 10 0 0 1-10 10H306a10 10 0 0 1-10-10V78a10 10 0 0 1 10-10z" fill="#fbf5e9"/>
       <path d="M306 148h300a10 10 0 0 1 10 10v44a10 10 0 0 1-10 10H306a10 10 0 0 1-10-10v-44a10 10 0 0 1 10-10z" fill="#fbf5e9"/>
