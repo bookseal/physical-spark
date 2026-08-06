@@ -677,8 +677,22 @@ function render(){
   const wc = document.getElementById('pr-wc');
   wc.textContent = `${words}w / ~${cap}w`;
   wc.classList.toggle('over', words > cap);
+  fitPrompter();
   paint();
 }
+
+/* The stage reserves --prompter of bottom padding so a slide never runs under the
+   teleprompter. That reservation was a constant, but the prompter's height is not:
+   a 95-word script wraps to twice the lines of a 40-word one and grows past it,
+   quietly covering the bottom of the slide. Measure it instead of guessing.
+   Set on :root, so body.noprompt's own --prompter:0px still wins when hidden. */
+function fitPrompter(){
+  requestAnimationFrame(() => {
+    const h = document.getElementById('prompter').offsetHeight;
+    if (h) document.documentElement.style.setProperty('--prompter', h + 'px');
+  });
+}
+addEventListener('resize', fitPrompter);
 
 /* the budget bar: filled segments behind you, a live-filling one under you */
 function paint(){
