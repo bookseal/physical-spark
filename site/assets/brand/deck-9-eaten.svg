@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A queue of software product windows being swallowed by a large open mouth, the ones already inside reduced to dashed outlines</title>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- products still standing -->
+    <g stroke-width="7">
+      <rect x="46" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
+      <path d="M46 136h78"/>
+      <rect x="142" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
+      <path d="M142 136h78"/>
+      <rect x="238" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
+      <path d="M238 136h78"/>
+    </g>
+
+    <!-- going in: the same shape, with nothing left in it -->
+    <g stroke-width="6" stroke-dasharray="7 8">
+      <rect x="336" y="120" width="62" height="56" rx="8"/>
+      <rect x="418" y="128" width="44" height="40" rx="7"/>
+    </g>
+
+    <!-- the mouth, open toward them -->
+    <path d="M580 150 L502 105 A90 90 0 1 1 502 195 Z"
+          fill="#e0442e" stroke="#2b211a" stroke-width="8"/>
+    <circle cx="596" cy="112" r="10" fill="#fbf5e9" stroke="#2b211a" stroke-width="7"/>
+  </g>
+</svg>
