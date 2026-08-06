@@ -30,12 +30,11 @@
      away, in the shared footer below — demoted, not deleted. */
   var LINKS = [
     { href: "/company.html", label: "Company" },
-    { href: "/market.html", label: "Market" },
-    { href: "/courses/", label: "Missions", match: /^\/courses\/?$/ }
+    { href: "/courses/", label: "Courses", match: /^\/courses\/?$/ },
+    { href: "/join.html", label: "Join us" }
   ];
   var CTA = { href: "/deck.html", label: "10-min pitch" };
   var SECONDARY = [
-    { href: "/join.html", label: "Join us" },
     { href: "/docs", label: "Playbook" },
     { href: "https://github.com/bookseal/physical-spark", label: "GitHub", ext: true }
   ];

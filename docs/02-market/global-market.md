@@ -1,6 +1,6 @@
 # Global market — who pays for AI education in Korea, the US and Singapore
 
-> The reasoning behind [`site/market.html`](../../site/market.html). Site pages are the pixels;
+> The reasoning behind [`site/market.html`](./global-market.md). Site pages are the pixels;
 > this file holds the argument and the receipts. Checked July 2026 — **subsidy rules move, so
 > re-verify before spending money or committing a launch date.**
 >
@@ -106,6 +106,21 @@ volume; companies supply price.
    reskilling budget that 75% of organisations are growing.
 
 Skipping to rung 5 without rungs 1–2 means selling enterprise training with no evidence it works.
+
+### v0 prices — three of five rungs, on purpose
+
+Carried over from the public market page before it was retired. These are **first-cohort numbers,
+not a rate card**, set to be defensible rather than optimal.
+
+| Rung | Price | Why this number |
+|---|---|---|
+| 2 · Cohort | **$190 for six weeks** (₩250,000) + a **$60 deposit** refunded only on completion | The deposit is the retention mechanic ported from the founder's habit product — big enough to sting, small enough to say yes to. Cohort one is buying completion-rate data, not revenue. |
+| 4 · Kit | **$520** bundled, on roughly **$400** landed cost — about **23% margin** | Thin on purpose: the kit removes the excuse not to start, it is not the business. |
+| 5 · B2B | **$2,500 per workshop day**, up to 12 people | About $210 a head — inside the $300–$1,700 per-employee L&D range above, so it clears procurement without a fight. |
+
+Rungs 1 and 3 are deliberately unpriced: a self-paced library and a membership do not exist yet, and
+pricing them would be inventing a product. Revisit all of this once the first cohort's completion
+rate exists.
 
 ## 4. Channel — borrow trust first, own the list second
 

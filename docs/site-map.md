@@ -8,72 +8,33 @@
 
 ---
 
-## The shape
+## The shape — five public pages
 
 ```mermaid
-graph TD
-  subgraph PUBLIC["site/ — the public surface"]
-    IDX["index.html<br/>landing"]
-    CO["company.html<br/>for people who write cheques"]
-    MK["market.html<br/>who pays, with sources"]
-    PI["pitch.html<br/>the 60-second deck"]
-    JO["join.html<br/>careers"]
-    subgraph CUR["courses/ — the product"]
-      CI["index.html<br/>mission hub"]
-      SM["study-map.html"]
-      GS["ground-school.html"]
-      IL["imitation-learning.html"]
-      PM["pat-me-on-the-back.html"]
-    end
-    FU["funding.html<br/>fundraising strategy"]
-  end
-
-  subgraph PLAYBOOK["/docs — the Playbook, 29 markdown files"]
-    D1["docs/ — concept, market,<br/>positioning, ops, strategy"]
-    D2["knowledge/ — field basics"]
-    D3["lab/ — tutorials, references"]
-    D4["decisions/ — ADRs"]
-  end
-
-  IDX --> CO & MK & JO & CI & FU
-  CO --> MK & CI
-  MK --> FU & PI
-  JO --> CO & PI
-  CI --> SM & JO & FU
-  SM --> GS & IL
-  CI --> PM
-  IDX --> PLAYBOOK
-  CI --> PLAYBOOK
+graph LR
+  IDX["index.html<br/>the hook"] --> CO["company.html<br/>회사소개"]
+  IDX --> CU["courses/<br/>코스소개"]
+  IDX --> JO["join.html<br/>join us"]
+  IDX --> PI["pitch.html<br/>피치덱"]
+  CO --> PI
+  CO --> CU
+  JO --> CO
+  CU --> C1["study-map · ground-school<br/>imitation-learning · pat-me"]
+  IDX -.-> PB["/docs — Playbook"]
+  CO -.-> PB
 ```
 
-## The three tiers, by reader
+Nav carries **Company · Courses · Join us** with **60s pitch** as the one emphasised action; the
+brand goes home. `pitch.html` keeps its own 60-second HUD instead of the site nav — it is on screen
+during a live pitch.
 
-| Tier | Pages | Reader | Question they arrived with |
-|---|---|---|---|
-| **Front door** | `index` · `company` · `market` · `pitch` | investor, partner, press | Is this real? |
-| **Product** | `courses/` and its four sub-pages | a developer who might compete | Can I do this? |
-| **Recruiting** | `join` | someone who might build it | Should I join? |
-| **Strategy** | `funding` | *nobody external* — see below | — |
+### What left the public site, and why
 
-## Language state
-
-| Page | Korean chars | What the Korean is |
-|---|---:|---|
-| `funding.html` | **12,613** | the whole document |
-| `index.html` | 293 | the `#read` reading-path section |
-| `market.html` | 51 | Korean programme names (국민내일배움카드) and Korean source titles |
-| `courses/index.html` | 13 | chapter-pager labels (← 2장 / 4장 →) |
-| `join.html` | 11 | residual |
-| `courses/study-map.html`, `courses/imitation-learning.html` | 4 each | the voice command `"저거 집어"` — an example utterance, not UI |
-| everything else | 0 | — |
-
-**97% of the site's Korean is one page.** Two kinds of Korean are worth telling apart:
-
-- **Untranslatable proper nouns** — 국민내일배움카드, K-Digital Training, and the titles of Korean
-  sources being cited. These *should* stay Korean; translating a programme's name makes it
-  unfindable. A small English gloss beside them is the right treatment.
-- **Prose that happens to be Korean** — the reading path, the pager labels, `funding.html`. This is
-  where the site reads as unfinished to an English reader.
+| Page | Moved to | Because |
+|---|---|---|
+| `funding.html` | `docs/07-strategy/us-vc-connections.html` | A fundraising strategy memo — connection map, flip costs, deadline. Publishing it shows the negotiating position to the people being raised from. |
+| `market.html` | retired; `docs/02-market/global-market.md` already held the reasoning | It was an appendix promoted to the nav: nothing linked *into* it. Its v0 prices were carried into the Playbook doc first, since they existed nowhere else. |
+| `pit.html` | `docs/07-strategy/pit-lane-industry-intro.html` | Self-labelled 내부 작업대. It is now the canonical narrative source, which is exactly what a Playbook doc is for. |
 
 ## Placement rules
 
