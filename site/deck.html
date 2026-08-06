@@ -329,8 +329,17 @@
    three things defined before the argument lands: what a robot is made of,
    what a forward deployed engineer does, and why either is suddenly urgent.
    An earlier draft skipped all three and jumped straight to a hiring shortage,
-   which reads as a non sequitur to anyone outside the field. Beats 3 and 5 are
-   pure definition and they earn their seconds.
+   which reads as a non sequitur to anyone outside the field.
+
+   Calibrate that depth to THIS room, though. A fund that invests in AI already
+   knows what a forward deployed engineer is — it was on the front of TechCrunch
+   last month. Spending a slide defining it reads as condescension, and the
+   thing act one is really being graded on is whether this founder knows
+   something the room does not. So beat 5 defines the term in its subtitle and
+   spends its seconds on the non-obvious half instead: why that person cannot be
+   hired. Robotics gets the opposite treatment — beat 3 is pure background,
+   because the room genuinely does not know an arm is a commodity and a brain is
+   not, and that fact is load-bearing for everything after it.
 
    Every beat carries a `sub` — one orienting line under the headline. The
    headline is the claim; the sub is the context that makes the claim parse.
@@ -398,16 +407,16 @@ const BEATS = [
     say: 'Five years ago you could say "move that box over there" and nothing would happen. Same as talking to a computer before large language models. Now we do it ten times a day. That is happening for robots now. It is called VLA — the only acronym today.'
   },
   {
-    sec: 25, c: 'var(--red)', label: 'What an FDE is',
+    sec: 30, c: 'var(--red)', label: 'Why it is hard',
     hero: '', heroAlt: '',
-    head: 'A forward deployed engineer<br>goes <em>inside the building.</em>',
-    sub: 'Palantir invented the job. Every AI company copied it.',
+    head: 'Ships code. <em>Sits with customers.</em><br>Rarely the same person.',
+    sub: 'A forward deployed engineer works inside the customer\'s building — Palantir\'s model, now everyone\'s.',
     html: `<div class="row">
-      <div class="tile"><div class="big">Not a salesperson</div><div class="cap">an engineer who sits at the customer's site, not at yours</div></div>
-      <div class="tile"><div class="big">Not a consultant</div><div class="cap">they ship code against the customer's real data and real machines</div></div>
-      <div class="tile"><div class="big">Why the role exists</div><div class="cap">95% of enterprise generative AI pilots showed no measurable P&amp;L impact. The models were not the problem — the deployment was.</div><div class="src">MIT Project NANDA</div></div>
+      <div class="tile"><div class="big">Two jobs, one person</div><div class="cap">codes like an engineer, handles a room like a founder</div></div>
+      <div class="tile"><div class="big">Not on one résumé</div><div class="cap">recruiting surfaces strong engineers or strong communicators. Almost never both.</div></div>
+      <div class="tile"><div class="big">95%</div><div class="cap">of enterprise generative AI pilots showed no measurable P&amp;L impact. The models were not the problem — the deployment was.</div><div class="src">MIT Project NANDA</div></div>
     </div>`,
-    say: 'One term you will hear a lot in the next few minutes. A forward deployed engineer is not a salesperson and not a consultant. It is an engineer who goes and sits inside the customer\'s building and makes the AI actually work there. Palantir invented the job. Every AI company has copied it.'
+    say: 'A forward deployed engineer sits inside the customer\'s building and makes the AI actually work there — Palantir\'s model, now everyone\'s. It is hard to hire because it is two jobs in one person. Engineers who ship do not want the room. People who own the room cannot ship. Those two almost never appear on the same résumé.'
   },
   {
     sec: 30, c: 'var(--gold)', label: 'The demand',
@@ -445,7 +454,7 @@ const BEATS = [
       <div class="tile"><div class="big">4×</div><div class="cap">the United States. Nine times the world average.</div></div>
       <div class="tile"><div class="big">2030</div><div class="cap">Korean national policy target: lead Physical AI</div></div>
     </div>`,
-    say: 'Next year those same companies will want that engineer to understand a factory floor. Korea runs one thousand two hundred and twenty robots per ten thousand manufacturing workers — four times the United States, first in the world. The test bed is here.'
+    say: 'Next year those same companies want that person plus a factory floor. If you cannot spot the hybrid on paper today, you will not spot it once hardware is in the mix. And Korea has more robots per worker than anywhere on earth. The test bed is here.'
   },
   {
     sec: 20, c: 'var(--gold)', label: 'The bridge',
@@ -474,7 +483,7 @@ const BEATS = [
     hero: '', heroAlt: '',
     head: 'Robotics is six layers deep.<br>We take <em>two.</em>',
     sub: 'Robotics engineering is huge. Picking a layer is the product decision.',
-    html: `<div class="stack six">
+    html: `<div class="stack">
       <div class="lay ours"><span class="n">6</span><span class="t">Policy &amp; learning</span><span class="d">what to do — imitation, RL, VLA. This is Physical AI.</span></div>
       <div class="lay ours"><span class="n">5</span><span class="t">Simulation</span><span class="d">practice with no hardware — Isaac, MuJoCo</span></div>
       <div class="lay"><span class="n">4</span><span class="t">Middleware</span><span class="d">ROS — the wiring between the parts</span></div>
@@ -508,7 +517,7 @@ const BEATS = [
     say: 'You cannot test a robot skill with a quiz. Either the arm did the thing or it did not, and the video shows which. That is why the work cannot be faked — and why the grade means something.'
   },
   {
-    sec: 25, c: 'var(--teal)', label: 'The grading',
+    sec: 20, c: 'var(--teal)', label: 'The grading',
     hero: 'assets/brand/hero-3-peerreview.svg',
     heroAlt: 'Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon',
     head: 'The <em>grading</em> is the product.',
