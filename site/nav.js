@@ -7,7 +7,7 @@
    Two things to know before editing:
 
    1. The pages do NOT share a palette. index.html names its tokens
-      --bg/--fg/--red; funding.html and the course pages name theirs
+      --bg/--fg/--red; the course pages name theirs
       --paper/--ink/--accent. So every colour below is written as
       var(--token, #fallback) — adopt the host page's token when it exists, fall
       back otherwise. This is the same trick auth.js uses.
@@ -36,7 +36,6 @@
   var CTA = { href: "/pitch.html", label: "60s pitch" };
   var SECONDARY = [
     { href: "/join.html", label: "Join us" },
-    { href: "/funding.html", label: "\uc790\uae08 \uc870\ub2ec" },
     { href: "/docs", label: "Playbook" },
     { href: "https://github.com/bookseal/physical-spark", label: "GitHub", ext: true }
   ];
