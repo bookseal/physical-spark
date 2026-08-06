@@ -158,8 +158,8 @@
      headline does not fit above the teleprompter, and the bottom rung is the whole point
      (we stop at layer one). Scoped with :has() so no other beat is affected; browsers
      without :has() just get the slightly tighter crop we had before. */
-  .beat:has(.stack.six) h1.head, .beat:has(.orgs) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
-  .beat:has(.stack.six) .kicker, .beat:has(.orgs) .kicker{margin-bottom:8px;}
+  .beat:has(.stack) h1.head, .beat:has(.orgs) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
+  .beat:has(.stack) .kicker, .beat:has(.orgs) .kicker{margin-bottom:8px;}
   .beat:has(.orgs) .orgs{margin-top:18px;}
 
   @media (max-width:820px){
@@ -586,9 +586,8 @@ const BEATS = [
   },
   {
     sec: 40, c: 'var(--amber)', label: 'How we get there',
-    hero: 'assets/brand/deck-6-season-one.svg',
-    heroAlt: 'A grid of thirty small circles with three filled red, beside a bar divided into six segments ending in a flag',
-    head: 'We are writing the missions<br>by <em>doing them.</em>',
+    hero: '', heroAlt: '',
+    head: 'We write the missions<br>by <em>doing them.</em>',
     sub: 'Then together. Then with the factories.',
     /* The roadmap is three steps and the middle one is season one, which used to
        stand alone as a promise. Standing alone it read as an experiment; standing
