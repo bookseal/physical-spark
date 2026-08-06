@@ -104,7 +104,7 @@
      is larger, the dead zone or the teleprompter, so rehearsing and presenting agree. */
   .stage{position:relative; z-index:1; height:100%; display:flex; align-items:flex-start;
     justify-content:center;
-    padding:104px 22px max(20vh, calc(56px + var(--prompter))); transition:padding .2s ease;}
+    padding:104px 22px max(20vh, calc(var(--ctl,62px) + var(--prompter))); transition:padding .2s ease;}
   .beat{max-width:1140px; width:100%; display:none;}
   .beat.on{display:block; animation:pop .34s cubic-bezier(.2,.9,.3,1.2);}
   @keyframes pop{from{opacity:0; transform:translateY(14px) scale(.985);} to{opacity:1; transform:none;}}
@@ -215,7 +215,7 @@
   }
 
   /* ── teleprompter — the words, big enough to actually read ────────────── */
-  .prompter{position:fixed; left:0; right:0; bottom:62px; z-index:28; border-top:1px solid var(--line);
+  .prompter{position:fixed; left:0; right:0; bottom:var(--ctl,62px); z-index:28; border-top:1px solid var(--line);
     background:color-mix(in srgb,var(--card) 94%,transparent); backdrop-filter:blur(8px);
     box-shadow:0 -10px 30px color-mix(in srgb,var(--shadow) 55%,transparent);}
   .prompter-in{max-width:1180px; margin:0 auto; padding:11px 22px; display:flex; gap:14px; align-items:flex-start;}
@@ -323,7 +323,7 @@
     .loop .arw{font-size:14px;}
 
     /* the teleprompter is the point of the phone view */
-    .prompter{bottom:58px;}
+    .prompter{bottom:var(--ctl,58px);}
     .prompter-in{padding:12px 15px 13px; gap:11px; flex-wrap:wrap;}
     .pr-tag{font-size:9.5px; padding:5px 8px; margin-top:0; letter-spacing:.1em;}
     .pr-say{font-size:15px; line-height:1.4; flex:1 1 100%; order:3; font-weight:650;}
@@ -383,9 +383,6 @@
     <button class="tbtn" id="btn-full" onclick="toggleFull()">Full F</button>
     <a class="tbtn pitlink" href="/pitch.html" title="The 60-second version">60s ↗</a>
     <a class="tbtn pitlink" href="/docs#docs%2F07-strategy%2Fpit-lane-industry-intro.html" title="피트레인 — 작업대">PIT ↗</a>
-  </span>
-  <span class="keys">
-    <kbd>space</kbd> next · <kbd>←</kbd><kbd>→</kbd> move · <kbd>F</kbd> full · <kbd>A</kbd> auto · <kbd>S</kbd> script · <kbd>O</kbd> overview · <kbd>R</kbd> reset · <kbd>enter</kbd> clock
   </span>
 </div></div>
 
@@ -804,6 +801,10 @@ function render(){
    Set on :root, so body.noprompt's own --prompter:0px still wins when hidden. */
 function fitPrompter(){
   requestAnimationFrame(() => {
+    /* the control bar wraps to two rows on a narrow window, so its height is no more
+       constant than the prompter's — measure both or the script gets covered */
+    const c = document.querySelector('.ctl').offsetHeight;
+    if (c) document.documentElement.style.setProperty('--ctl', c + 'px');
     const h = document.getElementById('prompter').offsetHeight;
     if (h) document.documentElement.style.setProperty('--prompter', h + 'px');
   });
