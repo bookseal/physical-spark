@@ -157,32 +157,17 @@
   .soon .t em{display:block; font-style:normal; color:var(--muted); font-size:12px; margin-top:4px;}
 
   /* reading map — the "read it one by one" path */
-  .readmap{display:grid; gap:12px;}
   /* The card is a <div>, not an <a>: card 2 carries its own guide links, and an <a>
      inside an <a> is invalid — the parser closes the outer one early and the layout
      falls apart from that card on. The title link is stretched over the whole card
      instead, so the card stays fully clickable with valid markup. */
-  .rcard{position:relative; display:flex; gap:16px; align-items:flex-start; background:var(--card); border:1px solid var(--line);
     border-left:5px solid var(--c); border-radius:14px; padding:16px 18px; box-shadow:0 6px 18px var(--shadow);
     color:var(--fg); transition:transform .1s ease, box-shadow .2s;}
-  .rcard:hover{transform:translateY(-2px); box-shadow:0 12px 30px var(--shadow); border-left-color:var(--c);}
-  .rcard .rn{font-family:ui-monospace,monospace; font-size:26px; font-weight:900; color:var(--c); line-height:1; flex:0 0 auto; min-width:34px;}
-  .rcard .rbody{flex:1; min-width:0;}
-  .rcard h4{margin:0 0 3px; font-size:17px; display:flex; align-items:baseline; gap:9px; flex-wrap:wrap;}
-  .rcard h4 a{color:var(--fg);}
-  .rcard h4 a::after{content:""; position:absolute; inset:0; border-radius:14px;}  /* stretched link */
-  .rcard:hover h4 a{color:var(--c);}
-  .rcard h4 .rmeta{font-family:ui-monospace,monospace; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.08em;}
-  .rcard p{margin:0; color:var(--muted); font-size:14px;}
-  .rcard .rgo{color:var(--c); font-weight:800; font-size:20px; align-self:center; flex:0 0 auto;}
   /* sits above the stretched overlay so the guide links stay separately clickable */
-  .rcard .sub-links{position:relative; z-index:1; margin-top:7px; font-size:12.5px;}
-  .rcard .sub-links a{color:var(--muted); font-weight:600; border-bottom:1px dashed var(--line);}
-  .rcard .sub-links a:hover{color:var(--c); border-color:var(--c);}
 
   /* chapter pager — walks the reading path in order. Lives inside a .wrap on every page,
      so it carries no max-width/padding of its own. Body colour uses a fallback chain
-     because funding.html names its text token --ink while the rest use --fg. */
+     because some pages name their text token --ink while the rest use --fg. */
   .chapnav{display:flex; gap:12px; align-items:stretch; margin:40px 0 34px;}
   .chapnav>*{flex:1; min-width:0;}
   .chapnav a{display:flex; flex-direction:column; gap:3px; justify-content:center;
@@ -412,67 +397,12 @@
   </div>
 </div></section>
 
-<section id="read"><div class="wrap">
-  <h2 class="sec">Read the project · 읽는 순서</h2>
-  <h3 class="lead">궁금해졌다면 — 여기서부터, 하나씩.</h3>
-  <p style="color:var(--muted); max-width:640px; margin:-14px 0 24px; font-size:15px;">
-    게임은 여기까지. 이제 <b style="color:var(--fg)">왜 지금인지</b>부터 사업 전략, 직접 해보기, 깊은 리서치까지 —
-    위에서 아래로 읽어 내려가면 이 프로젝트의 전체 그림이 잡힙니다. 대부분 5~10분이면 충분해요.</p>
-
-  <div class="readmap">
-    <div class="rcard" style="--c:var(--red)">
-      <span class="rn">1</span>
-      <div class="rbody">
-        <h4><a href="join.html">왜 지금인가 — 합류 안내</a> <span class="rmeta">약 5분 · 소개</span></h4>
-        <p>SaaS가 흔들리고 Physical AI가 폭발하는 지금, 우리가 <b>뭘·왜</b> 만드는지. 시장·우리의 각(wedge)·이미 만든 것.</p>
-      </div>
-      <span class="rgo">→</span>
-    </div>
-
-    <div class="rcard" style="--c:var(--gold)">
-      <span class="rn">2</span>
-      <div class="rbody">
-        <h4><a href="funding.html">사업 전략 — 자금 조달</a> <span class="rmeta">전략 · 커넥션</span></h4>
-        <p>목표는 미국 VC 투자 하나. 2026년 7월 시애틀에서 받은 진단과, 이미 손에 쥔 커넥션 지도.</p>
-      </div>
-      <span class="rgo">→</span>
-    </div>
-
-    <div class="rcard" style="--c:var(--blue)">
-      <span class="rn">3</span>
-      <div class="rbody">
-        <h4><a href="courses/">직접 해보기 — 미션</a> <span class="rmeta">핸즈온 · 시뮬 우선</span></h4>
-        <p>로봇팔 미션 3종을 노트북 시뮬로 직접. 진도가 저장되는 코스, 그리고 이론을 먼저 훑는 동반 가이드.</p>
-        <div class="sub-links">가이드:
-          <a href="courses/ground-school.html">Ground Control</a> ·
-          <a href="courses/imitation-learning.html">모방학습 딥다이브</a> ·
-          <a href="courses/study-map.html">Study Map</a></div>
-      </div>
-      <span class="rgo">→</span>
-    </div>
-
-    <div class="rcard" style="--c:var(--teal)">
-      <span class="rn">4</span>
-      <div class="rbody">
-        <h4><a href="/docs">더 깊이 — Playbook</a> <span class="rmeta">문서 · 리서치</span></h4>
-        <p>제품 컨셉·시장 스캔·분야 기초·의사결정(ADR)·랩 노트를 한 보드에서. 분야가 낯설면 <b>knowledge/ 기초</b>부터.</p>
-      </div>
-      <span class="rgo">→</span>
-    </div>
-  </div>
-
-  <nav class="chapnav">
-    <span class="prev"></span>
-    <a class="next" href="join.html"><span class="cn-k">1장 →</span><span class="cn-t">왜 지금인가</span></a>
-  </nav>
-</div></section>
 
 <footer>
   <div class="wrap mono" style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
     <a href="courses/">Missions</a>
     <a href="company.html">Company</a>
     <a href="join.html">Join</a>
-    <a href="funding.html">자금 조달</a>
     <a href="/docs">Playbook</a>
     <a href="https://github.com/bookseal/physical-spark" target="_blank">GitHub</a>
   </div>

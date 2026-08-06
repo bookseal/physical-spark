@@ -109,7 +109,7 @@ Not curriculum (free DAPIER wins that). Your defensible assets:
 
 1. **A vetted talent pool** the fragmented 20,000-firm SI market desperately needs — peer-review + completion data is the vetting signal. Cohort courses hit **40–70% completion vs 5–15% for MOOCs**; the durable value is "**sell the outcome/completion, not the content**." ([Forte Labs on cohort courses](https://fortelabs.com/blog/the-rise-of-cohort-based-courses/))
 2. **A behavior-data flywheel** — cohorts collect **teleoperation demonstrations on SO-101**, which is *more defensible than model or code* and maps straight onto the government-declared national bottleneck (a fundable wedge + a partnership hook with the K-Humanoid / behavior-data-center program). ([SVRC](https://www.roboticscenter.ai/blog/robot-startup-guide); [The Elec](https://www.thelec.net/news/articleView.html?idxno=11898))
-3. **The government B2B channel** you already scoped in [`funding.html`](../../site/funding.html): supply the curriculum to *offline* KDT bootcamps and teach as a K-디지털 교·강사 — the government arm, run in parallel to the direct online product.
+3. **The government B2B channel** you already scoped in [`us-vc-connections.html`](./us-vc-connections.html): supply the curriculum to *offline* KDT bootcamps and teach as a K-디지털 교·강사 — the government arm, run in parallel to the direct online product.
 
 ---
 
@@ -126,7 +126,7 @@ Not curriculum (free DAPIER wins that). Your defensible assets:
 
 ## 6. Next-step checklist
 
-- [ ] Register in the **K-디지털 교·강사 Pool** (KOREATECH) — immediate, paid, no institution (see [`funding.html`](../../site/funding.html)).
+- [ ] Register in the **K-디지털 교·강사 Pool** (KOREATECH) — immediate, paid, no institution (see [`us-vc-connections.html`](./us-vc-connections.html)).
 - [ ] Apply to **예비창업패키지 딥테크 (로봇/AI)** — non-dilutive, background-agnostic, ~₩50M.
 - [ ] Draft **two decks** (edtech + Physical-AI deep-tech) under the "talent pipeline" umbrella.
 - [ ] Warm intros to **블루포인트 / 퓨처플레이** (deep-tech) and **매쉬업엔젤스 / 프라이머** (edtech) — any investment becomes your **TIPS operator**.

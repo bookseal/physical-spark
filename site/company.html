@@ -127,6 +127,25 @@
     font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--c,var(--red));}
   .road .tx{display:block; margin-top:3px;}
   .road .tx b{font-weight:800;}
+
+  /* reading-path cards, moved here from the landing page */
+  .readmap {display:grid; gap:12px;}
+  .rcard {position:relative; display:flex; gap:16px; align-items:flex-start; background:var(--card); border:1px solid var(--line);
+    border-left:5px solid var(--c); border-radius:14px; padding:16px 18px; box-shadow:0 6px 18px var(--shadow);
+    color:var(--fg); transition:transform .1s ease, box-shadow .2s;}
+  .rcard:hover {transform:translateY(-2px); box-shadow:0 12px 30px var(--shadow); border-left-color:var(--c);}
+  .rcard .rn {font-family:ui-monospace,monospace; font-size:26px; font-weight:900; color:var(--c); line-height:1; flex:0 0 auto; min-width:34px;}
+  .rcard .rbody {flex:1; min-width:0;}
+  .rcard h4 {margin:0 0 3px; font-size:17px; display:flex; align-items:baseline; gap:9px; flex-wrap:wrap;}
+  .rcard h4 a {color:var(--fg);}
+  .rcard h4 a::after {content:""; position:absolute; inset:0; border-radius:14px;}
+  .rcard:hover h4 a {color:var(--c);}
+  .rcard h4 .rmeta {font-family:ui-monospace,monospace; font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.08em;}
+  .rcard p {margin:0; color:var(--muted); font-size:14px;}
+  .rcard .rgo {color:var(--c); font-weight:800; font-size:20px; align-self:center; flex:0 0 auto;}
+  .rcard .sub-links {position:relative; z-index:1; margin-top:7px; font-size:12.5px;}
+  .rcard .sub-links a {color:var(--muted); font-weight:600; border-bottom:1px dashed var(--line);}
+  .rcard .sub-links a:hover {color:var(--c); border-color:var(--c);}
 </style>
 </head>
 <body>
@@ -279,6 +298,61 @@
       <a href="courses/">missions</a>, and the <a href="market.html">market analysis</a> with its
       sources. We have no user numbers, no dataset size and no partnerships to report yet — when we do,
       they will appear here with a date on them.</p>
+  </div>
+</div></section>
+
+
+<!-- ─────────────────────────────────────────────── read the project ── -->
+<section id="read"><div class="wrap">
+  <h2 class="sec">Read the project</h2>
+  <h3 class="lead">Everything we know, in the order it makes sense.</h3>
+  <p style="color:var(--muted); max-width:640px; margin:-8px 0 24px; font-size:15px;">
+    Four stops, top to bottom, and you have the whole picture. Most take five to ten minutes.</p>
+
+  <div class="readmap">
+    <div class="rcard" style="--c:var(--red)">
+      <span class="rn">1</span>
+      <div class="rbody">
+        <h4><a href="market.html">Where this gets sold</a> <span class="rmeta">~8 min · market</span></h4>
+        <p>Who pays for this in Korea, the US and Singapore — three different engines, every figure sourced.
+          Including the place the standard advice turns out to be wrong.</p>
+      </div>
+      <span class="rgo">→</span>
+    </div>
+
+    <div class="rcard" style="--c:var(--gold)">
+      <span class="rn">2</span>
+      <div class="rbody">
+        <h4><a href="pitch.html">The 60-second pitch</a> <span class="rmeta">1 min · the whole thing</span></h4>
+        <p>Six beats, each with a time budget. The fastest complete version of the argument, built to be
+          read aloud rather than skimmed.</p>
+      </div>
+      <span class="rgo">→</span>
+    </div>
+
+    <div class="rcard" style="--c:var(--blue)">
+      <span class="rn">3</span>
+      <div class="rbody">
+        <h4><a href="courses/">Run a mission yourself</a> <span class="rmeta">hands-on · sim first</span></h4>
+        <p>Three robot-arm missions on a laptop simulator — no hardware needed to start. Progress saves as
+          you go.</p>
+        <div class="sub-links">Companion reads:
+          <a href="courses/ground-school.html">Ground Control</a> ·
+          <a href="courses/imitation-learning.html">Learning by Showing</a> ·
+          <a href="courses/study-map.html">Study Map</a></div>
+      </div>
+      <span class="rgo">→</span>
+    </div>
+
+    <div class="rcard" style="--c:var(--teal)">
+      <span class="rn">4</span>
+      <div class="rbody">
+        <h4><a href="/docs">The Playbook</a> <span class="rmeta">docs · research</span></h4>
+        <p>Product concept, market scans, field basics, decision records and lab notes on one board — the
+          working material behind every page above. New to robotics? Start at <b>knowledge/</b>.</p>
+      </div>
+      <span class="rgo">→</span>
+    </div>
   </div>
 </div></section>
 
