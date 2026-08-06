@@ -180,6 +180,11 @@
   .pr-tag{flex:0 0 auto; font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
     color:#fff; background:var(--c); border-radius:8px; padding:6px 10px; margin-top:5px;}
   .pr-say{flex:1; margin:0; font-size:clamp(17px,2vw,25px); line-height:1.5; font-weight:600; letter-spacing:-.01em;}
+  /* A long beat wraps to twice the lines of a short one, and the stage only has
+     what the prompter leaves it. So the script shrinks to fit rather than the
+     slide disappearing underneath it — same trade a real teleprompter makes. */
+  .prompter.long .pr-say{font-size:clamp(16px,1.65vw,21px); line-height:1.45;}
+  .prompter.xlong .pr-say{font-size:clamp(15px,1.45vw,18.5px); line-height:1.42;}
   .pr-say .empty{color:var(--muted); font-weight:400;}
   .pr-meta{flex:0 0 auto; display:flex; flex-direction:column; align-items:flex-end; gap:2px; margin-top:4px;}
   /* seconds left in THIS beat — the number you glance at mid-sentence */
@@ -677,6 +682,12 @@ function render(){
   const wc = document.getElementById('pr-wc');
   wc.textContent = `${words}w / ~${cap}w`;
   wc.classList.toggle('over', words > cap);
+
+  /* fit the script to the space rather than letting it eat the slide */
+  const pr = document.getElementById('prompter');
+  pr.classList.toggle('long',  words > 45 && words <= 70);
+  pr.classList.toggle('xlong', words > 70);
+
   fitPrompter();
   paint();
 }
