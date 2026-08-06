@@ -1,5 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>An unbroken row of ticked days running off the edge of the frame</title>
+  <style>
+    /* Loops, not one-shots. A slide is display:none until it is shown, but the SVG
+       document keeps running the whole time — a play-once animation would always
+       have finished before anyone saw it. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .ticks path{stroke-dasharray:64; stroke-dashoffset:64; animation:tick 5.2s ease-in-out infinite;}
+    .ticks path:nth-child(2){animation-delay:.18s} .ticks path:nth-child(3){animation-delay:.36s}
+    .ticks path:nth-child(4){animation-delay:.54s} .ticks path:nth-child(5){animation-delay:.72s}
+    .ticks path:nth-child(6){animation-delay:.9s}  .ticks path:nth-child(7){animation-delay:1.08s}
+    .ticks path:nth-child(8){animation-delay:1.26s}
+    @keyframes tick{0%{stroke-dashoffset:64}12%{stroke-dashoffset:0}86%{stroke-dashoffset:0}92%,100%{stroke-dashoffset:64}}
+    .more{animation:blink 5.2s ease-in-out infinite; animation-delay:1.5s;}
+    @keyframes blink{0%,26%{opacity:0}34%,86%{opacity:1}92%,100%{opacity:0}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
     <g>
       <rect x="46" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
@@ -11,7 +25,7 @@
       <rect x="538" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
       <rect x="620" y="116" width="64" height="64" rx="12" fill="#fbf5e9"/>
     </g>
-    <g stroke="#0e9a89" stroke-width="9">
+    <g stroke="#0e9a89" stroke-width="9" class="ticks">
       <path d="M62 148l14 14 26-30"/>
       <path d="M144 148l14 14 26-30"/>
       <path d="M226 148l14 14 26-30"/>
@@ -22,7 +36,7 @@
       <path d="M636 148l14 14 26-30"/>
     </g>
     <!-- and it keeps going -->
-    <g stroke="#e0442e" stroke-width="8">
+    <g stroke="#e0442e" stroke-width="8" class="more">
       <path d="M700 148h-8"/>
     </g>
     <path d="M46 216h638" stroke-width="5" stroke-dasharray="2 16"/>

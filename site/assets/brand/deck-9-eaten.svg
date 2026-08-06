@@ -1,9 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
   <title>A queue of software product windows being swallowed by a large open mouth, the ones already inside reduced to dashed outlines</title>
+  <style>
+    /* Loops, not one-shots. A slide is display:none until it is shown, but the SVG
+       document keeps running the whole time — a play-once animation would always
+       have finished before anyone saw it. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .queue{animation:shuffle 3.4s cubic-bezier(.5,0,.5,1) infinite;}
+    @keyframes shuffle{0%,58%{transform:translateX(0)}82%,100%{transform:translateX(96px)}}
+    .gone{animation:swallow 3.4s ease-in-out infinite;}
+    @keyframes swallow{0%,58%{opacity:1}80%,100%{opacity:0}}
+  </style>
   <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
 
     <!-- products still standing -->
-    <g stroke-width="7">
+    <g stroke-width="7" class="queue">
       <rect x="46" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
       <path d="M46 136h78"/>
       <rect x="142" y="114" width="78" height="68" rx="9" fill="#fbf5e9"/>
@@ -13,7 +23,7 @@
     </g>
 
     <!-- going in: the same shape, with nothing left in it -->
-    <g stroke-width="6" stroke-dasharray="7 8">
+    <g stroke-width="6" stroke-dasharray="7 8" class="gone">
       <rect x="336" y="120" width="62" height="56" rx="8"/>
       <rect x="418" y="128" width="44" height="40" rx="7"/>
     </g>
