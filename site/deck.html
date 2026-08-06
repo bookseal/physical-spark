@@ -129,8 +129,11 @@
   .person .nm{font-weight:900; font-size:clamp(19px,2.3vw,25px); letter-spacing:-.02em; line-height:1.1;}
   .person .rl{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
     color:var(--muted); font-weight:700; line-height:1.4;}
-  .person .org{margin-top:auto; display:flex; align-items:center; min-height:38px;}
-  .person .org img.mk{max-height:38px; max-width:100%; width:auto; display:block;}
+  /* a card can carry more than one mark — now and before — so they sit in a row
+     and share the slot rather than one of them setting the height alone */
+  .person .org{margin-top:auto; display:flex; align-items:center; gap:14px;
+    min-height:34px; flex-wrap:wrap;}
+  .person .org img.mk{max-height:30px; max-width:46%; width:auto; display:block; object-fit:contain;}
   .person .org .wm{font-weight:900; font-size:14px; letter-spacing:-.01em; color:var(--fg);
     border:2px solid var(--fg); border-radius:8px; padding:5px 11px; white-space:nowrap;}
   .person.num{justify-content:center; gap:4px;}
@@ -418,8 +421,11 @@ const BEATS = [
     html: `<div class="orgs">
       <div class="person">
         <div class="nm">Jungmin Hong</div>
-        <div class="rl">CEO · lead AI instructor, Eduwill</div>
-        <div class="org"><img class="mk" src="assets/brand/org-eduwill.png" alt="Eduwill" data-wm="EDUWILL"></div>
+        <div class="rl">CEO · Eduwill now, Upstage before</div>
+        <div class="org">
+          <img class="mk" src="assets/brand/org-eduwill.png" alt="Eduwill" data-wm="EDUWILL">
+          <img class="mk" src="assets/brand/org-upstage.png" alt="Upstage" data-wm="UPSTAGE">
+        </div>
       </div>
       <div class="person">
         <div class="nm">Gichan Lee</div>
@@ -431,7 +437,7 @@ const BEATS = [
         <div class="rl">bit habit · running 2 years</div>
       </div>
     </div>`,
-    say: 'Jungmin is our CEO and the lead AI instructor at Eduwill — before that, an AI platform engineer at Upstage. I am Gichan, chief product officer, and an AI product engineer at KIBA. And we have run a habit app called bit habit together for over two years, at ninety percent retention. Keeping people is the hard part of everything I am about to describe.'
+    say: 'Jungmin is our CEO — lead AI instructor at Eduwill, teaching AI at national scale, and before that an AI Platform Engineer at Upstage, Korea\'s document AI unicorn. I am Gichan, chief product officer, and an AI product engineer at KIBA. And we have run a habit app called bit habit together for over two years, at ninety percent retention. Keeping people is the hard part of everything I am about to describe.'
   },
   {
     sec: 35, c: 'var(--red)', label: 'Developers',
