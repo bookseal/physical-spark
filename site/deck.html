@@ -223,6 +223,24 @@
   .beat:has(.stack) .kicker, .beat:has(.orgs) .kicker{margin-bottom:8px;}
   .beat:has(.orgs) .orgs{margin-top:18px;}
 
+  /* Section markers. A judge scores against a rubric while listening, so putting
+     the word MARKET on the wall tells them which box is being filled — the chapter
+     bar alone is too quiet for that. They also give the speaker somewhere to
+     breathe. Eight seconds each, which is the whole budget they get. */
+  .beat.div .kicker{opacity:.55;}
+  .beat.div h1.head{font-size:clamp(40px,7.5vw,86px); line-height:1; letter-spacing:-.03em;
+    margin-top:6vh;}
+  .beat.div .sub{font-size:clamp(15px,1.9vw,22px); margin-top:14px; max-width:34ch;}
+
+  /* A slide that is not written yet has to look unwritten, on the wall and in the
+     repo. This deck is public; a blank space reads as a claim, a stamp does not. */
+  .todo{margin-top:22px; display:inline-flex; align-items:center; gap:10px;
+    border:2px dashed var(--red); border-radius:11px; padding:9px 15px;
+    font-family:ui-monospace,monospace; font-size:12px; font-weight:800;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--red);}
+  .todo b{font-weight:800; letter-spacing:.02em; text-transform:none; color:var(--muted);
+    font-family:inherit;}
+
   /* The one artefact a customer actually buys, shown as itself. Monospace because a
      scorecard that looks designed looks like marketing; this has to look like output.
      One line is a failure on purpose — an all-pass report reads as a brochure. */
@@ -450,24 +468,24 @@
 /* ─────────────────────────────────────────────────────────────────────────
    BEATS — the 10-minute pitch, as data.
 
-   AUDIENCE: an investor. Only an investor. A jury will admit it does not know
-   the field and wants the vocabulary opened up; an investor will not admit it
-   and wants the interpretation instead. Serving both blunts every beat.
+   AUDIENCE: an investor, and a judge scoring against a rubric. The order follows
+   what that rubric expects — problem, why now, solution, why us, market,
+   business — and a named divider opens each section so the box being filled is
+   never in doubt. Dividers cost six seconds each, forty-eight in total, which is
+   about one and a half content slides. Worth it in a competition room.
 
-   Eighteen beats, 600 seconds exactly. Same engine as pitch.html, so a renderer
-   fix in either is worth porting to the other.
+   Twenty-five beats, 600 seconds exactly. `sec` must sum to 600; word budget is
+   sec * 2.5 and the prompter turns red past it.
 
-   ORDER: demand, then why the demand cannot be met, then what we do about it,
-   then the business. Every number on a wall has its source next to it; if a
-   number cannot be sourced it does not go up, because one invented figure costs
-   more than any slide can earn.
+   Beats carrying a `.todo` stamp are not written yet. This deck is public, so an
+   empty slide has to look empty on purpose — a blank space reads as a claim and
+   a stamp does not. The business model beat stays empty until the model is
+   decided; the 40% placement fee was withdrawn.
 
-   `sec` must sum to 600. Word budget is sec * 2.5 — the prompter turns red past
-   it, which is the only reliable guard against a beat quietly eating the next.
+   Every number on a wall has its source beside it, linked. If a number cannot be
+   sourced it does not go up.
    ───────────────────────────────────────────────────────────────────────── */
 const BEATS = [
-
-  /* ══ who is talking ═════════════════════════════════════════════════════ */
   {
     sec: 15, c: 'var(--red)', label: 'Physical Spark',
     hero: 'assets/hero-rally.mp4', heroClass: 'photo',
@@ -478,46 +496,18 @@ const BEATS = [
     say: 'Physical Spark. Coding tests are dead — AI solves them in seconds. And for robots, nobody ever built the test. We build it. Ten minutes on why that is a business.'
   },
   {
-    sec: 35, c: 'var(--gold)', label: 'Who we are',
-    hero: 'assets/brand/deck-13-streak.svg',
-    heroAlt: 'A long unbroken run of ticked days, with one still open at the end',
-    head: 'One of us trains AI engineers.<br>One of us tries to <em>hire them.</em>',
-    sub: 'Nobody has ever hired for this job before. That is the whole opportunity.',
-    html: `<div class="orgs">
-      <div class="person">
-        <div class="nm">Jungmin Hong</div>
-        <div class="rl">Chief Executive Officer</div>
-        <ul class="d">
-          <li>AI instructor &mdash; SK Telecom, Eduwill, national KDT</li>
-          <li>Weekly problem writing and grading &mdash; the test&rsquo;s R&amp;D</li>
-          <li>AI Product Engineer at Upstage</li>
-        </ul>
-        <div class="org">
-          <img class="mk" src="assets/brand/org-skt.png" alt="SK Telecom" data-wm="SK TELECOM">
-          <img class="mk" src="assets/brand/org-eduwill.png" alt="Eduwill" data-wm="EDUWILL">
-          <img class="mk" src="assets/brand/org-kdt.png" alt="K-Digital Training" data-wm="K-DIGITAL TRAINING">
-          <img class="mk" src="assets/brand/org-upstage.png" alt="Upstage" data-wm="UPSTAGE">
-        </div>
-      </div>
-      <div class="person">
-        <div class="nm">Gichan Lee</div>
-        <div class="rl">Chief Product Officer</div>
-        <ul class="d">
-          <li>Lead, AX team at KIBA &mdash; our own customer</li>
-          <li>Hiring where CVs and portfolios prove nothing</li>
-          <li>Industrial engineering &mdash; production lines, not software</li>
-        </ul>
-        <div class="org">
-          <img class="mk" src="assets/brand/org-kiba.png" alt="KIBA" data-wm="KIBA">
-          <img class="mk" src="assets/brand/org-concentrix.png" alt="Concentrix" data-wm="CONCENTRIX">
-          <img class="mk" src="assets/brand/org-fpt.png" alt="FPT Software" data-wm="FPT">
-        </div>
-      </div>
-    </div>`,
-    say: 'Jungmin is our CEO. He teaches AI at SK Telecom, at Eduwill, and on the national K-Digital Training programme — before that, AI Product Engineer at Upstage. He writes and grades those assignments every week, and sees exactly where people give up. I am Gichan, chief product officer, and I lead the AX team at KIBA. Which makes me the customer here. I have been hiring for this role, and a CV or a portfolio tells you nothing. It is nothing like hiring a developer.'
+    sec: 30, c: 'var(--gold)', label: 'In one slide',
+    head: 'The whole company,<br>on one <em>slide.</em>',
+    sub: 'Who buys it, what they get, and how we are paid.',
+    html: `<div class="todo">To fill &nbsp;<b>the one-frame summary: buyer, product, revenue &mdash; write last, once the model is settled</b></div>`,
+    say: ''
   },
-
-  /* ══ the demand ═════════════════════════════════════════════════════════ */
+  {
+    sec: 6, c: 'var(--red)', label: 'The problem', divider: true,
+    head: 'The problem',
+    sub: 'Companies cannot hire the engineer they already have budget for.',
+    say: ''
+  },
   {
     sec: 35, c: 'var(--gold)', label: 'Nobody can hire them',
     hero: 'assets/brand/hero-2-gap.svg',
@@ -530,6 +520,25 @@ const BEATS = [
       <div class="tile" style="--c:var(--red)"><div class="big">#1</div><div class="cap">AI is the hardest skill to hire, worldwide</div><div class="src">ManpowerGroup · 39,063 employers · 41 countries</div></div>
     </div>`,
     say: 'Start with the customer. The job is called an AI field engineer, or a forward deployed engineer — the person who makes a model work inside a company. In January, five to ten percent of companies planned to hire one. By the end of June it was seventy. One count put seventeen thousand US engineers claiming the title and two thousand who can deliver. ManpowerGroup asked thirty-nine thousand employers in forty-one countries what is hardest to hire. For the first time, the answer was AI skills.'
+  },
+  {
+    sec: 36, c: 'var(--red)', label: 'Why search fails',
+    hero: 'assets/brand/deck-2-nobody-can-tell.svg',
+    heroAlt: 'Someone standing behind a fan of five identical blank documents, only their eyes visible above the paper',
+    head: 'The CV says ROS 2.<br>The interview says <em>otherwise.</em>',
+    sub: 'Companies are not short of candidates. They cannot tell them apart until it is too late.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Anyone can list it</div><div class="cap">the stack is on every CV. It costs nothing to write.</div></div>
+      <div class="tile"><div class="big">You find out in week two</div><div class="cap">by then the search has already cost you</div></div>
+      <div class="tile" style="--c:var(--gold)"><div class="big">So: hackathons</div><div class="cap">every company invents its own test, at its own cost</div></div>
+    </div>`,
+    say: 'So how do you tell the two thousand from the seventeen thousand. I do this for a living. Every CV lists the same stack — ROS 2, MoveIt, sim to real. It costs nothing to type. Then you interview, and most of them cannot answer a basic question about any of it, and you have burned two weeks finding out. Nobody has agreed what to measure here, so there is nothing on paper worth checking. You cannot read who becomes a star. You have to watch them play.'
+  },
+  {
+    sec: 6, c: 'var(--amber)', label: 'Why now', divider: true,
+    head: 'Why now',
+    sub: 'The same shortage is arriving on factory floors.',
+    say: ''
   },
   {
     sec: 40, c: 'var(--red)', label: 'What the money did',
@@ -545,7 +554,7 @@ const BEATS = [
     say: 'How short is the supply. Two weeks ago Andreessen Horowitz opened a fellowship to make forward deployed engineers — sixty-five of them, out of OpenAI and Palantir. A fund does not do that for fun. It does it when the companies it has already funded cannot hire, and more money does not fix it. So it builds the supply itself. But look who they took: people who had already made it. That is a dinner club, not a pipeline. And all of it is for software. The same shortage is coming for robots. Nobody is building for it.'
   },
   {
-    sec: 40, c: 'var(--red)', label: 'Next year, with a body',
+    sec: 38, c: 'var(--red)', label: 'Next year, with a body',
     hero: 'assets/brand/deck-14-filters-fail.svg',
     heroAlt: "A take-home assignment, a badge of experience and a recruiter's magnifier, each struck through",
     head: 'The AI Field Engineer becomes<br>the <em>Physical</em> AI Field Engineer.',
@@ -557,10 +566,8 @@ const BEATS = [
     </div>`,
     say: 'Now put a body on it. Five years ago you could say "move that box" and nothing happened. Vision-language-action models changed that — you say it in plain words and the arm moves. An arm is two hundred dollars now. Korea already runs more robots per worker than anywhere on earth. So next year the job gets one word longer, and everything about hiring for it gets harder. And this is not a handful of research labs. It is every plant with a line that stops and nobody on site who can retrain the arm.'
   },
-
-  /* ══ why nobody can fill it ═════════════════════════════════════════════ */
   {
-    sec: 35, c: 'var(--amber)', label: 'Already happening',
+    sec: 36, c: 'var(--amber)', label: 'Already happening',
     hero: 'assets/brand/deck-6-on-the-line.svg',
     heroAlt: 'Three robot arms working along a production line, with one station beside them still empty',
     head: 'The robots are already<br>in the <em>factories.</em>',
@@ -573,50 +580,13 @@ const BEATS = [
     say: 'This is not a prediction. Four point seven million industrial robots are already running in factories worldwide, and Amazon alone runs a million of them. Those machines are not waiting to be invented. What changed is that they can now be told what to do in plain language — so every one of them needs somebody to teach it. And BMW has opened a department called the Center of Competence for Physical AI in Production. When a carmaker names a department after this, the job is being staffed.'
   },
   {
-    sec: 35, c: 'var(--red)', label: 'Why search fails',
-    hero: 'assets/brand/deck-2-nobody-can-tell.svg',
-    heroAlt: 'Someone standing behind a fan of five identical blank documents, only their eyes visible above the paper',
-    head: 'The CV says ROS 2.<br>The interview says <em>otherwise.</em>',
-    sub: 'Companies are not short of candidates. They cannot tell them apart until it is too late.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">Anyone can list it</div><div class="cap">the stack is on every CV. It costs nothing to write.</div></div>
-      <div class="tile"><div class="big">You find out in week two</div><div class="cap">by then the search has already cost you</div></div>
-      <div class="tile" style="--c:var(--gold)"><div class="big">So: hackathons</div><div class="cap">every company invents its own test, at its own cost</div></div>
-    </div>`,
-    say: 'So how do you tell the two thousand from the seventeen thousand. I do this for a living. Every CV lists the same stack — ROS 2, MoveIt, sim to real. It costs nothing to type. Then you interview, and most of them cannot answer a basic question about any of it, and you have burned two weeks finding out. Nobody has agreed what to measure here, so there is nothing on paper worth checking. You cannot read who becomes a star. You have to watch them play.'
+    sec: 6, c: 'var(--teal)', label: 'The solution', divider: true,
+    head: 'The solution',
+    sub: 'A test that produces something a company can watch.',
+    say: ''
   },
   {
-    sec: 35, c: 'var(--blue)', label: 'The people who could',
-    hero: 'assets/brand/deck-9-eaten.svg',
-    heroAlt: 'Someone watching the software they built being swallowed, the ones already inside reduced to dashed outlines',
-    head: 'The right people exist.<br>They cannot <em>prove it.</em>',
-    sub: 'The jobs did not disappear. They moved to skills most developers do not have yet.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">75</div><div class="cap">US software job ads today · Feb 2020 = 100</div><div class="src"><a href="https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE" target="_blank" rel="noopener">Indeed Hiring Lab, 31 Jul 2026</a></div></div>
-      <div class="tile" style="--c:var(--teal)"><div class="big">159</div><div class="cap">machine learning job ads · same scale</div><div class="src"><a href="https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE" target="_blank" rel="noopener">Indeed Hiring Lab</a></div></div>
-      <div class="tile"><div class="big">Seniors too</div><div class="cap">experienced developers are queueing, in Korea and the US</div></div>
-    </div>`,
-    say: 'Meanwhile there is no shortage of people. Index US job ads to February 2020. Software peaked at two hundred and thirty in 2022 and today it sits at seventy-five. Machine learning, same scale, sits at one hundred and fifty-nine. The work did not vanish, it moved one rung up, and a lot of very good engineers are standing on the rung it left. They would take this job tomorrow. They have no way to prove they can do it.'
-  },
-  {
-    sec: 30, c: 'var(--gold)', label: 'The crossing',
-    hero: 'assets/brand/deck-8-crossing.svg',
-    heroAlt: 'People on one bank and open seats on the other, with a gap between them and no bridge',
-    head: 'Developers on one side.<br>Open jobs on the <em>other.</em>',
-    sub: 'Both sides are real. The only thing missing is proof that travels between them.',
-    html: `<div class="flow">
-      <div class="st"><span class="w">This side</span><span class="b">Engineers with no way to prove it</span></div>
-      <span class="ar">&rarr;</span>
-      <div class="st pay"><span class="w">Physical Spark</span><span class="b">The proof, made and graded</span></div>
-      <span class="ar">&rarr;</span>
-      <div class="st"><span class="w">Robotics firms &amp; integrators</span><span class="b">Budget signed, seat still empty</span></div>
-    </div>`,
-    say: 'So put the two halves together. On one side, thousands of experienced engineers who cannot get hired. On the other, companies with signed budget and an empty seat they cannot fill. Both of those are true right now, in the same market, and nothing connects them — because the only thing that would connect them is proof, and there is no way to make any. We sit in that gap. That is the whole business.'
-  },
-
-  /* ══ what we do ═════════════════════════════════════════════════════════ */
-  {
-    sec: 40, c: 'var(--gold)', label: 'What they buy',
+    sec: 36, c: 'var(--gold)', label: 'What they buy',
     hero: 'assets/brand/deck-12-the-record.svg',
     heroAlt: 'A single blank document beside a list of watchable graded attempts',
     head: 'This is what a company <em>buys.</em>',
@@ -652,7 +622,7 @@ const BEATS = [
     say: 'A software engineer who wants to cross is not lazy. He is alone, and nothing tells him what to learn first. There is no published order from where he is to a working robot. So that is what we write, and keep writing — tutorials, then missions, then the tasks a factory actually needs done. You can start tonight in a simulator, for nothing. The arm is two hundred dollars when you want one.'
   },
   {
-    sec: 25, c: 'var(--red)', label: 'The competition',
+    sec: 20, c: 'var(--red)', label: 'The competition',
     hero: 'assets/brand/hero-4-circuit.svg',
     heroAlt: 'A circuit of numbered stages with runners at different points and a board beside it',
     head: 'Then we make it<br>a <em>competition.</em>',
@@ -665,7 +635,7 @@ const BEATS = [
     say: 'Then we make it a competition. Fixed dates, everyone starting on the same day, a public board. That is not decoration. Almost nobody finishes a course alone. People finish when other people can see whether they did — and that is the difference between a tutorial and a record.'
   },
   {
-    sec: 30, c: 'var(--teal)', label: 'Peer review',
+    sec: 29, c: 'var(--teal)', label: 'Peer review',
     hero: 'assets/brand/deck-18-somebody-looked.svg',
     heroAlt: 'A face that has just been seen, with a review mark landing beside it',
     head: 'Players grade<br>each <em>other.</em>',
@@ -677,86 +647,79 @@ const BEATS = [
     </div>`,
     say: 'And the players grade each other, on video, against grading rules we write with the companies who will be doing the hiring. That last part matters more than it sounds. It means the assessment is in the buyer\'s language before the buyer ever reads it. It also means the expensive part of evaluation is done by the people being evaluated — which is why this can be free to play at all.'
   },
-
-  /* ══ the business ═══════════════════════════════════════════════════════ */
   {
-    sec: 35, c: 'var(--blue)', label: 'Why not them',
-    hero: 'assets/brand/market-commoditized.svg',
-    heroAlt: 'A grey curve rising then flattening into a crowded plateau, and a teal curve crossing above it and still climbing, with the gap between them shaded gold',
-    head: 'Anyone can copy the missions.<br>Nobody can copy the <em>videos.</em>',
-    sub: 'Everyone else hands something over and closes.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">Courses end</div><div class="cap">a bootcamp hands over a certificate and closes</div></div>
-      <div class="tile"><div class="big">Leagues end</div><div class="cap">in a trophy. A winner is not a hiring list.</div></div>
-      <div class="tile" style="--c:var(--teal)"><div class="big">LeRobot</div><div class="cap">Hugging Face makes the language. We make the exam.</div></div>
-    </div>`,
-    say: 'The obvious question is why nobody else ends up here. A bootcamp ends in a certificate. A league ends in a trophy, and a winner is not a hiring list. And somebody always asks about LeRobot — Hugging Face gives those tools away, and we are built on them. But ETS did not invent English, and it earns more than anyone who teaches it. Hugging Face makes the language. We make the exam. Everyone else hands something over and stops. Ours does not — the record keeps growing.'
+    sec: 6, c: 'var(--gold)', label: 'Why us', divider: true,
+    head: 'Why us',
+    sub: 'One of us makes these engineers. The other one hires them.',
+    say: ''
   },
   {
-    sec: 40, c: 'var(--red)', label: 'The business',
-    hero: 'assets/brand/deck-17-two-budgets.svg',
-    heroAlt: 'A short stack of budget beside a much taller one, with the tall stack still growing',
-    /* Two stages, and the order is not a compromise. Per-assessment revenue is the
-       better business — it recurs, and it is priced like software rather than like
-       a service — but it needs hiring volume that does not exist yet, which is what
-       beat 6 just proved: nobody sells interviews for a job with no settled name.
-       So we place the first ones ourselves, and those placements are the evidence
-       that the ranking predicts performance. Without that evidence nobody buys the
-       ranking on its own. Karat is named because it is a Seattle company and the
-       room will know it. Its per-interview price is not, because no public source
-       states one, and an invented number in front of people who know the company
-       would cost more than this slide could earn. */
-    head: 'Placement now.<br>Per assessment <em>later.</em>',
-    sub: 'We place the first ones ourselves. That is how the ranking earns the right to be sold.',
-    html: `<div class="flow">
-      <div class="st"><span class="w">Now</span><span class="b">Robotics firms pay us 40% on hire</span></div>
-      <span class="ar">&rarr;</span>
-      <div class="st pay"><span class="w">Next</span><span class="b">They run it. Priced per candidate.</span></div>
-      <div class="st"><span class="w">Karat · Seattle</span><span class="b">did this for software engineers · $1.1B</span></div>
-    </div>`,
-    say: 'The business. And to be clear who pays — not BMW. BMW can hire anybody. It is the small robotics firms and integrators who put those arms on a factory floor, and they cannot. Today we place people into them and take forty percent of first-year salary, on hire. That is not where this ends. It is how we prove the ranking predicts who performs, because nobody buys a ranking that has never been tested. Once it has, they pay to run the assessment themselves, per candidate. Karat did that here in Seattle, for software engineers, at a billion dollars.'
+    sec: 30, c: 'var(--gold)', label: 'The team',
+    head: 'Two people, two sides<br>of the same <em>problem.</em>',
+    sub: 'Jungmin teaches AI at national scale. Gichan hires for it and cannot.',
+    html: `<div class="todo">To fill &nbsp;<b>the founder cards from the old beat 2, plus photographs</b></div>`,
+    say: ''
   },
   {
-    sec: 20, c: 'var(--amber)', label: 'Shipped or not',
-    hero: 'assets/brand/deck-5-shipped-or-not.svg',
-    heroAlt: 'Two columns, one of ticks and one of empty boxes',
-    head: 'What we have built,<br>and what we <em>have not.</em>',
-    sub: 'If we have not built it, we say so.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">Live</div><div class="cap">missions · leaderboard · the loop in sim</div></div>
-      <div class="tile"><div class="big">Not yet</div><div class="cap">run upload · gallery · the record</div></div>
-    </div>`,
-    say: 'Before the ask, what is actually built. The missions are live, the leaderboard is live, and the loop runs end to end in simulation. Run upload, the review gallery and the record itself are not built yet. Season one is what builds them.'
+    sec: 25, c: 'var(--teal)', label: 'Our access',
+    head: 'What we have<br>that others <em>do not.</em>',
+    sub: 'Where our first players come from, and why it costs us nothing.',
+    html: `<div class="todo">To fill &nbsp;<b>national KDT teaching as candidate supply &middot; Korea robot density &middot; the 75/159 job-ads split</b></div>`,
+    say: ''
   },
   {
-    sec: 45, c: 'var(--gold)', label: 'Season one',
-    hero: 'assets/brand/deck-15-route.svg',
-    heroAlt: 'A route with three stops: one behind, one being run now in red, and one still dashed ahead',
-    head: 'We are raising money<br>to run <em>season one.</em>',
-    sub: 'Thirty players, six weeks, and the first grading rules written with a company.',
-    html: `<div class="stack">
-      <div class="lay"><span class="t">Now</span><span class="d">I am learning Physical AI and turning what I learn into the missions</span></div>
-      <div class="lay ours"><span class="t">Season one</span><span class="d">thirty players, six weeks, in the open — finish rate and reviews per run come back</span></div>
-      <div class="lay"><span class="t">Then</span><span class="d">we ask factories what they need done, and those answers become the missions</span></div>
-    </div>`,
-    say: 'So here is what the first round buys. Right now I am learning Physical AI and turning it into the missions. Season one is thirty players doing it together instead of alone, six weeks, run in the open, and I come back with finish rate and reviews per run. We think a first shortlist needs about thirty finishers — season one is where we find out whether that is right. Then, once there is something worth showing, we go to the factories and ask what they actually need done, and those answers become the missions. That is also how the grading rules end up written with them rather than by us.'
+    sec: 6, c: 'var(--blue)', label: 'The market', divider: true,
+    head: 'The market',
+    sub: 'Sized from the bottom up, with the arithmetic shown.',
+    say: ''
   },
   {
-    sec: 35, c: 'var(--red)', label: 'Join us',
-    hero: 'assets/brand/deck-16-open-seat.svg',
-    heroAlt: 'Four people standing together, with a fifth place still open beside them',
-    head: 'Want to build<br>this <em>with us?</em>',
-    sub: 'Play it, then help write the next one.',
-    /* The last sentence states the world, not their regret. "You will regret this"
-       is a claim about the listener's future feelings and every deck makes it.
-       Inevitability does the same work and cannot be argued with. */
-    html: `<div class="row">
-      <div class="tile"><div class="big">Play it</div><div class="cap">free, tonight, in the simulator</div></div>
-      <div class="tile"><div class="big">Build it</div><div class="cap">write the mission that comes next</div></div>
-      <div class="tile" style="--c:var(--teal)"><div class="big">Set a mission</div><div class="cap">we want two or three companies to define season one</div></div>
-      <div class="tile qr" style="--c:var(--teal)"><img src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com"><div class="cap">physical-spark.bit-habit.com</div></div>
-    </div>`,
-    say: 'And the last thing is not only money. Playing is free, the players do the grading, and our only cost that grows is servers. What we want is people building this with us — play a mission tonight, then help write the next one. If you run a factory, bring us the thing you need done; we want two or three companies to set the first missions. That job is coming either way. The only question is where those people came from.'
+    sec: 30, c: 'var(--blue)', label: 'Competitors',
+    head: 'Who else is<br>in <em>this.</em>',
+    sub: 'Nobody is testing the people who put robots on a floor.',
+    html: `<div class="todo">To fill &nbsp;<b>Karat &middot; HackerRank/Codility &middot; LeRobot &middot; a16z fellowship &middot; bootcamps &middot; AX competitions</b></div>`,
+    say: ''
+  },
+  {
+    sec: 28, c: 'var(--blue)', label: 'Market size',
+    head: 'What the market<br>actually <em>is.</em>',
+    sub: 'Bottom up, and every line linked to where the number came from.',
+    html: `<div class="todo">To fill &nbsp;<b>TAM: installed base &amp; annual installs &middot; SAM: robotics firms &times; hires/yr &middot; SOM: season one &times; conversion</b></div>`,
+    say: ''
+  },
+  {
+    sec: 25, c: 'var(--teal)', label: 'Go to market',
+    head: 'How we get the<br>first <em>customers.</em>',
+    sub: 'Players arrive free. Companies arrive because the players are already ranked.',
+    html: `<div class="todo">To fill &nbsp;<b>first 2-3 companies to set missions &middot; how a season converts into a hire &middot; the order of the first year</b></div>`,
+    say: ''
+  },
+  {
+    sec: 6, c: 'var(--red)', label: 'The business', divider: true,
+    head: 'The business',
+    sub: 'How the money arrives, and what the first years look like.',
+    say: ''
+  },
+  {
+    sec: 26, c: 'var(--red)', label: 'Business model',
+    head: 'How we<br>make <em>money.</em>',
+    sub: 'The placement-fee version was withdrawn. This is being rebuilt.',
+    html: `<div class="todo">To fill &nbsp;<b>pricing not decided &mdash; nothing goes here until it is</b></div>`,
+    say: ''
+  },
+  {
+    sec: 25, c: 'var(--amber)', label: 'Financials',
+    head: 'Three years,<br>and what is <em>shipped.</em>',
+    sub: 'The honest version: what exists today, and what the model says next.',
+    html: `<div class="todo">To fill &nbsp;<b>three-year forecast once the model is set &middot; plus the live/not-yet list from the old beat 16</b></div>`,
+    say: ''
+  },
+  {
+    sec: 30, c: 'var(--red)', label: 'Why this team',
+    head: 'We are the only team<br>with <em>both sides.</em>',
+    sub: 'One of us makes these engineers. The other one hires them, and cannot.',
+    html: `<div class="todo">To fill &nbsp;<b>supply access &middot; demand understanding &middot; season one already dated &middot; the ask</b></div>`,
+    say: ''
   },
 ];
 
@@ -764,11 +727,13 @@ const BEATS = [
    `upto` is the last beat index (1-based) of each act. Change a beat's position
    and this is the one place to update. */
 const CHAPTERS = [
-  { name: 'Who we are',   upto: 2 },
-  { name: 'The demand',   upto: 5 },
-  { name: 'Why it fails', upto: 9 },
-  { name: 'What we do',   upto: 13 },
-  { name: 'The business', upto: 18 },
+  { name: 'Open',      upto: 2 },
+  { name: 'Problem',   upto: 5 },
+  { name: 'Why now',   upto: 9 },
+  { name: 'Solution',  upto: 14 },
+  { name: 'Why us',    upto: 17 },
+  { name: 'Market',    upto: 21 },
+  { name: 'Business',  upto: 25 },
 ];
 
 /* ── derived state ──────────────────────────────────────────────────────── */
@@ -782,7 +747,7 @@ let auto = true;                       /* auto: the clock drives the slides. off
 /* ── render ─────────────────────────────────────────────────────────────── */
 const stage = document.getElementById('stage');
 stage.innerHTML = BEATS.map((b, i) => `
-  <section class="beat" data-i="${i}" style="--c:${b.c}">
+  <section class="beat${b.divider ? ' div' : ''}" data-i="${i}" style="--c:${b.c}">
     <div class="split${b.hero ? '' : ' solo'}">
       <div>
         <div class="kicker">
