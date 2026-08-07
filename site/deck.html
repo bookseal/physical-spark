@@ -582,7 +582,7 @@ const BEATS = [
     hero: 'assets/brand/deck-12-the-record.svg',
     heroAlt: 'A single blank document beside a list of watchable graded attempts',
     head: 'This is what a company <em>buys.</em>',
-    sub: 'Not a CV. One line is a failure, on purpose.',
+    sub: 'A referral works because somebody watched you work. This is that, for people nobody knows.',
     /* The artefact first, the process after. Leading with "stage one is simulation,
        stage two is hardware" is curriculum grammar and the room files you under
        education before you have finished the sentence. Leading with the output
@@ -598,7 +598,7 @@ const BEATS = [
       <div class="vd"><span class="k">Verdict</span><span class="v">Ready to ship, with hardware onboarding</span></div>
       <div class="ft">Sample &middot; from 100 simulated runs and one supervised session on a real arm</div>
     </div>`,
-    say: 'So here is the thing a company actually buys. Not a CV and a phone call — a report. It ran the same task a hundred times in simulation, so we know whether it was skill or luck. It handed them a broken robot and timed the repair. One line there is a failure, and that is deliberate: a report where everybody passes is a brochure. And at the bottom, a human asked them to defend the work out loud, which is the part no model can sit for.'
+    say: 'So here is what a company actually buys. Not a CV — a report. The same task run a hundred times in simulation, so we know whether it was skill or luck. A broken robot handed over, repair timed. One line is a failure on purpose, because a report where everybody passes is a brochure. And a human asked them to defend it out loud. Referrals beat job boards by about eighteen to one, and this is the reason: somebody watched. We make that available to people nobody knows.'
   },
   {
     sec: 30, c: 'var(--teal)', label: 'The order',
@@ -666,7 +666,7 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 30, c: 'var(--blue)', label: 'Competitors',
+    sec: 26, c: 'var(--blue)', label: 'Competitors',
     head: 'Who else is<br>in <em>this.</em>',
     sub: 'Nobody is testing the people who put robots on a floor.',
     html: `<div class="todo">To fill &nbsp;<b>Karat &middot; HackerRank/Codility &middot; LeRobot &middot; a16z fellowship &middot; bootcamps &middot; AX competitions</b></div>`,
@@ -680,7 +680,7 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 25, c: 'var(--teal)', label: 'Go to market',
+    sec: 20, c: 'var(--teal)', label: 'Go to market',
     head: 'How we get the<br>first <em>customers.</em>',
     sub: 'Players arrive free. Companies arrive because the players are already ranked.',
     html: `<div class="todo">To fill &nbsp;<b>first 2-3 companies to set missions &middot; how a season converts into a hire &middot; the order of the first year</b></div>`,
@@ -693,11 +693,27 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 26, c: 'var(--red)', label: 'Business model',
-    head: 'How we<br>make <em>money.</em>',
-    sub: 'The placement-fee version was withdrawn. This is being rebuilt.',
-    html: `<div class="todo">To fill &nbsp;<b>pricing not decided &mdash; nothing goes here until it is</b></div>`,
-    say: ''
+    sec: 35, c: 'var(--red)', label: 'Business model',
+    hero: 'assets/brand/deck-17-two-budgets.svg',
+    heroAlt: 'A short stack of budget beside a much taller one, with the tall stack still growing',
+    head: 'Companies sponsor the season.<br>Then they <em>hire from it.</em>',
+    sub: 'A bad automation hire delays a $500,000 robot payback by six to twelve months. That is what we sit next to.',
+    /* Sponsorship comes first because it is the only line that can be sold before
+       a record exists — a company sets the task and gets first look, which needs
+       no proven ranking. Placement follows once the season has produced one. And
+       it is ten percent, not the twenty a search firm takes: a headhunter sources,
+       screens, sells the role and runs the negotiation; we hand over a ranked list.
+       Half the work, half the fee — and the firms we named as customers are the
+       ones who cannot afford a headhunter in the first place. Per-assessment
+       pricing is the destination and stays in the script, because three revenue
+       lines on a wall reads as not knowing which one is real. */
+    html: `<div class="flow">
+      <div class="st"><span class="w">Now</span><span class="b">A company sponsors a season &middot; sets the task, sees everyone who solves it</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st pay"><span class="w">Then</span><span class="b">10% of first-year salary when they hire from it</span></div>
+      <div class="st"><span class="w">Why not 20%</span><span class="b">a headhunter does the search. We did the assessment.</span></div>
+    </div>`,
+    say: 'How the money arrives. First a company sponsors a season — it sets the task and sees everyone who solves it. That sells before any record exists, which is why it comes first. Then it hires from the results and pays ten percent of first-year salary, half what a search firm takes, because a search firm does the searching and we did the assessment. And the thing they are really buying is time: a bad automation hire delays a half-million-dollar robot payback by six to twelve months.'
   },
   {
     sec: 25, c: 'var(--amber)', label: 'Financials',
