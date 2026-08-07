@@ -149,6 +149,11 @@
   .tile.qr .cap{margin-top:0; font-size:12px; letter-spacing:.01em; word-break:break-all;}
   /* attribution under a borrowed number. Deliberately small and quiet — it has to be
      there so the claim is checkable, without competing with the number itself. */
+  /* a sourced number should be checkable from the slide, not from a follow-up email.
+     New tab, or a click mid-presentation takes the deck down with it. */
+  .tile .src a{color:inherit; text-decoration:underline; text-decoration-style:dotted;
+    text-underline-offset:2px;}
+  .tile .src a:hover{color:var(--red);}
   .tile .src{font-size:10.5px; color:var(--muted); margin-top:6px; letter-spacing:.02em;
     border-top:1px dashed var(--line); padding-top:5px; line-height:1.35;}
 
@@ -517,27 +522,27 @@ const BEATS = [
     sec: 35, c: 'var(--gold)', label: 'Nobody can hire them',
     hero: 'assets/brand/hero-2-gap.svg',
     heroAlt: 'A steep gold line arriving high and early, a slow dashed blue line still far below it, with the wedge between them shaded red',
-    head: 'Everybody wants an AI field engineer.<br>Nobody can <em>hire one.</em>',
+    head: 'Everybody wants an<br><em>AI Field Engineer.</em><br>Nobody can hire one.',
     sub: 'The person who takes a model into a company and makes it work on the ground.',
     html: `<div class="row">
-      <div class="tile"><div class="big">5% → 70%</div><div class="cap">of companies hiring one, in two quarters</div><div class="src">TechCrunch, Jul 2026</div></div>
-      <div class="tile" style="--c:var(--gold)"><div class="big">17,000 / 2,000</div><div class="cap">US engineers who claim it / who can deliver</div><div class="src">TechCrunch, Jul 2026</div></div>
+      <div class="tile"><div class="big">5% → 70%</div><div class="cap">of companies hiring one, in two quarters</div><div class="src"><a href="https://techcrunch.com/2026/07/30/forward-deployed-engineers-are-the-ai-industrys-latest-talent-obsession/" target="_blank" rel="noopener">Christian &amp; Timbers · TechCrunch, 30 Jul 2026</a></div></div>
+      <div class="tile" style="--c:var(--gold)"><div class="big">17,000 / 2,000</div><div class="cap">US engineers who hold the title / who can deliver</div><div class="src"><a href="https://techcrunch.com/2026/07/30/forward-deployed-engineers-are-the-ai-industrys-latest-talent-obsession/" target="_blank" rel="noopener">&ldquo;Not 2,000 available. 2,000 total.&rdquo;</a></div></div>
       <div class="tile" style="--c:var(--red)"><div class="big">#1</div><div class="cap">AI is the hardest skill to hire, worldwide</div><div class="src">ManpowerGroup · 39,063 employers · 41 countries</div></div>
     </div>`,
     say: 'Start with the customer. The job is called an AI field engineer, or a forward deployed engineer — the person who makes a model work inside a company. In January, five to ten percent of companies planned to hire one. By the end of June it was seventy. One count put seventeen thousand US engineers claiming the title and two thousand who can deliver. ManpowerGroup asked thirty-nine thousand employers in forty-one countries what is hardest to hire. For the first time, the answer was AI skills.'
   },
   {
-    sec: 35, c: 'var(--red)', label: 'What the money did',
+    sec: 40, c: 'var(--red)', label: 'What the money did',
     hero: 'assets/brand/deck-6-season-one.svg',
     heroAlt: 'A cohort of figures moving together through a season, one lane still open',
-    head: 'a16z could not hire them.<br>So they opened a <em>school.</em>',
-    sub: 'When investors start training people themselves, the shortage is real.',
+    head: 'a16z now makes the engineers<br>its own companies <em>cannot hire.</em>',
+    sub: 'A fund builds a talent pipeline only when money alone has stopped working.',
     html: `<div class="row">
-      <div class="tile"><div class="big">a16z</div><div class="cap">opened a fellowship to make these engineers</div><div class="src">announced 22 Jul 2026</div></div>
+      <div class="tile"><div class="big">a16z</div><div class="cap">now trains the engineers its portfolio needs</div><div class="src"><a href="https://www.startuphub.ai/ai-news/investors-news/2026/a16z-names-inaugural-ai-deployment-fellows" target="_blank" rel="noopener">announced 22 Jul 2026</a></div></div>
       <div class="tile"><div class="big">65 · 8 weeks</div><div class="cap">first cohort — people who had already made it</div></div>
-      <div class="tile" style="--c:var(--teal)"><div class="big">For software</div><div class="cap">nobody has run one for robots</div></div>
+      <div class="tile" style="--c:var(--teal)"><div class="big">For software</div><div class="cap">robots are next, and nobody is building it</div></div>
     </div>`,
-    say: 'How short is the supply. Two weeks ago Andreessen Horowitz stopped trying to find these people and opened a school to make them — sixty-five fellows, eight weeks, out of OpenAI, Anthropic and Palantir. When a fund starts making the talent itself, that is not a hiring problem. It is a missing supply chain. But look at who they took: people who had already made it. That is a dinner club. Nobody has built the test for who is ready to become one. And theirs is for software.'
+    say: 'How short is the supply. Two weeks ago Andreessen Horowitz opened a fellowship to make forward deployed engineers — sixty-five of them, out of OpenAI and Palantir. A fund does not do that for fun. It does it when the companies it has already funded cannot hire, and more money does not fix it. So it builds the supply itself. But look who they took: people who had already made it. That is a dinner club, not a pipeline. And all of it is for software. The same shortage is coming for robots. Nobody is building for it.'
   },
   {
     sec: 40, c: 'var(--red)', label: 'Next year, with a body',
@@ -563,7 +568,7 @@ const BEATS = [
     html: `<div class="row">
       <div class="tile"><div class="big">40 robots</div><div class="cap">Figure 03 on the line at BMW Spartanburg</div><div class="src">June 2026 · after an 11-month pilot</div></div>
       <div class="tile"><div class="big">100,000 totes</div><div class="cap">Agility Digit moved these at GXO, under contract</div><div class="src">Agility Robotics</div></div>
-      <div class="tile" style="--c:var(--red)"><div class="big">A whole department</div><div class="cap">BMW opened a Center of Competence for Physical AI in Production</div><div class="src">BMW Group, Feb 2026</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">A whole department</div><div class="cap">BMW opened a Center of Competence for Physical AI in Production</div><div class="src"><a href="https://www.press.bmwgroup.com/global/article/detail/T0455864EN/bmw-group-to-deploy-humanoid-robots-in-production-in-germany-for-the-first-time?language=en" target="_blank" rel="noopener">BMW Group, Feb 2026</a></div></div>
     </div>`,
     say: 'This is not a prediction. In June, Figure put forty humanoids on the line at BMW Spartanburg, after an eleven-month pilot that helped build thirty thousand cars. Agility has moved a hundred thousand totes at GXO under a commercial contract. And BMW opened a department called the Center of Competence for Physical AI in Production. When a carmaker names a department after this, the job is not coming — it is being staffed.'
   },
@@ -587,8 +592,8 @@ const BEATS = [
     head: 'The right people exist.<br>They cannot <em>prove it.</em>',
     sub: 'The jobs did not disappear. They moved to skills most developers do not have yet.',
     html: `<div class="row">
-      <div class="tile"><div class="big">75</div><div class="cap">US software job ads today · Feb 2020 = 100</div><div class="src">Indeed Hiring Lab, 31 Jul 2026</div></div>
-      <div class="tile" style="--c:var(--teal)"><div class="big">159</div><div class="cap">machine learning job ads · same scale</div><div class="src">Indeed Hiring Lab</div></div>
+      <div class="tile"><div class="big">75</div><div class="cap">US software job ads today · Feb 2020 = 100</div><div class="src"><a href="https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE" target="_blank" rel="noopener">Indeed Hiring Lab, 31 Jul 2026</a></div></div>
+      <div class="tile" style="--c:var(--teal)"><div class="big">159</div><div class="cap">machine learning job ads · same scale</div><div class="src"><a href="https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE" target="_blank" rel="noopener">Indeed Hiring Lab</a></div></div>
       <div class="tile"><div class="big">Seniors too</div><div class="cap">experienced developers are queueing, in Korea and the US</div></div>
     </div>`,
     say: 'Meanwhile there is no shortage of people. Index US job ads to February 2020. Software peaked at two hundred and thirty in 2022 and today it sits at seventy-five. Machine learning, same scale, sits at one hundred and fifty-nine. The work did not vanish, it moved one rung up, and a lot of very good engineers are standing on the rung it left. They would take this job tomorrow. They have no way to prove they can do it.'
@@ -705,7 +710,7 @@ const BEATS = [
     say: 'The business. Today we place people ourselves and take forty percent of first-year salary, on hire, out of a budget already committed to an empty seat. That is not where this ends. It is how we prove the ranking predicts who actually performs, because nobody buys a ranking that has never been tested. Once it has been, companies stop hiring us to place and start paying to run the assessment themselves, per candidate. Karat did exactly that here in Seattle, for software engineers, and was worth over a billion dollars. Nobody has done it for the people who deploy robots.'
   },
   {
-    sec: 25, c: 'var(--amber)', label: 'Shipped or not',
+    sec: 20, c: 'var(--amber)', label: 'Shipped or not',
     hero: 'assets/brand/deck-5-shipped-or-not.svg',
     heroAlt: 'Two columns, one of ticks and one of empty boxes',
     head: 'What we have built,<br>and what we <em>have not.</em>',
@@ -714,7 +719,7 @@ const BEATS = [
       <div class="tile"><div class="big">Live</div><div class="cap">missions · leaderboard · the loop in sim</div></div>
       <div class="tile"><div class="big">Not yet</div><div class="cap">run upload · gallery · the record</div></div>
     </div>`,
-    say: 'Before the ask, what is actually built. The missions are live, the leaderboard is live, and the loop runs end to end in simulation. Run upload, the review gallery and the record itself are not built yet. That is the honest line, and season one is what builds them.'
+    say: 'Before the ask, what is actually built. The missions are live, the leaderboard is live, and the loop runs end to end in simulation. Run upload, the review gallery and the record itself are not built yet. Season one is what builds them.'
   },
   {
     sec: 45, c: 'var(--gold)', label: 'Season one',
