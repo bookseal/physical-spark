@@ -657,16 +657,54 @@ const BEATS = [
   {
     sec: 30, c: 'var(--gold)', label: 'The team',
     head: 'Two people, two sides<br>of the same <em>problem.</em>',
-    sub: 'Jungmin teaches AI at national scale. Gichan hires for it and cannot.',
-    html: `<div class="todo">To fill &nbsp;<b>the founder cards from the old beat 2, plus photographs</b></div>`,
-    say: ''
+    sub: 'One of us makes these engineers. The other one hires them, and cannot.',
+    /* TODO: photographs. A US team slide without faces reads as unfinished, and
+       these cards are carrying employer logos in their place for now. */
+    html: `<div class="orgs">
+      <div class="person">
+        <div class="nm">Jungmin Hong</div>
+        <div class="rl">Chief Executive Officer</div>
+        <ul class="d">
+          <li>AI instructor &mdash; SK Telecom, Eduwill, national KDT</li>
+          <li>Weekly problem writing and grading &mdash; the test&rsquo;s R&amp;D</li>
+          <li>AI Product Engineer at Upstage</li>
+        </ul>
+        <div class="org">
+          <img class="mk" src="assets/brand/org-skt.png" alt="SK Telecom" data-wm="SK TELECOM">
+          <img class="mk" src="assets/brand/org-eduwill.png" alt="Eduwill" data-wm="EDUWILL">
+          <img class="mk" src="assets/brand/org-kdt.png" alt="K-Digital Training" data-wm="K-DIGITAL TRAINING">
+          <img class="mk" src="assets/brand/org-upstage.png" alt="Upstage" data-wm="UPSTAGE">
+        </div>
+      </div>
+      <div class="person">
+        <div class="nm">Gichan Lee</div>
+        <div class="rl">Chief Product Officer</div>
+        <ul class="d">
+          <li>Lead, AX team at KIBA &mdash; our own customer</li>
+          <li>Hiring where CVs and portfolios prove nothing</li>
+          <li>Industrial engineering &mdash; production lines, not software</li>
+        </ul>
+        <div class="org">
+          <img class="mk" src="assets/brand/org-kiba.png" alt="KIBA" data-wm="KIBA">
+          <img class="mk" src="assets/brand/org-concentrix.png" alt="Concentrix" data-wm="CONCENTRIX">
+          <img class="mk" src="assets/brand/org-fpt.png" alt="FPT Software" data-wm="FPT">
+        </div>
+      </div>
+    </div>`,
+    say: 'So, us. Jungmin teaches AI at SK Telecom, at Eduwill, and on the national K-Digital Training programme, and writes and grades those assignments every week — that is where our test comes from. Before that, AI Product Engineer at Upstage. I lead the AX team at KIBA, which means I am the person in this deck who cannot hire. Between us we have the supply and we have the problem.'
   },
   {
     sec: 25, c: 'var(--teal)', label: 'Our access',
-    head: 'What we have<br>that others <em>do not.</em>',
-    sub: 'Where our first players come from, and why it costs us nothing.',
-    html: `<div class="todo">To fill &nbsp;<b>national KDT teaching as candidate supply &middot; Korea robot density &middot; the 75/159 job-ads split</b></div>`,
-    say: ''
+    hero: 'assets/brand/deck-9-eaten.svg',
+    heroAlt: 'Someone watching the software they built being swallowed, the ones already inside reduced to dashed outlines',
+    head: 'The hardest part of a league<br>is that <em>nobody comes.</em>',
+    sub: 'That is the one problem we do not have.',
+    html: `<div class="row">
+      <div class="tile" style="--c:var(--teal)"><div class="big">We teach them already</div><div class="cap">the national programme hands us a cohort at no cost</div></div>
+      <div class="tile"><div class="big">75 vs 159</div><div class="cap">software job ads vs machine learning, same 2020 baseline &mdash; the rung they are standing on emptied out</div><div class="src"><a href="https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE" target="_blank" rel="noopener">Indeed Hiring Lab</a></div></div>
+      <div class="tile"><div class="big">1,220</div><div class="cap">robots per 10,000 workers &mdash; Korea is first in the world</div><div class="src">IFR World Robotics 2025</div></div>
+    </div>`,
+    say: 'The reason most competitions fail is that nobody enters. We teach on the national AI programme, so the first cohort is already in the room, and it costs us nothing to reach them. They also have a reason to come: the rung they are standing on emptied out. And they are in the country with more robots per worker than anywhere on earth.'
   },
   {
     sec: 6, c: 'var(--blue)', label: 'The market', divider: true,
@@ -676,10 +714,19 @@ const BEATS = [
   },
   {
     sec: 25, c: 'var(--blue)', label: 'Competitors',
-    head: 'Who else is<br>in <em>this.</em>',
-    sub: 'Nobody is testing the people who put robots on a floor.',
-    html: `<div class="todo">To fill &nbsp;<b>Karat &middot; HackerRank/Codility &middot; LeRobot &middot; a16z fellowship &middot; bootcamps &middot; AX competitions</b></div>`,
-    say: ''
+    head: 'Every square is <em>taken</em><br>except the one we are in.',
+    sub: 'This is a crowded market with one empty seat, not an empty market.',
+    /* An empty competitive slide reads as not having looked. Naming five who are
+       doing well, and saying exactly which line each of them stops at, is what
+       makes the last row believable. */
+    html: `<div class="stack">
+      <div class="lay"><span class="t">Karat</span><span class="d">$1.1B in Seattle. Proved companies will pay per assessment &mdash; for software engineers.</span></div>
+      <div class="lay"><span class="t">HackerRank, Codility</span><span class="d">The coding test. The thing AI just finished breaking.</span></div>
+      <div class="lay"><span class="t">Hugging Face, LeRobot</span><span class="d">Makes the tools everyone uses. Does not grade anybody.</span></div>
+      <div class="lay"><span class="t">a16z fellowship</span><span class="d">Sixty-five engineers who had already made it. Not who is ready to become one.</span></div>
+      <div class="lay ours"><span class="t">Hardware, graded</span><span class="d">Nobody is testing the people who put robots on a floor. That is the seat.</span></div>
+    </div>`,
+    say: 'Who else is here. Karat is a billion-dollar company here that proved firms pay per assessment &mdash; for software engineers. HackerRank and Codility own the coding test AI just broke. Hugging Face makes the tools and grades nobody. a16z gathered sixty-five people who had already arrived. Every square is taken except one: nobody is testing the people who put robots on a floor.'
   },
   {
     sec: 30, c: 'var(--blue)', label: 'Market size',
@@ -698,10 +745,16 @@ const BEATS = [
   },
   {
     sec: 20, c: 'var(--teal)', label: 'Go to market',
-    head: 'How we get the<br>first <em>customers.</em>',
-    sub: 'Players arrive free. Companies arrive because the players are already ranked.',
-    html: `<div class="todo">To fill &nbsp;<b>first 2-3 companies to set missions &middot; how a season converts into a hire &middot; the order of the first year</b></div>`,
-    say: ''
+    head: 'We are manufacturing<br>the <em>referral.</em>',
+    sub: 'The strongest hiring signal there is, handed to people who know nobody.',
+    html: `<div class="flow">
+      <div class="st"><span class="w">Players</span><span class="b">already in our classrooms</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st"><span class="w">First companies</span><span class="b">two or three set the missions</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st pay"><span class="w">Then</span><span class="b">every hire is the reference for the next one</span></div>
+    </div>`,
+    say: 'Referrals beat job boards eighteen to one &mdash; not for who you know, but because somebody watched you work. We manufacture that for people who know nobody. Players come from our classroom. Two or three companies set the first missions. Then every hire sells the next one.'
   },
   {
     sec: 6, c: 'var(--red)', label: 'The business', divider: true,
@@ -745,10 +798,20 @@ const BEATS = [
   },
   {
     sec: 30, c: 'var(--red)', label: 'Why this team',
+    hero: 'assets/brand/deck-16-open-seat.svg',
+    heroAlt: 'Four people standing together, with a fifth place still open beside them',
     head: 'We are the only team<br>with <em>both sides.</em>',
-    sub: 'One of us makes these engineers. The other one hires them, and cannot.',
-    html: `<div class="todo">To fill &nbsp;<b>supply access &middot; demand understanding &middot; season one already dated &middot; the ask</b></div>`,
-    say: ''
+    sub: 'The supply is in our classroom. The demand is our day job.',
+    /* The close is a claim about us, not a request. A room can decline a request.
+       It cannot decline a fact about who is standing in front of it — and the ask
+       is still not a number, it is what the first round buys. */
+    html: `<div class="row">
+      <div class="tile"><div class="big">Supply</div><div class="cap">we teach the people this needs, on a national programme</div></div>
+      <div class="tile"><div class="big">Demand</div><div class="cap">one of us is trying to hire this engineer right now</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">Already dated</div><div class="cap">season one: thirty players, six weeks, in the open</div></div>
+      <div class="tile qr" style="--c:var(--teal)"><img src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com"><div class="cap">physical-spark.bit-habit.com</div></div>
+    </div>`,
+    say: 'So why us. Anybody can copy the missions. What they cannot copy is that the supply is already sitting in our classroom and the demand is my day job. The first round runs season one &mdash; thirty players, six weeks, in the open, and the first grading rules written with a company. That job is coming either way. The only question is where those people came from.'
   },
 ];
 
