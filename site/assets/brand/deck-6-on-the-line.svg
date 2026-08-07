@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Three robot arms working along a production line, with one station beside them still empty</title>
+  <style>
+    /* Loops, not one-shots — a beat is hidden until shown but the SVG keeps running.
+       The resting state is the finished drawing; only keyframes take anything away. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .arm{animation:work 3.6s ease-in-out infinite;}
+    .a2{animation-delay:.45s} .a3{animation-delay:.9s}
+    @keyframes work{0%,100%{transform:rotate(0)}40%{transform:rotate(-9deg)}70%{transform:rotate(4deg)}}
+    /* the station nobody is standing at */
+    .gap{animation:wait 3.6s ease-in-out infinite;}
+    @keyframes wait{0%,100%{opacity:.4}50%{opacity:1}}
+    .belt{animation:roll 3.6s linear infinite;}
+    @keyframes roll{to{stroke-dashoffset:-44}}
+  </style>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- the floor and the line running along it -->
+    <path d="M40 268h640" stroke-width="6"/>
+    <path d="M40 232h430" stroke-width="9" stroke="#948468"/>
+    <path class="belt" d="M46 232h418" stroke-width="9" stroke="#fbf5e9" stroke-dasharray="14 30"/>
+
+    <!-- three arms, same build, working out of phase with each other -->
+    <g class="arm" style="transform-origin:120px 232px">
+      <path d="M120 232v-52" stroke-width="11"/>
+      <path d="M120 180l40-34" stroke-width="11"/>
+      <circle cx="120" cy="180" r="7" fill="#fbf5e9" stroke-width="6"/>
+      <path d="M160 146l16 9M160 146l-2 18" stroke-width="8" stroke="#e0442e"/>
+    </g>
+    <g class="arm a2" style="transform-origin:270px 232px">
+      <path d="M270 232v-52" stroke-width="11"/>
+      <path d="M270 180l40-34" stroke-width="11"/>
+      <circle cx="270" cy="180" r="7" fill="#fbf5e9" stroke-width="6"/>
+      <path d="M310 146l16 9M310 146l-2 18" stroke-width="8" stroke="#e0442e"/>
+    </g>
+    <g class="arm a3" style="transform-origin:420px 232px">
+      <path d="M420 232v-52" stroke-width="11"/>
+      <path d="M420 180l40-34" stroke-width="11"/>
+      <circle cx="420" cy="180" r="7" fill="#fbf5e9" stroke-width="6"/>
+      <path d="M460 146l16 9M460 146l-2 18" stroke-width="8" stroke="#e0442e"/>
+    </g>
+
+    <!-- the station at the end of the line, drawn as an absence -->
+    <g class="gap" stroke="#e0442e" stroke-width="7" stroke-dasharray="11 12">
+      <circle cx="608" cy="150" r="34"/>
+      <path d="M556 268v-42q0-34 52-34t52 34v42"/>
+    </g>
+  </g>
+</svg>

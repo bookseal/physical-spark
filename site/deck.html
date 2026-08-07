@@ -176,6 +176,10 @@
     object-fit:contain; flex:0 0 auto;}
   .person .org .wm{font-weight:900; font-size:14px; letter-spacing:-.01em; color:var(--fg);
     border:2px solid var(--fg); border-radius:8px; padding:5px 11px; white-space:nowrap;}
+  /* two founders instead of three cards means each one has room to say what it does,
+     not just where it has been */
+  .person .d{font-size:clamp(12.5px,1.3vw,15px); color:var(--fg); font-weight:500;
+    line-height:1.42; margin-top:9px;}
   .person.num{justify-content:center; gap:4px;}
   .person.num .big{font-weight:900; font-size:clamp(34px,5vw,54px); line-height:1;
     letter-spacing:-.03em; color:var(--c);}
@@ -435,9 +439,9 @@ const BEATS = [
     hero: 'assets/hero-rally.mp4', heroClass: 'photo',
     heroPoster: 'assets/hero-rally-poster.jpg',
     heroAlt: 'A robot arm running a mission on a bench',
-    head: 'We find Physical AI engineers<br>by <em>making them.</em>',
-    sub: '',
-    say: 'Physical Spark. We find Physical AI engineers by making them. Ten minutes on a job that is about to exist in every factory, and on why nobody can hire for it yet.'
+    head: 'Coding tests are dead.<br>We build the one <em>for robots.</em>',
+    sub: 'The test that tells you who can actually make a robot work.',
+    say: 'Physical Spark. Coding tests are dead — AI solves them in seconds. And for robots, nobody ever built the test. We build it. Ten minutes on why that is a business.'
   },
   {
     sec: 40, c: 'var(--gold)', label: 'Who we are',
@@ -448,7 +452,10 @@ const BEATS = [
     html: `<div class="orgs">
       <div class="person">
         <div class="nm">Jungmin Hong</div>
-        <div class="rl">CEO · teaches AI at SKT, Eduwill and on KDT · Upstage before</div>
+        <div class="rl">Chief Executive Officer</div>
+        <div class="d">Teaches AI at SK Telecom, at Eduwill, and on the national K-Digital Training
+          programme. Writes and grades those assignments every week — that is where our test comes
+          from. Built annotation tooling at Upstage, which is the same problem as a grading system.</div>
         <div class="org">
           <img class="mk" src="assets/brand/org-skt.png" alt="SK Telecom" data-wm="SK TELECOM">
           <img class="mk" src="assets/brand/org-eduwill.png" alt="Eduwill" data-wm="EDUWILL">
@@ -458,16 +465,15 @@ const BEATS = [
       </div>
       <div class="person">
         <div class="nm">Gichan Lee</div>
-        <div class="rl">CPO · leads the AX team at KIBA · industrial engineering</div>
+        <div class="rl">Chief Product Officer</div>
+        <div class="d">Leads the AX team at KIBA and has spent this year trying to hire this exact
+          engineer, without success — which makes one of us the customer. Trained in industrial
+          engineering: production lines and process, not software.</div>
         <div class="org">
           <img class="mk" src="assets/brand/org-kiba.png" alt="KIBA" data-wm="KIBA">
           <img class="mk" src="assets/brand/org-concentrix.png" alt="Concentrix" data-wm="CONCENTRIX">
           <img class="mk" src="assets/brand/org-fpt.png" alt="FPT Software" data-wm="FPT">
         </div>
-      </div>
-      <div class="person num">
-        <div class="big">90%</div>
-        <div class="rl">user retention · bit habit · 2 years</div>
       </div>
     </div>`,
     say: 'Jungmin is our CEO. He teaches AI at SK Telecom and at Eduwill, and on the national K-Digital Training programme — before that, AI Platform Engineer at Upstage. I am Gichan, chief product officer — industrial engineering by training, and I lead the AX team at KIBA. Which makes me the customer in this pitch. I have spent this year trying to hire the person I am about to describe, and I cannot. We have also run a habit app together for two years at ninety percent retention. Getting people to finish is the hard part of everything that follows.'
@@ -516,17 +522,17 @@ const BEATS = [
 
   /* ══ why nobody can fill it ═════════════════════════════════════════════ */
   {
-    sec: 30, c: 'var(--amber)', label: 'It has no name',
-    hero: 'assets/brand/deck-7-empty-chair.svg',
-    heroAlt: 'An empty chair at a bench, with no label on it',
-    head: 'The job does not even<br>have a <em>name yet.</em>',
-    sub: 'You cannot run a search for a title nobody has agreed on.',
+    sec: 30, c: 'var(--amber)', label: 'Already happening',
+    hero: 'assets/brand/deck-6-on-the-line.svg',
+    heroAlt: 'Three robot arms working along a production line, with one station beside them still empty',
+    head: 'The robots are already<br>in the <em>factories.</em>',
+    sub: 'This is not a forecast. Every one of these needs people on site who can make it work.',
     html: `<div class="row">
-      <div class="tile plain"><div class="big">Forward deployed engineer</div><div class="cap">what Palantir called it</div></div>
-      <div class="tile plain"><div class="big">Field engineer</div><div class="cap">what the factories call it</div></div>
-      <div class="tile plain"><div class="big">Deployment engineer</div><div class="cap">what the job ads say</div></div>
+      <div class="tile"><div class="big">40 robots</div><div class="cap">Figure 03 on the line at BMW Spartanburg</div><div class="src">June 2026 · after an 11-month pilot</div></div>
+      <div class="tile"><div class="big">100,000 totes</div><div class="cap">Agility Digit moved these at GXO, under contract</div><div class="src">Agility Robotics</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">A whole department</div><div class="cap">BMW opened a Center of Competence for Physical AI in Production</div><div class="src">BMW Group, Feb 2026</div></div>
     </div>`,
-    say: 'And here is how new this is. The job does not have a settled name. Palantir called it a forward deployed engineer. Factories call it a field engineer. Half the job ads say deployment engineer. We are not being pedantic — a search firm works by typing a title into a database of people who have held it. There is no title, so there is no database, so there is nobody to type in.'
+    say: 'This is not a prediction. In June, Figure put forty humanoids on the line at BMW Spartanburg, after an eleven-month pilot that helped build thirty thousand cars. Agility has moved a hundred thousand totes at GXO under a commercial contract. And BMW opened a department called the Center of Competence for Physical AI in Production. When a carmaker names a department after this, the job is not coming — it is being staffed.'
   },
   {
     sec: 35, c: 'var(--red)', label: 'Why search fails',
