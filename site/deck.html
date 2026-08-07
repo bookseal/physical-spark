@@ -213,6 +213,30 @@
   .beat:has(.stack) .kicker, .beat:has(.orgs) .kicker{margin-bottom:8px;}
   .beat:has(.orgs) .orgs{margin-top:18px;}
 
+  /* The one artefact a customer actually buys, shown as itself. Monospace because a
+     scorecard that looks designed looks like marketing; this has to look like output.
+     One line is a failure on purpose — an all-pass report reads as a brochure. */
+  .report{margin-top:16px; background:var(--card); border:1px solid var(--line);
+    border-top:3px solid var(--red); border-radius:13px; padding:13px 17px 11px;
+    box-shadow:0 4px 15px var(--shadow); font-family:ui-monospace,"SF Mono",Menlo,monospace;}
+  .report .hd{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+    font-weight:800; border-bottom:1px solid var(--line); padding-bottom:7px; margin-bottom:5px;}
+  .report .ln{display:flex; align-items:baseline; gap:14px; padding:2.5px 0;
+    font-size:clamp(12px,1.32vw,16px);}
+  .report .ln .k{flex:1; color:var(--fg); font-weight:600;}
+  .report .ln .v{font-weight:800; white-space:nowrap; color:var(--fg);}
+  .report .ln.bad .v{color:var(--red);}
+  .report .ln.good .v{color:var(--teal);}
+  .report .vd{border-top:1px solid var(--line); margin-top:6px; padding-top:7px;
+    display:flex; gap:13px; align-items:baseline; flex-wrap:wrap;}
+  .report .vd .k{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); font-weight:800;}
+  .report .vd .v{font-weight:900; color:var(--red); font-size:clamp(13px,1.5vw,18px);}
+  .report .ft{font-size:10.5px; color:var(--muted); margin-top:7px; letter-spacing:.01em;}
+  /* the report is tall, so it borrows the same headline crop the stack beats use */
+  .beat:has(.report) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
+  .beat:has(.report) .kicker{margin-bottom:8px;}
+
   /* One beat states a sequence rather than a comparison, and a three-card row cannot
      say "then". A row of cards reads as three things that are true at once, which is
      exactly the wrong reading for a purchase. Arrows are their own flex items so a
@@ -571,7 +595,30 @@ const BEATS = [
 
   /* ══ what we do ═════════════════════════════════════════════════════════ */
   {
-    sec: 35, c: 'var(--teal)', label: 'We make them',
+    sec: 40, c: 'var(--gold)', label: 'What they buy',
+    hero: 'assets/brand/deck-12-the-record.svg',
+    heroAlt: 'A single blank document beside a list of watchable graded attempts',
+    head: 'This is what a company<br><em>buys.</em>',
+    sub: 'Not a CV. One line of it is a failure, because that is what a real report looks like.',
+    /* The artefact first, the process after. Leading with "stage one is simulation,
+       stage two is hardware" is curriculum grammar and the room files you under
+       education before you have finished the sentence. Leading with the output
+       files you under assessment, which is the business. */
+    html: `<div class="report">
+      <div class="hd">Candidate report &middot; season one</div>
+      <div class="ln"><span class="k">Pick and place</span><span class="v">87 / 100 runs</span></div>
+      <div class="ln good"><span class="k">New object, new position</span><span class="v">72 / 100 &middot; generalises</span></div>
+      <div class="ln"><span class="k">Broken coordinate frame</span><span class="v">fixed in 14 min</span></div>
+      <div class="ln bad"><span class="k">Camera sending, robot not receiving</span><span class="v">not found &#10007;</span></div>
+      <div class="ln"><span class="k">Too slow to run live</span><span class="v">fixed</span></div>
+      <div class="ln"><span class="k">Oral defence</span><span class="v">PASS &middot; explained the tradeoffs</span></div>
+      <div class="vd"><span class="k">Verdict</span><span class="v">Ready to ship, with hardware onboarding</span></div>
+      <div class="ft">Sample &middot; from 100 simulated runs and one supervised session on a real arm</div>
+    </div>`,
+    say: 'So here is the thing a company actually buys. Not a CV and a phone call — a report. It ran the same task a hundred times in simulation, so we know whether it was skill or luck. It handed them a broken robot and timed the repair. One line there is a failure, and that is deliberate: a report where everybody passes is a brochure. And at the bottom, a human asked them to defend the work out loud, which is the part no model can sit for.'
+  },
+  {
+    sec: 30, c: 'var(--teal)', label: 'We make them',
     hero: 'assets/brand/deck-11-sim-to-real.svg',
     heroAlt: 'A simulated arm on a screen on the left and the same arm on a bench on the right, the same motion drawn through both',
     head: 'So we do not search.<br>We <em>make</em> them.',
@@ -581,10 +628,10 @@ const BEATS = [
       <div class="tile"><div class="big">$200</div><div class="cap">a real arm when you want one · SO-101, open-source</div></div>
       <div class="tile" style="--c:var(--teal)"><div class="big">Real missions</div><div class="cap">the tasks a factory actually needs done</div></div>
     </div>`,
-    say: 'So we stopped trying to find these people and started making them. It is a course you can start tonight, in a simulator, for nothing — because a toll at the door shrinks the only number that matters, which is how many people walk in. When you want real hardware the arm is about two hundred dollars and open-source. And the missions are not toy exercises. They are the jobs a factory floor actually needs doing.'
+    say: 'So we stopped trying to find these people and started making them. It is a course you can start tonight, in a simulator, for nothing — because a toll at the door shrinks the only number that matters, which is how many people walk in. When you want real hardware the arm is two hundred dollars and open-source. And the missions are not toy exercises. They are the jobs a factory floor actually needs doing.'
   },
   {
-    sec: 30, c: 'var(--red)', label: 'The competition',
+    sec: 25, c: 'var(--red)', label: 'The competition',
     hero: 'assets/brand/hero-4-circuit.svg',
     heroAlt: 'A circuit of numbered stages with runners at different points and a board beside it',
     head: 'Then we make it<br>a <em>competition.</em>',
@@ -608,19 +655,6 @@ const BEATS = [
       <div class="tile" style="--c:var(--gold)"><div class="big">Their rules</div><div class="cap">grading rules written with the companies who hire</div></div>
     </div>`,
     say: 'And the players grade each other, on video, against grading rules we write with the companies who will be doing the hiring. That last part matters more than it sounds. It means the assessment is in the buyer\'s language before the buyer ever reads it. It also means the expensive part of evaluation is done by the people being evaluated — which is why this can be free to play at all.'
-  },
-  {
-    sec: 30, c: 'var(--gold)', label: 'What they get',
-    hero: 'assets/brand/deck-12-the-record.svg',
-    heroAlt: 'A single blank document beside a list of watchable graded attempts',
-    head: 'A company gets video,<br>not a <em>CV.</em>',
-    sub: 'We do not send a CV. We send video of the work.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">Not a CV</div><div class="cap">a list of graded attempts, on video</div></div>
-      <div class="tile"><div class="big">Not a certificate</div><div class="cap">dated, reviewed, impossible to fake</div></div>
-      <div class="tile" style="--c:var(--gold)"><div class="big">A shortlist</div><div class="cap">people whose work you can watch before you call</div></div>
-    </div>`,
-    say: 'So what a company receives from us is not a CV and a phone call. It is a shortlist of people whose work they can already watch — every attempt, dated, graded by peers, against rules the company helped write. That is the same blank card everyone else is hiding behind, and it has not got any bigger. What has is a list of attempts nobody can fake.'
   },
 
   /* ══ the business ═══════════════════════════════════════════════════════ */
