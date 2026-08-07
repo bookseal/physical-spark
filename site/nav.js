@@ -36,7 +36,7 @@
   // Opens in its own tab so the page someone was reading survives the pitch, and
   // ?full arms the deck to go fullscreen on the first interaction there — a browser
   // will not hand a new window the gesture that opened it.
-  var CTA = { href: "/deck.html?full=1", label: "10-min pitch" };
+  var CTA = { href: "/deck.html", label: "10-min pitch" };
   var SECONDARY = [
     { href: "/docs", label: "Playbook" },
     { href: "https://github.com/bookseal/physical-spark", label: "GitHub", ext: true }

@@ -88,13 +88,6 @@
 
   /* Shown only when the deck was opened with ?full and is not fullscreen yet.
      Removed by the first click, which is also the click that goes fullscreen. */
-  .fs-hint{position:fixed; z-index:40; left:50%; bottom:calc(var(--ctl,62px) + var(--prompter) + 14px);
-    transform:translateX(-50%); margin:0; padding:7px 15px; border-radius:999px;
-    background:var(--fg); color:var(--bg); font-size:12px; font-weight:700;
-    letter-spacing:.08em; text-transform:uppercase; pointer-events:none;
-    animation:hintpulse 2.2s ease-in-out infinite;}
-  @keyframes hintpulse{0%,100%{opacity:.55}50%{opacity:1}}
-  body:fullscreen .fs-hint{display:none;}
 
   /* ── the slide ────────────────────────────────────────────────────────── */
   /* PROJECTED, THE BOTTOM FIFTH OF THE SCREEN IS NOT THERE. Screens hang low, heads
@@ -424,7 +417,7 @@
   }
 </style>
 </head>
-<body>
+<body class="noprompt">
 
 <div class="grid-bg"></div>
 <div class="tapzone prev" onclick="go(-1)" aria-hidden="true"></div>
@@ -436,7 +429,6 @@
   <span class="clock mono" id="clock">0:00 / 10:00</span>
 </div></div>
 
-<p class="fs-hint" id="fs-hint" hidden>Click anywhere for fullscreen</p>
 
 <main class="stage" id="stage"></main>
 
@@ -455,8 +447,8 @@
   <button class="btn btn-ghost" onclick="go(1)">Next →</button>
   <button class="btn btn-ghost" onclick="reset()">↺</button>
   <span class="tools">
-    <button class="tbtn on" id="btn-auto" onclick="toggleAuto()">Auto A</button>
-    <button class="tbtn on" id="btn-script" onclick="togglePrompter()">Script S</button>
+    <button class="tbtn" id="btn-auto" onclick="toggleAuto()">Auto A</button>
+    <button class="tbtn" id="btn-script" onclick="togglePrompter()">Script S</button>
     <button class="tbtn" id="btn-ov" onclick="toggleOverview()">Overview O</button>
     <button class="tbtn" id="btn-full" onclick="toggleFull()">Full F</button>
     <a class="tbtn pitlink" href="/pitch.html" title="The 60-second version">60s ↗</a>
@@ -742,7 +734,7 @@ const WPS = 2.5;                       /* spoken words per second, pitch pace */
 /* cumulative start time of each beat, so we can map elapsed seconds → which beat you should be on */
 const STARTS = BEATS.reduce((a, b, i) => (a.push(i ? a[i - 1] + BEATS[i - 1].sec : 0), a), []);
 let idx = 0, running = false, elapsed = 0, tickId = null;
-let auto = true;                       /* auto: the clock drives the slides. off: you drive, the clock only measures. */
+let auto = false;                      /* off by default: you drive, the clock only measures. A turns it on. */
 
 /* ── render ─────────────────────────────────────────────────────────────── */
 const stage = document.getElementById('stage');
@@ -904,29 +896,6 @@ function reset(){
   if (running) toggleRun();
   elapsed = 0; idx = 0; render();
 }
-/* Arrived from the site's "10-min pitch" button? Go fullscreen. A browser will not
-   let a freshly opened tab call requestFullscreen on its own — the click that opened
-   it belongs to the other page — so try once, and if that is refused, take the very
-   next click or key press instead. The hint says so until it happens. */
-if (new URLSearchParams(location.search).has('full')){
-  const arm = () => {
-    const el = document.documentElement;
-    if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(() => {});
-  };
-  arm();
-  document.getElementById('fs-hint').hidden = false;
-  const once = () => {
-    arm();
-    removeEventListener('pointerdown', once); removeEventListener('keydown', once);
-    const h = document.getElementById('fs-hint'); if (h) h.remove();
-  };
-  addEventListener('pointerdown', once); addEventListener('keydown', once);
-  addEventListener('fullscreenchange', () => {
-    const h = document.getElementById('fs-hint');
-    if (h && document.fullscreenElement) h.remove();
-  });
-}
-
 /* Present from the browser rather than exporting anything. The chrome stays —
    a presenter still needs the clock and the script — it just gets the whole screen. */
 function toggleFull(){
