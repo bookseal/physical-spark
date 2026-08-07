@@ -209,6 +209,23 @@
   .beat:has(.stack) .kicker, .beat:has(.orgs) .kicker{margin-bottom:8px;}
   .beat:has(.orgs) .orgs{margin-top:18px;}
 
+  /* One beat states a sequence rather than a comparison, and a three-card row cannot
+     say "then". A row of cards reads as three things that are true at once, which is
+     exactly the wrong reading for a purchase. Arrows are their own flex items so a
+     narrow projector wraps the chain instead of breaking the arrow off a card. */
+  .flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:7px; margin-top:20px;}
+  .flow .st{flex:1 1 132px; background:var(--card); border:1px solid var(--line);
+    border-top:3px solid var(--c,var(--line)); border-radius:11px; padding:10px 12px;
+    box-shadow:0 2px 7px var(--shadow); display:flex; flex-direction:column; gap:3px;}
+  .flow .st .w{font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); font-weight:800;}
+  .flow .st .b{font-weight:900; font-size:clamp(13px,1.5vw,17px); line-height:1.2;
+    letter-spacing:-.01em; color:var(--fg);}
+  .flow .ar{flex:0 0 auto; align-self:center; color:var(--muted); font-weight:900; font-size:15px;}
+  .flow .st.pay{--c:var(--red); background:color-mix(in srgb,var(--red) 8%,var(--card));}
+  .flow .st.pay .b{color:var(--red);}
+  @media (max-width:820px){ .flow .ar{display:none;} .flow .st{flex:1 1 44%;} }
+
   @media (max-width:820px){
     .stack{gap:4px;} .stack .lay{padding:5px 11px; gap:8px;}
     .stack .lay .t{font-size:12.5px; min-width:100px;} .stack .lay .d{font-size:11px;}
@@ -456,7 +473,7 @@ const BEATS = [
     hero: 'assets/brand/deck-13-streak.svg',
     heroAlt: 'An unbroken row of ticked days running off the edge of the frame',
     head: 'We build things<br>people <em>finish.</em>',
-    sub: '',
+    sub: 'Software hiring is losing the proof it had. Robotics never had any.',
     /* Names, roles, marks and one number — everything else is spoken. A team
        slide is looked at, not read. The .wm fallback is wired near the bottom
        of this script, so a missing logo file never shows a broken image. */
@@ -483,7 +500,7 @@ const BEATS = [
         <div class="rl">user retention · bit habit · 2 years</div>
       </div>
     </div>`,
-    say: 'Jungmin is our CEO, and the lead AI instructor at Eduwill — before that an AI Platform Engineer at Upstage. I am Gichan, chief product officer. The rest is on the slide. And we have run a habit app called bit habit together for over two years, at ninety percent retention. Keeping people is the hard part of everything I am about to describe.'
+    say: 'Jungmin is our CEO, and the lead AI instructor at Eduwill — before that an AI Platform Engineer at Upstage. I am Gichan, chief product officer. We have run a habit app together for two years at ninety percent retention. Keeping people is the hard part of everything I am about to describe. And here is the whole pitch in one line: software hiring is losing the proof it had, and robotics never had any.'
   },
   {
     sec: 35, c: 'var(--red)', label: 'Developers',
@@ -645,12 +662,18 @@ const BEATS = [
        is both the thing they are better at and the thing that gets them invested in
        the answer. Every number in this deck is sourced — one invented one would cost
        more than this slide could ever earn. */
-    html: `<div class="row">
-      <div class="tile"><div class="big">Training budget</div><div class="cap">small, discretionary, cut first in a bad year</div></div>
-      <div class="tile" style="--c:var(--red)"><div class="big">Hiring budget</div><div class="cap">already committed to a role they cannot fill</div></div>
-      <div class="tile"><div class="big">20%</div><div class="cap">of first-year salary, on placement — the search standard</div></div>
+    html: `<div class="flow">
+      <div class="st"><span class="w">Company</span><span class="b">sets the task</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st"><span class="w">Players</span><span class="b">attempt it, on video</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st"><span class="w">Peers</span><span class="b">grade every run</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st"><span class="w">Company</span><span class="b">hires off the ranking</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st pay"><span class="w">We are paid</span><span class="b">20% of first-year salary</span></div>
     </div>`,
-    say: 'Where the money comes from. Almost everyone here sells into a training budget — small, discretionary, the first thing cut in a bad year. We do not. A company with an unfilled role is already spending — on recruiters, on a search going nowhere, on the empty seat. That is the pocket we are in. We are paid like any search firm — twenty percent of first-year salary, on placement. I will let you size it — you are better at that than I am.'
+    say: 'Where the money comes from. Almost everyone here sells into a training budget — small, and first cut in a bad year. We do not. A company with an unfilled role is already spending — on recruiters, on the empty seat. A company sets the task. Players attempt it. Peers grade it. The company hires off the ranking, and we are paid on placement, twenty percent of first-year salary, only when somebody starts. We think a first shortlist needs thirty finishers. Season one is where we find out.'
   },
   {
     sec: 35, c: 'var(--gold)', label: 'Why not them',
@@ -684,7 +707,7 @@ const BEATS = [
     hero: 'assets/brand/deck-15-route.svg',
     heroAlt: 'A route with three stops: one behind, one being run now in red, and one still dashed ahead',
     head: 'We write the missions<br>by <em>doing them.</em>',
-    sub: 'Then together. Then with the factories.',
+    sub: 'The first round funds season one. That is what we are raising for.',
     /* The roadmap is three steps and the middle one is season one, which used to
        stand alone as a promise. Standing alone it read as an experiment; standing
        here it reads as the part where the loop starts turning, which is what it
@@ -695,7 +718,7 @@ const BEATS = [
       <div class="lay ours"><span class="t">Season one</span><span class="d">thirty players, six weeks, in the open — doing it together instead of alone</span></div>
       <div class="lay"><span class="t">Then</span><span class="d">we ask factories what they actually need done, and those answers become the missions</span></div>
     </div>`,
-    say: 'Here is how we get there. Right now I am learning Physical AI and turning what I learn into the missions — that is the course. Season one is thirty players doing it together instead of alone, six weeks, run in the open, and I come back with finish rate and reviews per run. Then, once there is something to show, we go to the factories and ask what they actually need done. Those answers become the missions — and that is how the marking criteria end up written with them rather than by us.'
+    say: 'Here is how we get there, and what the first round pays for. Right now I am learning Physical AI and turning it into the missions. Season one is thirty players doing it together instead of alone, six weeks, run in the open, and I come back with finish rate and reviews per run. Then, once there is something to show, we go to the factories and ask what they actually need done. Those answers become the missions — and that is how the marking criteria end up written with them rather than by us.'
   },
   {
     sec: 45, c: 'var(--red)', label: 'Join us',
@@ -711,7 +734,7 @@ const BEATS = [
     html: `<div class="row">
       <div class="tile"><div class="big">Play it</div><div class="cap">free, tonight, in the simulator</div></div>
       <div class="tile"><div class="big">Build it</div><div class="cap">write the mission that comes next</div></div>
-      <div class="tile" style="--c:var(--teal)"><div class="big">Bring a problem</div><div class="cap">run a factory? we will make it a mission</div></div>
+      <div class="tile" style="--c:var(--teal)"><div class="big">Set a mission</div><div class="cap">we want two or three companies to define season one</div></div>
       <div class="tile qr" style="--c:var(--teal)"><img src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com"><div class="cap">physical-spark.bit-habit.com</div></div>
     </div>`,
     /* The last sentence states the world, not their regret. "You will regret this"
