@@ -216,12 +216,12 @@
   /* The one artefact a customer actually buys, shown as itself. Monospace because a
      scorecard that looks designed looks like marketing; this has to look like output.
      One line is a failure on purpose — an all-pass report reads as a brochure. */
-  .report{margin-top:16px; background:var(--card); border:1px solid var(--line);
-    border-top:3px solid var(--red); border-radius:13px; padding:13px 17px 11px;
+  .report{margin-top:9px; background:var(--card); border:1px solid var(--line);
+    border-top:3px solid var(--red); border-radius:13px; padding:10px 17px 9px;
     box-shadow:0 4px 15px var(--shadow); font-family:ui-monospace,"SF Mono",Menlo,monospace;}
   .report .hd{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
-    font-weight:800; border-bottom:1px solid var(--line); padding-bottom:7px; margin-bottom:5px;}
-  .report .ln{display:flex; align-items:baseline; gap:14px; padding:2.5px 0;
+    font-weight:800; border-bottom:1px solid var(--line); padding-bottom:5px; margin-bottom:3px;}
+  .report .ln{display:flex; align-items:baseline; gap:14px; padding:1px 0;
     font-size:clamp(12px,1.32vw,16px);}
   .report .ln .k{flex:1; color:var(--fg); font-weight:600;}
   .report .ln .v{font-weight:800; white-space:nowrap; color:var(--fg);}
@@ -598,8 +598,8 @@ const BEATS = [
     sec: 40, c: 'var(--gold)', label: 'What they buy',
     hero: 'assets/brand/deck-12-the-record.svg',
     heroAlt: 'A single blank document beside a list of watchable graded attempts',
-    head: 'This is what a company<br><em>buys.</em>',
-    sub: 'Not a CV. One line of it is a failure, because that is what a real report looks like.',
+    head: 'This is what a company <em>buys.</em>',
+    sub: 'Not a CV. One line is a failure, on purpose.',
     /* The artefact first, the process after. Leading with "stage one is simulation,
        stage two is hardware" is curriculum grammar and the room files you under
        education before you have finished the sentence. Leading with the output
