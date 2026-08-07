@@ -488,7 +488,7 @@ const BEATS = [
     say: 'Physical Spark. Coding tests are dead — AI solves them in seconds. And for robots, nobody ever built the test. We build it. Ten minutes on why that is a business.'
   },
   {
-    sec: 30, c: 'var(--gold)', label: 'In one slide',
+    sec: 25, c: 'var(--gold)', label: 'In one slide',
     head: 'The whole company,<br>on one <em>slide.</em>',
     sub: 'Who buys it, what they get, and how we are paid.',
     html: `<div class="todo">To fill &nbsp;<b>the one-frame summary: buyer, product, revenue &mdash; write last, once the model is settled</b></div>`,
@@ -666,18 +666,26 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 26, c: 'var(--blue)', label: 'Competitors',
+    sec: 25, c: 'var(--blue)', label: 'Competitors',
     head: 'Who else is<br>in <em>this.</em>',
     sub: 'Nobody is testing the people who put robots on a floor.',
     html: `<div class="todo">To fill &nbsp;<b>Karat &middot; HackerRank/Codility &middot; LeRobot &middot; a16z fellowship &middot; bootcamps &middot; AX competitions</b></div>`,
     say: ''
   },
   {
-    sec: 28, c: 'var(--blue)', label: 'Market size',
-    head: 'What the market<br>actually <em>is.</em>',
-    sub: 'Bottom up, and every line linked to where the number came from.',
-    html: `<div class="todo">To fill &nbsp;<b>TAM: installed base &amp; annual installs &middot; SAM: robotics firms &times; hires/yr &middot; SOM: season one &times; conversion</b></div>`,
-    say: ''
+    sec: 30, c: 'var(--blue)', label: 'Market size',
+    head: 'We are not going to show you<br>a fifty-billion-dollar <em>market.</em>',
+    sub: 'Here is arithmetic we can defend, built only from things somebody counted.',
+    /* No invented ratios. Every figure here is either counted by IFR or A3, or is
+       our own price. The multiplication is printed so the room can check it rather
+       than take it — and a modest number they can verify is worth more at seed than
+       a large one they have to accept. */
+    html: `<div class="stack">
+      <div class="lay"><span class="t">TAM</span><span class="d">542,000 robots added every year, worldwide &mdash; and 4.7 million already running. None of them work without somebody who can make them work. <a href="https://ifr.org/ifr-press-releases/news/global-robot-demand-in-factories-doubles-over-10-years" target="_blank" rel="noopener">IFR 2025</a></span></div>
+      <div class="lay ours"><span class="t">SAM</span><span class="d">1,400 automation organisations in North America <a href="https://www.automate.org/a3/who-we-are" target="_blank" rel="noopener">(A3)</a> &times; 2 engineer hires a year &times; $20,000 a hire = <b>$56M a year</b></span></div>
+      <div class="lay"><span class="t">SOM</span><span class="d">What we can run: season one is 3 sponsors and 3 hires. Year three is eight seasons.</span></div>
+    </div>`,
+    say: 'On market size. I am not going to put a fifty-billion-dollar number on the wall, because I would be guessing. Here is what is actually counted. Five hundred and forty-two thousand robots were added last year and four point seven million are already running. In North America, fourteen hundred automation organisations. Two engineer hires a year each, at twenty thousand dollars a hire, is fifty-six million a year. That is the part I can defend.'
   },
   {
     sec: 20, c: 'var(--teal)', label: 'Go to market',
@@ -716,11 +724,15 @@ const BEATS = [
     say: 'How the money arrives. First a company sponsors a season — it sets the task and sees everyone who solves it. That sells before any record exists, which is why it comes first. Then it hires from the results and pays ten percent of first-year salary, half what a search firm takes, because a search firm does the searching and we did the assessment. And the thing they are really buying is time: a bad automation hire delays a half-million-dollar robot payback by six to twelve months.'
   },
   {
-    sec: 25, c: 'var(--amber)', label: 'Financials',
-    head: 'Three years,<br>and what is <em>shipped.</em>',
-    sub: 'The honest version: what exists today, and what the model says next.',
-    html: `<div class="todo">To fill &nbsp;<b>three-year forecast once the model is set &middot; plus the live/not-yet list from the old beat 16</b></div>`,
-    say: ''
+    sec: 29, c: 'var(--amber)', label: 'Financials',
+    head: 'One season, and<br>what <em>three years</em> of them looks like.',
+    sub: 'Small on purpose. Every line is a number season one replaces with a real one.',
+    html: `<div class="stack">
+      <div class="lay"><span class="t">One season</span><span class="d">3 sponsors &times; $3,000, plus 3 hires &times; 10% of salary &mdash; about <b>$22,000</b> in Korea, <b>$69,000</b> at US salaries</span></div>
+      <div class="lay ours"><span class="t">Year one</span><span class="d">2 seasons, Korea only &mdash; roughly <b>$45,000</b>, and the first real conversion rate</span></div>
+      <div class="lay"><span class="t">Years two &amp; three</span><span class="d">4 seasons, then 8 with a US pilot &mdash; roughly <b>$160,000</b>, then <b>$600,000</b></span></div>
+    </div>`,
+    say: 'And the money. One season is three sponsors and three hires, about twenty-two thousand dollars, or sixty-nine at US salaries. Year one is two seasons. Year three is eight, with a US pilot, at around six hundred thousand. Small numbers, and I am showing them anyway: every one is a guess that season one replaces with a measurement. The number I actually need is how many finishers make a shortlist worth buying.'
   },
   {
     sec: 30, c: 'var(--red)', label: 'Why this team',
