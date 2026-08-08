@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A bridge whose middle section is missing, the gap drawn as a dashed line</title>
+  <style>
+    /* Loops, not one-shots — the beat is hidden until shown but the SVG keeps
+       running. The resting state is the finished drawing; only keyframes take
+       anything away. The gap is what the eye should keep returning to. */
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .gap{animation:wait 3.6s ease-in-out infinite;}
+    @keyframes wait{0%,100%{opacity:.4}50%{opacity:1}}
+  </style>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M56 264h608" stroke-width="7"/>
+    <path d="M56 104h228M436 104h228" stroke-width="12"/>
+    <path d="M104 104v160M244 104v160M476 104v160M616 104v160" stroke-width="7"/>
+    <path class="gap" d="M300 104h120" stroke="#e0442e" stroke-width="8" stroke-dasharray="12 13"/>
+  </g>
+</svg>
