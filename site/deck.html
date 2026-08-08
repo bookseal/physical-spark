@@ -267,6 +267,24 @@
   .beat:has(.report) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
   .beat:has(.report) .kicker{margin-bottom:8px;}
 
+  /* The one beat that is a comparison rather than a claim. Two columns, rows
+     aligned, so the room does the "these are the same" for itself instead of
+     being told — a conclusion somebody reaches is worth more than one handed
+     over. Also the only two-column layout in the deck, which gives the eye a
+     rest twenty slides in. */
+  .vs{display:grid; grid-template-columns:1fr 1fr; gap:13px; margin-top:16px;}
+  .vs .col{background:var(--card); border:1px solid var(--line);
+    border-top:3px solid var(--c,var(--line)); border-radius:13px; padding:11px 16px 13px;
+    box-shadow:0 3px 12px var(--shadow);}
+  .vs .col.next{--c:var(--red); background:color-mix(in srgb,var(--red) 6%,var(--card));}
+  .vs .hd{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); font-weight:800; margin-bottom:7px;}
+  .vs .col.next .hd{color:var(--red);}
+  .vs .ln{font-size:clamp(12.5px,1.32vw,16px); font-weight:600; color:var(--fg);
+    padding:6px 0; border-top:1px solid var(--line); line-height:1.3;}
+  .vs .ln:first-of-type{border-top:none;}
+  .beat:has(.vs) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
+
   /* One beat states a sequence rather than a comparison, and a three-card row cannot
      say "then". A row of cards reads as three things that are true at once, which is
      exactly the wrong reading for a purchase. Arrows are their own flex items so a
@@ -523,17 +541,17 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 35, c: 'var(--gold)', label: 'Nobody can hire them',
+    sec: 35, c: 'var(--gold)', label: 'Who is hiring now',
     hero: 'assets/toy/demand.jpg', heroClass: 'photo',
     heroAlt: 'One wooden figure alone, with eight tiny toy factories arranged in a semicircle facing it',
-    head: 'Everybody wants an<br><em>AI Field Engineer.</em><br>Nobody can hire one.',
-    sub: 'The person who takes a model into a company and makes it work on the ground.',
+    head: 'Companies that never hired a programmer<br>are hiring them <em>now.</em>',
+    sub: 'With the same job ads and the same interviews they have always used. It is not working.',
     html: `<div class="row">
       <div class="tile"><div class="big">5% → 70%</div><div class="cap">of companies hiring one, in two quarters</div><div class="src"><a href="https://techcrunch.com/2026/07/30/forward-deployed-engineers-are-the-ai-industrys-latest-talent-obsession/" target="_blank" rel="noopener">Christian &amp; Timbers · TechCrunch, 30 Jul 2026</a></div></div>
       <div class="tile" style="--c:var(--gold)"><div class="big">17,000 / 2,000</div><div class="cap">US engineers who hold the title / who can deliver</div><div class="src"><a href="https://techcrunch.com/2026/07/30/forward-deployed-engineers-are-the-ai-industrys-latest-talent-obsession/" target="_blank" rel="noopener">&ldquo;Not 2,000 available. 2,000 total.&rdquo;</a></div></div>
-      <div class="tile" style="--c:var(--red)"><div class="big">#1</div><div class="cap">AI is the hardest skill to hire, worldwide</div><div class="src">ManpowerGroup · 39,063 employers · 41 countries</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">59%</div><div class="cap">of companies have already made a bad AI hire</div><div class="src">industry survey, 2026</div></div>
     </div>`,
-    say: 'Start with the customer. The job is called an AI field engineer — the person who makes a model work inside a company. In January, five to ten percent of companies planned to hire one. By the end of June it was seventy. One count put seventeen thousand US engineers claiming the title and two thousand who can deliver. ManpowerGroup asked thirty-nine thousand employers in forty-one countries what is hardest to hire. For the first time, the answer was AI skills.'
+    say: 'Start with the customer. Ten years ago, a company that was not a technology company did not hire programmers — it hired an agency. That changed. Ordinary firms now hire engineers directly to put AI inside their own business, and they call that person an AI field engineer. In January five to ten percent planned to hire one. By June it was seventy. And most are still hiring with the job ad they used for everything else.'
   },
   {
     sec: 36, c: 'var(--red)', label: 'Why search fails',
@@ -571,17 +589,33 @@ const BEATS = [
     say: 'This is not a prediction. Four point seven million industrial robots are already running in factories worldwide, and Amazon alone runs a million of them. Those machines are not waiting to be invented. What changed is that they can now be told what to do in plain language — so every one of them needs somebody to teach it. And BMW has opened a department called the Center of Competence for Physical AI in Production. When a carmaker names a department after this, the job is being staffed.'
   },
   {
-    sec: 38, c: 'var(--red)', label: 'Next year, with a body',
+    sec: 38, c: 'var(--red)', label: 'Same problem, one round later',
     hero: 'assets/toy/shop.jpg', heroClass: 'photo',
     heroAlt: 'A small toy factory with an open doorway, crates outside and one robot arm just inside',
-    head: 'The same problem moves<br>onto a <em>factory floor.</em>',
-    sub: 'Where a wrong hire does not cost you a sprint. It stops the line.',
-    html: `<div class="row">
-      <div class="tile"><div class="big">Plain English</div><div class="cap">you can now tell a robot what to do in words, and it does it</div></div>
-      <div class="tile"><div class="big">Korea is first</div><div class="cap">more robots per worker than any country on earth · 1,220 per 10,000</div><div class="src">IFR World Robotics 2025</div></div>
-      <div class="tile" style="--c:var(--red)"><div class="big">Every plant</div><div class="cap">not a few labs — every line that stops needs one</div></div>
+    head: 'Same problem.<br>One round <em>later.</em>',
+    sub: 'Except this one is not inside a computer.',
+    /* A comparison rather than a claim. The old version asserted that the problem
+       moves onto a factory floor; two aligned columns let the room notice it. The
+       last row is the sim-to-real gap in words anybody has lived: it worked on my
+       machine and then it did not work for real. It is also the market-size line,
+       without a number. */
+    html: `<div class="vs">
+      <div class="col">
+        <div class="hd">AI automation &middot; now</div>
+        <div class="ln">Every company is hiring for it</div>
+        <div class="ln">The job is two years old</div>
+        <div class="ln">Take-homes, invented one at a time</div>
+        <div class="ln">It runs inside a computer</div>
+      </div>
+      <div class="col next">
+        <div class="hd">Physical AI &middot; next year</div>
+        <div class="ln">Every factory will be</div>
+        <div class="ln">The job does not exist yet</div>
+        <div class="ln">Nobody has even tried</div>
+        <div class="ln">It has to work on a real floor</div>
+      </div>
     </div>`,
-    say: 'Now put a body on it. Five years ago you could say "move that box" and nothing happened. That changed. You can tell a robot what to do in plain English, and it does. An arm is two hundred dollars. Korea runs more robots per worker than anywhere on earth. So next year the job gets one word longer, and everything about hiring for it gets harder. And this is not a handful of research labs. It is every plant with a line that stops and nobody on site who can retrain the arm.'
+    say: 'Now put next year beside this year. Today every company is hiring for AI automation, for a job two years old, tested with take-homes they invent one at a time. Next year the same hire happens in a factory, with a robot attached. That job does not exist yet, nobody has built a test for it, and the work has to survive a real floor instead of a simulation. Same problem, one round later — and a far bigger market, because this one is not inside a computer.'
   },
   {
     sec: 40, c: 'var(--red)', label: 'What the money did',
