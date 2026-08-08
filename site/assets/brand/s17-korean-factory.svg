@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A small factory with a sawtooth roof and four robot arms working inside, and an empty doorway beside it</title>
+  <style>
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .arm{animation:work 3.8s ease-in-out infinite;}
+    .a2{animation-delay:.5s} .a3{animation-delay:1s} .a4{animation-delay:1.5s}
+    @keyframes work{0%,100%{transform:rotate(0)}45%{transform:rotate(-10deg)}75%{transform:rotate(5deg)}}
+    .door{animation:wait 3.8s ease-in-out infinite;}
+    @keyframes wait{0%,100%{opacity:.4}50%{opacity:1}}
+  </style>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- the floor everything stands on -->
+    <path d="M44 258h632" stroke-width="6"/>
+
+    <!-- sawtooth roof: the shape everybody reads as "factory" without being told -->
+    <path d="M64 150 L172 104 L172 150 L280 104 L280 150 L388 104 L388 150 L496 104 L496 150" stroke-width="7"/>
+    <path d="M64 150v108M496 150v108" stroke-width="7"/>
+
+    <!-- four arms, identical, working out of phase -->
+    <g class="arm" style="transform-origin:112px 258px">
+      <path d="M112 258v-44" stroke-width="9"/><path d="M112 214l30-26" stroke-width="9"/>
+      <circle cx="112" cy="214" r="6" fill="#fbf5e9" stroke-width="5"/>
+      <path d="M142 188l13 7M142 188l-2 15" stroke-width="7" stroke="#e0442e"/>
+    </g>
+    <g class="arm a2" style="transform-origin:220px 258px">
+      <path d="M220 258v-44" stroke-width="9"/><path d="M220 214l30-26" stroke-width="9"/>
+      <circle cx="220" cy="214" r="6" fill="#fbf5e9" stroke-width="5"/>
+      <path d="M250 188l13 7M250 188l-2 15" stroke-width="7" stroke="#e0442e"/>
+    </g>
+    <g class="arm a3" style="transform-origin:328px 258px">
+      <path d="M328 258v-44" stroke-width="9"/><path d="M328 214l30-26" stroke-width="9"/>
+      <circle cx="328" cy="214" r="6" fill="#fbf5e9" stroke-width="5"/>
+      <path d="M358 188l13 7M358 188l-2 15" stroke-width="7" stroke="#e0442e"/>
+    </g>
+    <g class="arm a4" style="transform-origin:436px 258px">
+      <path d="M436 258v-44" stroke-width="9"/><path d="M436 214l30-26" stroke-width="9"/>
+      <circle cx="436" cy="214" r="6" fill="#fbf5e9" stroke-width="5"/>
+      <path d="M466 188l13 7M466 188l-2 15" stroke-width="7" stroke="#e0442e"/>
+    </g>
+
+    <!-- the way in, and nobody in it -->
+    <g class="door" stroke="#e0442e" stroke-width="8" stroke-dasharray="12 13">
+      <path d="M578 258V162h84v96"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Five linked circles in a row with the last one feeding back to the second, so the chain keeps itself going</title>
+  <style>
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .loop{stroke-dasharray:12 10; animation:flow 2.6s linear infinite;}
+    @keyframes flow{to{stroke-dashoffset:-44}}
+    .seed{animation:pulse 3.4s ease-in-out infinite; transform-origin:96px 128px;}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+  </style>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
+    <circle class="seed" cx="96" cy="128" r="30" stroke="#0e9a89" fill="#0e9a89"/>
+    <circle cx="240" cy="128" r="30"/>
+    <circle cx="384" cy="128" r="30"/>
+    <circle cx="528" cy="128" r="30"/>
+    <circle cx="648" cy="128" r="30"/>
+
+    <g stroke-width="6">
+      <path d="M132 128h68"/><path d="M188 118l14 10-14 10"/>
+      <path d="M276 128h68"/><path d="M332 118l14 10-14 10"/>
+      <path d="M420 128h68"/><path d="M476 118l14 10-14 10"/>
+      <path d="M564 128h44"/><path d="M596 118l14 10-14 10"/>
+    </g>
+
+    <!-- the last one comes back and starts the row again -->
+    <g stroke="#e0442e" stroke-width="6">
+      <path class="loop" d="M648 162v46a18 18 0 0 1-18 18H258a18 18 0 0 1-18-18v-46"/>
+      <path d="M230 174l10-14 10 14"/>
+    </g>
+  </g>
+</svg>

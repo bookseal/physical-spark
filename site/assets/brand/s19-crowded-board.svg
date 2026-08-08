@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>A grid of twelve squares, eleven of them taken and the last one still empty</title>
+  <style>
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .gap{animation:open 3.4s ease-in-out infinite;}
+    @keyframes open{0%,100%{opacity:.45}50%{opacity:1}}
+  </style>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+    <g id="r">
+      <rect x="132" y="52" width="108" height="62" rx="13"/><circle cx="186" cy="83" r="9" fill="#2b211a"/>
+      <rect x="256" y="52" width="108" height="62" rx="13"/><circle cx="310" cy="83" r="9" fill="#2b211a"/>
+      <rect x="380" y="52" width="108" height="62" rx="13"/><circle cx="434" cy="83" r="9" fill="#2b211a"/>
+      <rect x="504" y="52" width="108" height="62" rx="13"/><circle cx="558" cy="83" r="9" fill="#2b211a"/>
+
+      <rect x="132" y="128" width="108" height="62" rx="13"/><circle cx="186" cy="159" r="9" fill="#2b211a"/>
+      <rect x="256" y="128" width="108" height="62" rx="13"/><circle cx="310" cy="159" r="9" fill="#2b211a"/>
+      <rect x="380" y="128" width="108" height="62" rx="13"/><circle cx="434" cy="159" r="9" fill="#2b211a"/>
+      <rect x="504" y="128" width="108" height="62" rx="13"/><circle cx="558" cy="159" r="9" fill="#2b211a"/>
+
+      <rect x="132" y="204" width="108" height="62" rx="13"/><circle cx="186" cy="235" r="9" fill="#2b211a"/>
+      <rect x="256" y="204" width="108" height="62" rx="13"/><circle cx="310" cy="235" r="9" fill="#2b211a"/>
+      <rect x="380" y="204" width="108" height="62" rx="13"/><circle cx="434" cy="235" r="9" fill="#2b211a"/>
+    </g>
+    <!-- the twelfth, and the whole point of the picture -->
+    <rect class="gap" x="504" y="204" width="108" height="62" rx="13"
+          stroke="#e0442e" stroke-width="7" stroke-dasharray="13 12"/>
+  </g>
+</svg>

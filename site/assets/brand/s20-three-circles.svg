@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img">
+  <title>Three nested circles, the smallest one filled, with a tick line marking each</title>
+  <style>
+    @media (prefers-reduced-motion: reduce){ * { animation: none !important; } }
+    .core{animation:beat 3.6s ease-in-out infinite; transform-origin:250px 150px;}
+    @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+  </style>
+  <g fill="none" stroke="#2b211a" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="250" cy="150" r="112" stroke-width="7"/>
+    <circle cx="250" cy="150" r="72" stroke-width="7"/>
+    <circle class="core" cx="250" cy="150" r="34" stroke-width="7" stroke="#0e9a89" fill="#0e9a89"/>
+
+    <!-- one tick out to the right for each ring, at the height its edge sits -->
+    <g stroke-width="6">
+      <path d="M250 38h96M250 78h136M250 116h176"/>
+    </g>
+    <g stroke-width="6" stroke="#948468">
+      <path d="M420 38h74M450 78h44M486 116h8"/>
+    </g>
+  </g>
+</svg>
