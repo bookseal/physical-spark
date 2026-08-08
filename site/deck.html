@@ -176,6 +176,15 @@
     border:2px solid var(--fg); border-radius:8px; padding:5px 11px; white-space:nowrap;}
   /* two founders instead of three cards means each one has room to say what it does,
      not just where it has been */
+  /* A US team slide without faces reads as unfinished. Initials stand in where a
+     photograph has not arrived, which looks deliberate in a way an empty frame
+     does not — swap the span for an img and nothing else changes. */
+  .person .hd{display:flex; align-items:center; gap:13px;}
+  .person .face{width:58px; height:58px; border-radius:50%; object-fit:cover; flex:0 0 auto;
+    border:2px solid var(--line); background:var(--bg2); display:block;}
+  .person span.face{display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:19px; letter-spacing:-.02em; color:var(--muted);}
+
   /* noun phrases, not sentences — a card is scanned, not read, and prose on a slide
      competes with the person speaking over it */
   .person ul.d{margin:10px 0 0; padding:0; list-style:none; display:grid; gap:5px;}
@@ -662,8 +671,13 @@ const BEATS = [
        these cards are carrying employer logos in their place for now. */
     html: `<div class="orgs">
       <div class="person">
-        <div class="nm">Jungmin Hong</div>
-        <div class="rl">Chief Executive Officer</div>
+        <div class="hd">
+          <img class="face" src="assets/brand/face-jungmin.png" alt="Jungmin Hong">
+          <div>
+            <div class="nm">Jungmin Hong</div>
+            <div class="rl">Chief Executive Officer</div>
+          </div>
+        </div>
         <ul class="d">
           <li>AI instructor &mdash; SK Telecom, Eduwill, national KDT</li>
           <li>Weekly problem writing and grading &mdash; the test&rsquo;s R&amp;D</li>
@@ -677,8 +691,13 @@ const BEATS = [
         </div>
       </div>
       <div class="person">
-        <div class="nm">Gichan Lee</div>
-        <div class="rl">Chief Product Officer</div>
+        <div class="hd">
+          <span class="face">GL</span>
+          <div>
+            <div class="nm">Gichan Lee</div>
+            <div class="rl">Chief Product Officer</div>
+          </div>
+        </div>
         <ul class="d">
           <li>Lead, AX team at KIBA &mdash; our own customer</li>
           <li>Hiring where CVs and portfolios prove nothing</li>
