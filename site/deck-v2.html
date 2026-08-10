@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical Spark — the 10-minute pitch (v2)</title>
+<meta name="description" content="Physical Spark — companies set a real robot task, engineers solve it on video, and the winners get hired.">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — rebuilt from the reference decks.
+
+   Four rules, taken off the reference and applied without exception:
+     1. White page. ONE accent colour. Never a second one.
+     2. The title is enormous and two-tone — dark, then accent.
+     3. Two or three BIG portrait cards. Never a grid of small tiles, and never
+        a wide horizontal strip with the label on the left.
+     4. Exactly one card is filled with the accent. That is where the eye goes.
+
+   Everything sizes in `cqw` — container query width — so a 13" laptop and a
+   projector render identical proportions. Nothing is measured in pixels.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* The warm palette from deck.html (v1). A projector makes pure white glare and
+     over-contrast the body text; a cream page lowers the brightness while keeping
+     the type legible. Blue does not belong on cream — the accent is the brand red. */
+  --accent:#e0442e;
+
+  --ink:#2b211a;         /* headline: dark brown, not black */
+  --body:#5a4c3e;        /* body */
+  --mute:#948468;        /* labels, captions, sources */
+  --line:#e8dcc4;        /* hairlines, card borders */
+  --page:#fbf5e9;        /* everything is the same cream — no white sheet */
+  --slide:#fbf5e9;
+  --card:#ffffff;        /* cards are the only white on screen, so they lift */
+  --dot:#c3b294;         /* bullet dots — deliberately NOT the accent */
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{
+  background:var(--page); color:var(--ink); overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+
+/* ── top bar: the time budget ─────────────────────────────────────────────── */
+.hud{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--slide);border-bottom:1px solid var(--line);}
+.hud-in{display:flex;align-items:center;gap:14px;padding:9px 18px;}
+.brand{font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;color:var(--ink);text-decoration:none;}
+.brand b{color:var(--accent);}
+.budget{flex:1;display:flex;gap:12px;min-width:200px;}
+.ch{flex:var(--w);cursor:pointer;display:flex;flex-direction:column;gap:4px;min-width:0;}
+.ch .nm{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:#b9a98c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ch.live .nm{color:var(--accent);}
+.ch.done .nm{color:var(--mute);}
+.ch .seg{height:4px;background:var(--line);border-radius:99px;overflow:hidden;}
+.ch .seg i{display:block;height:100%;width:0;background:var(--accent);}
+.ch.over .seg{box-shadow:0 0 0 2px var(--accent);}
+.clock{font-weight:700;font-size:14px;min-width:78px;text-align:right;}
+.clock.over{color:#e0442e;}
+.tools{display:flex;gap:6px;}
+.tbtn{border:1px solid var(--line);background:#fff;color:var(--body);border-radius:8px;
+  padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none;}
+.tbtn:hover{border-color:var(--accent);color:var(--accent);}
+.tbtn.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* ── the slide ────────────────────────────────────────────────────────────── */
+.wrap{position:absolute;inset:44px 0 var(--btm,116px);display:grid;place-items:center;padding:14px;}
+/* max-width has to be derived from the height actually available, and that
+   changes when the prompter opens — hence --btm in the sum. (44px HUD + --btm
+   footer + 28px of .wrap padding.) max-height alone does not work here: with
+   width:100% the box clips instead of shrinking. */
+.stage{
+  width:100%;
+  max-width:calc((100vh - 44px - var(--btm,116px) - 28px) * 16 / 9);
+  aspect-ratio:16/9; background:var(--slide);
+  container-type:inline-size; position:relative; overflow:hidden;
+}
+/* padding-bottom clears the footer AND the lifted focus card's shadow */
+.slide{position:absolute;inset:0;padding:5cqw 6cqw 6cqw;display:none;flex-direction:column;}
+.slide.on{display:flex;animation:in .28s cubic-bezier(.2,.9,.3,1);}
+@keyframes in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){.slide.on{animation:none;}}
+
+/* kicker — number pill + label + rule, top left */
+.kick{display:flex;align-items:center;gap:1.1cqw;margin-bottom:1.3cqw;}
+.kick .n{background:var(--accent);color:#fff;border-radius:99px;
+  min-width:2.9cqw;padding:.35cqw .8cqw;text-align:center;
+  font-size:1.1cqw;font-weight:800;letter-spacing:.06em;}
+.kick .l{font-size:1.15cqw;font-weight:700;letter-spacing:.18em;color:var(--mute);text-transform:uppercase;}
+.kick .bar{flex:1;height:1px;background:var(--line);}
+.kick .s{font-size:1.05cqw;font-weight:700;color:var(--mute);}
+
+/* the big two-tone title */
+h1{margin:0;font-size:4.4cqw;line-height:1.09;letter-spacing:-.025em;font-weight:800;}
+h1 em{font-style:normal;color:var(--accent);}
+.sub{margin:1.2cqw 0 0;font-size:1.6cqw;line-height:1.45;color:var(--body);max-width:60cqw;}
+
+/* ── header: text left, reserved picture slot right ───────────────────────────
+   The slot is empty on purpose — it will hold motion later. Reserving the space
+   now means adding the motion never re-flows a headline that has been tuned. */
+.head-row{display:flex;gap:3cqw;align-items:stretch;}
+.head-row .txt{flex:1 1 60%;min-width:0;}
+.head-row h1{font-size:3.9cqw;}       /* narrower column, so a notch smaller */
+.head-row .sub{max-width:none;}
+.slot{flex:0 0 34%;border-radius:1.1cqw;background:#f6eddb;
+  border:1.5px dashed var(--line);min-height:15cqw;
+  display:flex;align-items:center;justify-content:center;}
+.slot span{font-size:1cqw;letter-spacing:.2em;text-transform:uppercase;color:#c9b89a;}
+
+/* ── PORTRAIT cards. Label on top, big word, then the line. ───────────────── */
+/* min-height:0 lets the grid shrink instead of overflowing the slide when a
+   headline runs long — without it the cards push down through the footer. */
+.cards{margin-top:3cqw;flex:1;min-height:0;display:grid;gap:1.6cqw;align-items:stretch;}
+.cards.c2{grid-template-columns:repeat(2,1fr);}
+.cards.c3{grid-template-columns:repeat(3,1fr);}
+
+.card{
+  background:var(--card);border:1.5px solid var(--line);border-radius:1.1cqw;
+  padding:2.2cqw 2.2cqw 2.4cqw;
+  display:flex;flex-direction:column;gap:.9cqw;
+  transition:transform .26s cubic-bezier(.2,.9,.3,1), background .26s, border-color .26s, box-shadow .26s;
+}
+.card .k{font-size:1.25cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.card .big{font-size:3.4cqw;font-weight:800;letter-spacing:-.03em;line-height:1.02;color:var(--ink);}
+.cards.c3 .card .big{font-size:2.9cqw;}
+.card .v{font-size:1.5cqw;line-height:1.5;color:var(--body);margin-top:auto;}
+
+/* Card bodies are noun-phrase bullets, never prose. A slide the room has to
+   READ competes with the person talking; a slide it can SCAN does not. */
+.card ul.v{list-style:none;margin:auto 0 0;padding:0;display:flex;flex-direction:column;gap:.75cqw;}
+.card ul.v li{position:relative;padding-left:1.5cqw;font-size:1.45cqw;line-height:1.35;}
+/* Bullet dots are NOT the accent. The accent appears in exactly three places on
+   any slide — the title's <em>, the number pill, and the one filled card — so
+   that "coloured means important" survives ten minutes of slides. */
+.card ul.v li::before{content:'';position:absolute;left:0;top:.58cqw;
+  width:.5cqw;height:.5cqw;border-radius:50%;background:var(--dot);}
+.card.focus ul.v li{color:#fff;}
+.card.focus ul.v li::before{background:rgba(255,255,255,.8);}
+
+/* Statement slide: one sentence, no cards. The first screen of a ten-minute talk
+   should not give the room anything to read — a page of cards and the audience
+   starts reading instead of listening to the opening line. */
+.slide.statement{justify-content:center;}
+.slide.statement h1{font-size:5.2cqw;}
+.slide.statement .sub{font-size:1.95cqw;max-width:74cqw;margin-top:2.2cqw;line-height:1.5;}
+
+/* team cards: a US room reads a team slide without faces as unfinished */
+.card .face{width:6cqw;height:6cqw;border-radius:50%;object-fit:cover;
+  border:1.5px solid var(--line);margin-bottom:.2cqw;}
+/* four bullets fit only if they stack from the top rather than the bottom */
+.cards.c2 .card ul.v{margin-top:.4cqw;}
+
+/* the one that matters — filled solid, exactly as the reference does it */
+.card.focus{
+  background:var(--accent);border-color:var(--accent);
+  transform:translateY(-.5cqw) scale(1.012);
+  box-shadow:0 1.4cqw 3cqw rgba(47,79,224,.26);
+}
+.card.focus .k{color:rgba(255,255,255,.7);}
+.card.focus .big,.card.focus .v{color:#fff;}
+
+/* ── footer: source line + page number ────────────────────────────────────── */
+.foot{position:absolute;left:6cqw;right:6cqw;bottom:2cqw;display:flex;
+  align-items:center;justify-content:space-between;gap:2cqw;}
+.foot .src{font-size:1cqw;color:var(--mute);}
+.foot .src a{color:var(--mute);}
+.foot .pg{font-size:1cqw;color:var(--mute);font-weight:700;}
+
+/* ── teleprompter ─────────────────────────────────────────────────────────── */
+.pr{position:fixed;left:0;right:0;bottom:52px;z-index:35;background:#12151c;color:#fff;
+  border-top:3px solid var(--accent);padding:12px 20px 14px;display:none;}
+.pr.on{display:block;}
+.pr .tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:#8a919f;display:flex;gap:12px;align-items:center;}
+.pr .wc{margin-left:auto;}
+.pr .wc.over{color:#ff6a52;}
+.pr .say{font-size:20px;line-height:1.5;margin-top:6px;max-width:1100px;}
+
+/* ── controls ─────────────────────────────────────────────────────────────── */
+.ctl{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);}
+.ctl-in{display:flex;align-items:center;gap:8px;padding:9px 18px;}
+.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;
+  font-size:13px;font-weight:700;cursor:pointer;color:var(--body);}
+.btn:hover{border-color:var(--accent);color:var(--accent);}
+.btn.go{background:var(--accent);border-color:var(--accent);color:#fff;}
+.hint{margin-left:auto;font-size:11px;color:var(--mute);}
+</style>
+</head>
+<body>
+
+<div class="hud"><div class="hud-in">
+  <a class="brand" href="/">Physical <b>Spark</b></a>
+  <div class="budget" id="budget"></div>
+  <div class="clock mono" id="clock">0:00</div>
+  <span class="tools">
+    <button class="tbtn" id="b-script" onclick="togglePrompter()">Script S</button>
+    <a class="tbtn" href="/deck.html">v1 ↗</a>
+  </span>
+</div></div>
+
+<div class="wrap"><div class="stage" id="stage"></div></div>
+
+<div class="pr" id="pr">
+  <div class="tag"><span id="pr-tag"></span><span class="wc mono" id="pr-wc"></span></div>
+  <div class="say" id="pr-say"></div>
+</div>
+
+<div class="ctl"><div class="ctl-in">
+  <button class="btn go" id="b-run" onclick="toggleRun()">▶ START</button>
+  <button class="btn" onclick="go(-1)">← Prev</button>
+  <button class="btn" onclick="go(1)">Next →</button>
+  <button class="btn" onclick="reset()">↺</button>
+  <span class="hint">space / → next · ← back · S script · Enter clock</span>
+</div></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   BEATS — the opening of the deck. Slides 1, 2 and 4 are written; slide 3 is a
+   placeholder while its copy is settled.
+
+   Every claim on a card is a number somebody else counted, with the source in
+   the footer. The one exception is slide 4, which is a thing that happened to
+   the founders — and it is labelled as such, in the first line.
+
+   Word budget is sec * 2.2, slower than a native-speaker pitch, because this is
+   being delivered in a second language and the deck should not punish that.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const WPS = 2.2;
+
+const BEATS = [
+  /* ── §0 THE ONE SENTENCE ──────────────────────────────────────────────────
+     Position in the headline, mechanism in the subtitle. The headline is the
+     claim an investor cares about — a place, not an activity, because an
+     activity can be copied and a position has to be taken from you. The
+     subtitle is the customer version, so the room does not leave the first
+     slide wondering what is actually sold.
+     Slide 17 closes on the same sentence: open and close identical. */
+  {
+    kind:'statement', sec:26, n:'', section:'Physical Spark',
+    head:'Three groups need the same engineer.<br>We are <em>where all three meet.</em>',
+    sub:'Factories that bought robots. A government that pays to train. Developers who want a way in. Tested on real robot work, not on a CV.',
+    say:'Physical Spark. Three groups need the same engineer. Factories that bought robots and cannot run the robots. A government that already pays to train young people. And developers who want a way in. We are the one place all three meet.'
+  },
+
+  /* ── §1 EXACT SUMMARY ─────────────────────────────────────────────────── */
+  {
+    sec:28, n:'01', section:'In one slide',
+    head:'We turn a real robot task<br>into a <em>hire.</em>',
+    sub:'A small manufacturer writes the task. Engineers solve the task on a robot, and every run is recorded &mdash; so other engineers can grade the run.',
+    layout:'c3', focus:1,
+    cards:[
+      { k:'The task', big:'Set by a factory',
+        v:['Real work a small manufacturer needs done','Not a puzzle, not a quiz'] },
+      { k:'The proof', big:'Work you can watch',
+        v:['Simulator first, then a real arm','The robot moves, or the robot does not'] },
+      { k:'The money', big:'Paid twice',
+        v:['A fee to run the contest','A fee on every hire'] },
+    ],
+    say:'Here is the company, exactly. We turn a real robot task into a hire. A small manufacturer writes down real work the factory needs done. Engineers solve the task on a robot, and every run is recorded, so other engineers can grade the run. The best engineers get hired. We are paid to run the contest, and paid again on every hire.'
+  },
+
+  /* ── §7 WHY NOW (moved forward: the strongest cards should not wait) ───── */
+  {
+    sec:22, n:'02', section:'Why now',
+    head:'The fastest-growing job in tech<br>is the <em>FDE.</em>',
+    sub:'A forward deployed engineer &mdash; the person who makes AI actually work inside a real company.',
+    layout:'c2', focus:0,
+    cards:[
+      { k:'This year', big:'$4 billion',
+        v:['OpenAI&rsquo;s new subsidiary, built on the FDE role','AWS: another $1 billion'] },
+      { k:'The demand', big:'+5,230%',
+        v:['FDE job posts, in one year','The fastest-growing role in tech'] },
+    ],
+    src:'OpenAI Deployment Company, May 2026 · AWS, Jun 2026 · FDE hiring trends, 2026',
+    say:'The fastest-growing job in tech is the forward deployed engineer — the FDE — the person who makes AI actually work inside a real company. OpenAI just built a four-billion-dollar subsidiary around the FDE role. AWS put in another billion.'
+  },
+  {
+    sec:26, n:'03', section:'Why now',
+    head:'The FDE moves next<br>onto a <em>factory floor.</em>',
+    sub:'And Korea is where the physical FDE lands first.',
+    layout:'c2', focus:1,
+    cards:[
+      { k:'Korea today', big:'1,012 robots',
+        v:['Per 10,000 factory workers &mdash; the most on earth','Ageing faster than any OECD country'] },
+      { k:'The catch', big:'1 per 3',
+        v:['Qualified people per open automation job','114 days &mdash; how long the seat stays empty'] },
+    ],
+    src:'IFR World Robotics · Global Robotics Report 2026',
+    say:'Next, the FDE moves onto a factory floor. Korea has more robots per factory worker than any country on earth, and Korea ages faster than any OECD country. But the engineers are not there. One qualified person for every three open jobs, and the seat sits empty a hundred and fourteen days.'
+  },
+  {
+    sec:34, n:'04', section:'Why us',
+    head:'Three groups are all waiting<br>for the <em>same person.</em>',
+    sub:'And one of the three already pays to train that person.',
+    layout:'c3', focus:1,
+    cards:[
+      { k:'The factories', big:'Bought the robots',
+        v:['Ageing &mdash; fewer workers for repetitive jobs','Robots bought, engineers missing'] },
+      { k:'The government', big:'Pays for both',
+        v:['Youth employment as the goal','Budget for robot adoption <em>and</em> for training'] },
+      { k:'The engineers', big:'Want a way in',
+        v:['Retraining, then a referral','The one path into a real job'] },
+    ],
+    say:'Three groups are waiting for the same person. Factories: ageing leaves fewer workers for the repetitive jobs, so factories buy robots — and then need an engineer who can run the robots. The government wants young people in jobs, so the government already pays for both the robots and the training. And young engineers want retraining and a referral into a real job. We are the one place all three groups meet.'
+  },
+
+  /* ── §2 CURRENT PROBLEMS ──────────────────────────────────────────────── */
+  {
+    sec:36, n:'05', section:'The problem',
+    head:'My cofounder hires engineers.<br>He <em>cannot tell who is good.</em>',
+    sub:'Every CV lists the same skills, and typing a skill costs nothing. The truth arrives in week two — after the search has already cost him.',
+    layout:'c3', focus:2,
+    cards:[
+      { k:'On paper', big:'All the same',
+        v:['The same skills on every CV','Zero cost to type a skill'] },
+      { k:'In practice', big:'Week two',
+        v:['Truth only after the interview and the trial','Two weeks of search, already spent'] },
+      { k:'So today', big:'Everyone builds a test',
+        v:['A private test per company','Paid for by that company alone'] },
+    ],
+    say:'Here is where this started. My cofounder hires AI engineers. He told me he cannot tell, from a CV, who can actually do the work. Every candidate lists the same skills, and typing a skill costs nothing. The truth arrives in week two, after the search has already cost him. So every company builds a private test. And if my cofounder cannot solve this with a software team, a small factory has no chance.'
+  },
+  {
+    sec:30, n:'06', section:'The problem',
+    head:'Big companies build a test.<br>Small factories <em>cannot.</em>',
+    sub:'The companies that need a robot engineer most have the fewest ways to find one.',
+    layout:'c3', focus:0,
+    cards:[
+      { k:'No standard', big:'Nothing to copy',
+        v:['No agreed measure of robot skill','Every company starts from zero'] },
+      { k:'No budget', big:'15&ndash;30%',
+        v:['What a Korean headhunter charges','Out of reach for a small plant'] },
+      { k:'No brand', big:'Nobody applies',
+        v:['An unknown factory in an unknown town','Talent goes to the names everyone knows'] },
+    ],
+    src:'Korean recruiting fee ranges, 2026',
+    say:'And the companies that need a robot engineer most are the least able to solve the problem. A big company can build a private test. A small factory cannot. There is no agreed measure of robot skill, so every company starts from zero. A Korean headhunter charges fifteen to thirty percent of salary. And an unknown factory in an unknown town gets no applicants at all.'
+  },
+
+  /* ── §3 SOLUTION ──────────────────────────────────────────────────────── */
+  {
+    sec:36, n:'07', section:'The solution',
+    head:'One task. One season.<br>One <em>ranked list.</em>',
+    sub:'Fixed dates, a public board, and grading rules the hiring companies helped write.',
+    layout:'c3', focus:2,
+    cards:[
+      { k:'The task', big:'Written by buyers',
+        v:['Real work from real factories','Grading rules written with the buyers'] },
+      { k:'The season', big:'Six weeks, fixed dates',
+        v:['Everyone starts on the same day','A public board, updated as runs land'] },
+      { k:'The output', big:'A ranked list',
+        v:['Every finisher, with the runs attached','Handed to the companies that paid'] },
+    ],
+    say:'So here is how a season works. Two or three companies write down real work, and help write the grading rules. Then a season opens — six weeks, fixed dates, everyone starting on the same day, and a public board. At the end there is a ranked list of finishers, each one with the recorded runs attached, handed to the companies that set the task.'
+  },
+  {
+    sec:36, n:'08', section:'The solution',
+    head:'Free in a simulator.<br>Proven on a <em>real arm.</em>',
+    sub:'Nobody needs to own a robot to start. The last step is the one nobody can fake.',
+    layout:'c3', focus:1,
+    cards:[
+      { k:'Start tonight', big:'$0, laptop only',
+        v:['A free, open-source simulator','No hardware to buy'] },
+      { k:'Prove it', big:'100 runs',
+        v:['The same task, over and over','Skill, not one lucky attempt'] },
+      { k:'Finish', big:'One real session',
+        v:['A $200 arm, recorded','The robot moves, or the robot does not'] },
+    ],
+    say:'And nobody needs to own a robot to start. The first step is a free simulator on a laptop. Then the same task runs a hundred times, so the score shows skill and not one lucky attempt. The last step is a single recorded session on a real two-hundred-dollar arm. On a real arm the robot moves, or the robot does not. There is nothing to fake.'
+  },
+
+  /* ── §4 WHAT IS UNIQUE ────────────────────────────────────────────────── */
+  {
+    sec:34, n:'09', section:'Why we win',
+    head:'The grading<br>is <em>free.</em>',
+    sub:'Labelling is the most expensive step in this kind of data. Players do the labelling, because grading earns board position.',
+    layout:'c3', focus:0,
+    cards:[
+      { k:'Why peers work', big:'Video, not opinion',
+        v:['A physical outcome, visible to anyone','No answer key needed'] },
+      { k:'Why players do it', big:'Ranking',
+        v:['Grading earns board position','Every reviewer is also reviewed'] },
+      { k:'What it costs us', big:'$0',
+        v:['The priciest step, off our books','Free to play, at the door'] },
+    ],
+    say:'Now, the part that makes this cheap. Grading is normally the most expensive step, and we do not pay for grading. Players grade each other, because grading earns board position. That works here and nowhere else: the outcome is physical and visible, so no answer key is needed. Anyone can see whether the robot did the job.'
+  },
+  {
+    sec:32, n:'10', section:'Why we win',
+    head:'Every season makes<br>the next one <em>cheaper.</em>',
+    sub:'Nothing is thrown away. The record is the part a competitor cannot copy.',
+    layout:'c3', focus:2,
+    cards:[
+      { k:'What is kept', big:'Every run',
+        v:['Video, score, review, date','Kept whether the run passed or failed'] },
+      { k:'What it becomes', big:'A standard',
+        v:['The first agreed measure of robot skill','Written with the companies who hire'] },
+      { k:'Why it holds', big:'Not copyable',
+        v:['Missions can be copied in a week','Four seasons of graded runs cannot'] },
+    ],
+    say:'And nothing is thrown away. Every run is kept — the video, the score, the review, the date — whether the run passed or failed. Over seasons that becomes the first agreed measure of robot skill. Anyone can copy our missions in a week. Nobody can copy four seasons of graded runs.'
+  },
+
+  /* ── §5 COMPETITORS ───────────────────────────────────────────────────── */
+  {
+    sec:36, n:'11', section:'Competitors',
+    head:'Every seat is taken<br><em>except one.</em>',
+    sub:'A crowded market with one empty chair, not an empty market.',
+    layout:'c3', focus:2,
+    cards:[
+      { k:'Assessment', big:'Karat &middot; $1.1B',
+        v:['A Seattle company, paid per interview','Software engineers only'] },
+      { k:'Hiring contests', big:'OpenAI, in Korea',
+        v:['Six companies wrote the tasks','Software tasks only, nothing physical'] },
+      { k:'Robot skill', big:'The empty chair',
+        v:['No agreed test for running a robot','The seat we are taking'] },
+    ],
+    src:'Karat · OpenAI × 조코딩AX 인재전쟁, Jul 2026',
+    say:'So who else is here. Karat is a billion-dollar company in this city, and companies pay Karat per interview — for software engineers. In Korea, OpenAI just ran a hiring contest with six companies, and every task was software. Hugging Face makes the tools everyone uses and grades nobody. Every seat is taken except one. Nobody tests the people who put robots on a factory floor.'
+  },
+
+  /* ── §6 MARKET ────────────────────────────────────────────────────────── */
+  {
+    sec:38, n:'12', section:'Market',
+    head:'$940 million a year,<br>in <em>one country.</em>',
+    sub:'Built only from numbers somebody else counted.',
+    layout:'c3', focus:1,
+    cards:[
+      { k:'TAM', big:'$940M',
+        v:['$90M public AI training, per year','$850M recruiting fees, per year'] },
+      { k:'SAM', big:'The physical slice',
+        v:['Robot and factory hiring','25 district campuses already running'] },
+      { k:'SOM', big:'Season one',
+        v:['Two courses, one contest','Thirty engineers, six weeks'] },
+    ],
+    src:'MOEL AI Campus (₩130B / 10,000 trainees) · Korean recruiting market estimate, 2025',
+    say:'So how big is this. In Korea alone, about ninety million dollars a year goes into public AI training, and about eight hundred and fifty million a year into recruiting fees. That is nine hundred and forty million, in one country, and every number was counted by somebody else. Our slice is the physical part — robot and factory hiring. Season one is two courses and one contest.'
+  },
+  {
+    sec:32, n:'13', section:'Go to market',
+    head:'Two doors.<br>We are already <em>inside both.</em>',
+    sub:'Most marketplaces die because nobody shows up. That is the one problem we do not have.',
+    layout:'c3', focus:0,
+    cards:[
+      { k:'Door one', big:'The classroom',
+        v:['Main instructor on the national programme','The first cohort costs us nothing'] },
+      { k:'Door two', big:'The contest',
+        v:['Two or three companies write the first tasks','Each task is a paid season'] },
+      { k:'Then', big:'A referral chain',
+        v:['Every placement is the next reference','Cost per candidate stays near zero'] },
+    ],
+    say:'Most marketplaces die because nobody shows up. We have two doors and we are already inside both. First, the classroom — I am a main instructor on the national programme, so the first cohort costs us nothing. Second, the contest — two or three companies write the first tasks, and after that every hire brings the next company.'
+  },
+
+  /* ── §8 BUSINESS MODEL + FINANCIALS ───────────────────────────────────── */
+  {
+    sec:38, n:'14', section:'Business model',
+    head:'Two ways we get paid.<br>Both budgets <em>already exist.</em>',
+    sub:'We are not asking anybody to create a new line item.',
+    layout:'c3', focus:2,
+    cards:[
+      { k:'Line one', big:'~$9,000 per trainee',
+        v:['Already budgeted by the state','We supply the course nobody has written'] },
+      { k:'Line two', big:'10% of salary',
+        v:['Paid when a company hires a finisher','First year only, one time'] },
+      { k:'Why 10% works', big:'Half the going rate',
+        v:['A Korean headhunter charges 15&ndash;30%','Headhunters search. We already tested.'] },
+    ],
+    src:'MOEL K-Digital Training · Korean recruiting fee ranges, 2026',
+    say:'Two ways we get paid, and both budgets already exist. First, teaching — about nine thousand dollars is already set aside for every person the state trains, and nobody has written a physical AI course for that money. Second, hiring — ten percent of first-year salary. A Korean headhunter charges fifteen to thirty. A headhunter does the searching. We already did the testing.'
+  },
+  {
+    sec:38, n:'15', section:'Financials',
+    head:'Small on purpose.<br>Every line is a <em>guess.</em>',
+    sub:'Season one turns each of these numbers into a measurement.',
+    layout:'c3', focus:2,
+    cards:[
+      { k:'Year one', big:'$135,000',
+        v:['2 courses, 1 contest, 10 hires','Korea only'] },
+      { k:'Year two', big:'$325,000',
+        v:['4 courses, 2 contests, 30 hires','First repeat sponsors'] },
+      { k:'Year three', big:'$730,000',
+        v:['6 courses, 3 contests, 60 hires','First contest in the United States'] },
+    ],
+    say:'And the money. Year one is two courses, one contest and ten hires — about a hundred and thirty-five thousand dollars. Year three is about seven hundred and thirty thousand, and includes the first contest in the United States. Small numbers, and I am showing the numbers anyway, because every line is a guess that season one replaces with a measurement.'
+  },
+
+  /* ── §9 TEAM ──────────────────────────────────────────────────────────── */
+  {
+    sec:38, n:'16', section:'Team',
+    head:'One of us teaches.<br>The other one <em>is the buyer.</em>',
+    sub:'We are not guessing about either side of this market.',
+    layout:'c2', focus:-1,
+    cards:[
+      { img:'assets/brand/face-jungmin.png', k:'Chief Executive Officer', big:'Jungmin Hong',
+        v:['Main instructor &mdash; Korea&rsquo;s national AI programme','Main instructor &mdash; Seoul, Jung-gu district','Writes and grades the work every week','AI engineer at Upstage'] },
+      { img:'assets/brand/face-gichan.png', k:'Chief Product Officer', big:'Gichan Lee',
+        v:['Lead of FDE &mdash; hires AI engineers today','Industrial engineering &mdash; factory lines','Could not judge skill from a CV','Builds our product and infrastructure'] },
+    ],
+    say:'So, us. I am a main instructor on Korea national AI programme, and for a Seoul district office. I write and grade that work every week, which is where our test comes from. Before that, AI engineer at Upstage. Gichan hires AI engineers today, so Gichan is our own customer. Gichan studied industrial engineering, so factory floors are familiar ground. And Gichan builds our product.'
+  },
+
+  /* ── CLOSE ────────────────────────────────────────────────────────────── */
+  {
+    sec:40, n:'17', section:'Where we start',
+    head:'Korea first.<br>Then <em>America.</em>',
+    sub:'Start where all three groups are already looking for each other. Then take the numbers somewhere bigger.',
+    layout:'c3', focus:2,
+    cards:[
+      { k:'Why Korea', big:'All three, in one place',
+        v:['The most robots per worker on earth','Public money already paying for training'] },
+      { k:'Next 12 months', big:'Three moves',
+        v:['A free course, open to anyone','A six-week programme inside the national one','The first physical hiring contest'] },
+      { k:'Then America', big:'No government needed',
+        v:['Contests and courses carry themselves','Salaries, and fees, about 3&times; higher'] },
+    ],
+    say:'So where do we start. Korea — because all three groups are already looking for each other there, and because I am already inside the programme that pays for the training. Next year: a free course anyone can start tonight, a six-week programme inside the national one, and the first hiring contest for robot engineers. Then America, where we need no government at all. The physical FDE job is coming either way. The only question is where the engineers came from.'
+  },
+];
+
+/* ── derived ──────────────────────────────────────────────────────────────── */
+const TOTAL = BEATS.reduce((s,b)=>s+b.sec,0);
+const STARTS = BEATS.reduce((a,b,i)=>(a.push(i?a[i-1]+BEATS[i-1].sec:0),a),[]);
+let idx=0, running=false, elapsed=0, tick=null;
+
+/* ── render ───────────────────────────────────────────────────────────────── */
+const stage=document.getElementById('stage');
+
+function cardsHTML(b){
+  return `<div class="cards ${b.layout||'c3'}">` + b.cards.map((c,i)=>{
+    /* `v` takes an array (bullets, the default) or a string (prose, rare) */
+    const body = Array.isArray(c.v)
+      ? `<ul class="v">${c.v.map(x=>`<li>${x}</li>`).join('')}</ul>`
+      : `<div class="v">${c.v}</div>`;
+    return `<div class="card ${i===b.focus?'focus':''}">
+       ${c.img?`<img class="face" src="${c.img}" alt="${c.big||''}">`:''}
+       <div class="k">${c.k}</div>
+       ${c.big?`<div class="big">${c.big}</div>`:''}
+       ${body}
+     </div>`;
+  }).join('') + `</div>`;
+}
+
+stage.innerHTML = BEATS.map((b,i)=>`
+  <section class="slide ${b.kind||''}" data-i="${i}">
+    <div class="kick">
+      ${b.n?`<span class="n mono">${b.n}</span>`:''}
+      <span class="l">${b.section||''}</span>
+      <span class="bar"></span>
+      <span class="s mono">${b.sec}s</span>
+    </div>
+    ${b.kind==='statement' ? `
+      <h1>${b.head}</h1>
+      ${b.sub?`<p class="sub">${b.sub}</p>`:''}
+    ` : `
+      <div class="head-row">
+        <div class="txt">
+          <h1>${b.head}</h1>
+          ${b.sub?`<p class="sub">${b.sub}</p>`:''}
+        </div>
+        <div class="slot"><span>picture</span></div>
+      </div>
+    `}
+    ${b.cards?cardsHTML(b):''}
+    <div class="foot">
+      <div class="src">${b.src||''}</div>
+      <div class="pg">${String(i+1).padStart(2,'0')}</div>
+    </div>
+  </section>`).join('');
+
+/* ── chapter rail ────────────────────────────────────────────────────────────
+   Named sections across the top, the live one lit. In a room where somebody is
+   scoring against a checklist, the screen saying which box is currently being
+   filled is worth more than any amount of visual polish. `upto` is the last
+   beat index (0-based) of each chapter. */
+/* One colour per chapter, not per slide. The colour is a chapter marker: while it
+   holds, "coloured means important" still means one thing. It changes only when
+   the section changes, which is exactly when the room should feel a gear shift.
+   Open and Team share the neutral brown on purpose — they bookend the talk.
+   The middle runs warm to cool and back: gold, red, blue, teal, orange. */
+const CHAPTERS = [
+  { name:'Open',      upto:1,  c:'#6b543c' },
+  { name:'Why now',   upto:4,  c:'#d9920c' },
+  { name:'Problem',   upto:6,  c:'#e0442e' },
+  { name:'Solution',  upto:10, c:'#2f6fd0' },
+  { name:'Market',    upto:13, c:'#0e9a89' },
+  { name:'Business',  upto:15, c:'#c2410c' },
+  { name:'Team',      upto:17, c:'#6b543c' },
+];
+/* which chapter a beat belongs to */
+function chapterOf(i){ return CHAPTERS.find(c=>i<=c.upto) || CHAPTERS[CHAPTERS.length-1]; }
+CHAPTERS.forEach((c,i)=>{
+  c.from = i ? CHAPTERS[i-1].upto + 1 : 0;
+  c.sec  = BEATS.slice(c.from, c.upto+1).reduce((s,b)=>s+b.sec,0);
+  c.start= BEATS.slice(0, c.from).reduce((s,b)=>s+b.sec,0);
+});
+
+const budget=document.getElementById('budget');
+budget.innerHTML = CHAPTERS.map((c,i)=>
+  `<span class="ch" style="--w:${c.sec};--accent:${c.c}" onclick="jump(${c.from})">
+     <span class="nm">${c.name}</span><span class="seg"><i></i></span>
+   </span>`).join('');
+
+function render(){
+  document.querySelectorAll('.slide').forEach(el=>el.classList.toggle('on',+el.dataset.i===idx));
+  /* the whole chrome takes the chapter's colour: number pill, title <em>, the one
+     filled card, the prompter rule, the buttons */
+  document.documentElement.style.setProperty('--accent', chapterOf(idx).c);
+  try{ history.replaceState(null,'','#'+(idx+1)); }catch(e){}
+  const b=BEATS[idx];
+  document.getElementById('pr-tag').textContent=`${b.n||''} · ${b.section||''} · ${b.sec}s`;
+  document.getElementById('pr-say').textContent=b.say||'— not written yet —';
+  const words=(b.say||'').trim().split(/\s+/).filter(Boolean).length;
+  const cap=Math.round(b.sec*WPS);
+  const wc=document.getElementById('pr-wc');
+  wc.textContent=`${words}w / ~${cap}w`;
+  wc.classList.toggle('over',words>cap);
+  fitPrompter();   /* script length changed, so the space it needs changed too */
+  paint();
+}
+
+function paint(){
+  CHAPTERS.forEach((c,i)=>{
+    const el=budget.children[i], fill=el.querySelector('i');
+    const live = idx>=c.from && idx<=c.upto;
+    el.classList.toggle('live',live);
+    el.classList.toggle('done',idx>c.upto);
+    const inc = Math.max(0, Math.min(c.sec, elapsed - c.start));
+    fill.style.width = (idx>c.upto ? 100 : (inc/c.sec)*100) + '%';
+    el.classList.toggle('over', live && inc>=c.sec);
+  });
+  const m=Math.floor(elapsed/60), s=Math.floor(elapsed%60);
+  const c=document.getElementById('clock');
+  c.textContent=`${m}:${String(s).padStart(2,'0')} / ${Math.floor(TOTAL/60)}:${String(TOTAL%60).padStart(2,'0')}`;
+  c.classList.toggle('over',elapsed>TOTAL);
+}
+
+/* ── drive ────────────────────────────────────────────────────────────────── */
+function go(d){ idx=Math.max(0,Math.min(BEATS.length-1,idx+d)); render(); }
+function jump(i){ idx=i; elapsed=STARTS[i]; render(); }
+function toggleRun(){
+  running=!running;
+  document.getElementById('b-run').textContent=running?'❚❚ PAUSE':'▶ START';
+  if(running) tick=setInterval(()=>{elapsed+=.1;paint();},100);
+  else clearInterval(tick);
+}
+function reset(){ if(running) toggleRun(); elapsed=0; idx=0; render(); }
+/* The prompter grows with the script — a four-line beat is much taller than a
+   two-line one — so --btm has to be measured, not guessed. A fixed value let a
+   long script cover the bottom of the slide. */
+function fitPrompter(){
+  const pr=document.getElementById('pr');
+  const btm = pr.classList.contains('on') ? (52 + pr.offsetHeight + 10) + 'px' : '116px';
+  document.querySelector('.wrap').style.setProperty('--btm', btm);
+}
+function togglePrompter(){
+  const on=document.getElementById('pr').classList.toggle('on');
+  document.getElementById('b-script').classList.toggle('on',on);
+  fitPrompter();
+}
+addEventListener('resize',fitPrompter);
+
+addEventListener('keydown',e=>{
+  if(e.key===' '||e.key==='ArrowRight'){e.preventDefault();go(1);}
+  else if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
+  else if(e.key.toLowerCase()==='s'){togglePrompter();}
+  else if(e.key.toLowerCase()==='r'){reset();}
+  else if(e.key==='Enter'){toggleRun();}
+});
+
+const deep=parseInt(location.hash.slice(1),10);
+if(deep>=1&&deep<=BEATS.length) idx=deep-1;
+/* The script is open by default — this is a working document until the day of
+   the talk, and the line you are about to say matters more than the picture.
+   Press S to hide it when presenting. */
+togglePrompter();
+render();
+</script>
+</body>
+</html>
