@@ -131,19 +131,23 @@ h1 em{font-style:normal;color:var(--accent);}
 .tl .mk.on::after{background:var(--accent);}
 .tl .card{flex:1;}
 
-/* E · bars */
-.bars{display:flex;align-items:flex-end;gap:1.8cqw;height:100%;}
-.bars .col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;}
-.bars .bar{height:var(--h);overflow:hidden;background:var(--card);border:1.5px solid var(--line);border-bottom:none;
-  border-radius:1.1cqw 1.1cqw 0 0;padding:1.6cqw 1.6cqw 1.4cqw;
-  display:flex;flex-direction:column;justify-content:flex-end;gap:.5cqw;}
+/* E · bars — the label and caption live UNDER a shared baseline, not inside the
+   column. A 19%-tall bar cannot hold three lines of text, and squeezing them in
+   clipped the shortest year on both bar slides. */
+.bars{display:flex;align-items:stretch;gap:1.8cqw;height:100%;}
+.bars .col{flex:1;display:flex;flex-direction:column;min-width:0;}
+.bars .plot{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;}
+.bars .val{font-size:2.6cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);
+  text-align:center;margin-bottom:.7cqw;}
+.bars .col.focus .val{color:var(--accent);}
+.bars .bar{height:var(--h);background:var(--card);border:1.5px solid var(--line);border-bottom:none;
+  border-radius:1.1cqw 1.1cqw 0 0;}
 .bars .col.focus .bar{background:var(--accent);border-color:var(--accent);}
+.bars .under{border-top:2px solid var(--line);padding-top:1cqw;}
+.bars .col.focus .under{border-top-color:var(--accent);}
 .bars .k{font-size:1.3cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
-.bars .big{font-size:2.8cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);}
-.bars .cap{font-size:1.5cqw;color:var(--body);line-height:1.3;}
-.bars .col.focus .k{color:rgba(255,255,255,.75);}
-.bars .col.focus .big,.bars .col.focus .cap{color:#fff;}
-.bars .base{height:2px;background:var(--line);}
+.bars .col.focus .k{color:var(--accent);}
+.bars .cap{margin-top:.5cqw;font-size:1.45cqw;color:var(--body);line-height:1.32;}
 
 /* F · funnel */
 .fun{display:flex;flex-direction:column;gap:.9cqw;align-items:center;justify-content:center;height:100%;}
@@ -694,10 +698,11 @@ function bodyHTML(b){
     case 'bars':
       return `<div class="bars">` + b.bars.map((x,i)=>
         `<div class="col ${i===f?'focus':''}">
-           <div class="bar" style="--h:${x.h}%;--i:${i}">
-             <div class="k">${x.k}</div>${x.big?`<div class="big">${x.big}</div>`:''}
-             <div class="cap">${x.cap}</div>
-           </div><div class="base"></div>
+           <div class="plot">
+             ${x.big?`<div class="val">${x.big}</div>`:''}
+             <div class="bar" style="--h:${x.h}%;--i:${i}"></div>
+           </div>
+           <div class="under"><div class="k">${x.k}</div><div class="cap">${x.cap}</div></div>
          </div>`).join('') + `</div>`;
     case 'funnel':
       return `<div class="fun">` + b.tiers.map((t,i)=>
