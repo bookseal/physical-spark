@@ -515,10 +515,10 @@ const BEATS = [
     say: 'Physical Spark. Robots are arriving in factories everywhere, and nobody knows who can run them. Not because there are too few people — because there is no way to tell who is good.'
   },
   {
-    sec: 25, c: 'var(--gold)', label: 'In one slide',
+    sec: 32, c: 'var(--gold)', label: 'In one slide',
     hero: 'assets/toy/summary.jpg', heroClass: 'photo',
     heroAlt: 'A tiny factory, a small clipboard and a stack of coins in a row on a wooden table',
-    head: 'We put engineers on real robots.<br>Factories hire from the <em>footage.</em>',
+    head: 'We train them. Companies hire them.<br>Both sides <em>pay us.</em>',
     sub: 'That is the whole company. Everything after this is why it works.',
     /* This slide exists to be repeated, not admired. A judge who can say what we
        do in one sentence fifteen seconds from now will spend the next nine minutes
@@ -526,11 +526,11 @@ const BEATS = [
        different company. Who, what, how — in that order, because that is the order
        the rubric is written in and the order a buyer thinks in. */
     html: `<div class="stack">
-      <div class="lay"><span class="t">Who pays</span><span class="d">Robotics firms and integrators. Budget signed, seat empty, and no way to tell candidates apart.</span></div>
-      <div class="lay ours"><span class="t">What they get</span><span class="d">A season of real missions, graded on video by peers, against rules those companies helped write.</span></div>
-      <div class="lay"><span class="t">How we are paid</span><span class="d">They sponsor the season. Then 10% of first-year salary when they hire from it.</span></div>
+      <div class="lay"><span class="t">Who pays</span><span class="d">Two payers. Public job-training budgets, and the robotics and factory companies that need to hire.</span></div>
+      <div class="lay ours"><span class="t">What they get</span><span class="d">An engineer proven on video. Not a CV.</span></div>
+      <div class="lay"><span class="t">How we are paid</span><span class="d">Paid to teach. Then paid again when a company hires from the class.</span></div>
     </div>`,
-    say: 'The whole company, in three lines. Who pays: the firms who put robots on factory floors, who have budget and cannot tell candidates apart. What they get: a season of real missions, filmed and graded by peers against rules those firms helped write. How we are paid: they sponsor the season, then ten percent of salary when they hire from it.'
+    say: 'The whole company, in three lines. Who pays: two sides. Public job-training money, which already pays to teach young people, so our classroom is filled and funded by somebody else. And the robotics and factory companies that need to hire. What they get is not a CV. It is an engineer proven on video. And we are paid twice: to teach, and again when somebody hires.'
   },
   {
     sec: 6, c: 'var(--red)', label: 'The problem', divider: true,
@@ -541,7 +541,7 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 35, c: 'var(--gold)', label: 'Who is hiring now',
+    sec: 24, c: 'var(--gold)', label: 'Who is hiring now',
     hero: 'assets/toy/demand.jpg', heroClass: 'photo',
     heroAlt: 'One wooden figure alone, with eight tiny toy factories arranged in a semicircle facing it',
     head: 'Companies that never hired a programmer<br>are hiring them <em>now.</em>',
@@ -551,21 +551,24 @@ const BEATS = [
       <div class="tile" style="--c:var(--gold)"><div class="big">17,000 / 2,000</div><div class="cap">US engineers who hold the title / who can deliver</div><div class="src"><a href="https://techcrunch.com/2026/07/30/forward-deployed-engineers-are-the-ai-industrys-latest-talent-obsession/" target="_blank" rel="noopener">&ldquo;Not 2,000 available. 2,000 total.&rdquo;</a></div></div>
       <div class="tile" style="--c:var(--red)"><div class="big">70%</div><div class="cap">of AI projects never reach production — for people reasons, not technical ones</div><div class="src">Gartner</div></div>
     </div>`,
-    say: 'Start with the customer. Ten years ago, a company that was not a tech company did not hire programmers. It hired an agency. Now it hires engineers directly to put AI inside the business, and calls that person an AI field engineer. In January five to ten percent planned to hire one; by June it was seventy. Most are still hiring with the job ad they used for everything else. Gartner has seventy percent of AI projects failing, for people reasons not technical ones.'
+    say: 'Start with the customer. Companies that never hired a programmer now hire engineers directly, to put AI inside the business. In January, five to ten percent planned to hire one. By June it was seventy. Most are still using the job ad they used for everything else. And seventy percent of AI projects fail — not for technical reasons.'
   },
   {
-    sec: 36, c: 'var(--red)', label: 'Why search fails',
+    sec: 34, c: 'var(--red)', label: 'Where this started',
     hero: 'assets/toy/cv.jpg', heroClass: 'photo',
     heroAlt: 'A fan of six identical blank cards with one wooden figure behind them, only its head showing',
-    head: 'Everyone looks qualified on paper.<br>Almost nobody can <em>make the robot work.</em>',
-    sub: 'This is my day job. Companies are not short of candidates — they cannot tell them apart until it is too late.',
+    head: 'This company started because<br>my cofounder <em>could not hire.</em>',
+    sub: 'He leads hiring for AI engineers. Every CV looked the same.',
+    /* The problem told as something that happened to us, not something we read
+       about. A judge scores the same box either way; only one version is
+       remembered in the room afterwards. It also sets up the team slide, which
+       now has to carry demand as well as supply. */
     html: `<div class="row">
       <div class="tile"><div class="big">Anyone can claim it</div><div class="cap">writing a skill on a CV costs nothing, so everybody writes the same ones</div></div>
-      <div class="tile"><div class="big">Ten years, in a two-year-old job</div><div class="cap">the usual filter cannot exist yet, so it clears everybody</div></div>
-      <div class="tile"><div class="big">You find out in week two</div><div class="cap">by then the search has already cost you</div></div>
-      <div class="tile" style="--c:var(--gold)"><div class="big">So: hackathons</div><div class="cap">every company invents its own test, at its own cost</div></div>
+      <div class="tile"><div class="big">You find out in week two</div><div class="cap">after the interview, after the trial — the search has already cost you</div></div>
+      <div class="tile" style="--c:var(--gold)"><div class="big">So everyone builds a test</div><div class="cap">every company invents its own, at its own cost</div></div>
     </div>`,
-    say: 'So how do you tell the two thousand from the seventeen thousand. I do this for a living. Every CV lists the same skills — the robot frameworks, the simulators, all of it. Typing them costs nothing. Then you interview, and most of them cannot answer a basic question about any of it, and you have burned two weeks finding out. Nobody has agreed what to measure here, so there is nothing on paper worth checking. You cannot read who becomes a star. You have to watch them play.'
+    say: 'Here is where this started. My cofounder leads hiring for AI engineers. He told me he could not tell, from a CV, who could actually do the work. Everybody lists the same skills, and typing them costs nothing. You find out in week two, after you have already spent the time. So every company builds its own test, at its own cost. And if he cannot solve this with a software team, a small factory has no chance.'
   },
   {
     sec: 6, c: 'var(--amber)', label: 'Why now', divider: true,
@@ -576,7 +579,7 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 36, c: 'var(--amber)', label: 'Already happening',
+    sec: 28, c: 'var(--amber)', label: 'Already happening',
     hero: 'assets/toy/line.jpg', heroClass: 'photo',
     heroAlt: 'Four toy robot arms in a row working a line, with one tiny empty stool at the end of it',
     head: 'The robots are already<br>in the <em>factories.</em>',
@@ -586,7 +589,7 @@ const BEATS = [
       <div class="tile"><div class="big">1 million</div><div class="cap">at Amazon alone — a fifth of every robot on earth</div><div class="src"><a href="https://techcrunch.com/2025/07/01/amazon-deploys-its-1-millionth-robot-releases-generative-ai-model/" target="_blank" rel="noopener">TechCrunch, Jul 2025</a></div></div>
       <div class="tile" style="--c:var(--red)"><div class="big">A whole department</div><div class="cap">BMW opened a Center of Competence for Physical AI in Production</div><div class="src"><a href="https://www.press.bmwgroup.com/global/article/detail/T0455864EN/bmw-group-to-deploy-humanoid-robots-in-production-in-germany-for-the-first-time?language=en" target="_blank" rel="noopener">BMW Group, Feb 2026</a></div></div>
     </div>`,
-    say: 'This is not a prediction. Four point seven million industrial robots are already running in factories worldwide, and Amazon alone runs a million of them. Those machines are not waiting to be invented. What changed is that they can now be told what to do in plain language — so every one of them needs somebody to teach it. And BMW has opened a department called the Center of Competence for Physical AI in Production. When a carmaker names a department after this, the job is being staffed.'
+    say: 'This is not a prediction. Four point seven million industrial robots are already running in factories, and Amazon alone runs a million. What changed is that they can now be told what to do in plain language — so every one of them needs somebody to teach it. And BMW has opened a whole department for it. When a carmaker does that, the job is being staffed.'
   },
   {
     sec: 38, c: 'var(--red)', label: 'Same problem, one round later',
@@ -594,41 +597,46 @@ const BEATS = [
     heroAlt: 'A small toy factory with an open doorway, crates outside and one robot arm just inside',
     head: 'Same problem.<br>One round <em>later.</em>',
     sub: 'Except this one is not inside a computer.',
-    /* A comparison rather than a claim. The old version asserted that the problem
-       moves onto a factory floor; two aligned columns let the room notice it. The
-       last row is the sim-to-real gap in words anybody has lived: it worked on my
-       machine and then it did not work for real. It is also the market-size line,
-       without a number. */
+    /* A comparison rather than a claim, and the left column is now an event rather
+       than a description. The strongest objection to this company is "would
+       companies really set tasks and hire from a contest" — and six of them did
+       exactly that, with OpenAI, one month ago. The room does not need to know
+       who the Korean partner is; OpenAI carries the sentence on its own. */
     html: `<div class="vs">
       <div class="col">
-        <div class="hd">AI automation &middot; now</div>
-        <div class="ln">Every company is hiring for it</div>
-        <div class="ln">The job is two years old</div>
-        <div class="ln">Take-homes, invented one at a time</div>
-        <div class="ln">It runs inside a computer</div>
+        <div class="hd">AI software &middot; this year</div>
+        <div class="ln">OpenAI ran a hiring contest</div>
+        <div class="ln">Six companies wrote the tasks</div>
+        <div class="ln">5,000 people applied</div>
+        <div class="ln">It ran inside a computer</div>
       </div>
       <div class="col next">
         <div class="hd">Physical AI &middot; next year</div>
-        <div class="ln">Every factory will be</div>
-        <div class="ln">The job does not exist yet</div>
-        <div class="ln">Nobody has even tried</div>
+        <div class="ln">Nobody has run one</div>
+        <div class="ln">No company has written one</div>
+        <div class="ln">&mdash;</div>
         <div class="ln">It has to work on a real floor</div>
       </div>
     </div>`,
-    say: 'Now put next year beside this year. Today every company is hiring for AI automation, for a job two years old, tested with take-homes they invent one at a time. Next year the same hire happens in a factory, with a robot attached. That job does not exist yet, nobody has built a test for it, and the work has to survive a real floor instead of a simulation. Same problem, one round later — and a far bigger market, because this one is not inside a computer.'
+    say: 'Now put next year beside this year. One month ago, OpenAI ran a hiring contest in Korea. Six companies wrote the tasks. Their own engineers graded the answers. Five thousand people applied, with no degree and no experience needed, and the winners went straight into hiring. So this model works, and it already happened. But all of it was software, inside a computer. Next year the same hire happens in a factory, with a robot attached. Nobody has built that.'
   },
   {
-    sec: 40, c: 'var(--red)', label: 'What the money did',
-    hero: 'assets/toy/school.jpg', heroClass: 'photo',
-    heroAlt: 'A stack of coins beside five wooden peg figures arranged in two neat rows like a small class',
-    head: 'Silicon Valley&rsquo;s biggest investor<br>started a school for <em>these engineers.</em>',
-    sub: 'To make the engineers the companies it funds could not hire. Money had stopped working.',
+    sec: 30, c: 'var(--red)', label: 'What happens next',
+    hero: 'assets/toy/growth.jpg', heroClass: 'photo',
+    heroAlt: 'Wooden peg figures standing in groups that keep doubling — one, then two, then four, then seven',
+    head: 'The robots are arriving faster<br>than the <em>people.</em>',
+    sub: 'Every robotics plan is now limited by hiring, not by ambition.',
+    /* The forecast beat. It replaced the a16z school, which made the same point
+       with softer evidence and cost forty seconds; a16z survives here as one tile
+       because the name is worth something in a US room. Three of these four are
+       counted numbers with a source. The fourth is a thing a fund actually did. */
     html: `<div class="row">
-      <div class="tile"><div class="big">a16z</div><div class="cap">one of the largest investors in Silicon Valley — now trains these engineers itself</div><div class="src"><a href="https://www.startuphub.ai/ai-news/investors-news/2026/a16z-names-inaugural-ai-deployment-fellows" target="_blank" rel="noopener">announced 22 Jul 2026</a></div></div>
-      <div class="tile"><div class="big">65 · 8 weeks</div><div class="cap">first cohort — people who had already made it</div></div>
-      <div class="tile" style="--c:var(--teal)"><div class="big">For software</div><div class="cap">robots are next, and nobody is building it</div></div>
+      <div class="tile" style="--c:var(--gold)"><div class="big">47% a year</div><div class="cap">physical AI market growth, 2026 to 2032</div><div class="src"><a href="https://www.marketsandmarkets.com/Market-Reports/physical-ai-market-240269196.html" target="_blank" rel="noopener">MarketsandMarkets</a></div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">1 per 3.1</div><div class="cap">qualified candidates per open role — the automation skill gap in manufacturing</div><div class="src"><a href="https://www.rentasourcer.com/post/robotics-recruitment-challenges-and-how-to-attract-top-engineering-talent-in-2026" target="_blank" rel="noopener">Robotics recruitment, 2026</a></div></div>
+      <div class="tile"><div class="big">114 days</div><div class="cap">how long a specialist robotics role stays empty</div><div class="src"><a href="https://elevationprovinggrounds.com/blog/robotics-recruiting-the-2026-comprehensive-guide/" target="_blank" rel="noopener">Global Robotics Report 2026</a></div></div>
+      <div class="tile"><div class="big">a16z built a school</div><div class="cap">Silicon Valley&rsquo;s biggest fund now trains these engineers itself &mdash; for software</div><div class="src"><a href="https://www.startuphub.ai/ai-news/investors-news/2026/a16z-names-inaugural-ai-deployment-fellows" target="_blank" rel="noopener">22 Jul 2026</a></div></div>
     </div>`,
-    say: 'How short is the supply. Two weeks ago Andreessen Horowitz — one of the biggest venture funds — opened a school to make these engineers, sixty-five at a time. A fund does not do that for fun. It does it when the companies it has already funded cannot hire, and more money does not fix it. So it builds the supply itself. But look who they took: people who had already made it. That is a dinner club, not a pipeline. And all of it is for software. The same shortage is coming for robots. Nobody is building for it.'
+    say: 'And it is speeding up. The physical AI market grows about forty-seven percent a year through twenty thirty-two. The people are not arriving with it. In manufacturing there is one qualified candidate for every three open roles, and a specialist robotics job now sits empty for a hundred and fourteen days. Andreessen Horowitz built its own school to fix this, for software. Robotics plans are limited by hiring now, not by ambition.'
   },
   {
     sec: 6, c: 'var(--teal)', label: 'The solution', divider: true,
@@ -639,7 +647,7 @@ const BEATS = [
     say: ''
   },
   {
-    sec: 36, c: 'var(--gold)', label: 'What they buy',
+    sec: 38, c: 'var(--gold)', label: 'What they buy',
     hero: 'assets/toy/scorecard.jpg', heroClass: 'photo',
     heroAlt: 'A blank card beside a clipboard holding a card marked with tick marks and one red cross',
     head: 'A company buys a scorecard,<br>not a <em>CV.</em>',
@@ -657,22 +665,23 @@ const BEATS = [
       <div class="ln"><span class="k">Too slow to run live</span><span class="v">fixed</span></div>
       <div class="ln"><span class="k">Oral defence</span><span class="v">PASS &middot; explained the tradeoffs</span></div>
       <div class="vd"><span class="k">Verdict</span><span class="v">Ready to ship, with hardware onboarding</span></div>
+      <div class="vd" style="--c:var(--teal)"><span class="k">Or we run it for you</span><span class="v">the interview and the project questions &middot; you read the result</span></div>
       <div class="ft">Sample &middot; from 100 simulated runs and one supervised session on a real arm</div>
     </div>`,
-    say: 'So here is what a company actually buys. Not a CV — a report. The same task run a hundred times in simulation, so we know whether it was skill or luck. A broken robot handed over, repair timed. One line is a failure on purpose, because a report where everybody passes is a brochure. And a human asked them to defend it out loud. Referrals beat job boards by about eighteen to one, and this is the reason: somebody watched. We make that available to people nobody knows.'
+    say: 'So here is what a company actually buys. Not a CV — a report. The same task run a hundred times in simulation, so we know whether it was skill or luck. A broken robot handed over, repair timed. One line is a failure on purpose, because a report where everybody passes is a brochure. And a human asked them to defend it out loud. If a company would rather not run the interview at all, we run it for them. They just read the result.'
   },
   {
-    sec: 30, c: 'var(--teal)', label: 'The order',
+    sec: 22, c: 'var(--teal)', label: 'The order',
     hero: 'assets/toy/desk.jpg', heroClass: 'photo',
     heroAlt: 'A miniature desk at night under one lit lamp: a tiny laptop, a small robot arm, and one wooden figure seated with its back to us',
     head: 'Nobody tells a software engineer<br>what to <em>learn first.</em>',
     sub: 'So we write the order — and keep writing it, mission by mission.',
     html: `<div class="row">
       <div class="tile"><div class="big">The order</div><div class="cap">what to learn first, and next — nobody publishes this</div></div>
-      <div class="tile"><div class="big">Free, tonight</div><div class="cap">a simulator · no hardware · $200 arm when you want one</div></div>
+      <div class="tile"><div class="big">Free, tonight</div><div class="cap">a simulator · no hardware · <b>live now</b> · $200 arm when you want one</div></div>
       <div class="tile" style="--c:var(--teal)"><div class="big">Real missions</div><div class="cap">the tasks a factory actually needs done</div></div>
     </div>`,
-    say: 'A software engineer who wants to cross is not lazy. He is alone, and nothing tells him what to learn first. There is no published order from where he is to a working robot. So that is what we write, and keep writing — tutorials, then missions, then the tasks a factory actually needs done. You can start tonight in a simulator, for nothing. The arm is two hundred dollars when you want one.'
+    say: 'A software engineer who wants to cross is not lazy. Nothing tells him what to learn first. So we write that order, and keep writing it — tutorials, then missions, then the tasks a factory needs done. And it is live now. You can start tonight in a simulator, for nothing.'
   },
   {
     sec: 20, c: 'var(--red)', label: 'The competition',
@@ -688,7 +697,7 @@ const BEATS = [
     say: 'Then we make it a competition. Fixed dates, everyone starting on the same day, a public board. That is not decoration. Almost nobody finishes a course alone. People finish when other people can see whether they did — and that is the difference between a tutorial and a record.'
   },
   {
-    sec: 29, c: 'var(--teal)', label: 'Peer review',
+    sec: 32, c: 'var(--teal)', label: 'Peer review',
     hero: 'assets/toy/peers.jpg', heroClass: 'photo',
     heroAlt: 'Six wooden figures in a circle, all facing inward toward one small toy robot arm',
     head: 'Players grade<br>each <em>other.</em>',
@@ -697,21 +706,22 @@ const BEATS = [
       <div class="tile"><div class="big">On video</div><div class="cap">a run is watched, not described</div></div>
       <div class="tile"><div class="big">By peers</div><div class="cap">the École 42 model, moved onto robots</div></div>
       <div class="tile" style="--c:var(--gold)"><div class="big">Their rules</div><div class="cap">grading rules written with the companies who hire</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">Nothing is thrown away</div><div class="cap">every run, every score, every review is kept &mdash; that record is what a company buys next year</div></div>
     </div>`,
-    say: 'And the players grade each other, on video, against grading rules we write with the companies who will be doing the hiring. That last part matters more than it sounds. It means the assessment is in the buyer\'s language before the buyer ever reads it. It also means the expensive part of evaluation is done by the people being evaluated — which is why this can be free to play at all.'
+    say: 'And the players grade each other, on video, against rules we write with the companies who will be hiring. So the assessment is already in the buyer\'s language. It also means the expensive part of evaluation is done by the people being evaluated, which is why playing can be free. And nothing is thrown away. Every run, every score, every review is kept. The longer this runs, the more we know about who is good.'
   },
   {
     sec: 6, c: 'var(--gold)', label: 'Why us', divider: true,
     hero: 'assets/div/whyus.jpg', heroClass: 'photo',
     heroAlt: 'Two wooden peg figures, one beside a tiny book and one beside a tiny clipboard',
     head: 'Why us',
-    sub: 'One of us makes these engineers. The other one hires them.',
+    sub: 'One of us makes these engineers. The other one hires them, and builds the fix.',
     say: ''
   },
   {
-    sec: 30, c: 'var(--gold)', label: 'The team',
-    head: 'A teacher and<br>a <em>hiring manager.</em>',
-    sub: 'One of us makes these engineers. The other one hires them, and cannot.',
+    sec: 32, c: 'var(--gold)', label: 'The team',
+    head: 'The one who teaches them,<br>and the one who <em>builds it.</em>',
+    sub: 'One of us makes these engineers. The other one hires them &mdash; and builds the fix.',
     /* TODO: photographs. A US team slide without faces reads as unfinished, and
        these cards are carrying employer logos in their place for now. */
     html: `<div class="orgs">
@@ -724,8 +734,9 @@ const BEATS = [
           </div>
         </div>
         <ul class="d">
-          <li>AI instructor &mdash; SK Telecom, Eduwill, national KDT</li>
-          <li>Weekly problem writing and grading &mdash; the test&rsquo;s R&amp;D</li>
+          <li>Main instructor &mdash; Korea&rsquo;s national AI programme (KDT)</li>
+          <li>Main instructor &mdash; Seoul, Jung-gu district AI programme</li>
+          <li>Writes and grades the work every week &mdash; the test&rsquo;s R&amp;D</li>
           <li>AI Product Engineer at Upstage</li>
         </ul>
         <div class="org">
@@ -744,9 +755,10 @@ const BEATS = [
           </div>
         </div>
         <ul class="d">
-          <li>Lead, AX team at KIBA &mdash; our own customer</li>
-          <li>Hiring where CVs and portfolios prove nothing</li>
+          <li>Lead of FDE &mdash; hires AI engineers today. Our own customer.</li>
+          <li>Could not tell skill from a CV &mdash; that is why we built this</li>
           <li>Industrial engineering &mdash; production lines, not software</li>
+          <li>Builds our product and our infrastructure</li>
         </ul>
         <div class="org">
           <img class="mk" src="assets/brand/org-kiba.png" alt="KIBA" data-wm="KIBA">
@@ -755,7 +767,7 @@ const BEATS = [
         </div>
       </div>
     </div>`,
-    say: 'So, us. Jungmin teaches AI at SK Telecom, at Eduwill, and on the national K-Digital Training programme, and writes and grades those assignments every week — that is where our test comes from. Before that, AI Product Engineer at Upstage. I lead the AX team at KIBA, which means I am the person in this deck who cannot hire. Between us we have the supply and we have the problem.'
+    say: 'So, us. I am a main instructor on Korea\'s national AI programme, and for a Seoul district office. I write and grade that work every week — that is where our test comes from. Before that, AI engineer at Upstage. Gichan leads hiring for AI engineers, so he is our own customer. He studied industrial engineering, so he knows factory floors. And he builds our product. I make them. He hires them, and he builds the fix.'
   },
   {
     sec: 28, c: 'var(--teal)', label: 'Our access',
