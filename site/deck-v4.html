@@ -156,15 +156,16 @@ h1 em{font-style:normal;color:var(--accent);}
    explaining the arithmetic sits outside it, full width, so the narrowest tier
    does not squeeze its own caption into four lines. */
 .fun{display:flex;flex-direction:column;gap:.9cqw;justify-content:center;height:100%;}
-.fun .row{display:flex;flex-direction:column;gap:.4cqw;}
+.fun .row{display:grid;grid-template-columns:8.5cqw 1fr;gap:1.8cqw;align-items:start;}
+.fun .col{display:flex;flex-direction:column;gap:.45cqw;min-width:0;}
 .fun .tier{width:var(--w);background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
-  padding:1cqw 1.8cqw;display:flex;align-items:baseline;gap:2cqw;}
-.fun .k{font-size:1.45cqw;font-weight:800;letter-spacing:.16em;color:var(--mute);min-width:4.5cqw;}
+  padding:1cqw 1.8cqw;display:flex;align-items:baseline;}
+.fun .k{font-size:2.1cqw;font-weight:800;letter-spacing:.08em;color:var(--mute);padding-top:.75cqw;}
+.fun .row.focus .k{color:var(--accent);}
 .fun .big{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);}
 .fun .cap{font-size:1.6cqw;color:var(--body);line-height:1.35;}
 .fun .tier.focus{background:var(--accent);border-color:var(--accent);
   box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.24);}
-.fun .tier.focus .k{color:rgba(255,255,255,.78);}
 .fun .tier.focus .big{color:#fff;}
 .fun .row.focus .cap{color:var(--ink);font-weight:500;}
 
@@ -350,12 +351,12 @@ h1 em{font-style:normal;color:var(--accent);}
 .outro .name b{color:#e0442e;}
 .outro .mark{height:6.2cqw;width:auto;display:block;}
 .outro .line{font-size:2.4cqw;color:var(--body);margin-top:1.8cqw;font-weight:600;}
-.outro .rule{width:56cqw;height:1px;background:var(--line);margin:3.2cqw auto;}
-.outro .row{display:flex;align-items:center;justify-content:center;gap:3cqw;}
-.outro .qr{width:8.5cqw;height:8.5cqw;display:block;}
+.outro .rule{width:56cqw;height:1px;background:var(--line);margin:2.6cqw auto;}
+.outro .row{display:flex;align-items:center;justify-content:center;gap:2.6cqw;}
+.outro .qr{width:14cqw;height:14cqw;display:block;}
 .outro .contact{text-align:left;font-size:1.8cqw;line-height:1.55;color:var(--body);}
 .outro .contact b{display:block;color:var(--ink);font-weight:700;}
-.outro .thanks{font-size:1.8cqw;font-weight:700;color:var(--mute);}
+.outro .thanks{font-size:2cqw;font-weight:700;color:var(--mute);margin-top:2.6cqw;}
 
 /* bridge connectors — an arrow glyph says "next"; a rail with something moving
    along it says "these two are joined and traffic runs both ways". The dots
@@ -797,10 +798,13 @@ function bodyHTML(b){
     case 'funnel':
       return `<div class="fun">` + b.tiers.map((t,i)=>
         `<div class="row ${i===f?'focus':''}">
-           <div class="tier ${i===f?'focus':''}" style="--w:${t.w}%;--i:${i}">
-             <span class="k">${t.k}</span><span class="big">${t.big}</span>
+           <span class="k">${t.k}</span>
+           <div class="col">
+             <div class="tier ${i===f?'focus':''}" style="--w:${t.w}%;--i:${i}">
+               <span class="big">${t.big}</span>
+             </div>
+             <div class="cap">${t.cap}</div>
            </div>
-           <div class="cap">${t.cap}</div>
          </div>`).join('') + `</div>`;
     case 'stats':
       return `<div class="stats">` + b.stats.map((x,i)=>
@@ -874,8 +878,8 @@ stage.innerHTML = BEATS.map((b,i)=>{
       <div class="row">
         <img class="qr" src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com">
         <div class="contact"><b>physical-spark.bit-habit.com</b>Jungmin Hong &nbsp;·&nbsp; Gichan Lee</div>
-        <div class="thanks">Thank you.</div>
       </div>
+      <div class="thanks">Thank you.</div>
     </section>`;
   if(b.kind==='divider') return `
     <section class="slide divider" data-i="${i}">
