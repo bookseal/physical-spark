@@ -127,7 +127,7 @@ h1 em{font-style:normal;color:var(--accent);}
    headline with nothing between them. The gap the sub used to hold stays. */
 .slide.lay-stats .body,.slide.lay-stack .body,.slide.lay-table .body,
 .slide.lay-pays .body,.slide.lay-tlbare .body,.slide.lay-doc .body,
-.slide.lay-migrate .body,.slide.lay-compare .body{margin-top:6cqw;}
+.slide.lay-migrate .body,.slide.lay-compare .body,.slide.lay-people .body{margin-top:6cqw;}
 
 /* A · cards */
 .cards{display:grid;gap:1.6cqw;align-items:stretch;height:auto;}
@@ -466,18 +466,18 @@ h1 em{font-style:normal;color:var(--accent);}
   font-size:8cqw;font-weight:800;letter-spacing:-.04em;line-height:1;}
 .outro .name b{color:#e0442e;}
 .outro .mark{height:6.2cqw;width:auto;display:block;}
-.outro .line{font-size:2.4cqw;color:var(--body);margin-top:1.8cqw;font-weight:600;}
-.outro .rule{width:56cqw;height:1px;background:var(--line);margin:2.6cqw auto;}
+.outro .line{font-size:2.2cqw;color:var(--body);margin-top:1.1cqw;font-weight:600;}
+.outro .rule{width:56cqw;height:1px;background:var(--line);margin:1.3cqw auto;}
 /* the address stands above the pair, so it belongs to both the code and the card
    rather than sitting inside one of them */
 /* a source inside a card: there so the claim is checkable, quiet so it does not
    compete with the claim itself */
 .cite{font-weight:600;color:var(--mute);white-space:nowrap;font-size:.86em;}
 .cmt .c .cite{display:block;font-size:.82em;white-space:normal;margin-top:.15cqw;}
-.outro .siteurl{font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);
-  margin-bottom:1.4cqw;}
+.outro .siteurl{font-size:2.2cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);
+  margin-bottom:.9cqw;}
 .outro .row{display:flex;align-items:center;justify-content:center;gap:2.6cqw;}
-.outro .qr{width:14cqw;height:14cqw;display:block;}
+.outro .qr{width:12cqw;height:12cqw;display:block;}
 .outro .contact{text-align:left;font-size:1.8cqw;line-height:1.55;color:var(--body);}
 .outro .contact b{display:block;color:var(--ink);font-weight:700;}
 /* the QR is the only thing in the deck a judge can check while sitting there, so
@@ -486,19 +486,20 @@ h1 em{font-style:normal;color:var(--accent);}
    it is not a contact line — it is the inventory of what is already built. Read at
    the back of the room, which is why it is a card and not a caption. */
 .outro .livecard{text-align:left;background:var(--card);border:1.5px solid var(--line);
-  border-top:.35cqw solid var(--accent);border-radius:1.1cqw;padding:1.5cqw 2.2cqw 1.3cqw;
+  border-top:.35cqw solid var(--accent);border-radius:1.1cqw;padding:1.1cqw 1.8cqw 1cqw;
   box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.18);}
 .outro .livecard .lk{font-size:1.5cqw;font-weight:800;letter-spacing:.16em;
   text-transform:uppercase;color:var(--accent);margin-bottom:.7cqw;}
-.outro .livecard .lb{font-size:2.1cqw;line-height:1.35;color:var(--ink);font-weight:600;}
+.outro .livecard .lb{font-size:1.9cqw;line-height:1.3;color:var(--ink);font-weight:600;}
 .outro .livecard .lb b{display:inline;font-weight:800;color:var(--accent);}
 /* the missions themselves, small — the card says what exists, this says what it is */
-.outro .livecard .ml{margin:.6cqw 0 .9cqw;padding-left:2.2cqw;display:grid;gap:.25cqw;}
+.outro .livecard .ml{margin:.5cqw 0 .7cqw;padding-left:2.2cqw;display:grid;
+  grid-template-columns:1fr 1fr;gap:.2cqw 1.4cqw;}
 .outro .livecard .ml li{font-size:1.45cqw;line-height:1.3;color:var(--body);font-weight:600;}
 .outro .livecard .ml li::marker{color:var(--accent);font-weight:800;}
-.outro .livecard .lu{margin-top:1cqw;padding-top:.8cqw;border-top:1px solid var(--line);
+.outro .livecard .lu{margin-top:.7cqw;padding-top:.6cqw;border-top:1px solid var(--line);
   font-size:1.5cqw;color:var(--mute);font-weight:700;}
-.outro .thanks{font-size:2cqw;font-weight:700;color:var(--mute);margin-top:2.6cqw;}
+.outro .thanks{font-size:1.9cqw;font-weight:700;color:var(--mute);margin-top:1.2cqw;}
 
 /* bridge connectors — an arrow glyph says "next"; a rail with something moving
    along it says "these two are joined and traffic runs both ways". The dots
@@ -844,13 +845,13 @@ const CHAPTERS = [
   /* The problem comes before the market now. The room meets the buyer's pain in
      the first minute, and everything after it reads as the answer. */
   { name:'Problem',     c:'#e0442e', from:2,  upto:4  },
-  { name:'Why now',     c:'#f4b21a', from:5,  upto:12 },
-  { name:'Solution',    c:'#0e9a89', from:13, upto:17 },
-  { name:'Why we win',  c:'#e6a413', from:18, upto:20 },
-  { name:'Competitors', c:'#2f6fd0', from:21, upto:22 },
-  { name:'Market',      c:'#2f6fd0', from:23, upto:24 },
-  { name:'Business',    c:'#e0442e', from:25, upto:27 },
-  { name:'Where next',  c:'#e6a413', from:28, upto:31 },
+  { name:'Why now',     c:'#f4b21a', from:5,  upto:11 },
+  { name:'Solution',    c:'#0e9a89', from:12, upto:16 },
+  { name:'Why we win',  c:'#e6a413', from:17, upto:19 },
+  { name:'Competitors', c:'#2f6fd0', from:20, upto:21 },
+  { name:'Market',      c:'#2f6fd0', from:22, upto:23 },
+  { name:'Business',    c:'#e0442e', from:24, upto:26 },
+  { name:'Where next',  c:'#e6a413', from:27, upto:30 },
 ];
 function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTERS[0]; }
 
@@ -898,7 +899,7 @@ const BEATS = [
      budget sits on the left — the developers are how we fill the order. */
   cards:[
     {name:'Factories', mk:'i-fac',
-     pain:['Robots arriving from 2026, hiring follows <span class="cite">(Morgan Stanley)</span>','No way to know who is good'],
+     pain:['Robots arriving from 2026, hiring follows <span class="cite">(Morgan Stanley)</span>','Hard to hire a physical AI engineer'],
      give:['Ranked finishers, ready to hire','A scorecard from real robot work']},
     {name:'Software developers', mk:'i-dev',
      pain:['Can code, but never touched a robot','No hardware to practice on'],
@@ -942,17 +943,6 @@ const BEATS = [
   ],
   src:'Indeed Hiring Lab, 2026 &mdash; software development postings 27.5% below pre-pandemic · Live Data Technologies, 2025 · OpenAI · AWS, Jun 2026 · Anthropic',
   say:'Developer hiring is down, and the AI forward deployed engineer is up. An AI FDE makes AI actually work inside a customer\'s company. AI FDE job posts are up eight hundred percent in nine months. OpenAI built a four-billion-dollar deployment company on the AI FDE role. And in 2027 AI moves into the manufacturing plant, and the same FDE role goes with it.'},
-
-{ sec:32, n:'03', section:'Why now', layout:'stack', focus:1,
-  head:'95% of AI software projects fail.<br>Now <em>add a robot.</em>',
-  bands:[
-    {k:'Software AI', big:'95% fail',
-     v:['Enterprise pilots with no measurable result','The failure is integration, not the model']},
-    {k:'Physical AI', big:'Harder still',
-     v:['Hardware, safety, and a factory line that cannot stop','A wrong hire stops the production line, not just a salary']},
-  ],
-  src:'MIT Project NANDA, State of AI in Business',
-  say:'Ninety-five percent of AI software projects fail. Now we add a robot. MIT found enterprise pilots with no measurable result, and the failure is integration, not the model. Physical AI is harder still. A wrong hire stops the production line, not just a salary.'},
 
 { sec:30, n:'04', section:'Why Korea', layout:'bignum',
   head:'The physical AI engineer<br>starts on a <em>factory floor.</em>',
@@ -999,7 +989,8 @@ const BEATS = [
 { sec:10, n:'08', section:'The solution', layout:'screen',
   head:'One season, two weeks,<br>everything <em>on video.</em>',
   step:'02 &middot; The season', rail:1, big:'Peers interview<br>each other, on video',
-  v:['<b>The recording is what a company reads when it hires</b>'],
+  v:['<b>The recording is what a company reads when it hires</b>',
+     'You see how deep they go, and how they answer &mdash; neither is on a CV'],
   scr:{ kind:'board', url:'physicalspark.com / season-1 / board',
     t:'Season 1 &nbsp;&middot;&nbsp; 30 engineers', d:'Day 6 of 14',
     tiles:[['J. Park',82],['S. Kim',71],['H. Yoon',64],['D. Choi',58],
@@ -1040,15 +1031,14 @@ const BEATS = [
 { sec:30, n:'11', section:'Why we win', layout:'migrate',
   head:'Hiring already moved<br>from tests to <em>tasks.</em>',
   rows:[
-    {k:'Software hiring', from:'Coding test',      to:'Take-home project'},
+    {k:'Software hiring', from:'Coding test',      to:'Task-based project'},
     {k:'Robot hiring',    from:'CV and interview', to:MK+'Physical Spark'},
   ],
   src:'CNBC, Mar 2025 &mdash; Google brought back in-person rounds after AI cheating in coding interviews',
-  say:'Software hiring went from the coding test to the take-home project, because AI made the coding test useless. But AI can write a take-home too. AI cannot make a robot move. Robot hiring is still the CV and the interview.'},
+  say:'Software hiring went from the coding test to task-based projects, because AI made the coding test useless. But AI can do those too. AI cannot make a robot move. Robot hiring is still the CV and the interview.'},
 
 { sec:34, n:'12', section:'Team', layout:'people',
   head:'One of us decides who gets hired.<br>The other one <em>can find them.</em>',
-  sub:'One of us builds the supply.<br>The other one is the demand.',
   people:[
     {img:'assets/brand/face-jungmin.png', k:'Supply · CEO', big:'Jungmin Hong',
      v:['Main instructor &mdash; K-Digital Training (SK Telecom), Eduwill',
@@ -1387,10 +1377,10 @@ stage.innerHTML = BEATS.map((b,i)=>{
           <div class="lk">Live now</div>
           <div class="lb"><b>4 missions</b> &mdash; easy to hard, sim-first</div>
           <ol class="ml">
-            <li>An arm running on your laptop. No hardware.</li>
-            <li>It pats your back &mdash; the whole loop, in one hour.</li>
-            <li>Pick and place &mdash; Hello World for robots.</li>
-            <li>Red Light, Green Light &mdash; it moves while you talk, freezes when you stop.</li>
+            <li>An arm on your laptop</li>
+            <li>It pats your back</li>
+            <li>Pick and place</li>
+            <li>Red Light, Green Light</li>
           </ol>
           <div class="lb">A <b>10-hour</b> companion guide, with <b>80 pitfalls</b> already solved</div>
           <div class="lu">Jungmin Hong &nbsp;·&nbsp; Gichan Lee</div>
