@@ -285,6 +285,10 @@ h1 em{font-style:normal;color:var(--accent);}
 
 /* ⓐ stats — bare figures on the cream, hairline between */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2.6cqw;height:auto;align-items:start;}
+.stats.c2{grid-template-columns:repeat(2,1fr);gap:3.4cqw;}
+.stats.c2 .st + .st{padding-left:3.4cqw;}
+.stats.c2 .n{font-size:7cqw;}
+.stats.c2 .d{font-size:1.8cqw;}
 .stats .st + .st{border-left:1px solid var(--line);padding-left:2.6cqw;}
 .stats .n{font-size:5.6cqw;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink);}
 .stats .st.focus .n{color:var(--accent);}
@@ -897,23 +901,21 @@ const BEATS = [
   head:'Two ways we get paid.<br>Both budgets <em>already exist.</em>',
   sub:'We are not asking anybody to create a new line item.',
   stats:[
-    {n:'$43,000',      k:'Line one · teaching',       v:['Thirty engineers, one season','Out of a budget that already exists']},
-    {n:'10%',          k:'Line two · hiring',         v:['Of first-year salary','About $2,300 per hire in Korea']},
-    {n:'15&ndash;30%', k:'What a headhunter charges', v:['To show you one person','We show thirty, all graded']},
+    {n:'$43,000', k:'Line one &middot; teaching', v:['Thirty engineers, one season','Out of a training budget that already exists']},
+    {n:'10%',     k:'Line two &middot; hiring',   v:['Of first-year salary &mdash; about $2,300 per hire in Korea','A headhunter charges 15&ndash;30% to show you one person']},
   ],
   src:'MOEL K-Digital Training · Korean recruiting fee ranges · Korean robot-AI junior salary',
   say:'Two ways we get paid, and both budgets already exist. Teaching — one season of thirty engineers is about forty-three thousand dollars, out of money that is already allocated. Hiring — ten percent of first-year salary, about two thousand three hundred dollars per hire. A headhunter charges fifteen to thirty percent to show you one person. We show thirty, all graded.'},
 
 { sec:30, n:'16', section:'Milestones', layout:'tlbare', focus:1,
   head:'The next 12 months,<br>as <em>dates.</em>',
-  /* three became two: the free course is how the funnel fills, not a milestone.
-     What a judge is actually buying is "does a season run" and "does anyone pay". */
-  sub:'Two things. Each one either happens or does not.',
+  sub:'Three things. Each one either happens or does not.',
   marks:[
-    {when:'Q1 – Q2', what:'Season one runs',   v:['The free course opens, then 30 engineers for two weeks','Completion rate and review throughput']},
-    {when:'Q3 – Q4', what:'The first sponsor', v:['One company writes the task and pays for the season','One hire out of that season']},
+    {when:'Q1 – Q2', what:'The free course',   v:['Open to anyone, simulator only','Proof the funnel fills']},
+    {when:'Q2 – Q3', what:'Season one',        v:['30 engineers, two weeks, in the open','Completion rate and review throughput']},
+    {when:'Q4',      what:'The first sponsor', v:['One company writes the task','One hire out of that season']},
   ],
-  say:'And the next twelve months, as dates. First half: the free course opens and season one runs — thirty engineers, two weeks, in the open. Second half: the first company writes a task and pays for a season, and the first hire comes out of it.'},
+  say:'And the next twelve months, as dates. First half: the free course opens, and we learn whether the funnel fills. Middle: season one — thirty engineers, two weeks, in the open. End of year: the first company writes a task, and the first hire comes out of that season.'},
 
 /* ══ WHERE NEXT — walked through in three ═════════════════════════════════ */
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:0,
@@ -1061,7 +1063,7 @@ function bodyHTML(b){
            </div>
          </div>`).join('') + `</div>`;
     case 'stats':
-      return `<div class="stats">` + b.stats.map((x,i)=>
+      return `<div class="stats ${b.stats.length===2?'c2':''}">` + b.stats.map((x,i)=>
         `<div class="st ${i===f?'focus':''}">
            <div class="n">${x.n}</div><div class="k">${x.k}</div>${blist(x.v)}
          </div>`).join('') + `</div>`;
