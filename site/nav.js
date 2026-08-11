@@ -146,7 +146,7 @@ html{scroll-padding-top:" + (HEIGHT + 10) + "px}\
   header.innerHTML =
     '<div class="ps-nav-in">' +
       '<a class="ps-nav-brand" href="' + HOME + '" aria-label="Physical Spark — home">' +
-        '<img src="/assets/brand/logo-mark.svg" alt="">Physical<b>&nbsp;Spark</b>' +
+        '<img src="/assets/logo-mark.png" alt="">Physical<b>&nbsp;Spark</b>' +
       "</a>" +
       '<nav class="ps-nav-links" aria-label="Site">' + extra + links + "</nav>" +
       '<a class="ps-nav-cta" href="' + CTA.href + '" target="_blank" rel="noopener">' + CTA.label + "</a>" +
