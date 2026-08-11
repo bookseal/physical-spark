@@ -1267,8 +1267,14 @@ function paint(){
     const el=rail.children[i], fill=el.querySelector('i');
     el.classList.toggle('live', idx>=c.from && idx<=c.upto);
     el.classList.toggle('done', idx>c.upto);
-    const inc=Math.max(0,Math.min(c.sec,elapsed-c.start));
-    fill.style.width=(idx>c.upto?100:(inc/c.sec)*100)+'%';
+    /* the bar filled only from the clock, so with the timer off the chapter you
+       are standing in stayed empty — and the last chapter never filled at all.
+       Slide position fills it too; whichever is further along wins. */
+    const byTime  = Math.max(0,Math.min(c.sec,elapsed-c.start)) / c.sec * 100;
+    const bySlide = idx > c.upto ? 100
+                  : idx < c.from ? 0
+                  : BEATS.slice(c.from, idx+1).reduce((n,b)=>n+b.sec,0) / c.sec * 100;
+    fill.style.width = Math.max(byTime, bySlide) + '%';
   });
   /* elapsed against the ten minutes, so overrunning is visible while it happens */
   const m=Math.floor(elapsed/60), sec=Math.floor(elapsed%60), el=document.getElementById('clock');
