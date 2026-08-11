@@ -363,9 +363,9 @@ h1 em{font-style:normal;color:var(--accent);}
    what each one wants is the small line under it. The other way round made the
    slide read as three states with no actors. */
 .bcard{gap:.45cqw;}
-.bcard .blogo{display:grid;place-items:center;width:5cqw;height:5cqw;border-radius:50%;
-  background:#fff;box-shadow:0 .25cqw .7cqw rgba(120,80,20,.18);margin-bottom:.5cqw;}
-.bcard .blogo img{width:64%;height:auto;display:block;}
+.bcard .blogo{flex:none;display:grid;place-items:center;width:5cqw;aspect-ratio:1;border-radius:50%;
+  background:#fff;box-shadow:0 .25cqw .7cqw rgba(120,80,20,.18);margin-bottom:.5cqw;overflow:hidden;}
+.bcard .blogo img{height:3.6cqw;width:auto;display:block;}
 .bcard .bname{font-size:2.7cqw;font-weight:800;letter-spacing:-.03em;line-height:1.06;color:var(--ink);}
 .bcard.focus .bname{color:#fff;}
 .bcard .bstate{font-size:1.5cqw;font-weight:700;letter-spacing:.03em;color:var(--mute);}
@@ -763,7 +763,7 @@ function bodyHTML(b){
       /* traffic runs INWARD from both banks — a left-to-right flow would say the
          opposite of what a two-sided market is */
       const bc = (c,on) => `<div class="card bcard ${on?'focus':''}">
-        ${c.logo?`<span class="blogo"><img src="assets/brand/logo-mark.svg" alt=""></span>`:''}
+        ${c.logo?`<span class="blogo"><img src="assets/logo-mark.png" alt=""></span>`:''}
         <div class="bname">${c.name}</div><div class="bstate">${c.state}</div>${bullets(c.v)}</div>`;
       return `<div class="flow bridge">${bc(b.cards[0],f===0)}${span(1)}` +
              `${bc(b.cards[1],f===1)}${span(-1)}${bc(b.cards[2],f===2)}</div>`;
