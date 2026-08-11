@@ -76,6 +76,10 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
 .kick .l{font-size:1.15cqw;font-weight:700;letter-spacing:.18em;color:var(--mute);text-transform:uppercase;}
 .kick .rule{flex:1;height:1px;background:var(--line);}
 .kick .s{font-size:1.05cqw;font-weight:700;color:var(--mute);}
+/* a slide still being argued about says so, in the one place the eye starts.
+   Delete the beat's `fix:` field and the badge goes with it. */
+.kick .fix{background:#e0442e;color:#fff;font-size:1.05cqw;font-weight:800;letter-spacing:.14em;
+  padding:.25cqw .7cqw;border-radius:.4cqw;}
 h1{margin:0;font-size:4.8cqw;line-height:1.09;letter-spacing:-.025em;font-weight:800;}
 h1 em{font-style:normal;color:var(--accent);}
 .sub{margin:1.2cqw 0 0;font-size:1.75cqw;line-height:1.45;color:var(--body);max-width:66cqw;}
@@ -589,12 +593,12 @@ const BEATS = [
 
 { sec:30, n:'06', section:'The problem', layout:'compare', focus:1,
   head:'My cofounder hires engineers.<br>He <em>cannot judge</em> from a CV.',
-  sub:'The truth arrives in week two &mdash; after the search has already cost him.',
+  sub:'Hard for an AI engineer today. Harder for anyone who has to run a robot.',
   cards:[
-    {k:'On the CV',   big:'All the same', v:['Every candidate lists the same skills','And now AI writes the CV']},
+    {k:'On the CV',   big:'Tools, not skill', v:['A list of frameworks, not evidence of work','And now AI writes the CV']},
     {k:'In practice', big:'Week two',     v:['Truth only after the interview and the trial','Two weeks of search, already spent']},
   ],
-  say:'Here is where this started. My cofounder hires AI engineers. He cannot judge, from a CV, who can actually do the work. Every candidate lists the same skills, and now the CVs are written by AI. The truth arrives in week two, after the search has already cost him.'},
+  say:'Here is where this started. My cofounder hires AI engineers. He cannot judge, from a CV, who can do the work. A CV is a list of frameworks, not evidence of work — and now AI writes the CV. The truth arrives in week two, after the cost. That is hard today. It is harder for anyone who has to run a robot.'},
 
 { sec:28, n:'07', section:'The problem', layout:'ratio',
   head:'Big companies build a test.<br>Small factories <em>cannot.</em>',
@@ -619,7 +623,7 @@ const BEATS = [
   say:'At the end, a ranked list of every finisher, with peer review on video and the recorded runs attached.'},
 
 { sec:30, n:'09', section:'The solution', layout:'timeline', focus:2,
-  tight:1, head:'Free in a simulator.<br>Proven on a <em>real arm.</em>',
+  tight:1, fix:'15쪽 — 시뮬레이터에서 실물 팔까지의 흐름이 이해되지 않는다. 내일 다시 쓴다.', head:'Free in a simulator.<br>Proven on a <em>real arm.</em>',
   sub:'Nobody needs to own a robot to start. The last step is the one nobody can fake.',
   cards:[
     {k:'Tonight',  big:'$0, laptop only',  v:['A free, open-source simulator','No hardware to buy']},
@@ -891,6 +895,7 @@ stage.innerHTML = BEATS.map((b,i)=>{
     <section class="slide${b.layout?' lay-'+b.layout:''}${b.tight?' tight':''}" data-i="${i}">
       <div class="kick">
         <span class="n mono">${b.n}</span><span class="l">${b.section}</span>
+        ${b.fix?`<span class="fix">FIX</span>`:''}
         <span class="rule"></span><span class="s mono">${b.sec}s</span>
       </div>
       <h1>${b.head}</h1>
