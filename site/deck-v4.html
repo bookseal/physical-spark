@@ -512,7 +512,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .stk .band{display:grid;grid-template-columns:24cqw 1fr;gap:2.6cqw;align-items:center;
   background:var(--card);border:1.5px solid var(--line);border-radius:1.1cqw;padding:1.9cqw 2.1cqw;}
 .stk .band + .band{margin-left:5cqw;}
-.stk .bk{font-size:1.25cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.stk .bk{font-size:1.85cqw;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);}
 .stk .bb{font-size:3.4cqw;font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-top:.35cqw;color:var(--ink);}
 .stk .band ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7cqw;}
 .stk .band li{position:relative;padding-left:1.8cqw;font-size:1.8cqw;line-height:1.3;color:var(--body);}
@@ -520,7 +520,7 @@ h1 em{font-style:normal;color:var(--accent);}
   border-radius:50%;background:var(--dot);}
 .stk .band.focus{background:var(--accent);border-color:var(--accent);
   box-shadow:0 1.4cqw 3cqw rgba(120,80,20,.24);}
-.stk .band.focus .bk{color:rgba(255,255,255,.75);}
+.stk .band.focus .bk{color:rgba(255,255,255,.85);}
 .stk .band.focus .bb,.stk .band.focus li{color:#fff;}
 .stk .band.focus li::before{background:rgba(255,255,255,.8);}
 
@@ -530,6 +530,9 @@ h1 em{font-style:normal;color:var(--accent);}
    arrows leaving it — nothing to read, only a direction. */
 .slide.lay-bridge h1{font-size:4.6cqw;margin-top:1cqw;}
 .slide.lay-people h1{font-size:4.4cqw;}
+.globe{position:absolute;right:6cqw;top:7cqw;width:15cqw;height:auto;
+  fill:none;stroke:var(--accent);stroke-width:1.6;opacity:.5;}
+.globe circle,.globe ellipse,.globe line,.globe path{vector-effect:non-scaling-stroke;}
 .slide.lay-bridge .body{margin-top:1.5cqw;display:flex;flex-direction:column;}
 .flow.bridge{gap:1.4cqw;height:auto;}
 .flow.bridge .card{padding:1.4cqw 1.6cqw;}
@@ -656,6 +659,7 @@ const START = [
 const SEA_HEAD = 'One task. One season.<br>One <em>ranked list.</em>';
 const SEA_SUB  = 'Fixed dates, a public video board, and grading rules the hiring companies helped write.';
 const STA_HEAD = 'Korea proves it.<br>Then the standard <em>goes global.</em>';
+const STA_DECO = 'globe';
 const STA_SUB  = 'Start where all three groups already meet. Then follow the factories out of Korea.';
 
 const VEN_HEAD = 'Three groups are all waiting for<br>an engineer who can <em>run a robot.</em>';
@@ -902,23 +906,24 @@ const BEATS = [
 
 { sec:30, n:'16', section:'Milestones', layout:'tlbare', focus:1,
   head:'The next 12 months,<br>as <em>dates.</em>',
-  sub:'Three things. Each one either happens or does not.',
+  /* three became two: the free course is how the funnel fills, not a milestone.
+     What a judge is actually buying is "does a season run" and "does anyone pay". */
+  sub:'Two things. Each one either happens or does not.',
   marks:[
-    {when:'Q1 – Q2', what:'The free course',   v:['Open to anyone, simulator only','Proof the funnel fills']},
-    {when:'Q2 – Q3', what:'Season one',        v:['30 engineers, two weeks, in the open','Completion rate and review throughput']},
-    {when:'Q4',      what:'The first sponsor', v:['One company writes the task','One hire out of that season']},
+    {when:'Q1 – Q2', what:'Season one runs',   v:['The free course opens, then 30 engineers for two weeks','Completion rate and review throughput']},
+    {when:'Q3 – Q4', what:'The first sponsor', v:['One company writes the task and pays for the season','One hire out of that season']},
   ],
-  say:'And the next twelve months, as dates. First half: the free course opens, and we learn whether the funnel fills. Middle: season one — thirty engineers, two weeks, in the open. End of year: the first company writes a task, and the first hire comes out of that season.'},
+  say:'And the next twelve months, as dates. First half: the free course opens and season one runs — thirty engineers, two weeks, in the open. Second half: the first company writes a task and pays for a season, and the first hire comes out of it.'},
 
 /* ══ WHERE NEXT — walked through in three ═════════════════════════════════ */
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:0,
-  head:STA_HEAD, sub:STA_SUB,
+  deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
   say:'Step one is Korea, because that is where all three groups are already looking for each other. We prove the standard there.'},
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:1,
-  head:STA_HEAD, sub:STA_SUB,
+  deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
   say:'Step two is Vietnam, where the manufacturing lines are moving now. Our CPO has worked with FPT Software there.'},
 { sec:12, n:'17', section:'Where next', layout:'flow', cards:START, focus:2,
-  head:STA_HEAD, sub:STA_SUB,
+  deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
   say:'Step three is the United States, where no government programme is needed and salaries and fees are roughly three times higher.'},
 
 { kind:'outro', sec:10, n:'', section:'Thank you',
@@ -952,6 +957,16 @@ function brSpan(){
       <line class="bdeck" x1="2" y1="9" x2="98" y2="9"/>
     </svg>`;
 }
+
+/* a globe beside the headline on the closing slides — line art, in the chapter
+   accent, so "goes global" has something to look at without a photo */
+const GLOBE = `<svg class="globe" viewBox="0 0 100 100" aria-hidden="true">
+  <circle cx="50" cy="50" r="42"/>
+  <ellipse cx="50" cy="50" rx="42" ry="16"/>
+  <ellipse cx="50" cy="50" rx="17" ry="42"/>
+  <line x1="8" y1="50" x2="92" y2="50"/>
+  <path d="M17,26 A 58 58 0 0 0 83,26 M17,74 A 58 58 0 0 1 83,74"/>
+</svg>`;
 
 function bodyHTML(b){
   const f = b.focus;
@@ -1137,7 +1152,7 @@ stage.innerHTML = BEATS.map((b,i)=>{
         ${b.fix?`<span class="fix">FIX</span>`:''}
         <span class="rule"></span><span class="s mono">${b.sec}s</span>
       </div>
-      <h1>${b.head}</h1>
+      <h1>${b.head}</h1>${b.deco==='globe'?GLOBE:''}
       ${b.sub?`<p class="sub">${b.sub}</p>`:''}
       <div class="body">${bodyHTML(b)}</div>
       <div class="foot">
