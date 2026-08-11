@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slide 01 — two mockups (A / B)</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOCKUP ONLY — slide 01, two card treatments side by side.
+   Throwaway: nothing here is imported by deck-v3.html. The bridge SVG is left
+   out on purpose so the comparison is about the CARD TEXT, not the graphic.
+   Tokens and card CSS are copied from deck-v3.html so what you see here is
+   what the deck would render.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#2b211a; --body:#5a4c3e; --mute:#948468; --line:#e8dcc4;
+  --page:#fbf5e9; --card:#ffffff; --dot:#c3b294; --accent:#e0442e;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:#efe6d4;color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding:26px 26px 60px;}
+
+.tag{max-width:1180px;margin:0 auto 10px;display:flex;align-items:baseline;gap:12px;}
+.tag b{font-size:19px;letter-spacing:-.01em;}
+.tag span{font-size:13px;color:#7a6a55;}
+.tag:not(:first-of-type){margin-top:42px;}
+
+/* one 16:9 sheet, container-sized exactly like the real stage */
+.stage{max-width:1180px;margin:0 auto;aspect-ratio:16/9;background:var(--page);
+  border:1px solid #ded1b6;border-radius:10px;container-type:inline-size;
+  position:relative;overflow:hidden;box-shadow:0 8px 26px rgba(120,80,20,.10);}
+.slide{position:absolute;inset:0;padding:5cqw 6cqw 6cqw;display:flex;flex-direction:column;}
+
+.eyebrow{display:flex;align-items:center;gap:1cqw;}
+.eyebrow .n{background:var(--accent);color:#fff;font-weight:800;font-size:1.15cqw;
+  padding:.35cqw .8cqw;border-radius:99px;letter-spacing:.06em;}
+.eyebrow .sec{font-size:1.15cqw;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);}
+.eyebrow .ln{flex:1;height:1px;background:var(--line);}
+h1{margin:1.2cqw 0 0;font-size:4.4cqw;font-weight:800;letter-spacing:-.035em;line-height:1.02;}
+h1 em{font-style:normal;color:var(--accent);}
+.sub{margin:1.2cqw 0 0;font-size:1.75cqw;line-height:1.45;color:var(--body);max-width:66cqw;}
+.body{margin-top:2cqw;flex:1;min-height:0;}
+
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:1.1cqw;
+  padding:1.5cqw 1.4cqw;display:flex;flex-direction:column;}
+.card ul{list-style:none;margin:.9cqw 0 0;padding:0;display:flex;flex-direction:column;gap:.55cqw;}
+.card li{position:relative;padding-left:1.6cqw;font-size:1.55cqw;line-height:1.3;color:var(--body);}
+.card li::before{content:'';position:absolute;left:0;top:.72cqw;width:.5cqw;height:.5cqw;
+  border-radius:50%;background:var(--dot);}
+.card.focus{background:var(--accent);border-color:var(--accent);position:relative;z-index:2;
+  transform:translateY(-.6cqw) scale(1.05);box-shadow:0 1.6cqw 3.4cqw rgba(120,80,20,.26);}
+.card.focus li{color:#fff;}
+.card.focus li::before{background:rgba(255,255,255,.8);}
+
+.flow{display:flex;align-items:stretch;gap:1cqw;height:100%;}
+.flow .card{flex:1;}
+/* the bridge SVG lives here in the real deck — held open so the widths match */
+.gap{align-self:center;flex:0 0 9cqw;}
+
+/* the subject is the headline; the state is the small line under it */
+.bcard{gap:.45cqw;}
+.bcard .blogo{flex:none;display:grid;place-items:center;width:5cqw;aspect-ratio:1;border-radius:50%;
+  background:#fff;box-shadow:0 .25cqw .7cqw rgba(120,80,20,.18);margin-bottom:.5cqw;overflow:hidden;}
+.bcard .blogo img{height:3.6cqw;width:auto;display:block;}
+.bcard .bname{font-size:2.7cqw;font-weight:800;letter-spacing:-.03em;line-height:1.06;color:var(--ink);}
+.bcard.focus .bname{color:#fff;}
+.bcard .bstate{font-size:1.5cqw;font-weight:700;letter-spacing:.03em;color:var(--mute);}
+.bcard.focus .bstate{color:rgba(255,255,255,.82);}
+
+/* ── A: pain as bullets, the answer as one accented strip at the foot ─────── */
+.ans{margin-top:1cqw;display:flex;gap:.7cqw;align-items:flex-start;
+  background:rgba(224,68,46,.10);border-radius:.7cqw;padding:.8cqw .9cqw;
+  font-size:1.45cqw;line-height:1.25;font-weight:700;color:var(--accent);}
+.ans i{font-style:normal;flex:none;}
+.focus .ans{background:rgba(255,255,255,.16);color:#fff;}
+
+.bcard.tight{gap:.25cqw;}
+.bcard.tight .blogo{width:4.2cqw;margin-bottom:.3cqw;}
+.bcard.tight .blogo img{height:3cqw;}
+/* ── B: two labelled halves ───────────────────────────────────────────────── */
+.lbl{font-size:1.05cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mute);margin-top:.9cqw;}
+.lbl.give{color:var(--accent);}
+.focus .lbl,.focus .lbl.give{color:rgba(255,255,255,.75);}
+.bcard.tight li{font-size:1.35cqw;line-height:1.25;}
+.bcard.tight .bname{font-size:2.35cqw;}
+.bcard.tight ul{margin-top:.45cqw;gap:.4cqw;}
+.rule{height:1px;background:var(--line);margin-top:.9cqw;}
+.focus .rule{background:rgba(255,255,255,.3);}
+
+.foot{position:absolute;left:6cqw;right:6cqw;bottom:2cqw;display:flex;justify-content:flex-end;}
+.foot .pg{font-size:1cqw;color:var(--mute);font-weight:700;}
+
+.say{max-width:1180px;margin:12px auto 0;background:#2b211a;color:#f4ede0;border-radius:8px;
+  padding:13px 16px;font-size:14.5px;line-height:1.55;}
+.say b{color:#f0b429;font-weight:700;letter-spacing:.08em;font-size:11px;
+  text-transform:uppercase;display:block;margin-bottom:5px;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ A ═══════════════════════════════════════ -->
+<div class="tag"><b>A — 통증은 불릿, 답은 강조 한 줄</b>
+  <span>답 줄만 색이 깔려서 눈이 먼저 거기로 간다</span></div>
+
+<div class="stage"><div class="slide">
+  <div class="eyebrow"><span class="n">01</span><span class="sec">In one slide</span><span class="ln"></span></div>
+  <h1>Two customers.<br>One <em>bridge.</em></h1>
+
+  <div class="body"><div class="flow">
+
+    <div class="card bcard">
+      <div class="bname">Software<br>developers</div>
+      <div class="bstate">Can code. Cannot start.</div>
+      <ul>
+        <li>A hard job market</li>
+        <li>No clear first step into physical AI</li>
+        <li>No money for robot hardware</li>
+      </ul>
+      <div class="ans"><i>&rarr;</i><span>A free course, paid by the government</span></div>
+    </div>
+
+    <div class="gap"></div>
+
+    <div class="card bcard focus">
+      <span class="blogo"><img src="assets/logo-mark.png" alt=""></span>
+      <div class="bname">Physical<br>Spark</div>
+      <div class="bstate">The bridge</div>
+      <ul>
+        <li>Real factory tasks</li>
+        <li>Peer-graded on video</li>
+        <li>10% of salary on every hire</li>
+      </ul>
+    </div>
+
+    <div class="gap"></div>
+
+    <div class="card bcard">
+      <div class="bname">Factories</div>
+      <div class="bstate">Must hire. Cannot judge.</div>
+      <ul>
+        <li>Robots arriving in 2026</li>
+        <li>No picture of a good physical AI hire</li>
+        <li>CVs that all read the same</li>
+      </ul>
+      <div class="ans"><i>&rarr;</i><span>A scorecard from real robot work</span></div>
+    </div>
+
+  </div></div>
+  <div class="foot"><span class="pg">01</span></div>
+</div></div>
+
+<div class="say"><b>Say &nbsp;·&nbsp; 28s &nbsp;·&nbsp; 63 words</b>
+Here is the whole company. On the left, software developers. Coding skill, but no first
+step into physical AI, and no money for hardware. We give a free course, and the government
+pays for it. On the right, factories. Robots are coming, but no picture of a good hire.
+We give a scorecard from real robot work. Both sides pay us.</div>
+
+
+<!-- ══════════════════════════════ B ═══════════════════════════════════════ -->
+<div class="tag"><b>B — 카드를 THE PAIN / WHAT WE GIVE 두 칸으로</b>
+  <span>구분은 확실한데 라벨 6개를 더 읽어야 한다</span></div>
+
+<div class="stage"><div class="slide">
+  <div class="eyebrow"><span class="n">01</span><span class="sec">In one slide</span><span class="ln"></span></div>
+  <h1>Two customers.<br>One <em>bridge.</em></h1>
+
+  <div class="body"><div class="flow">
+
+    <div class="card bcard tight">
+      <div class="bname">Software<br>developers</div>
+      <div class="lbl">The pain</div>
+      <ul>
+        <li>Stuck in a hard job market</li>
+        <li>No first step into physical AI</li>
+        <li>No money for training</li>
+      </ul>
+      <div class="rule"></div>
+      <div class="lbl give">What we give</div>
+      <ul>
+        <li>A free physical AI course</li>
+        <li>Paid for by the government</li>
+      </ul>
+    </div>
+
+    <div class="gap"></div>
+
+    <div class="card bcard tight focus">
+      <span class="blogo"><img src="assets/logo-mark.png" alt=""></span>
+      <div class="bname">Physical<br>Spark</div>
+      <div class="lbl">The bridge</div>
+      <ul>
+        <li>Real factory tasks</li>
+        <li>Peer-graded on video</li>
+      </ul>
+      <div class="rule"></div>
+      <div class="lbl give">How we are paid</div>
+      <ul>
+        <li>Course fees from the government</li>
+        <li>10% of salary on every hire</li>
+      </ul>
+    </div>
+
+    <div class="gap"></div>
+
+    <div class="card bcard tight">
+      <div class="bname">Factories</div>
+      <div class="lbl">The pain</div>
+      <ul>
+        <li>Hiring for robots starts in 2026</li>
+        <li>No picture of a good hire</li>
+        <li>CVs that all read the same</li>
+      </ul>
+      <div class="rule"></div>
+      <div class="lbl give">What we give</div>
+      <ul>
+        <li>A scorecard from real robot work</li>
+        <li>Ranked finishers, ready to hire</li>
+      </ul>
+    </div>
+
+  </div></div>
+  <div class="foot"><span class="pg">01</span></div>
+</div></div>
+
+<div class="say"><b>Say &nbsp;·&nbsp; 28s &nbsp;·&nbsp; 67 words</b>
+Here is the whole company. On the left, software developers. Coding skill, but no first
+step into physical AI, and no money for training. We give a free course, and the government
+pays for it. On the right, factories. Robots are coming, but no picture of a good hire.
+We give a scorecard from real robot work. Both sides are our customers.</div>
+
+</body>
+</html>
