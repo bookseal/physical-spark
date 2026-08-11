@@ -47,6 +47,9 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
 .ch.done .nm{color:var(--mute);}
 .ch .bar{height:4px;background:var(--line);border-radius:99px;overflow:hidden;}
 .ch .bar i{display:block;height:100%;width:0;background:var(--c);}
+.clock{font-weight:700;font-size:14px;min-width:88px;text-align:right;
+  font-variant-numeric:tabular-nums;}
+.clock.over{color:#e0442e;}
 .tbtn{border:1px solid var(--line);background:#fff;color:var(--body);border-radius:8px;
   padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none;}
 .tbtn:hover{border-color:var(--accent);color:var(--accent);}
@@ -655,6 +658,7 @@ h1 em{font-style:normal;color:var(--accent);}
 <div class="hud"><div class="hud-in">
   <a class="brand" href="/"><img src="assets/logo-mark.png" alt="">Physical <b>Spark</b></a>
   <div class="rail" id="rail"></div>
+  <div class="clock mono" id="clock">0:00</div>
   <button class="tbtn" id="b-script" onclick="togglePrompter()">Script S</button>
   <a class="tbtn" href="/deck-v3.html">v3 &#8599;</a>
 </div></div>
@@ -725,9 +729,9 @@ const BEATS = [
 { kind:'cover', sec:10, n:'', section:'Physical Spark',
   /* the old line said "a hiring standard" and stopped — true, but it never said
      who it is for. Naming the buyer in the first sentence is the whole fix. */
-  line:'The hiring standard for factories hiring their first physical AI engineer.',
+  line:'The hiring standard for a factory&rsquo;s first physical AI engineer.',
   who:'Jungmin Hong &nbsp;·&nbsp; Gichan Lee',
-  say:'Physical Spark. We are the hiring standard for factories hiring their first physical AI engineer.'},
+  say:'Physical Spark. We are the hiring standard for a factory\'s first physical AI engineer.'},
 
 /* ══ OPEN — the business in one picture ═══════════════════════════════════ */
 { sec:36, n:'01', section:'What we do', layout:'bridge',
@@ -751,12 +755,12 @@ const BEATS = [
   head:'The one developer job<br>still growing is the <em>FDE.</em>',
   sub:'A forward deployed engineer &mdash; the person who makes AI actually work inside a real company.',
   stats:[
-    {n:'+5,230%', k:'How fast',       v:['FDE job posts, in one year','Almost the only developer role gaining share']},
-    {n:'$4B',     k:'Who is betting', v:['OpenAI&rsquo;s new subsidiary, built on the FDE role','AWS: another $1 billion']},
+    {n:'+800%',   k:'How fast',       v:['FDE job posts, in nine months of 2025','The qualified pool grew about 50%']},
+    {n:'$4B',     k:'Who is betting', v:['OpenAI&rsquo;s deployment company, built on the FDE role','AWS put in $1B, Anthropic $1.5B']},
     {n:'2027',    k:'Where next',     v:['The same role, on a factory floor','The physical AI FDE']},
   ],
-  src:'OpenAI Deployment Company, May 2026 · AWS, Jun 2026 · FDE hiring trends 2026',
-  say:'One developer job is still growing fast: the forward deployed engineer. This is the person who makes AI actually work inside a customer\'s company. Job posts are up more than five thousand percent in a year. OpenAI built a four-billion-dollar subsidiary around the role. AWS put in another billion. And next, the same role moves onto a factory floor.'},
+  src:'Live Data Technologies, 2025 · OpenAI Deployment Company · AWS, Jun 2026 · Anthropic AI services venture',
+  say:'One developer job is still growing fast: the forward deployed engineer. This is the person who makes AI actually work inside a customer\'s company. Job posts are up eight hundred percent, while the qualified pool grew about fifty percent. OpenAI built a four-billion-dollar deployment company around the role. AWS put in a billion, Anthropic one and a half. And next, the same role moves onto a factory floor.'},
 
 { sec:32, n:'03', section:'Why now', layout:'stack', focus:1,
   head:'95% of AI projects fail.<br>Now <em>add a robot.</em>',
@@ -913,8 +917,8 @@ const BEATS = [
     {n:'Karat',          who:'Developers',      how:'Live interview',     robot:0},
     {n:'Physical Spark', who:'Robot operators', how:'Recorded runs',      robot:1, us:1},
   ],
-  src:'Grepp/프로그래머스 · OpenAI × 조코딩AX, Jul 2026 · Karat',
-  say:'Three companies already proved this model. In Korea, Grepp runs developer testing for six hundred companies, including Kakao and LINE. Last month OpenAI ran a hiring contest with six companies and five thousand applicants. And here in Seattle, Karat is worth one point one billion dollars, paid per interview. All three test developers, on software. None of them touch a robot.'},
+  src:'Grepp/프로그래머스 &mdash; 1,483 companies, 650,000 tested · OpenAI × 조코딩AX, Jul 2026 · Karat &mdash; $1.1B valuation, 2021',
+  say:'Three companies already proved this model. In Korea, Grepp runs coding tests for nearly fifteen hundred companies, with more than six hundred thousand people tested. Last month OpenAI ran a hiring contest with six companies and five thousand applicants. And here in Seattle, Karat raised at a one-point-one-billion-dollar valuation, paid per interview. All three test developers, on software. None of them touch a robot.'},
 
 { kind:'divider', sec:6, section:'The market', head:'The market',
   sub:'Sized from the bottom up.', say:'How big is this?'},
@@ -1265,6 +1269,10 @@ function paint(){
     const inc=Math.max(0,Math.min(c.sec,elapsed-c.start));
     fill.style.width=(idx>c.upto?100:(inc/c.sec)*100)+'%';
   });
+  /* elapsed against the ten minutes, so overrunning is visible while it happens */
+  const m=Math.floor(elapsed/60), sec=Math.floor(elapsed%60), el=document.getElementById('clock');
+  el.textContent=`${m}:${String(sec).padStart(2,'0')} / ${Math.floor(TOTAL/60)}:${String(TOTAL%60).padStart(2,'0')}`;
+  el.classList.toggle('over', elapsed>TOTAL);
 }
 /* the prompter grows with the script, so --btm is measured, never guessed */
 function fitPrompter(){
