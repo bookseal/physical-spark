@@ -369,6 +369,39 @@ h1 em{font-style:normal;color:var(--accent);}
 /* bridge connectors — an arrow glyph says "next"; a rail with something moving
    along it says "these two are joined and traffic runs both ways". The dots
    travel toward the centre from both sides, which is the whole claim. */
+/* ⓖ migrate — one journey per row: where hiring came from, where it went.
+   Row two runs the same road and arrives at a dashed box, because for robots
+   nobody has built the destination. The dot moving left to right says
+   "already in motion" before a word is read. */
+.mig{display:flex;flex-direction:column;gap:2.8cqw;}
+.mrow{display:grid;grid-template-columns:15cqw 1fr 8cqw 1fr;gap:1.6cqw;align-items:center;}
+.mig .mk2{font-size:1.4cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mute);line-height:1.3;}
+.mig .box{background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
+  padding:1.9cqw 2.1cqw;font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;
+  color:var(--ink);line-height:1.15;}
+.mig .box.from{color:var(--mute);}
+.mig .box.to{background:var(--accent);border-color:var(--accent);color:#fff;}
+/* the one destination that does not exist: outline only, and it breathes */
+.mig .box.to.empty{background:none;border-style:dashed;border-width:.28cqw;
+  border-color:var(--accent);color:var(--accent);}
+.mig .track{position:relative;height:.22cqw;background:var(--line);border-radius:99px;}
+.mig .track::after{content:'';position:absolute;right:-.15cqw;top:50%;
+  border:.55cqw solid transparent;border-left-color:var(--line);transform:translateY(-50%);}
+.mig .track i{position:absolute;top:50%;width:.85cqw;height:.85cqw;border-radius:50%;
+  background:var(--accent);transform:translate(-50%,-50%);}
+.slide.on .mig .track i{animation:runacross 2.2s cubic-bezier(.4,0,.2,1) infinite;}
+@keyframes runacross{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:100%;opacity:0}}
+.slide.on .mig .box.to{animation:arrive .55s cubic-bezier(.2,.8,.3,1) .25s both;}
+@keyframes arrive{from{opacity:0;transform:translateX(-1.6cqw) scale(.96)}to{opacity:1;transform:none}}
+.slide.on .mig .box.to.empty{animation:arrive .55s cubic-bezier(.2,.8,.3,1) .25s both,
+  breathe 2.2s ease-in-out .8s infinite;}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){
+  .slide.on .mig .track i{display:none;}
+  .slide.on .mig .box.to,.slide.on .mig .box.to.empty{animation:none;}
+}
+
 /* ⓕ cmt — a competitor table, because that is the one shape a room reads as
    "competition" without being told. One row per company, one column per
    question, and a last column that is crosses all the way down until our row. */
@@ -675,14 +708,15 @@ const BEATS = [
 { kind:'divider', sec:6, section:'Why we win', head:'Why we win',
   sub:'The parts a competitor cannot copy &mdash; and the two people who can build them.', say:''},
 
-{ sec:28, n:'11', section:'Why we win', layout:'compare', focus:1,
-  head:'AI broke the coding test.<br>AI cannot <em>lift a block.</em>',
-  sub:'Our test survives because the answer is physical.',
-  cards:[
-    {k:'The old test', big:'Solved by AI',       v:['Coding questions answered in seconds','The whole category is being repriced']},
-    {k:'The new test', big:'A physical outcome', v:['The block is lifted, or dropped','A camera watches, not a compiler']},
+{ sec:28, n:'11', section:'Why we win', layout:'migrate',
+  head:'Hiring already moved<br>from tests to <em>tasks.</em>',
+  sub:'AI made the coding test useless, so companies switched to real projects. Robot hiring needs the same thing &mdash; and nobody has built it.',
+  rows:[
+    {k:'Software hiring', from:'Coding test',      to:'Take-home project'},
+    {k:'Robot hiring',    from:'CV and interview', to:'The task nobody built', empty:1},
   ],
-  say:'AI broke the coding test — those questions are answered in seconds now. AI cannot lift a block. Our answer is physical, and a camera watches. There is nothing to memorise.'},
+  src:'Shift to take-home and project-based technical hiring, 2025&ndash;2026',
+  say:'AI broke the coding test, so companies stopped using it. Software hiring already moved to real projects, judged on the work and not the answer. Robot hiring has not moved, because there is no task to move to. Nobody has written one. That is the slot we are building, with the companies that will hire.'},
 
 { sec:32, n:'12', section:'Team', layout:'people',
   head:'One of us teaches AI.<br>The other one <em>decides who gets hired.</em>',
@@ -792,6 +826,14 @@ function bodyHTML(b){
     case 'compare':
       return `<div class="cmp">${cardEl(b.cards[0],f===0)}
         <span class="vs">VS</span>${cardEl(b.cards[1],f===1)}</div>`;
+    case 'migrate':
+      return `<div class="mig">` + b.rows.map(r=>`
+        <div class="mrow">
+          <span class="mk2">${r.k}</span>
+          <div class="box from">${r.from}</div>
+          <span class="track"><i></i></span>
+          <div class="box to ${r.empty?'empty':''}">${r.to}</div>
+        </div>`).join('') + `</div>`;
     case 'table':
       return `<div class="cmt">
         <div class="r head">${b.cols.map(c=>`<span>${c}</span>`).join('')}</div>` +
