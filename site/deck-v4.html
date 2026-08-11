@@ -566,7 +566,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .globe{position:absolute;right:6cqw;top:7cqw;width:15cqw;height:auto;
   fill:none;stroke:var(--accent);stroke-width:1.6;opacity:.5;}
 .globe circle,.globe ellipse,.globe line,.globe path{vector-effect:non-scaling-stroke;}
-.slide.lay-bridge .body{margin-top:1.5cqw;display:flex;flex-direction:column;}
+.slide.lay-bridge .body,.slide.lay-funnel .body{margin-top:1.5cqw;display:flex;flex-direction:column;}
 .flow.bridge{gap:1.4cqw;height:auto;}
 .flow.bridge .card{padding:1.4cqw 1.6cqw;}
 .bridge .nrow{flex:none;display:flex;align-items:center;gap:1cqw;min-height:6.1cqw;}
@@ -817,10 +817,10 @@ const BEATS = [
 { kind:'divider', sec:6, section:'The solution', head:'The solution',
   sub:'A test that produces something a company can watch.', say:'So here is our answer.'},
 
-{ sec:16, n:'08', section:'The solution', layout:'screen',
-  head:'One task, written by<br>the company that will <em>hire.</em>',
+{ sec:18, n:'08', section:'The solution', layout:'screen',
+  head:'One task, written by<br>the companies that will <em>hire.</em>',
   step:'01 &middot; The task', big:'Real work,<br>real grading rules',
-  v:['Written with the factory that will hire','Every point is public before anyone starts'],
+  v:['Written with the factories that will hire','Every point is public before anyone starts'],
   scr:{ kind:'task', url:'physicalspark.com / season-1 / task',
     sponsor:'Daeyang Precision', roles:'12 open roles',
     title:'Pick parts from a bin, wherever they land.',
@@ -828,7 +828,7 @@ const BEATS = [
     crit:[['Grasps a part in a position never seen','40 pts'],['Success rate over 100 runs','30 pts'],
           ['Recovers after a dropped part','20 pts'],['Explains the tradeoffs out loud','10 pts']],
     cta:'Start in the simulator &rarr;'},
-  say:'A sponsor company writes the task. Here, the robot picks parts out of a bin, wherever they land. The same company writes the grading rules, and every point is public before anyone starts.'},
+  say:'We gather the companies that want to hire, and together they write one task. Here, the robot picks parts out of a bin, wherever they land. Those companies write the grading rules too, and every point is public.'},
 
 { sec:10, n:'08', section:'The solution', layout:'screen',
   head:'Two weeks, fixed dates,<br>every run <em>in the open.</em>',
@@ -874,13 +874,13 @@ const BEATS = [
 
 { sec:30, n:'11', section:'Why we win', layout:'migrate',
   head:'Hiring already moved<br>from tests to <em>tasks.</em>',
-  sub:'AI made the coding test useless, so companies switched to real projects. Robot hiring needs the same move &mdash; and that is what we are.',
+  sub:'AI made the coding test useless, so hiring moved to real projects. AI can write a take-home too &mdash; it cannot make a robot move.',
   rows:[
     {k:'Software hiring', from:'Coding test',      to:'Take-home project'},
     {k:'Robot hiring',    from:'CV and interview', to:'Physical Spark'},
   ],
   src:'CNBC, Mar 2025 &mdash; Google brought back in-person rounds after AI cheating in coding interviews',
-  say:'AI broke the coding test, so companies stopped trusting it. Software hiring already moved to real projects, judged on the work and not the answer. Robot hiring has to make the same move. It needs a task on a real robot to move to. That task is us.'},
+  say:'AI broke the coding test, so companies stopped trusting it. Software hiring moved to real projects. But AI can write a take-home project too. It cannot make a robot move. Robot hiring has to make the same move, and it needs a task on a real robot to move to. That task is us.'},
 
 { sec:34, n:'12', section:'Team', layout:'people',
   head:'One of us teaches AI.<br>The other one <em>decides who gets hired.</em>',
@@ -926,6 +926,7 @@ const BEATS = [
     {k:'SAM', big:'$19M',  cap:'2,509 Korean robot firms &times; 2 hires &times; 10%', w:74},
     {k:'SOM', big:'$126K', cap:'Season one &mdash; 0.7% of what we can reach', w:54},
   ],
+  pay:'These are Korean numbers. The same two budgets exist in the <b>United States</b>, at roughly <b>3&times; the price.</b>',
   src:'Public AI training: MOEL AI Campus budget · Robot firms: KIRIA Robot Industry Survey 2024 · Recruiting fees: our own estimate',
   say:'In Korea alone, ninety-three million dollars a year goes into public AI training, and we estimate eight hundred and fifty-seven million in recruiting fees. Our part is the physical one. Two and a half thousand robot companies hiring, about nineteen million a year. Season one is a hundred and twenty-six thousand of that.'},
 
@@ -1109,7 +1110,7 @@ function bodyHTML(b){
              </div>
              <div class="cap">${t.cap}</div>
            </div>
-         </div>`).join('') + `</div>`;
+         </div>`).join('') + `</div>` + (b.pay?`<div class="payline">${b.pay}</div>`:'');
     case 'stats':
       return `<div class="stats ${b.stats.length===2?'c2':''}">` + b.stats.map((x,i)=>
         `<div class="st ${i===f?'focus':''}">
