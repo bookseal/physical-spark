@@ -127,7 +127,7 @@ h1 em{font-style:normal;color:var(--accent);}
    headline with nothing between them. The gap the sub used to hold stays. */
 .slide.lay-stats .body,.slide.lay-stack .body,.slide.lay-table .body,
 .slide.lay-pays .body,.slide.lay-tlbare .body,.slide.lay-doc .body,
-.slide.lay-migrate .body{margin-top:6cqw;}
+.slide.lay-migrate .body,.slide.lay-compare .body{margin-top:6cqw;}
 
 /* A · cards */
 .cards{display:grid;gap:1.6cqw;align-items:stretch;height:auto;}
@@ -472,7 +472,7 @@ h1 em{font-style:normal;color:var(--accent);}
    rather than sitting inside one of them */
 /* a source inside a card: there so the claim is checkable, quiet so it does not
    compete with the claim itself */
-.cite{font-weight:600;color:var(--mute);white-space:nowrap;}
+.cite{font-weight:600;color:var(--mute);white-space:nowrap;font-size:.86em;}
 .cmt .c .cite{display:block;font-size:.82em;white-space:normal;margin-top:.15cqw;}
 .outro .siteurl{font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);
   margin-bottom:1.4cqw;}
@@ -492,6 +492,10 @@ h1 em{font-style:normal;color:var(--accent);}
   text-transform:uppercase;color:var(--accent);margin-bottom:.7cqw;}
 .outro .livecard .lb{font-size:2.1cqw;line-height:1.35;color:var(--ink);font-weight:600;}
 .outro .livecard .lb b{display:inline;font-weight:800;color:var(--accent);}
+/* the missions themselves, small — the card says what exists, this says what it is */
+.outro .livecard .ml{margin:.6cqw 0 .9cqw;padding-left:2.2cqw;display:grid;gap:.25cqw;}
+.outro .livecard .ml li{font-size:1.45cqw;line-height:1.3;color:var(--body);font-weight:600;}
+.outro .livecard .ml li::marker{color:var(--accent);font-weight:800;}
 .outro .livecard .lu{margin-top:1cqw;padding-top:.8cqw;border-top:1px solid var(--line);
   font-size:1.5cqw;color:var(--mute);font-weight:700;}
 .outro .thanks{font-size:2cqw;font-weight:700;color:var(--mute);margin-top:2.6cqw;}
@@ -695,8 +699,8 @@ h1 em{font-style:normal;color:var(--accent);}
 .globe circle,.globe ellipse,.globe line,.globe path{vector-effect:non-scaling-stroke;}
 .slide.lay-bridge .body,.slide.lay-funnel .body{margin-top:2.4cqw;display:flex;flex-direction:column;}
 .flow.bridge{gap:1.4cqw;height:auto;}
-.flow.bridge .card{padding:1.4cqw 1.6cqw;}
-.bridge .nrow{flex:none;display:flex;align-items:center;gap:1cqw;min-height:6.1cqw;}
+.flow.bridge .card{padding:1.1cqw 1.4cqw;}
+.bridge .nrow{flex:none;display:flex;align-items:center;gap:.9cqw;min-height:5.2cqw;}
 .bridge .bname{font-size:2.9cqw;font-weight:800;letter-spacing:-.03em;line-height:1.05;
   flex:1;color:var(--ink);}
 /* a <use> shadow tree ignores selector-based rules, but inherits `color` — so
@@ -707,10 +711,10 @@ h1 em{font-style:normal;color:var(--accent);}
 .bridge .lbl{font-size:1.48cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:var(--mute);margin-top:1cqw;}
 .bridge .lbl.give{color:var(--accent);}
-.bridge .card ul{margin:.6cqw 0 0;gap:.6cqw;}
-.bridge .card li{font-size:1.8cqw;line-height:1.3;padding-left:1.9cqw;}
+.bridge .card ul{margin:.45cqw 0 0;gap:.4cqw;}
+.bridge .card li{font-size:1.62cqw;line-height:1.28;padding-left:1.7cqw;}
 .bridge .card li::before{top:.78cqw;width:.55cqw;height:.55cqw;}
-.bridge .hair{flex:none;height:1px;background:var(--line);margin-top:1cqw;}
+.bridge .hair{flex:none;height:1px;background:var(--line);margin-top:.7cqw;}
 .bridge .mid{flex:0 0 16cqw;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:.7cqw;}
 .bridge .plogo{width:5.6cqw;aspect-ratio:1;border-radius:50%;background:var(--accent);
@@ -725,7 +729,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .bridge .bsill{stroke:#d6c9ae;stroke-width:1.4;stroke-linecap:round;}
 .bridge .bpier{stroke:#d6c9ae;stroke-width:1.4;stroke-linecap:round;}
 /* the middle card used to carry the revenue; with it gone the money moves here */
-.payline{margin-top:1.4cqw;font-size:1.6cqw;font-weight:700;color:var(--body);}
+.payline{margin-top:.9cqw;font-size:1.5cqw;font-weight:700;color:var(--body);}
 .payline b{color:var(--accent);font-weight:800;}
 .slide.tight .card li{font-size:1.6cqw;line-height:1.3;}
 .slide.tight .card ul{gap:.55cqw;}
@@ -906,27 +910,28 @@ const BEATS = [
 
 /* ══ PROBLEM ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'The problem', head:'The problem',
-  sub:'A CV does not show who can run a robot.', say:'A CV does not show who can run a robot.'},
+  say:'A CV does not show who can run a robot.'},
 
 { sec:32, n:'06', section:'The problem', layout:'compare', focus:1,
   head:'My cofounder hires engineers.<br>He <em>cannot judge</em> from a CV.',
-  sub:'Hard for an AI engineer today.<br>Harder for anyone who has to run a robot.',
   cards:[
     {k:'On the CV',   big:'Tools, not skill', v:['Every CV lists an impressive tech stack','And now AI writes the CV']},
-    {k:'In practice', big:'Week two',     v:['We want a company to see the problem-solving before the hire, not after','Passes the interview, fails on the real work']},
+    {k:'What we want', big:'Before, not after',
+     v:['A company should watch the problem-solving, then hire',
+        'Today it finds out in week two &mdash; two weeks and a salary, gone']},
   ],
   say:'Here is where Physical Spark started. My cofounder hires AI engineers. Some candidates pass the interview. Then the real work starts, and the problem-solving is not there. By then, two weeks and a salary are gone. We want a company to see the problem-solving before the hire, not after.'},
 
 { sec:30, n:'07', section:'The problem', layout:'ratio',
-  head:'Big companies build a test to hire.<br>Small factories <em>cannot.</em>',
+  head:'Big manufacturers build a test to hire.<br>Small ones <em>cannot.</em>',
   p:65, num:'65%', unit:'of Korea&rsquo;s robot companies earn under <b>$700,000</b> a year',
-  list:['No internal hiring team','No budget for a headhunter charging 15&ndash;30%'],
+  list:['No internal hiring team','Not enough budget for a headhunter charging 15&ndash;30%'],
   src:'KIRIA Robot Industry Survey 2024 &mdash; under &#8361;1B a year, at &#8361;1,500 to the dollar · Korean recruiting fee ranges',
-  say:'Sixty-five percent of Korea\'s robot companies earn under seven hundred thousand dollars a year. These companies have no hiring team, and no budget for a headhunter charging fifteen to thirty percent.'},
+  say:'Sixty-five percent of Korea\'s robot companies earn under seven hundred thousand dollars a year. These companies have no hiring team, and not enough budget for a headhunter charging fifteen to thirty percent.'},
 
 /* ══ WHY NOW ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
-  sub:'The AI forward deployed engineer already exists.<br>Next, the role moves onto a factory floor.', say:'So, why now? The AI forward deployed engineer already exists.'},
+  say:'So, why now? The AI forward deployed engineer already exists.'},
 
 { sec:36, n:'02', section:'Why now', layout:'stats', focus:0,
   head:'Developer hiring is down.<br>The <em>AI forward deployed engineer (FDE) is up.</em>',
@@ -1079,7 +1084,7 @@ const BEATS = [
   say:'Grepp tests developers with an online coding test for nearly fifteen hundred Korean companies. The AX hiring contest tests developers too, with OpenAI, six companies and five thousand three hundred applicants. Karat tests developers with a live interview, here in Seattle, at a one-point-one-billion-dollar valuation. Physical Spark tests them on real robot work, on video.'},
 
 { kind:'divider', sec:6, section:'The market', head:'The market',
-  sub:'Sized from the bottom up.', say:'How big is this? We sized the market from the bottom up.'},
+  say:'How big is this? We sized the market from the bottom up.'},
 
 { sec:34, n:'14', section:'Market size', layout:'funnel', focus:1,
   head:'$950 million a year,<br>in <em>Korea alone.</em>',
@@ -1094,7 +1099,7 @@ const BEATS = [
 
 /* ══ BUSINESS ══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:4, section:'The business', head:'The business',
-  sub:'How the money arrives, and what the next 12 months look like.', say:'Here is how we get paid.'},
+  say:'Here is how we get paid.'},
 
 { sec:34, n:'15', section:'Business model', layout:'pays',
   head:'Two payers.<br>Both budgets <em>already exist.</em>',
@@ -1380,7 +1385,13 @@ stage.innerHTML = BEATS.map((b,i)=>{
         <img class="qr" src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com">
         <div class="livecard">
           <div class="lk">Live now</div>
-          <div class="lb"><b>4 missions</b> &mdash; sim-first, no hardware needed</div>
+          <div class="lb"><b>4 missions</b> &mdash; easy to hard, sim-first</div>
+          <ol class="ml">
+            <li>An arm running on your laptop. No hardware.</li>
+            <li>It pats your back &mdash; the whole loop, in one hour.</li>
+            <li>Pick and place &mdash; Hello World for robots.</li>
+            <li>Red Light, Green Light &mdash; it moves while you talk, freezes when you stop.</li>
+          </ol>
           <div class="lb">A <b>10-hour</b> companion guide, with <b>80 pitfalls</b> already solved</div>
           <div class="lu">Jungmin Hong &nbsp;·&nbsp; Gichan Lee</div>
         </div>
