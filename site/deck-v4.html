@@ -567,6 +567,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .slide.lay-bridge h1{font-size:4.6cqw;margin-top:1cqw;}
 .slide.lay-people h1{font-size:4.4cqw;}
 .slide.lay-venn .body{margin-top:3.4cqw;}
+.slide.lay-stats h1{font-size:4.1cqw;}
 .slide.lay-bignum .sub{font-size:2.6cqw;font-weight:700;color:var(--ink);
   letter-spacing:-.015em;max-width:74cqw;}
 .globe{position:absolute;right:6cqw;top:7cqw;width:15cqw;height:auto;
@@ -756,8 +757,8 @@ const BEATS = [
   sub:'The AI forward deployed engineer already exists. Next, the role moves onto a factory floor.', say:'First, why now.'},
 
 { sec:36, n:'02', section:'Why now', layout:'stats', focus:0,
-  head:'Developer hiring is down.<br>The <em>FDE is up.</em>',
-  sub:'Developer postings are still 27% below pre-pandemic. An FDE is the person who makes AI actually work inside a customer&rsquo;s company.',
+  head:'Developer hiring is down.<br>The <em>forward deployed engineer (FDE) is up.</em>',
+  sub:'Developer postings are still 27% below pre-pandemic. An FDE makes AI actually work inside a customer&rsquo;s company.',
   stats:[
     {n:'+800%',   k:'How fast',       v:['FDE job posts, in nine months of 2025','The qualified pool grew about 50%']},
     {n:'$4B',     k:'Who is betting', v:['OpenAI&rsquo;s deployment company, built on the FDE role','AWS put in $1B, Anthropic $1.5B']},
@@ -776,15 +777,15 @@ const BEATS = [
      v:['Hardware, safety, and a line that cannot stop','A wrong hire stops the line, not just a salary']},
   ],
   src:'MIT Project NANDA, State of AI in Business',
-  say:'But this work is hard. MIT found that ninety-five percent of enterprise AI pilots produce no measurable result. The failure is integration, not the model. That is software. Now add a robot: hardware, safety, and a line that cannot stop. A wrong hire does not just cost a salary. It stops the line.'},
+  say:'But the FDE job is hard. MIT found that ninety-five percent of enterprise AI pilots produce no measurable result. The failure is integration, not the model. That is software. Now add a robot: hardware, safety, and a line that cannot stop. A wrong hire does not just cost a salary. It stops the line.'},
 
 { sec:30, n:'04', section:'Why Korea', layout:'bignum',
   head:'The physical AI engineer<br>starts on a <em>factory floor.</em>',
   sub:'Korea is where the physical FDE lands first.',
-  num:'1,012', unit:'robots per 10,000 factory workers',
-  list:['The most of any country on earth','Almost every Korean manufacturer is a small company','Korea ages faster than any OECD country','One qualified engineer per three open automation jobs'],
-  src:'IFR World Robotics 2025 · KOSIS Korean manufacturing SME share',
-  say:'So where does the physical AI engineer land first? Korea. A thousand and twelve robots for every ten thousand factory workers, the highest in the world. Almost every Korean manufacturer is a small company. Korea is ageing faster than any OECD country. And there is one qualified engineer for every three open automation jobs.'},
+  num:'1,220', unit:'robots per 10,000 factory workers',
+  list:['4&times; the United States, 9&times; the world average','Almost every Korean manufacturer is a small company','Korea ages faster than any OECD country','One qualified engineer per three open automation jobs'],
+  src:'IFR World Robotics, 2024 data &mdash; Korea 1,220 / United States 307 / world average 132 · KOSIS Korean manufacturing SME share',
+  say:'So where does the physical AI engineer land first? Korea. Twelve hundred and twenty robots for every ten thousand factory workers — four times the United States, nine times the world average. Almost every Korean manufacturer is a small company. Korea is ageing faster than any OECD country. And there is one qualified engineer for every three open automation jobs.'},
 
 /* one picture, built in four — the presenter decides when each group lands */
 { sec:9, n:'05', section:'Who needs this', layout:'venn', show:1,
@@ -819,7 +820,7 @@ const BEATS = [
   p:65, num:'65%', unit:'of Korea&rsquo;s 2,509 robot companies earn under &#8361;1B a year',
   list:['No internal hiring team','No budget for a headhunter charging 15&ndash;30%','An unknown name in an unknown town'],
   src:'KIRIA Robot Industry Survey 2024 · Korean recruiting fee ranges',
-  say:'And the companies that need this engineer most can do the least about it. Sixty-five percent of Korea\'s two and a half thousand robot companies earn under one billion won a year. These companies have no hiring team, and no budget for a headhunter who charges fifteen to thirty percent.'},
+  say:'And the companies that need a robot engineer most can do the least about hiring one. Sixty-five percent of Korea\'s two and a half thousand robot companies earn under one billion won a year. These companies have no hiring team, and no budget for a headhunter who charges fifteen to thirty percent.'},
 
 /* ══ SOLUTION ══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'The solution', head:'The solution',
@@ -874,7 +875,7 @@ const BEATS = [
     ],
     verdict:['VERDICT','Ready to ship, with hardware onboarding'],
     ft:'Sample · 100 simulated runs and one supervised session on a real arm'},
-  say:'So this is what a company buys. Not a CV, a scorecard. One page per finisher. The same task, a hundred runs, so we know it was skill and not luck. A broken robot, and the repair timed. One line is a failure on purpose, because a report where everyone passes is a brochure. Peers scored the video. And a human asked this person to defend the work out loud.'},
+  say:'So here is what a company buys. Not a CV, a scorecard. One page per finisher. The same task, a hundred runs, so we know it was skill and not luck. A broken robot, and the repair timed. One line is a failure on purpose, because a report where everyone passes is a brochure. Peers scored the video. And a human asked this person to defend the work out loud.'},
 
 /* ══ WHY WE WIN — including the two people who can build it ════════════════ */
 { kind:'divider', sec:6, section:'Why we win', head:'Why we win',
@@ -903,7 +904,7 @@ const BEATS = [
      v:['Lead of FDE &mdash; hires AI engineers today','Industrial engineering &mdash; factory lines','Could not judge skill from a CV'],
      orgs:[['org-kiba.png','KIBA'],['org-concentrix.png','Concentrix'],['org-fpt.png','FPT Software']]},
   ],
-  say:'Now, us. I am a main instructor on Korea\'s national AI programme, with SK Telecom and with Eduwill. The government funds it. Before that I was an AI engineer at Upstage, putting AI inside customer companies. Gichan decides who gets hired as an AI engineer today. So Gichan is our own customer, and Gichan builds our product.'},
+  say:'Now, us. I am a main instructor on Korea\'s national AI programme, with SK Telecom and with Eduwill. The government funds the programme. Before that I was an AI engineer at Upstage, putting AI inside customer companies. Gichan decides who gets hired as an AI engineer today. So Gichan is our own customer, and Gichan builds our product.'},
 
 /* ══ MARKET ════════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Competitors', head:'Competitors',
@@ -922,7 +923,7 @@ const BEATS = [
     {n:'Physical Spark', who:'Robot operators', how:'Recorded runs',      robot:1, us:1},
   ],
   src:'Grepp/프로그래머스 &mdash; 1,483 companies, 650,000 tested · OpenAI × 조코딩AX, Jul 2026 · Karat &mdash; $1.1B valuation, 2021',
-  say:'Three companies already proved this model. In Korea, Grepp runs coding tests for nearly fifteen hundred companies, with more than six hundred thousand people tested. Last month OpenAI ran a hiring contest with six companies and five thousand applicants. And here in Seattle, Karat raised at a one-point-one-billion-dollar valuation, paid per interview. All three test developers, on software. None of them touch a robot.'},
+  say:'Three companies already proved the model. In Korea, Grepp runs coding tests for nearly fifteen hundred companies, with more than six hundred thousand people tested. Last month OpenAI ran a hiring contest with six companies and five thousand applicants. And here in Seattle, Karat raised at a one-point-one-billion-dollar valuation, paid per interview. All three test developers, on software. None of them touch a robot.'},
 
 { kind:'divider', sec:6, section:'The market', head:'The market',
   sub:'Sized from the bottom up.', say:'How big is this?'},
@@ -969,7 +970,7 @@ const BEATS = [
 /* ══ WHERE NEXT — walked through in three ═════════════════════════════════ */
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:0,
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
-  say:'We start in Korea, because that is where all three groups are already looking for each other.'},
+  say:'We start in Korea, because Korea is where all three groups are already looking for each other.'},
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:1,
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
   say:'Then Vietnam, where the factory lines are moving now. Our CPO worked with FPT Software there.'},
