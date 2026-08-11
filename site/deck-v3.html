@@ -47,19 +47,17 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
 .ch.done .nm{color:var(--mute);}
 .ch .bar{height:4px;background:var(--line);border-radius:99px;overflow:hidden;}
 .ch .bar i{display:block;height:100%;width:0;background:var(--c);}
-.clock{font-weight:700;font-size:14px;min-width:86px;text-align:right;}
-.clock.over{color:#e0442e;}
 .tbtn{border:1px solid var(--line);background:#fff;color:var(--body);border-radius:8px;
   padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none;}
 .tbtn:hover{border-color:var(--accent);color:var(--accent);}
 .tbtn.on{background:var(--accent);border-color:var(--accent);color:#fff;}
 
 /* ── stage ────────────────────────────────────────────────────────────────── */
-.wrap{position:absolute;inset:44px 0 var(--btm,116px);display:grid;place-items:center;padding:14px;}
-/* max-width derives from the height actually left over, and --btm changes when
-   the prompter opens — a fixed value clipped the slide. */
+.wrap{position:absolute;inset:44px 0 52px;display:grid;place-items:center;padding:14px;}
+/* max-width derives from the height actually left over — the slide is as wide
+   as 16:9 allows once the HUD and the control bar have taken their strip. */
 .stage{width:100%;
-  max-width:calc((100vh - 44px - var(--btm,116px) - 28px) * 16 / 9);
+  max-width:calc((100vh - 44px - 52px - 28px) * 16 / 9);
   aspect-ratio:16/9;background:var(--page);
   container-type:inline-size;position:relative;overflow:hidden;}
 .slide{position:absolute;inset:0;padding:5cqw 6cqw 6cqw;display:none;flex-direction:column;z-index:1;}
@@ -363,13 +361,31 @@ h1 em{font-style:normal;color:var(--accent);}
    what each one wants is the small line under it. The other way round made the
    slide read as three states with no actors. */
 .bcard{gap:.45cqw;}
-.bcard .blogo{flex:none;display:grid;place-items:center;width:5cqw;aspect-ratio:1;border-radius:50%;
-  background:#fff;box-shadow:0 .25cqw .7cqw rgba(120,80,20,.18);margin-bottom:.5cqw;overflow:hidden;}
-.bcard .blogo img{height:3.6cqw;width:auto;display:block;}
-.bcard .bname{font-size:2.7cqw;font-weight:800;letter-spacing:-.03em;line-height:1.06;color:var(--ink);}
+.bcard .blogo{flex:none;display:grid;place-items:center;width:4.2cqw;aspect-ratio:1;border-radius:50%;
+  background:#fff;box-shadow:0 .25cqw .7cqw rgba(120,80,20,.18);margin-bottom:.3cqw;overflow:hidden;}
+.bcard .blogo img{height:3cqw;width:auto;display:block;}
+.bcard .bname{font-size:2.35cqw;font-weight:800;letter-spacing:-.03em;line-height:1.06;color:var(--ink);}
 .bcard.focus .bname{color:#fff;}
-.bcard .bstate{font-size:1.5cqw;font-weight:700;letter-spacing:.03em;color:var(--mute);}
-.bcard.focus .bstate{color:rgba(255,255,255,.82);}
+/* each card answers two questions: what hurts, and what arrives from us. The
+   labels earn their space because the two halves would otherwise read as one
+   undifferentiated list. `.hair` and not `.rule` — the kick already owns that. */
+.bcard{gap:.25cqw;}
+.bcard .lbl{font-size:1.05cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mute);margin-top:.9cqw;}
+.bcard .lbl.give{color:var(--accent);}
+.bcard.focus .lbl,.bcard.focus .lbl.give{color:rgba(255,255,255,.75);}
+.bcard .hair{height:1px;background:var(--line);margin-top:.9cqw;}
+.bcard.focus .hair{background:rgba(255,255,255,.3);}
+.bcard ul{margin-top:.45cqw;gap:.4cqw;}
+.bcard li{font-size:1.35cqw;line-height:1.25;padding-left:1.5cqw;}
+.bcard li::before{top:.6cqw;width:.42cqw;height:.42cqw;}
+/* three two-part cards is the densest body in the deck — the headline and the
+   card padding give the height back rather than shrinking the card text again */
+.slide.tight .card li{font-size:1.5cqw;line-height:1.3;}
+.slide.tight .card ul{gap:.55cqw;}
+.slide.lay-bridge h1{font-size:4.4cqw;margin-top:1.2cqw;}
+.slide.lay-bridge .body{margin-top:2cqw;}
+.slide.lay-bridge .card{padding:1.4cqw 1.3cqw;}
 .flow.bridge .link svg{width:100%;height:auto;display:block;overflow:visible;}
 .flow.bridge .rail{stroke:var(--dot);stroke-width:3;stroke-linecap:round;}
 .flow.bridge .pier{stroke:var(--line);stroke-width:2.5;stroke-linecap:round;}
@@ -387,16 +403,6 @@ h1 em{font-style:normal;color:var(--accent);}
 .foot .src,.foot .pg{font-size:1cqw;color:var(--mute);}
 .foot .pg{font-weight:700;}
 
-/* teleprompter */
-.pr{position:fixed;left:0;right:0;bottom:52px;z-index:35;background:#241d16;color:#fff;
-  border-top:3px solid var(--accent);padding:12px 20px 14px;display:none;}
-.pr.on{display:block;}
-.pr .tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
-  color:#a2917a;display:flex;gap:12px;align-items:center;}
-.pr .wc{margin-left:auto;}
-.pr .wc.over{color:#ff6a52;}
-.pr .say{font-size:20px;line-height:1.5;margin-top:6px;max-width:1150px;}
-
 /* controls */
 .ctl{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--page);border-top:1px solid var(--line);}
 .ctl-in{display:flex;align-items:center;gap:8px;padding:9px 18px;}
@@ -412,24 +418,17 @@ h1 em{font-style:normal;color:var(--accent);}
 <div class="hud"><div class="hud-in">
   <a class="brand" href="/"><img src="assets/logo-mark.png" alt="">Physical <b>Spark</b></a>
   <div class="rail" id="rail"></div>
-  <div class="clock mono" id="clock">0:00</div>
-  <button class="tbtn" id="b-script" onclick="togglePrompter()">Script S</button>
   <a class="tbtn" href="/deck.html">v1 &#8599;</a>
 </div></div>
 
 <div class="wrap"><div class="stage" id="stage"></div></div>
-
-<div class="pr" id="pr">
-  <div class="tag"><span id="pr-tag"></span><span class="wc mono" id="pr-wc"></span></div>
-  <div class="say" id="pr-say"></div>
-</div>
 
 <div class="ctl"><div class="ctl-in">
   <button class="btn go" id="b-run" onclick="toggleRun()">&#9654; START</button>
   <button class="btn" onclick="go(-1)">&larr; Prev</button>
   <button class="btn" onclick="go(1)">Next &rarr;</button>
   <button class="btn" onclick="reset()">&#8635;</button>
-  <span class="hint">space / &rarr; next &middot; &larr; back &middot; S script &middot; Enter clock</span>
+  <span class="hint">space / &rarr; next &middot; &larr; back &middot; R reset &middot; Enter run</span>
 </div></div>
 
 <script>
@@ -479,13 +478,19 @@ const BEATS = [
    factory pays on the hire. Both are customers — that is the whole slide. */
 { sec:28, n:'01', section:'In one slide', layout:'bridge', focus:1,
   head:'Two customers.<br>One <em>bridge.</em>',
-  sub:'Software developers who want in. Factories that cannot hire. We are paid by both.',
+  /* no sub line: the cards now say it, and the height is needed below */
   cards:[
-    {name:'Software developers', state:'Want in',     v:['A physical AI course, free to them','The government pays for it']},
-    {name:'Physical Spark', logo:1, state:'The bridge', v:['Real factory tasks','Peer-graded on video']},
-    {name:'Factories',           state:'Cannot hire', v:['A scorecard for every finisher','10% of salary on every hire']},
+    {name:'Software<br>developers',
+     pain:['Stuck in a hard job market','No first step into physical AI','No money for training'],
+     giveLabel:'What we give', give:['A free physical AI course','Paid for by the government']},
+    {name:'Physical<br>Spark', logo:1, painLabel:'The bridge',
+     pain:['Real factory tasks','Peer-graded on video'],
+     giveLabel:'How we are paid', give:['Course fees from the government','10% of salary on every hire']},
+    {name:'Factories',
+     pain:['Hiring for robots starts in 2026','No picture of a good hire','CVs that all read the same'],
+     giveLabel:'What we give', give:['A scorecard from real robot work','Ranked finishers, ready to hire']},
   ],
-  say:'Here is the whole company. On one side, software developers who want into physical AI — we give them a course, and the government pays for it. On the other side, factories that cannot hire — we give them a scorecard, and they pay us when they hire. Both sides are our customers.'},
+  say:'Here is the whole company. On the left, software developers. Coding skill, but no first step into physical AI, and no money for training. We give a free course, and the government pays. On the right, factories. Robots are coming, but no picture of a good hire. We give a scorecard from real robot work. Both sides pay us.'},
 
 /* ══ WHY NOW ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
@@ -566,7 +571,7 @@ const BEATS = [
   say:'At the end, a ranked list of every finisher, with the recorded runs attached.'},
 
 { sec:28, n:'10', section:'The solution', layout:'timeline', focus:2,
-  head:'Free in a simulator.<br>Proven on a <em>real arm.</em>',
+  tight:1, head:'Free in a simulator.<br>Proven on a <em>real arm.</em>',
   sub:'Nobody needs to own a robot to start. The last step is the one nobody can fake.',
   cards:[
     {k:'Tonight',    big:'$0, laptop only',  v:['A free, open-source simulator','No hardware to buy']},
@@ -764,7 +769,10 @@ function bodyHTML(b){
          opposite of what a two-sided market is */
       const bc = (c,on) => `<div class="card bcard ${on?'focus':''}">
         ${c.logo?`<span class="blogo"><img src="assets/logo-mark.png" alt=""></span>`:''}
-        <div class="bname">${c.name}</div><div class="bstate">${c.state}</div>${bullets(c.v)}</div>`;
+        <div class="bname">${c.name}</div>
+        <div class="lbl">${c.painLabel||'The pain'}</div>${bullets(c.pain)}
+        <div class="hair"></div>
+        <div class="lbl give">${c.giveLabel}</div>${bullets(c.give)}</div>`;
       return `<div class="flow bridge">${bc(b.cards[0],f===0)}${span(1)}` +
              `${bc(b.cards[1],f===1)}${span(-1)}${bc(b.cards[2],f===2)}</div>`;
     case 'flow':
@@ -870,7 +878,7 @@ stage.innerHTML = BEATS.map((b,i)=>{
       <h1>${b.head}</h1><p class="sub">${b.sub||''}</p>
     </section>`;
   return `
-    <section class="slide" data-i="${i}">
+    <section class="slide${b.layout?' lay-'+b.layout:''}${b.tight?' tight':''}" data-i="${i}">
       <div class="kick">
         <span class="n mono">${b.n}</span><span class="l">${b.section}</span>
         <span class="rule"></span><span class="s mono">${b.sec}s</span>
@@ -918,16 +926,8 @@ function render(){
   document.querySelectorAll('.slide').forEach(el=>el.classList.toggle('on',+el.dataset.i===idx));
   document.documentElement.style.setProperty('--accent', chapterOf(idx).c);
   try{ history.replaceState(null,'','#'+(idx+1)); }catch(e){}
-  const b=BEATS[idx];
-  document.getElementById('pr-tag').textContent = `${b.n||'—'} · ${b.section} · ${b.sec}s`;
-  document.getElementById('pr-say').textContent = b.say || '— divider, no script —';
-  const words=(b.say||'').trim().split(/\s+/).filter(Boolean).length;
-  const cap=Math.round(b.sec*WPS);
-  const wc=document.getElementById('pr-wc');
-  wc.textContent=`${words}w / ~${cap}w`;
-  wc.classList.toggle('over',words>cap);
   document.querySelectorAll('.slide.on .bignum .n').forEach(countUp);
-  fitPrompter(); paint();
+  paint();
 }
 function paint(){
   CHAPTERS.forEach((c,i)=>{
@@ -937,10 +937,6 @@ function paint(){
     const inc=Math.max(0,Math.min(c.sec,elapsed-c.start));
     fill.style.width=(idx>c.upto?100:(inc/c.sec)*100)+'%';
   });
-  const m=Math.floor(elapsed/60), s=Math.floor(elapsed%60);
-  const el=document.getElementById('clock');
-  el.textContent=`${m}:${String(s).padStart(2,'0')} / ${Math.floor(TOTAL/60)}:${String(TOTAL%60).padStart(2,'0')}`;
-  el.classList.toggle('over',elapsed>TOTAL);
 }
 function go(d){ idx=Math.max(0,Math.min(BEATS.length-1,idx+d)); render(); }
 function jump(i){ idx=Math.max(0,Math.min(BEATS.length-1,i)); render(); }
@@ -950,28 +946,14 @@ function toggleRun(){
   if(running) tick=setInterval(()=>{elapsed+=.1;paint();},100); else clearInterval(tick);
 }
 function reset(){ if(running) toggleRun(); elapsed=0; idx=0; render(); }
-/* the prompter grows with the script, so --btm is measured, never guessed */
-function fitPrompter(){
-  const pr=document.getElementById('pr');
-  document.querySelector('.wrap').style.setProperty('--btm',
-    pr.classList.contains('on') ? (52+pr.offsetHeight+10)+'px' : '116px');
-}
-function togglePrompter(){
-  const on=document.getElementById('pr').classList.toggle('on');
-  document.getElementById('b-script').classList.toggle('on',on);
-  fitPrompter();
-}
-addEventListener('resize',fitPrompter);
 addEventListener('keydown',e=>{
   if(e.key===' '||e.key==='ArrowRight'){e.preventDefault();go(1);}
   else if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
-  else if(e.key.toLowerCase()==='s'){togglePrompter();}
   else if(e.key.toLowerCase()==='r'){reset();}
   else if(e.key==='Enter'){toggleRun();}
 });
 const deep=parseInt(location.hash.slice(1),10);
 if(deep>=1&&deep<=BEATS.length) idx=deep-1;
-togglePrompter();   /* script visible by default — this is a working document */
 render();
 </script>
 </body>
