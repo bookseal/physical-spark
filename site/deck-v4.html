@@ -367,6 +367,24 @@ h1 em{font-style:normal;color:var(--accent);}
 /* bridge connectors — an arrow glyph says "next"; a rail with something moving
    along it says "these two are joined and traffic runs both ways". The dots
    travel toward the centre from both sides, which is the whole claim. */
+/* ⓕ cmt — a competitor table, because that is the one shape a room reads as
+   "competition" without being told. One row per company, one column per
+   question, and a last column that is crosses all the way down until our row. */
+.cmt{display:flex;flex-direction:column;gap:.55cqw;}
+.cmt .r{display:grid;grid-template-columns:20cqw 1fr 1fr 8cqw;gap:1.8cqw;align-items:center;
+  padding:1.2cqw 1.8cqw;border-radius:.9cqw;background:var(--card);border:1.5px solid var(--line);}
+.cmt .r.head{background:none;border-color:transparent;padding:0 1.8cqw .3cqw;}
+.cmt .r.head span{font-size:1.15cqw;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mute);}
+.cmt .r.head span:last-child{text-align:center;}
+.cmt .who{font-size:2.05cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
+.cmt .c{font-size:1.7cqw;color:var(--body);line-height:1.25;}
+.cmt .m{font-size:2.5cqw;font-weight:800;text-align:center;color:var(--mute);}
+.cmt .r.us{background:var(--accent);border-color:var(--accent);
+  box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.24);}
+.cmt .r.us .who,.cmt .r.us .c{color:#fff;}
+.cmt .r.us .m{color:#fff;font-size:2.9cqw;}
+
 /* ⓔ stack — an escalation. Two bands; the second is stepped in and filled, so
    the shape itself says "and then it gets worse" before a word is read. */
 .stk{display:flex;flex-direction:column;gap:1.6cqw;}
@@ -489,14 +507,15 @@ const WPS = 2.2;   /* spoken words per second — a second language, said clearl
 /* Chapters own the colour. Open/Problem/Business share red, Why-we-win/Team share
    gold: v1 uses colour as temperature, not as a unique label per section. */
 const CHAPTERS = [
-  { name:'Open',       c:'#e0442e', from:0,  upto:1  },
-  { name:'Why now',    c:'#f4b21a', from:2,  upto:6  },
-  { name:'Problem',    c:'#e0442e', from:7,  upto:9  },
-  { name:'Solution',   c:'#0e9a89', from:10, upto:15 },
-  { name:'Why we win', c:'#e6a413', from:16, upto:18 },
-  { name:'Market',     c:'#2f6fd0', from:19, upto:21 },
-  { name:'Business',   c:'#e0442e', from:22, upto:24 },
-  { name:'Where next', c:'#e6a413', from:25, upto:28 },
+  { name:'Open',        c:'#e0442e', from:0,  upto:1  },
+  { name:'Why now',     c:'#f4b21a', from:2,  upto:6  },
+  { name:'Problem',     c:'#e0442e', from:7,  upto:9  },
+  { name:'Solution',    c:'#0e9a89', from:10, upto:15 },
+  { name:'Why we win',  c:'#e6a413', from:16, upto:18 },
+  { name:'Competitors', c:'#2f6fd0', from:19, upto:20 },
+  { name:'Market',      c:'#2f6fd0', from:21, upto:22 },
+  { name:'Business',    c:'#e0442e', from:23, upto:25 },
+  { name:'Where next',  c:'#e6a413', from:26, upto:29 },
 ];
 function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTERS[0]; }
 
@@ -509,14 +528,14 @@ const SEASON = [
   {i:'03', t:'The output', v:['Every finisher, ranked','Peer review on video, with the recorded runs attached']},
 ];
 const START = [
-  {k:'Season one · Korea', big:'All three meet', v:['Most robots per factory worker on earth','Public money already pays for the training']},
-  {k:'Then · South Asia',  big:'Where the lines go next', v:['Vietnam is where factories are moving now','Our CPO worked with FPT Software in Vietnam']},
-  {k:'Then · America',     big:'Carries itself',  v:['No government programme needed','Salaries and fees roughly 3&times; higher']},
+  {k:'Step 1 · Korea',         big:'Prove it',              v:['Most robots per factory worker on earth','Public money already pays for the training']},
+  {k:'Step 2 · Vietnam',       big:'Follow the factories',  v:['Where manufacturing lines are moving now','Our CPO worked with FPT Software in Vietnam']},
+  {k:'Step 3 · United States', big:'Carries itself',        v:['No government programme needed','Salaries and fees roughly 3&times; higher']},
 ];
 const SEA_HEAD = 'One task. One season.<br>One <em>ranked list.</em>';
 const SEA_SUB  = 'Fixed dates, a public video board, and grading rules the hiring companies helped write.';
-const STA_HEAD = 'Korea first.<br>Then <em>the factories that move.</em>';
-const STA_SUB  = 'Start where all three groups are already looking for each other, then follow the manufacturing.';
+const STA_HEAD = 'Korea proves it.<br>Then the standard <em>goes global.</em>';
+const STA_SUB  = 'Start where all three groups already meet. Then follow the factories out of Korea.';
 
 const BEATS = [
 { kind:'cover', sec:10, n:'', section:'Physical Spark',
@@ -632,7 +651,7 @@ const BEATS = [
   ],
   say:'Nobody needs to own a robot to start. Tonight, a free simulator on a laptop. By week one the same task has run a hundred times, so the score shows skill and not one lucky attempt. In week two the top five get a real three-hundred-and-fifty-dollar arm, and that session is recorded.'},
 
-{ sec:38, n:'10', section:'The solution', layout:'doc',
+{ sec:36, n:'10', section:'The solution', layout:'doc',
   head:'A company buys a <em>scorecard,</em><br>not a CV.',
   sub:'One page per finisher. This is a real one.',
   doc:{ hd:'CANDIDATE REPORT · SEASON ONE',
@@ -662,7 +681,7 @@ const BEATS = [
   ],
   say:'AI broke the coding test — those questions are answered in seconds now. AI cannot lift a block. Our answer is physical, and a camera watches. There is nothing to memorise.'},
 
-{ sec:34, n:'12', section:'Team', layout:'people',
+{ sec:32, n:'12', section:'Team', layout:'people',
   head:'One of us teaches AI.<br>The other one <em>decides who gets hired.</em>',
   sub:'One of us builds the supply. The other one is the demand.',
   people:[
@@ -676,22 +695,28 @@ const BEATS = [
   say:'So, us. I am a main AI instructor on Korea\'s national programme and for a Seoul district office. I write and grade that work every week, which is where our test comes from. Gichan hires AI engineers today, so Gichan is our own customer. And Gichan builds our product.'},
 
 /* ══ MARKET ════════════════════════════════════════════════════════════════ */
+{ kind:'divider', sec:6, section:'Competitors', head:'Competitors',
+  sub:'A crowded market with one empty chair.', say:''},
+
+{ sec:34, n:'13', section:'Competitors', layout:'table',
+  head:'Three companies proved this works.<br>None of them <em>touch a robot.</em>',
+  sub:'A crowded market with one empty chair, not an empty market.',
+  /* the numbers ($1.1B, 600 clients) moved into the script. On screen they were
+     four different units side by side, so the eye had nothing to compare. */
+  cols:['Company','Who they test','How','Robots'],
+  rows:[
+    {n:'Grepp',          who:'Developers',      how:'Online coding test', robot:0},
+    {n:'AX 인재전쟁',      who:'Developers',      how:'Hiring contest',     robot:0},
+    {n:'Karat',          who:'Developers',      how:'Live interview',     robot:0},
+    {n:'Physical Spark', who:'Robot operators', how:'Recorded runs',      robot:1, us:1},
+  ],
+  src:'Grepp/프로그래머스 · OpenAI × 조코딩AX, Jul 2026 · Karat',
+  say:'So who else is here. In Korea, Grepp runs developer testing for six hundred companies, including Kakao and LINE. Last month OpenAI ran a hiring contest with six companies and five thousand applicants. And here in Seattle, Karat is a one-point-one-billion-dollar company, paid per interview. All three proved the model. All three test developers, on software. None of them touch a robot.'},
+
 { kind:'divider', sec:6, section:'The market', head:'The market',
   sub:'Sized from the bottom up.', say:''},
 
-{ sec:34, n:'13', section:'Competitors', layout:'cards', cols:'c4', focus:-1, ghost:3,
-  head:'Three companies proved this works.<br>None of them <em>touch a robot.</em>',
-  sub:'A crowded market with one empty chair, not an empty market.',
-  cards:[
-    {k:'Grepp · Korea',   big:'600 clients',      v:['Developer testing and hiring','Kakao, LINE &mdash; software only']},
-    {k:'AX 인재전쟁',      big:'5,000 applicants', v:['OpenAI and six companies','Every task was software']},
-    {k:'Karat · Seattle', big:'$1.1 billion',     v:['Paid per interview','Software engineers only']},
-    {k:'Robot skill',     big:'The empty seat',   v:['Nobody tests the people who run robots']},
-  ],
-  src:'Grepp/프로그래머스 · OpenAI × 조코딩AX, Jul 2026 · Karat',
-  say:'So who else is here. In Korea, Grepp runs developer testing and hiring for six hundred companies, including Kakao and LINE. Last month OpenAI ran a hiring contest with six companies and five thousand applicants. And here in Seattle, Karat is a billion-dollar company paid per interview. All three proved the model. None of them touch a robot.'},
-
-{ sec:34, n:'14', section:'Market size', layout:'funnel', focus:1,
+{ sec:32, n:'14', section:'Market size', layout:'funnel', focus:1,
   head:'$950 million a year,<br>in <em>one country.</em>',
   sub:'Then narrowed twice, to the part we can actually reach.',
   tiers:[
@@ -730,13 +755,13 @@ const BEATS = [
 /* ══ WHERE NEXT — walked through in three ═════════════════════════════════ */
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:0,
   head:STA_HEAD, sub:STA_SUB,
-  say:'We start in Korea, because that is where all three groups are already looking for each other.'},
+  say:'Step one is Korea, because that is where all three groups are already looking for each other. We prove the standard there.'},
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:1,
   head:STA_HEAD, sub:STA_SUB,
-  say:'Then South Asia. Vietnam is where the factory lines are moving now, and our CPO has worked with FPT Software there.'},
+  say:'Step two is Vietnam, where the manufacturing lines are moving now. Our CPO has worked with FPT Software there.'},
 { sec:12, n:'17', section:'Where next', layout:'flow', cards:START, focus:2,
   head:STA_HEAD, sub:STA_SUB,
-  say:'Then America, where no government programme is needed, and salaries and fees are roughly three times higher.'},
+  say:'Step three is the United States, where no government programme is needed and salaries and fees are roughly three times higher.'},
 
 { kind:'outro', sec:10, n:'', section:'Thank you',
   line:'The hiring standard for a factory&rsquo;s first physical AI FDE.',
@@ -764,6 +789,13 @@ function bodyHTML(b){
     case 'compare':
       return `<div class="cmp">${cardEl(b.cards[0],f===0)}
         <span class="vs">VS</span>${cardEl(b.cards[1],f===1)}</div>`;
+    case 'table':
+      return `<div class="cmt">
+        <div class="r head">${b.cols.map(c=>`<span>${c}</span>`).join('')}</div>` +
+        b.rows.map(r=>`<div class="r ${r.us?'us':''}">
+          <div class="who">${r.n}</div><div class="c">${r.who}</div>
+          <div class="c">${r.how}</div><div class="m">${r.robot?'&#10003;':'&#10007;'}</div>
+        </div>`).join('') + `</div>`;
     case 'stack':
       return `<div class="stk">` + b.bands.map((x,i)=>`
         <div class="band ${i===b.focus?'focus':''}">
