@@ -344,7 +344,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .slide.outro{justify-content:center;text-align:center;}
 .outro .name{display:flex;align-items:center;justify-content:center;gap:1.6cqw;
   font-size:8cqw;font-weight:800;letter-spacing:-.04em;line-height:1;}
-.outro .name b{color:var(--accent);}
+.outro .name b{color:#e0442e;}
 .outro .mark{height:6.2cqw;width:auto;display:block;}
 .outro .line{font-size:2.4cqw;color:var(--body);margin-top:1.8cqw;font-weight:600;}
 .outro .rule{width:56cqw;height:1px;background:var(--line);margin:3.2cqw auto;}
@@ -353,6 +353,28 @@ h1 em{font-style:normal;color:var(--accent);}
 .outro .contact{text-align:left;font-size:1.8cqw;line-height:1.55;color:var(--body);}
 .outro .contact b{display:block;color:var(--ink);font-weight:700;}
 .outro .thanks{font-size:1.8cqw;font-weight:700;color:var(--mute);}
+
+/* bridge connectors — an arrow glyph says "next"; a rail with something moving
+   along it says "these two are joined and traffic runs both ways". The dots
+   travel toward the centre from both sides, which is the whole claim. */
+.flow.bridge{gap:1.2cqw;}
+.flow.bridge .link{align-self:center;flex:0 0 9cqw;}
+/* on this slide the SUBJECT is the headline — developers, us, factories — and
+   what each one wants is the small line under it. The other way round made the
+   slide read as three states with no actors. */
+.bcard{gap:.45cqw;}
+.bcard .blogo{display:grid;place-items:center;width:5cqw;height:5cqw;border-radius:50%;
+  background:#fff;box-shadow:0 .25cqw .7cqw rgba(120,80,20,.18);margin-bottom:.5cqw;}
+.bcard .blogo img{width:64%;height:auto;display:block;}
+.bcard .bname{font-size:2.7cqw;font-weight:800;letter-spacing:-.03em;line-height:1.06;color:var(--ink);}
+.bcard.focus .bname{color:#fff;}
+.bcard .bstate{font-size:1.5cqw;font-weight:700;letter-spacing:.03em;color:var(--mute);}
+.bcard.focus .bstate{color:rgba(255,255,255,.82);}
+.flow.bridge .link svg{width:100%;height:auto;display:block;overflow:visible;}
+.flow.bridge .rail{stroke:var(--dot);stroke-width:3;stroke-linecap:round;}
+.flow.bridge .pier{stroke:var(--line);stroke-width:2.5;stroke-linecap:round;}
+.flow.bridge .pip{fill:var(--accent);}
+@media (prefers-reduced-motion:reduce){ .flow.bridge .pip{display:none;} }
 
 /* chapter divider: name only, six seconds, a place to breathe */
 .slide.divider{justify-content:center;}
@@ -416,25 +438,20 @@ const WPS = 2.2;   /* spoken words per second — a second language, said clearl
 /* Chapters own the colour. Open/Problem/Business share red, Why-we-win/Team share
    gold: v1 uses colour as temperature, not as a unique label per section. */
 const CHAPTERS = [
-  { name:'Open',       c:'#e0442e', from:0,  upto:3  },
-  { name:'Why now',    c:'#f4b21a', from:4,  upto:7  },
-  { name:'Problem',    c:'#e0442e', from:8,  upto:11 },
-  { name:'Solution',   c:'#0e9a89', from:12, upto:17 },
-  { name:'Why we win', c:'#e6a413', from:18, upto:21 },
-  { name:'Market',     c:'#2f6fd0', from:22, upto:24 },
-  { name:'Business',   c:'#e0442e', from:25, upto:28 },
-  { name:'Team',       c:'#e6a413', from:29, upto:34 },
+  { name:'Open',       c:'#e0442e', from:0,  upto:1  },
+  { name:'Why now',    c:'#f4b21a', from:2,  upto:5  },
+  { name:'Problem',    c:'#e0442e', from:6,  upto:9  },
+  { name:'Solution',   c:'#0e9a89', from:10, upto:15 },
+  { name:'Why we win', c:'#e6a413', from:16, upto:19 },
+  { name:'Market',     c:'#2f6fd0', from:20, upto:22 },
+  { name:'Business',   c:'#e0442e', from:23, upto:26 },
+  { name:'Team',       c:'#e6a413', from:27, upto:32 },
 ];
 function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTERS[0]; }
 
 /* Cards for the three slides that are walked through one step at a time. Defined
    once; the three beats below point at the same array with a different `focus`,
    so editing a card edits every step of the build. */
-const SUMMARY = [
-  {k:'Step one',   big:'The task',  v:['Written by a factory, not by us','Real work, not a puzzle']},
-  {k:'Step two',   big:'The proof', v:['Solved on a robot, recorded','Graded by other engineers']},
-  {k:'Step three', big:'The hire',  v:['A fee to run the contest','A fee on every hire']},
-];
 const SEASON = [
   {i:'01', t:'The task',   v:['Real work from real factories','Grading rules written with those companies']},
   {i:'02', t:'The season', v:['Six weeks, fixed dates','Everyone starts on the same day, on a public board']},
@@ -445,8 +462,6 @@ const START = [
   {k:'Next 12 months', big:'Three moves',    v:['A free course, open to anyone','A six-week programme, then the first contest']},
   {k:'Then America',   big:'Carries itself', v:['No government programme needed','Salaries and fees about 3&times; higher']},
 ];
-const SUM_HEAD = 'We turn a real robot task<br>into a <em>hire.</em>';
-const SUM_SUB  = 'Three steps. A small manufacturer starts it, and pays at the end of it.';
 const SEA_HEAD = 'One task. One season.<br>One <em>ranked list.</em>';
 const SEA_SUB  = 'Fixed dates, a public board, and grading rules the hiring companies helped write.';
 const STA_HEAD = 'Korea first.<br>Then <em>America.</em>';
@@ -454,20 +469,23 @@ const STA_SUB  = 'Start where all three groups are already looking for each othe
 
 const BEATS = [
 { kind:'cover', sec:8, n:'', section:'Physical Spark',
-  line:'The hiring standard for people who can run robots.',
+  line:'The hiring standard for a factory&rsquo;s first physical AI engineer.',
   who:'Jungmin Hong &nbsp;·&nbsp; Gichan Lee',
-  say:'Physical Spark. The hiring standard for people who can run robots.'},
+  say:'Physical Spark. The hiring standard for a factory\'s first physical AI engineer.'},
 
-/* ══ OPEN — one slide, walked through in three ═════════════════════════════ */
-{ sec:9,  n:'01', section:'In one slide', layout:'flow', cards:SUMMARY, focus:0,
-  head:SUM_HEAD, sub:SUM_SUB,
-  say:'A small manufacturer writes down real work the factory needs done. Not a puzzle.'},
-{ sec:9,  n:'01', section:'In one slide', layout:'flow', cards:SUMMARY, focus:1,
-  head:SUM_HEAD, sub:SUM_SUB,
-  say:'Engineers solve the task on a robot, and every run is recorded so other engineers can grade the run.'},
-{ sec:10, n:'01', section:'In one slide', layout:'flow', cards:SUMMARY, focus:2,
-  head:SUM_HEAD, sub:SUM_SUB,
-  say:'The best engineers get hired. We are paid to run the contest, and paid again on every hire.'},
+/* ══ OPEN — the business in one picture ═══════════════════════════════════
+   A two-sided market, so the arrows point inward. Left is supply, right is
+   demand, and each side pays a different way: the state funds the course, the
+   factory pays on the hire. Both are customers — that is the whole slide. */
+{ sec:28, n:'01', section:'In one slide', layout:'bridge', focus:1,
+  head:'Two customers.<br>One <em>bridge.</em>',
+  sub:'Software developers who want in. Factories that cannot hire. We are paid by both.',
+  cards:[
+    {name:'Software developers', state:'Want in',     v:['A physical AI course, free to them','The government pays for it']},
+    {name:'Physical Spark', logo:1, state:'The bridge', v:['Real factory tasks','Peer-graded on video']},
+    {name:'Factories',           state:'Cannot hire', v:['A scorecard for every finisher','10% of salary on every hire']},
+  ],
+  say:'Here is the whole company. On one side, software developers who want into physical AI — we give them a course, and the government pays for it. On the other side, factories that cannot hire — we give them a scorecard, and they pay us when they hire. Both sides are our customers.'},
 
 /* ══ WHY NOW ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
@@ -696,7 +714,9 @@ const BEATS = [
   say:'Then America, where we need no government at all. The salaries, and the fees, are three times bigger.'},
 
 { kind:'outro', sec:8, n:'', section:'Thank you',
-  line:'The hiring standard for people who can run robots.',
+  /* the cover says "physical AI engineer"; ten minutes later the room knows the
+     job's real name, so the closing line uses it. Same claim, heavier. */
+  line:'The hiring standard for a factory&rsquo;s first physical AI FDE.',
   say:'Thank you. I am happy to take questions.'},
 ];
 
@@ -712,6 +732,24 @@ const cardEl = (c,on,cls='') =>
      <div class="k">${c.k}</div>${c.big?`<div class="big">${c.big}</div>`:''}${bullets(c.v)}
    </div>`;
 
+/* one bridge span: a dashed deck on two piers, with pips crossing toward the
+   centre. dir 1 = left bank to us, dir -1 = right bank to us. */
+function span(dir){
+  const a = dir > 0 ? 4 : 96, z = dir > 0 ? 96 : 4;
+  const pip = (begin) => `<circle class="pip" cy="20" r="7">
+      <animate attributeName="cx" from="${a}" to="${z}" dur="2.4s" begin="${begin}s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="${begin}s" repeatCount="indefinite"/>
+    </circle>`;
+  return `<span class="link"><svg viewBox="0 0 100 62" aria-hidden="true">
+      <line class="rail" x1="2" y1="28" x2="98" y2="28"/>
+      <line class="pier" x1="18" y1="28" x2="18" y2="56"/>
+      <line class="pier" x1="50" y1="28" x2="50" y2="56"/>
+      <line class="pier" x1="82" y1="28" x2="82" y2="56"/>
+      <line class="pier" x1="6"  y1="56" x2="94" y2="56"/>
+      ${pip(0)}${pip(1.2)}
+    </svg></span>`;
+}
+
 function bodyHTML(b){
   const f = b.focus;
   switch(b.layout){
@@ -721,6 +759,14 @@ function bodyHTML(b){
     case 'compare':
       return `<div class="cmp">${cardEl(b.cards[0],f===0)}
         <span class="vs">VS</span>${cardEl(b.cards[1],f===1)}</div>`;
+    case 'bridge':
+      /* traffic runs INWARD from both banks — a left-to-right flow would say the
+         opposite of what a two-sided market is */
+      const bc = (c,on) => `<div class="card bcard ${on?'focus':''}">
+        ${c.logo?`<span class="blogo"><img src="assets/brand/logo-mark.svg" alt=""></span>`:''}
+        <div class="bname">${c.name}</div><div class="bstate">${c.state}</div>${bullets(c.v)}</div>`;
+      return `<div class="flow bridge">${bc(b.cards[0],f===0)}${span(1)}` +
+             `${bc(b.cards[1],f===1)}${span(-1)}${bc(b.cards[2],f===2)}</div>`;
     case 'flow':
       return `<div class="flow">` +
         b.cards.map((c,i)=>cardEl(c,i===f)).join('<span class="arw">&rarr;</span>') + `</div>`;
