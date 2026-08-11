@@ -62,9 +62,9 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
   container-type:inline-size;position:relative;overflow:hidden;}
 /* the running screen number — outside .slide so cover, dividers and outro
    carry it too, and so it never moves when a layout changes */
-.pgno{position:absolute;right:6cqw;bottom:5.6cqw;z-index:5;
-  font-size:2.2cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);opacity:.5;}
-.pgno small{font-size:1.3cqw;font-weight:700;opacity:.65;}
+.pgno{position:absolute;right:6cqw;bottom:1.8cqw;z-index:5;
+  font-size:1.4cqw;font-weight:800;letter-spacing:-.01em;color:var(--ink);opacity:.42;}
+.pgno small{font-size:1cqw;font-weight:700;opacity:.65;}
 .slide{position:absolute;inset:0;padding:0.6cqw 6cqw 11.5cqw;display:none;flex-direction:column;z-index:1;}
 .slide.on{display:flex;animation:in .28s cubic-bezier(.2,.9,.3,1);}
 @keyframes in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
@@ -205,16 +205,16 @@ h1 em{font-style:normal;color:var(--accent);}
 .people{display:grid;grid-template-columns:repeat(2,1fr);gap:2cqw;height:auto;}
 /* a portrait + four bullets is the densest card in the deck, so it gets its own,
    tighter scale — otherwise it runs 23px past the body and over the footer */
-.people .card{padding:1.4cqw 1.6cqw 1.5cqw;gap:.4cqw;}
+.people .card{padding:1.8cqw 2cqw 1.9cqw;gap:.5cqw;}
 .people .card .big{font-size:2.7cqw;}
-.people .card ul{margin-top:.8cqw;gap:.5cqw;}
-.people .card li{font-size:1.62cqw;line-height:1.26;}
+.people .card ul{margin-top:1.1cqw;gap:.8cqw;}
+.people .card li{font-size:1.62cqw;line-height:1.38;}
 /* the employer marks from deck.html — they say in one glance what a bullet needs
    a line for, so one bullet each was dropped to pay for the row */
-.people .org{display:flex;align-items:center;gap:1.6cqw;margin-top:1cqw;padding-top:1.3cqw;
+.people .org{display:flex;align-items:center;gap:1.8cqw;margin-top:1.4cqw;padding-top:1.6cqw;
   border-top:1px solid var(--line);}
 .people .org img{height:2cqw;width:auto;max-width:8cqw;object-fit:contain;display:block;opacity:.85;}
-.people .hdr{display:flex;align-items:center;gap:1.3cqw;margin-bottom:.3cqw;}
+.people .hdr{display:flex;align-items:center;gap:1.4cqw;margin-bottom:.7cqw;}
 .people .face{flex:none;width:4.8cqw;height:4.8cqw;border-radius:50%;object-fit:cover;
   border:1.5px solid var(--line);}
 
