@@ -70,15 +70,19 @@ body.notime .clock{visibility:hidden;}
   border-radius:.8cqw;padding:.45cqw 1.1cqw;background:var(--card);min-width:12cqw;}
 .sbox b{font-size:1.35cqw;font-weight:800;color:var(--mute);font-family:ui-monospace,monospace;}
 .sbox span{font-size:1.55cqw;font-weight:700;color:var(--body);}
-.sbox.empty{border-style:dashed;background:none;}
-.sbox.empty span{visibility:hidden;}
+.sbox.seed{border-style:dashed;background:none;}
+.sbox.seed b{color:#c9b795;}
 .sbox.done{border-color:var(--accent);}
 .sbox.done b,.sbox.done span{color:var(--accent);}
 .sbox.now{background:var(--accent);border-color:var(--accent);}
 .sbox.now b{color:rgba(255,255,255,.75);}
 .sbox.now span{color:#fff;}
 .sar{font-style:normal;font-size:1.55cqw;font-weight:800;color:var(--line);}
-.divider .srail{margin-top:3cqw;}   /* left, under the sub — the headline sets the edge */
+.divider .srail{margin-top:3.4cqw;}
+.divider .sbox{padding:1.1cqw 1.8cqw;min-width:17cqw;}
+.divider .sbox span{font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
+.divider .sbox b{font-size:1.6cqw;}
+.divider .sar{font-size:2.4cqw;}   /* left, under the sub — the headline sets the edge */
 
 /* ── stage ────────────────────────────────────────────────────────────────── */
 .wrap{position:absolute;inset:44px 0 var(--btm,52px);display:grid;place-items:center;padding:14px;}
@@ -790,10 +794,10 @@ const MK = '<img class="bmk" src="assets/logo-mark.png" alt="">';
    shape of what is coming — and each step fills in as it is spoken. `rail`:
    -1 = all empty, 0..2 = that step is live, 3 = the chain is complete. */
 const SOL = [['01','The task'],['02','The season'],['03','The output']];
-function srail(cur){
+function srail(cur, seed){
   return `<div class="srail">` + SOL.map((st,i)=>{
-    const cls = cur<0 ? 'empty' : (i<cur ? 'done' : i===cur ? 'now' : 'todo');
-    return `<div class="sbox ${cls}"><b>${st[0]}</b><span>${st[1]}</span></div>` +
+    const cls = cur<0 ? 'seed' : (i<cur ? 'done' : i===cur ? 'now' : 'todo');
+    return `<div class="sbox ${cls}"><b>${st[0]}</b><span>${seed?seed[i]:st[1]}</span></div>` +
            (i<SOL.length-1 ? `<i class="sar">&rarr;</i>` : '');
   }).join('') + `</div>`;
 }
@@ -863,7 +867,7 @@ const BEATS = [
   ],
   pay:'Paid by both sides &mdash; <b>course fees from the government</b> and <b>10% of salary on every hire.</b>',
   src:'Morgan Stanley, Jun 2026 &mdash; humanoid shipment forecast for the year doubled to 50,000 units',
-  say:'Physical Spark has two customers. On the left, software developers. They can code, but have never touched a robot. We give them a free course, a simulator, then a real arm. On the right, factories. Morgan Stanley says robots arrive from 2026, so hiring follows — and hiring on the physical side is far harder. A CV cannot show who can run a machine. We give factories ranked finishers and a scorecard. Both sides pay us.'},
+  say:'Physical Spark has two customers. On the left, software developers. (They can code, but have never touched a robot.) We give them a free course, a simulator, then a real arm. On the right, factories. Morgan Stanley says robots arrive from 2026, so hiring follows — and hiring on the physical side is far harder. A CV cannot show who can run a machine. (We give factories ranked finishers and a scorecard.) Both sides pay us.'},
 
 /* ══ WHY NOW ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
@@ -878,7 +882,7 @@ const BEATS = [
     {n:'2027',    k:'Where next',     v:['The same role, on a factory floor','The physical AI FDE']},
   ],
   src:'Indeed Hiring Lab, 2026 &mdash; software development postings 27.5% below pre-pandemic · Live Data Technologies, 2025 · OpenAI · AWS, Jun 2026 · Anthropic',
-  say:'Developer hiring is down, and the AI forward deployed engineer is up. Postings are still twenty-seven percent below pre-pandemic. An AI FDE makes AI actually work inside a customer\'s company. AI FDE job posts are up eight hundred percent in nine months. OpenAI built a four-billion-dollar deployment company on the AI FDE role. And in 2027 the same role moves onto a factory floor, as the physical AI FDE.'},
+  say:'Developer hiring is down, and the AI forward deployed engineer is up. (Postings are still twenty-seven percent below pre-pandemic.) An AI FDE makes AI actually work inside a customer\'s company. AI FDE job posts are up eight hundred percent in nine months. OpenAI built a four-billion-dollar deployment company on the AI FDE role. And in 2027 the same role moves onto a factory floor(, as the physical AI FDE).'},
 
 { sec:32, n:'03', section:'Why now', layout:'stack', focus:1,
   head:'95% of AI projects fail.<br>Now <em>add a robot.</em>',
@@ -890,7 +894,7 @@ const BEATS = [
      v:['Hardware, safety, and a factory line that cannot stop','A wrong hire stops the production line, not just a salary']},
   ],
   src:'MIT Project NANDA, State of AI in Business',
-  say:'Ninety-five percent of AI projects fail. Now we add a robot. In software AI, MIT found enterprise pilots with no measurable result, and the failure is integration, not the model. Physical AI is harder still, because it adds hardware, safety, and a factory line that cannot stop. A wrong hire stops the production line, not just a salary.'},
+  say:'Ninety-five percent of AI projects fail. Now we add a robot. In software AI, MIT found enterprise pilots with no measurable result, and the failure is integration, not the model. Physical AI is harder still(, because it adds hardware, safety, and a factory line that cannot stop). A wrong hire stops the production line, not just a salary.'},
 
 { sec:30, n:'04', section:'Why Korea', layout:'bignum',
   head:'The physical AI engineer<br>starts on a <em>factory floor.</em>',
@@ -901,12 +905,12 @@ const BEATS = [
         'Korea ages faster than any OECD country',
         'One qualified engineer per three open automation jobs'],
   src:'IFR World Robotics, 2024 data &mdash; Korea 1,220 / United States 307 / world average 132 · KOSIS Korean manufacturing SME share',
-  say:'Korea is where the physical AI engineer lands first. On a Korean factory floor there is already one robot for every eight workers &mdash; four times the United States, nine times the world. Almost every Korean manufacturer is a small company. Korea ages faster than any OECD country, and there is one qualified engineer for every three open automation jobs.'},
+  say:'(Korea is where the physical AI engineer lands first.) On a Korean factory floor there is already one robot for every eight workers &mdash; four times the United States, nine times the world. (Almost every Korean manufacturer is a small company.) Korea ages faster than any OECD country, and there is one qualified engineer for every three open automation jobs.'},
 
 /* one picture, built in four — the presenter decides when each group lands */
 { sec:9, n:'05', section:'Who needs this', layout:'venn', show:1,
   head:VEN_HEAD, sub:VEN_SUB, circles:VEN_C, centre:VEN_MID, rows:VEN_R,
-  say:'Three groups are waiting for the same engineer. Factories bought the robots, and fewer workers are left for repetitive jobs.'},
+  say:'(Three groups are waiting for the same engineer.) Factories bought the robots, and fewer workers are left for repetitive jobs.'},
 { sec:7, n:'05', section:'Who needs this', layout:'venn', show:2,
   head:VEN_HEAD, sub:VEN_SUB, circles:VEN_C, centre:VEN_MID, rows:VEN_R,
   say:'Government helps buy the robot, pays for the training, and wants young people in jobs.'},
@@ -926,9 +930,9 @@ const BEATS = [
   sub:'Hard for an AI engineer today.<br>Harder for anyone who has to run a robot.',
   cards:[
     {k:'On the CV',   big:'Tools, not skill', v:['Every CV lists an impressive stack','And now AI writes the CV']},
-    {k:'In practice', big:'Week two',     v:['Passes the interview, fails on the real work','Two weeks of search, already spent']},
+    {k:'In practice', big:'Week two',     v:['Passes the interview, fails on the real work','We want a company to see the problem-solving before the hire, not after']},
   ],
-  say:'Here is where Physical Spark started. My cofounder hires AI engineers. Every CV lists an impressive stack, and now AI writes the CV. Some candidates pass the interview. Then the real work starts, and the problem-solving is not there. By then, two weeks and a salary are gone. We want a company to see the problem-solving before the hire, not after.'},
+  say:'Here is where Physical Spark started. My cofounder hires AI engineers. (Every CV lists an impressive stack, and now AI writes the CV.) Some candidates pass the interview. Then the real work starts, and the problem-solving is not there. By then, two weeks and a salary are gone. We want a company to see the problem-solving before the hire, not after.'},
 
 { sec:30, n:'07', section:'The problem', layout:'ratio',
   head:'Big companies build a test.<br>Small factories <em>cannot.</em>',
@@ -936,11 +940,11 @@ const BEATS = [
   p:65, num:'65%', unit:'of Korea&rsquo;s 2,509 robot companies earn under &#8361;1B a year',
   list:['No internal hiring team','No budget for a headhunter charging 15&ndash;30%'],
   src:'KIRIA Robot Industry Survey 2024 · Korean recruiting fee ranges',
-  say:'Big companies build their own test. Small factories cannot. Sixty-five percent of Korea\'s two thousand five hundred robot companies earn under one billion won a year, about seven hundred thousand dollars. These companies have no hiring team, and no budget for a headhunter charging fifteen to thirty percent. The companies that need a robot engineer most have the fewest ways to find one.'},
+  say:'(Big companies build their own test. Small factories cannot.) Sixty-five percent of Korea\'s two thousand five hundred robot companies earn under one billion won a year, about seven hundred thousand dollars. These companies have no hiring team, and no budget for a headhunter charging fifteen to thirty percent. (The companies that need a robot engineer most have the fewest ways to find one.)'},
 
 /* ══ SOLUTION ══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'The solution', head:'The solution',
-  sub:'One task. One season. One ranked list.', rail:-1,
+  rail:-1, seed:['One task','One season','One ranked list'],
   say:'Our answer is one task, one season, and one ranked list.'},
 
 { sec:18, n:'08', section:'The solution', layout:'screen',
@@ -954,17 +958,18 @@ const BEATS = [
     crit:[['Grasps a part in a position never seen','40 pts'],['Success rate over 100 runs','30 pts'],
           ['Recovers after a dropped part','20 pts'],['Explains the tradeoffs out loud','10 pts']],
     cta:'Start in the simulator &rarr;'},
-  say:'One task is written by the companies that will hire. Daeyang Precision needs twelve engineers, and the task is to pick parts from a bin, wherever they land. The same companies write the grading rules, and every point is public.'},
+  say:'One task is written by the companies that will hire. Daeyang Precision needs twelve engineers, and the task is to pick parts from a bin, wherever they land. The same companies write the grading rules(, and every point is public).'},
 
 { sec:10, n:'08', section:'The solution', layout:'screen',
   head:'Two weeks, fixed dates,<br>every run <em>in the open.</em>',
-  step:'02 &middot; The season', rail:1, big:'Everyone starts<br>the same day',
-  v:['Every run posted to a public board','Peers watch and score the video'],
+  step:'02 &middot; The season', rail:1, big:'Peers score<br>every run',
+  v:['Two weeks, fixed dates &mdash; everyone starts together',
+     'Nothing is thrown away: every attempt is kept'],
   scr:{ kind:'board', url:'physicalspark.com / season-1 / board',
     t:'Season 1 &nbsp;&middot;&nbsp; 30 engineers', d:'Day 6 of 14',
     tiles:[['J. Park',82],['S. Kim',71],['H. Yoon',64],['D. Choi',58],
            ['M. Lee',51],['A. Jung',44],['B. Oh',37],['Y. Han',29]]},
-  say:'A season runs two weeks on fixed dates, in the open. Everyone starts the same day, and peers score the video.'},
+  say:'A season runs two weeks on fixed dates, in the open. (Everyone starts the same day,) and peers score the video.'},
 
 { sec:10, n:'08', section:'The solution', layout:'screen',
   head:'Every finisher, ranked,<br>with the <em>runs attached.</em>',
@@ -992,7 +997,7 @@ const BEATS = [
     ],
     verdict:['VERDICT','Ready to ship, with hardware onboarding'],
     ft:'Sample · 100 simulated runs and one supervised session on a real arm'},
-  say:'A company buys a scorecard, not a CV. One page per finisher. Jihoon Park ran the Daeyang Precision task. He picked from a bin eighty-seven times out of a hundred. In a position he had never seen he scored seventy-two, so the skill generalizes. He fixed a broken coordinate frame in fourteen minutes. One line is a failure on purpose: he never found the camera fault. Peers scored the video four point six, and he passed the oral defence.'},
+  say:'(A company buys a scorecard, not a CV. One page per finisher.) Jihoon Park ran the Daeyang Precision task. He picked from a bin eighty-seven times out of a hundred. In a position he had never seen he scored seventy-two, so the skill generalizes. He fixed a broken coordinate frame in fourteen minutes. One line is a failure on purpose: he never found the camera fault. Peers scored the video four point six, and he passed the oral defence.'},
 
 /* ══ WHY WE WIN — including the two people who can build it ════════════════ */
 { kind:'divider', sec:6, section:'Why we win', head:'Why we win',
@@ -1006,7 +1011,7 @@ const BEATS = [
     {k:'Robot hiring',    from:'CV and interview', to:MK+'Physical Spark'},
   ],
   src:'CNBC, Mar 2025 &mdash; Google brought back in-person rounds after AI cheating in coding interviews',
-  say:'Hiring already moved from tests to tasks. Software hiring went from the coding test to the take-home project, because AI made the coding test useless. But AI can write a take-home too. AI cannot make a robot move. Robot hiring is still the CV and the interview. The next step is Physical Spark.'},
+  say:'(Hiring already moved from tests to tasks.) Software hiring went from the coding test to the take-home project, because AI made the coding test useless. But AI can write a take-home too. AI cannot make a robot move. Robot hiring is still the CV and the interview. (The next step is Physical Spark.)'},
 
 { sec:34, n:'12', section:'Team', layout:'people',
   head:'One of us teaches AI.<br>The other one <em>decides who gets hired.</em>',
@@ -1025,7 +1030,7 @@ const BEATS = [
         '<i>Before</i> &mdash; embedded engineer at FPT Software Korea, on the Global team with the Vietnam offshore team'],
      orgs:[['org-kiba.png','KIBA'],['org-concentrix.png','Concentrix'],['org-fpt.png','FPT Software']]},
   ],
-  say:'One of us teaches AI, and the other one decides who gets hired. I am a main instructor on K-Digital Training with SK Telecom, and at Eduwill — Korea\'s national AI program. Before that, AI Product Engineer at Upstage. Gichan is Lead of FDE and hires AI engineers today, so he is our own customer. Before that he was an embedded engineer at FPT Software Korea, with the Vietnam offshore team.'},
+  say:'(One of us teaches AI, and the other one decides who gets hired.) I am a main instructor on K-Digital Training with SK Telecom, and at Eduwill — Korea\'s national AI program. Before that, AI Product Engineer at Upstage. Gichan is Lead of FDE and hires AI engineers today, so he is our own customer. Before that he was an embedded engineer at FPT Software Korea, with the Vietnam offshore team.'},
 
 /* ══ MARKET ════════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Competitors', head:'Competitors',
@@ -1044,7 +1049,7 @@ const BEATS = [
     {n:MK+'Physical Spark', who:'Physical AI FDE', how:'Recorded runs',   robot:1, us:1},
   ],
   src:'Grepp/프로그래머스 &mdash; 1,483 companies, 650,000 tested · OpenAI × 조코딩AX, Jul 2026 · Karat &mdash; $1.1B valuation, 2021',
-  say:'Three companies proved this works, and none of them touch a robot. Grepp tests developers with an online coding test for nearly fifteen hundred Korean companies. The AX hiring contest tests developers too, with OpenAI and five thousand applicants. Karat tests developers with a live interview, here in Seattle, at a one-point-one-billion-dollar valuation. All three test developers. Physical Spark tests robot operators on recorded runs.'},
+  say:'(Three companies proved this works, and none of them touch a robot.) Grepp tests developers with an online coding test for nearly fifteen hundred Korean companies. The AX hiring contest tests developers too, with OpenAI and five thousand applicants. Karat tests developers with a live interview, here in Seattle, at a one-point-one-billion-dollar valuation. (All three test developers.) Physical Spark tests robot operators on recorded runs.'},
 
 { kind:'divider', sec:6, section:'The market', head:'The market',
   sub:'Sized from the bottom up.', say:'How big is this? We sized the market from the bottom up.'},
@@ -1058,7 +1063,7 @@ const BEATS = [
   ],
   pay:'These are Korean numbers.<br>The same two budgets exist in the <b>United States</b>, at roughly <b>3&times; the price.</b>',
   src:'Public AI training: MOEL AI Campus budget · Robot firms: KIRIA Robot Industry Survey 2024 · Recruiting fees: our own estimate',
-  say:'The market is nine hundred and fifty million dollars a year in one country. Ninety-three million into public AI training, and we estimate eight hundred and fifty-seven million in recruiting fees. Our part is nineteen million, from two thousand five hundred Korean robot firms hiring twice each at ten percent. Season one is one hundred and twenty-six thousand. These are Korean numbers. The same budgets exist in the United States at three times the price.'},
+  say:'(The market is nine hundred and fifty million dollars a year in one country.) Ninety-three million into public AI training, and we estimate eight hundred and fifty-seven million in recruiting fees. Our part is nineteen million, from two thousand five hundred Korean robot firms hiring twice each at ten percent. Season one is one hundred and twenty-six thousand. These are Korean numbers. The same budgets exist in the United States at three times the price.'},
 
 /* ══ BUSINESS ══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:4, section:'The business', head:'The business',
@@ -1076,7 +1081,7 @@ const BEATS = [
      ev:'About <b>$2,300</b> per hire. A headhunter charges <b>15&ndash;30%</b> to show you one person.'},
   ],
   src:'MOEL K-Digital Training · Korean recruiting fee ranges · Korean robot-AI junior salary',
-  say:'There are two payers, and both budgets already exist. The government pays for a season of thirty engineers, about forty-three thousand dollars, and I already teach on that budget at K-Digital Training with SK Telecom. The factory pays for every engineer it hires, ten percent of first-year salary, about two thousand three hundred dollars. A headhunter charges fifteen to thirty percent to show you one person.'},
+  say:'(There are two payers, and both budgets already exist.) The government pays for a season of thirty engineers, about forty-three thousand dollars, and I already teach on that budget at K-Digital Training with SK Telecom. The factory pays for every engineer it hires, ten percent of first-year salary, about two thousand three hundred dollars. A headhunter charges fifteen to thirty percent to show you one person.'},
 
 { sec:32, n:'16', section:'Milestones', layout:'tlbare', focus:1,
   head:'The next 12 months.<br>Three things, each with a <em>date.</em>',
@@ -1086,22 +1091,22 @@ const BEATS = [
     {when:'Q2 – Q3', what:'Season one',        v:['30 engineers, two weeks, in the open','Completion rate and review throughput']},
     {when:'Q4',      what:'The first sponsor', v:['One company writes the task','One hire out of that season']},
   ],
-  say:'The next twelve months hold three things, each with a date, and each one either happens or does not. In the first half the free course opens, open to anyone, simulator only. In the middle of the year season one runs, thirty engineers, two weeks, in the open. At the end of the year the first sponsor writes the task, and one hire comes out of that season.'},
+  say:'The next twelve months hold three things, each with a date(, and each one either happens or does not). In the first half the free course opens(, open to anyone, simulator only). In the middle of the year season one runs, thirty engineers, two weeks, in the open. At the end of the year the first sponsor writes the task, and one hire comes out of that season.'},
 
 /* ══ WHERE NEXT — walked through in three ═════════════════════════════════ */
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:0,
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
-  say:'Step one is Korea. Korea has the most robots per factory worker on earth, and public money already pays for the training.'},
+  say:'(Step one is Korea.) Korea has the most robots per factory worker on earth, and public money already pays for the training.'},
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:1,
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
-  say:'Step two is Vietnam, in the first quarter of 2027. Korean manufacturers already run their lines there, and our CPO worked with FPT Software.'},
+  say:'Step two is Vietnam, in the first quarter of 2027. Korean manufacturers already run their lines there(, and our CPO worked with FPT Software).'},
 { sec:10, n:'17', section:'Where next', layout:'flow', cards:START, focus:2,
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
-  say:'Step three is the United States, which carries itself. No government program is needed, and salaries and fees are three times higher.'},
+  say:'(Step three is the United States, which carries itself.) No government program is needed, and salaries and fees are three times higher.'},
 
 { kind:'outro', sec:12, n:'', section:'Thank you',
   line:'The hiring standard for a factory&rsquo;s first physical AI FDE.',
-  say:'Physical Spark is the hiring standard for a factory\'s first physical AI engineer. Thank you, and I am happy to take questions.'},
+  say:'(Physical Spark is the hiring standard for a factory\'s first physical AI engineer.) Thank you, and I am happy to take questions.'},
 ];
 
 
@@ -1346,7 +1351,7 @@ stage.innerHTML = BEATS.map((b,i)=>{
   if(b.kind==='divider') return `
     <section class="slide divider" data-i="${i}">
       <h1>${b.head}</h1><p class="sub">${b.sub||''}</p>
-      ${b.rail!==undefined?srail(b.rail):''}
+      ${b.rail!==undefined?srail(b.rail,b.seed):''}
     </section>`;
   return `
     <section class="slide${b.layout?' lay-'+b.layout:''}${b.tight?' tight':''}" data-i="${i}">
