@@ -149,17 +149,21 @@ h1 em{font-style:normal;color:var(--accent);}
 .bars .col.focus .k{color:var(--accent);}
 .bars .cap{margin-top:.5cqw;font-size:1.45cqw;color:var(--body);line-height:1.32;}
 
-/* F · funnel */
-.fun{display:flex;flex-direction:column;gap:.9cqw;align-items:center;justify-content:center;height:100%;}
+/* F · funnel — only the label and the figure ride inside the bar. The sentence
+   explaining the arithmetic sits outside it, full width, so the narrowest tier
+   does not squeeze its own caption into four lines. */
+.fun{display:flex;flex-direction:column;gap:.9cqw;justify-content:center;height:100%;}
+.fun .row{display:flex;flex-direction:column;gap:.4cqw;}
 .fun .tier{width:var(--w);background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
-  padding:1.35cqw 2cqw;display:flex;align-items:baseline;gap:1.8cqw;}
-.fun .k{font-size:1.3cqw;font-weight:800;letter-spacing:.16em;color:var(--mute);min-width:4cqw;}
-.fun .big{font-size:3cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);min-width:9cqw;}
-.fun .cap{font-size:1.45cqw;color:var(--body);line-height:1.35;}
+  padding:1cqw 1.8cqw;display:flex;align-items:baseline;gap:2cqw;}
+.fun .k{font-size:1.45cqw;font-weight:800;letter-spacing:.16em;color:var(--mute);min-width:4.5cqw;}
+.fun .big{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);}
+.fun .cap{font-size:1.6cqw;color:var(--body);line-height:1.35;}
 .fun .tier.focus{background:var(--accent);border-color:var(--accent);
   box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.24);}
-.fun .tier.focus .k{color:rgba(255,255,255,.75);}
-.fun .tier.focus .big,.fun .tier.focus .cap{color:#fff;}
+.fun .tier.focus .k{color:rgba(255,255,255,.78);}
+.fun .tier.focus .big{color:#fff;}
+.fun .row.focus .cap{color:var(--ink);font-weight:500;}
 
 /* G · bignum */
 .bignum{display:flex;align-items:center;gap:4cqw;height:100%;}
@@ -193,7 +197,12 @@ h1 em{font-style:normal;color:var(--accent);}
 .people .card .big{font-size:3cqw;}
 .people .card ul{margin-top:.8cqw;gap:.5cqw;}
 .people .card li{font-size:1.55cqw;line-height:1.25;}
-.people .face{width:4.4cqw;height:4.4cqw;border-radius:50%;object-fit:cover;border:1.5px solid var(--line);}
+/* the employer marks from deck.html — they say in one glance what a bullet needs
+   a line for, so one bullet each was dropped to pay for the row */
+.people .org{display:flex;align-items:center;gap:1.4cqw;margin-top:auto;padding-top:1cqw;
+  border-top:1px solid var(--line);}
+.people .org img{height:2cqw;width:auto;display:block;opacity:.8;}
+.people .face{width:3.9cqw;height:3.9cqw;border-radius:50%;object-fit:cover;border:1.5px solid var(--line);}
 
 /* J · venn — three groups, one overlap */
 .venn{display:flex;align-items:center;gap:3.5cqw;height:100%;}
@@ -600,8 +609,8 @@ const BEATS = [
   sub:'Then narrowed twice, to the part we can actually reach.',
   tiers:[
     {k:'TAM', big:'$950M', cap:'$93M public AI training + $857M recruiting fees, per year', w:100},
-    {k:'SAM', big:'$19M',  cap:'2,509 Korean robot firms × 2 hires × 10%, plus the physical slice of training', w:74},
-    {k:'SOM', big:'$126K', cap:'2 courses, 1 contest, 10 hires &mdash; 0.7% of the reachable market', w:54},
+    {k:'SAM', big:'$19M',  cap:'2,509 Korean robot firms × 2 hires × 10%', w:74},
+    {k:'SOM', big:'$126K', cap:'Season one &mdash; 0.7% of what we can reach', w:54},
   ],
   src:'MOEL AI Campus · KIRIA 2024 · Korean recruiting market estimate',
   say:'So how big is this. In Korea alone, ninety-three million dollars a year goes into public AI training and eight hundred and fifty-seven million into recruiting fees. Our slice is the physical part — two thousand five hundred robot companies hiring — about nineteen million a year. Season one is a hundred and twenty-six thousand of that.'},
@@ -646,13 +655,15 @@ const BEATS = [
   sub:'Why us: both sides of this market, in two people.', say:''},
 
 { sec:28, n:'21', section:'Team', layout:'people',
-  head:'One of us teaches.<br>The other one <em>is the buyer.</em>',
+  head:'One of us is the instructor.<br>The other one <em>is the customer.</em>',
   sub:'We are not guessing about either side of this market.',
   people:[
-    {img:'assets/brand/face-jungmin.png', k:'Teaches them · CEO', big:'Jungmin Hong',
-     v:['Main instructor &mdash; Korea&rsquo;s national AI programme','Main instructor &mdash; Seoul, Jung-gu district','Writes and grades the work every week','AI engineer at Upstage']},
-    {img:'assets/brand/face-gichan.png', k:'Hires them · CPO', big:'Gichan Lee',
-     v:['Lead of FDE &mdash; hires AI engineers today','Industrial engineering &mdash; factory lines','Could not judge skill from a CV','Builds our product and infrastructure']},
+    {img:'assets/brand/face-jungmin.png', k:'Instructor · CEO', big:'Jungmin Hong',
+     v:['Main instructor &mdash; Korea&rsquo;s national AI programme','Main instructor &mdash; Seoul, Jung-gu district','Writes and grades the work every week'],
+     orgs:[['org-skt.png','SK Telecom'],['org-eduwill.png','Eduwill'],['org-kdt.png','K-Digital Training'],['org-upstage.png','Upstage']]},
+    {img:'assets/brand/face-gichan.png', k:'Customer · CPO', big:'Gichan Lee',
+     v:['Hires AI engineers today &mdash; Lead of FDE','Industrial engineering &mdash; factory lines','Could not judge skill from a CV'],
+     orgs:[['org-kiba.png','KIBA'],['org-concentrix.png','Concentrix'],['org-fpt.png','FPT Software']]},
   ],
   say:'So, us. I am a main instructor on Korea\'s national AI programme and for a Seoul district office. I write and grade that work every week, which is where our test comes from. Gichan hires AI engineers today, so Gichan is our own customer. And Gichan builds our product.'},
 
@@ -706,8 +717,11 @@ function bodyHTML(b){
          </div>`).join('') + `</div>`;
     case 'funnel':
       return `<div class="fun">` + b.tiers.map((t,i)=>
-        `<div class="tier ${i===f?'focus':''}" style="--w:${t.w}%;--i:${i}">
-           <span class="k">${t.k}</span><span class="big">${t.big}</span><span class="cap">${t.cap}</span>
+        `<div class="row ${i===f?'focus':''}">
+           <div class="tier ${i===f?'focus':''}" style="--w:${t.w}%;--i:${i}">
+             <span class="k">${t.k}</span><span class="big">${t.big}</span>
+           </div>
+           <div class="cap">${t.cap}</div>
          </div>`).join('') + `</div>`;
     case 'stats':
       return `<div class="stats">` + b.stats.map((x,i)=>
@@ -739,7 +753,9 @@ function bodyHTML(b){
     case 'people':
       return `<div class="people">` + b.people.map(p=>
         `<div class="card"><img class="face" src="${p.img}" alt="${p.big}">
-           <div class="k">${p.k}</div><div class="big">${p.big}</div>${bullets(p.v)}</div>`).join('') + `</div>`;
+           <div class="k">${p.k}</div><div class="big">${p.big}</div>${bullets(p.v)}
+           <div class="org">${(p.orgs||[]).map(o=>`<img src="assets/brand/${o[0]}" alt="${o[1]}">`).join('')}</div>
+         </div>`).join('') + `</div>`;
     case 'venn':
       return `<div class="venn">
         <div class="fig">
