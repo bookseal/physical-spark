@@ -946,9 +946,12 @@ const cardEl = (c,on,cls='') =>
    leaves us in both directions, which is what a two-sided market looks like. */
 function brSpan(dir){
   const a = dir > 0 ? 6 : 94, z = dir > 0 ? 94 : 6;
-  const pip = begin => `<circle class="bpip" cy="9" r="4.2">
-      <animate attributeName="cx" from="${a}" to="${z}" dur="2.6s" begin="${begin}s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;1;0" dur="2.6s" begin="${begin}s" repeatCount="indefinite"/>
+  const begin = dir > 0 ? 2.5 : 0;
+  const pip = `<circle class="bpip" cy="9" r="4.2">
+      <animate attributeName="cx" from="${a}" to="${z}" dur="5s" begin="${begin}s"
+               calcMode="spline" keyTimes="0;1" keySplines=".45 0 .55 1" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1"
+               dur="5s" begin="${begin}s" repeatCount="indefinite"/>
     </circle>`;
   return `<svg class="bspan" viewBox="0 0 100 26" aria-hidden="true">
       <path class="bbrace" d="M8,21 L29,9 M29,21 L50,9 M50,21 L71,9 M71,21 L92,9"/>
@@ -959,7 +962,7 @@ function brSpan(dir){
       <line class="bpier" x1="92" y1="9" x2="92" y2="21"/>
       <line class="bsill" x1="4" y1="21" x2="96" y2="21"/>
       <line class="bdeck" x1="2" y1="9" x2="98" y2="9"/>
-      ${pip(0)}${pip(1.3)}
+      ${pip}
     </svg>`;
 }
 
