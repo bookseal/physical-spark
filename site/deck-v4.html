@@ -221,8 +221,8 @@ h1 em{font-style:normal;color:var(--accent);}
 .venn .c1 span{transform:translate(-1.8cqw,-2.4cqw);}
 .venn .c2 span{transform:translate(1.8cqw,-2.4cqw);}
 .venn .c3 span{transform:translateY(3cqw);}
-.venn .mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;
-  width:12cqw;text-align:center;font-size:1.3cqw;font-weight:800;color:var(--ink);line-height:1.25;}
+.venn .mid{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);z-index:5;
+  width:11cqw;text-align:center;font-size:1.75cqw;font-weight:800;color:var(--ink);line-height:1.15;}
 .venn .side{flex:1;display:flex;flex-direction:column;gap:1.5cqw;}
 .venn .row{display:flex;gap:1.2cqw;align-items:baseline;}
 .venn .row .t{font-size:1.55cqw;font-weight:800;color:var(--ink);min-width:9cqw;}
@@ -571,16 +571,16 @@ const BEATS = [
   say:'Korea is where that lands first. A thousand and twelve robots per ten thousand factory workers, the most on earth. Almost every Korean manufacturer is a small company. Korea ages faster than any OECD country, and there is one qualified engineer for every three open automation jobs.'},
 
 { sec:30, n:'05', section:'Who needs this', layout:'venn',
-  head:'Three groups are all waiting<br>for the <em>same person.</em>',
-  sub:'And one of the three already pays to train that person.',
+  head:'Three groups are all waiting for<br>someone who can <em>run a robot.</em>',
+  sub:'And one of the three already pays to train that engineer.',
   circles:['Factories','Government','Engineers'],
-  centre:'The engineer who can run a robot',
+  centre:'Runs the robot',
   rows:[
     {t:'Factories',  v:['Bought the robots','Fewer workers left for repetitive jobs']},
     {t:'Government', v:['Pays for the robots and the training','Wants young people in jobs']},
     {t:'Engineers',  v:['Want retraining, then a referral','One path into a real job']},
   ],
-  say:'Three groups are waiting for the same person. Factories bought the robots, and ageing left fewer workers for repetitive jobs. The government pays for both the robots and the training, because it wants young people in jobs. And young engineers want a referral into real work. We are where all three meet.'},
+  say:'Three groups are all waiting for someone who can run a robot. Factories bought the robots, and ageing left fewer workers for repetitive jobs. The government pays for both the robots and the training, because it wants young people in jobs. And young engineers want a referral into real work. We are where all three meet.'},
 
 /* ══ PROBLEM ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'The problem', head:'The problem',
