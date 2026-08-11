@@ -466,12 +466,12 @@ const WPS = 2.2;   /* spoken words per second — a second language, said clearl
 const CHAPTERS = [
   { name:'Open',       c:'#e0442e', from:0,  upto:1  },
   { name:'Why now',    c:'#f4b21a', from:2,  upto:5  },
-  { name:'Problem',    c:'#e0442e', from:6,  upto:9  },
-  { name:'Solution',   c:'#0e9a89', from:10, upto:15 },
-  { name:'Why we win', c:'#e6a413', from:16, upto:19 },
-  { name:'Market',     c:'#2f6fd0', from:20, upto:22 },
-  { name:'Business',   c:'#e0442e', from:23, upto:26 },
-  { name:'Team',       c:'#e6a413', from:27, upto:32 },
+  { name:'Problem',    c:'#e0442e', from:6,  upto:8  },
+  { name:'Solution',   c:'#0e9a89', from:9,  upto:14 },
+  { name:'Why we win', c:'#e6a413', from:15, upto:16 },
+  { name:'Market',     c:'#2f6fd0', from:17, upto:19 },
+  { name:'Business',   c:'#e0442e', from:20, upto:22 },
+  { name:'Team',       c:'#e6a413', from:23, upto:28 },
 ];
 function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTERS[0]; }
 
@@ -574,15 +574,6 @@ const BEATS = [
   src:'KIRIA Robot Industry Survey 2024 · Korean recruiting fee ranges',
   say:'And the companies that need a robot engineer most are the least able to solve the problem. Sixty-five percent of Korea\'s two and a half thousand robot companies earn under a billion won a year. No internal hiring team. No budget for a headhunter who charges fifteen to thirty percent.'},
 
-{ sec:22, n:'08', section:'The problem', layout:'bignum',
-  head:'A wrong hire does <em>not just</em><br>cost a salary.',
-  sub:'The robot waits while the seat stays open.',
-  num:'$500,000', unit:'a robot line, bought and standing still',
-  list:['Payback pushed six to twelve months','114 days &mdash; the average empty specialist seat','70% of AI projects never reach production'],
-  src:'Gartner',
-  say:'And a wrong hire does not just cost a salary. A half-million-dollar robot line stands still, and payback slips six to twelve months. The seat stays empty a hundred and fourteen days. Seventy percent of AI projects never reach production.'},
-
-/* ══ SOLUTION — the season, walked through in three ════════════════════════ */
 { kind:'divider', sec:6, section:'The solution', head:'The solution',
   sub:'A test that produces something a company can watch.', say:''},
 
@@ -625,25 +616,6 @@ const BEATS = [
 /* ══ WHY WE WIN ════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why we win', head:'Why we win',
   sub:'The parts a competitor cannot copy.', say:''},
-
-{ sec:28, n:'12', section:'Why we win', layout:'bignum',
-  head:'The grading<br>is <em>free.</em>',
-  sub:'Labelling is the most expensive step in this kind of data. Players do it, because grading earns board position.',
-  num:'$0', unit:'what the grading costs us',
-  list:['A physical outcome, visible to anyone &mdash; no answer key needed','Players grade because grading earns board position','Every reviewer is also being reviewed'],
-  say:'Now the part that makes this cheap. Grading is normally the most expensive step in this kind of data, and it costs us nothing. Players grade each other because grading earns board position. That works here because the outcome is physical — anyone can see whether the robot did the job.'},
-
-{ sec:26, n:'13', section:'Why we win', layout:'bars', focus:3,
-  head:'Every season makes<br>the next one <em>cheaper.</em>',
-  sub:'Nothing is thrown away. The record is the part a competitor cannot copy.',
-  bars:[
-    {k:'Season one',   big:'', cap:'Every run kept',        h:22},
-    {k:'Season two',   big:'', cap:'Plus everything before', h:46},
-    {k:'Season three', big:'', cap:'Plus everything before', h:72},
-    {k:'Season four',  big:'', cap:'Now it is the standard', h:100},
-  ],
-  note:'The shape, not a forecast.',
-  say:'And nothing is thrown away. Every run is kept — video, score, review, date — whether the run passed or failed. Over seasons that becomes the first agreed measure of robot skill. Anyone can copy our missions in a week. Nobody can copy four seasons of graded runs.'},
 
 { sec:22, n:'14', section:'Why we win', layout:'compare', focus:1,
   head:'AI broke the coding test.<br>AI cannot <em>lift a block.</em>',
@@ -695,16 +667,6 @@ const BEATS = [
   ],
   src:'MOEL K-Digital Training · Korean recruiting fee ranges · Korean robot-AI junior salary',
   say:'Two ways we get paid, and both budgets already exist. Teaching — one course of thirty engineers is about forty-three thousand dollars, out of a budget that already exists. Hiring — ten percent of first-year salary. A headhunter charges fifteen to thirty percent to show you one person.'},
-
-{ sec:24, n:'19', section:'Financials', layout:'bars', focus:2,
-  head:'Small on purpose.<br>Every line is a <em>guess.</em>',
-  sub:'Season one turns each of these numbers into a measurement.',
-  bars:[
-    {k:'Year one',   big:'$126K', cap:'2 courses · 1 contest · 10 hires', h:19},
-    {k:'Year two',   big:'$297K', cap:'4 courses · 2 contests · 30 hires', h:45},
-    {k:'Year three', big:'$662K', cap:'6 courses · 3 contests · 60 hires · first US contest', h:100},
-  ],
-  say:'And the money. Year one is about a hundred and twenty-six thousand dollars. Year three about six hundred and sixty-two thousand, including the first contest in the United States. Small numbers, shown anyway, because every line is a guess season one replaces.'},
 
 { sec:26, n:'20', section:'Milestones', layout:'tlbare', focus:1,
   head:'The next 12 months,<br>as <em>dates.</em>',
