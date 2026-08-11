@@ -130,6 +130,10 @@
   /* real setup */
   .setup{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:center;}
   .setup img{width:100%; border-radius:14px; border:1px solid var(--line); box-shadow:0 12px 34px var(--shadow);}
+  /* the miniature set the pitch deck uses — same table, same light, so the page and
+     the deck read as one thing rather than two */
+  img.mini{width:100%; height:auto; display:block; border-radius:14px;
+    border:1px solid var(--line); box-shadow:0 10px 28px var(--shadow);}
   .setup .attr{font-size:11px; color:var(--muted); margin-top:8px;}
   @media (max-width:720px){ .setup{grid-template-columns:1fr;} }
 
@@ -330,8 +334,8 @@
       <p style="margin-bottom:0"><a href="/docs#docs%2F02-market%2Fglobal-market.md">Who actually pays for this, in three
         countries →</a></p>
     </div>
-    <img src="assets/brand/market-commoditized.svg"
-      alt="A grey software curve rising then flattening into a crowded plateau, and a teal physical-AI curve crossing above it and still climbing">
+    <img class="mini" src="assets/toy/cv.jpg"
+      alt="A fan of six identical blank cards with a wooden figure behind them, only its head showing">
   </div>
   <div class="loop" style="margin-top:26px;">
     <div class="step stat"><div class="big">$407B</div><p>enterprise AI spending in 2026, up 34.8% from $302B</p><div class="src">Value Add VC</div></div>
@@ -343,8 +347,8 @@
 <section id="how"><div class="wrap">
   <h2 class="sec">The loop</h2>
   <h3 class="lead">Four steps, and the record at the end of them cannot be faked.</h3>
-  <img src="assets/brand/hero-4-circuit.svg" style="width:100%;max-width:640px;height:auto;display:block;margin:0 auto 22px;"
-    alt="A closed race track with four checkpoints: post a mission, upload a run, peer review, and the gallery">
+  <img class="mini" src="assets/toy/peers.jpg"
+      alt="Six wooden figures standing in a circle around one small toy robot arm">
   <div class="loop">
     <div class="step"><div class="k">01 · PLAY</div><h4>Take a mission</h4><p>Run a robot-arm challenge — in sim today, on real hardware later.</p><p class="out">Output → one attempt, timestamped.</p></div>
     <div class="step"><div class="k">02 · POST</div><h4>Upload your run</h4><p>Drop the clip. The takes that failed count too — those are the ones the models never get to see.</p><p class="out">Output → one attempt on video, failures included.</p></div>
@@ -388,8 +392,8 @@
     <p style="margin:0; color:var(--muted);">Nobody grades you from above. You review other people's
       runs, they review yours, and the ones that earn the most reviews rise. <b style="color:var(--fg)">A mission
       video gets copied in a day. A review record does not.</b></p>
-    <img src="assets/brand/hero-3-peerreview.svg"
-      alt="Three video cards reviewing each other with looping arrows, the middle one raised and wearing a gold ribbon">
+    <img class="mini" src="assets/toy/scorecard.jpg"
+      alt="A blank card beside a clipboard holding a card marked with tick marks and one red cross">
   </div>
   <div class="board">
     <div class="row p1"><span class="rank">1</span><span class="who">@nova_arm <small>Red Light, Green Light — 40ms stop latency</small></span><span class="ribbon">BEST LAP</span><span class="likes">♥ 214</span></div>
@@ -402,6 +406,8 @@
 <section id="labs"><div class="wrap">
   <h2 class="sec">For manufacturers</h2>
   <h3 class="lead">You bought the robots. The people who can deploy them are the missing part.</h3>
+  <img class="mini" style="max-width:760px; margin:22px 0 4px;" src="assets/toy/line.jpg"
+    alt="Four toy robot arms working along a line, with one empty stool at the end of it">
   <div class="loop">
     <div class="step"><div class="k">01 · YOUR PEOPLE</div><h4>Convert engineers you already employ</h4>
       <p>A six-week season for your own software engineers. They come out able to deploy and debug a
@@ -432,8 +438,8 @@
       <b style="color:var(--fg)">player number one is the person building it</b> — the arm gets bought,
       assembled and broken on camera, and every place it gets stuck becomes the next mission.
       <a href="join.html">Come build it with us →</a></p>
-    <img src="assets/brand/hero-5-bench.svg"
-      alt="A workbench with a half-assembled robot arm, an open notebook, a camera on a tripod and a mug">
+    <img class="mini" src="assets/toy/growth.jpg"
+      alt="Four groups of wooden figures in a row: one, then two, then four, then seven">
   </div>
   <div class="soon">
     <div class="t"><div class="ic">🔧</div><b>The Garage</b><span>coming soon</span><em>Log in · your saved runs</em></div>
