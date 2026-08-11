@@ -395,6 +395,35 @@ h1 em{font-style:normal;color:var(--accent);}
 /* bridge connectors — an arrow glyph says "next"; a rail with something moving
    along it says "these two are joined and traffic runs both ways". The dots
    travel toward the centre from both sides, which is the whole claim. */
+/* ⓘ pays — the money, read the way English reads: who pays, what for, how
+   much. The amount was the first thing on screen before, which is the last
+   thing a reader can use. A coin travels the arrow so the direction is felt. */
+.pays{display:flex;flex-direction:column;gap:3.2cqw;}
+.pline{display:grid;grid-template-columns:20cqw 1fr 18cqw;gap:2cqw;align-items:center;}
+.pays .who{background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
+  padding:1.6cqw 1.8cqw;font-size:2.5cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
+.pays .mid{display:flex;flex-direction:column;align-items:center;gap:.5cqw;}
+.pays .for{font-size:1.9cqw;font-weight:700;color:var(--body);text-align:center;line-height:1.25;}
+.pays .arrow{position:relative;width:100%;height:.22cqw;background:var(--line);border-radius:99px;}
+.pays .arrow::after{content:'';position:absolute;right:-.15cqw;top:50%;
+  border:.55cqw solid transparent;border-left-color:var(--line);transform:translateY(-50%);}
+.pays .arrow i{position:absolute;top:50%;width:.9cqw;height:.9cqw;border-radius:50%;
+  background:var(--accent);transform:translate(-50%,-50%);}
+.slide.on .pays .arrow i{animation:coin 3.4s cubic-bezier(.4,0,.2,1) infinite;}
+.slide.on .pline:nth-child(2) .arrow i{animation-delay:1.7s;}
+@keyframes coin{0%{left:0;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:100%;opacity:0}}
+.pays .amt{background:var(--accent);border-radius:1cqw;padding:1.2cqw 1.4cqw;text-align:center;
+  box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.22);}
+.pays .amt b{display:block;font-size:3.7cqw;font-weight:800;letter-spacing:-.03em;
+  line-height:1;color:#fff;}
+.pays .amt span{display:block;margin-top:.35cqw;font-size:1.15cqw;font-weight:700;
+  color:rgba(255,255,255,.85);}
+/* each row carries its own evidence, so no line has to be taken on trust */
+.pays .ev{grid-column:1 / -1;margin-top:1.1cqw;font-size:1.6cqw;color:var(--body);
+  padding-left:.2cqw;}
+.pays .ev b{color:var(--accent);font-weight:800;}
+@media (prefers-reduced-motion:reduce){ .slide.on .pays .arrow i{display:none;} }
+
 /* ⓗ screen — a product screen, drawn rather than screenshotted: sharp on a
    projector, in the deck's own palette, and a wording change is one line.
    Everything is scoped under .scw so the short class names cannot collide. */
@@ -585,7 +614,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .slide.divider .sub{font-size:2cqw;max-width:60cqw;margin-top:1.6cqw;}
 
 /* footer */
-.foot{position:absolute;left:6cqw;right:6cqw;bottom:6.4cqw;display:flex;
+.foot{position:absolute;left:6cqw;right:6cqw;bottom:3.6cqw;display:flex;
   align-items:center;justify-content:space-between;gap:2cqw;}
 .foot .src,.foot .pg{font-size:1cqw;color:var(--mute);}
 .foot .pg{font-weight:700;}
@@ -654,12 +683,12 @@ const CHAPTERS = [
   { name:'Open',        c:'#e0442e', from:0,  upto:1  },
   { name:'Why now',     c:'#f4b21a', from:2,  upto:9  },
   { name:'Problem',     c:'#e0442e', from:10, upto:12 },
-  { name:'Solution',    c:'#0e9a89', from:13, upto:18 },
-  { name:'Why we win',  c:'#e6a413', from:19, upto:21 },
-  { name:'Competitors', c:'#2f6fd0', from:22, upto:23 },
-  { name:'Market',      c:'#2f6fd0', from:24, upto:25 },
-  { name:'Business',    c:'#e0442e', from:26, upto:28 },
-  { name:'Where next',  c:'#e6a413', from:29, upto:32 },
+  { name:'Solution',    c:'#0e9a89', from:13, upto:17 },
+  { name:'Why we win',  c:'#e6a413', from:18, upto:20 },
+  { name:'Competitors', c:'#2f6fd0', from:21, upto:22 },
+  { name:'Market',      c:'#2f6fd0', from:23, upto:24 },
+  { name:'Business',    c:'#e0442e', from:25, upto:27 },
+  { name:'Where next',  c:'#e6a413', from:28, upto:31 },
 ];
 function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTERS[0]; }
 
@@ -701,7 +730,7 @@ const BEATS = [
   say:'Physical Spark. We are the hiring standard for factories hiring their first physical AI engineer.'},
 
 /* ══ OPEN — the business in one picture ═══════════════════════════════════ */
-{ sec:34, n:'01', section:'What we do', layout:'bridge',
+{ sec:36, n:'01', section:'What we do', layout:'bridge',
   head:'Two customers. One <em>bridge.</em>',
   cards:[
     {name:'Software developers', mk:'i-dev',
@@ -718,7 +747,7 @@ const BEATS = [
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
   sub:'The AI forward deployed engineer already exists. Next, the role moves onto a factory floor.', say:'First, why now.'},
 
-{ sec:34, n:'02', section:'Why now', layout:'stats', focus:0,
+{ sec:36, n:'02', section:'Why now', layout:'stats', focus:0,
   head:'The one developer job<br>still growing is the <em>FDE.</em>',
   sub:'A forward deployed engineer &mdash; the person who makes AI actually work inside a real company.',
   stats:[
@@ -729,7 +758,7 @@ const BEATS = [
   src:'OpenAI Deployment Company, May 2026 · AWS, Jun 2026 · FDE hiring trends 2026',
   say:'One developer job is still growing fast: the forward deployed engineer. This is the person who makes AI actually work inside a customer\'s company. Job posts are up more than five thousand percent in a year. OpenAI built a four-billion-dollar subsidiary around the role. AWS put in another billion. And next, the same role moves onto a factory floor.'},
 
-{ sec:30, n:'03', section:'Why now', layout:'stack', focus:1,
+{ sec:32, n:'03', section:'Why now', layout:'stack', focus:1,
   head:'95% of AI projects fail.<br>Now <em>add a robot.</em>',
   sub:'Software AI already fails most of the time. A robot adds a machine that can break.',
   bands:[
@@ -741,7 +770,7 @@ const BEATS = [
   src:'MIT Project NANDA, State of AI in Business',
   say:'But this work is hard. MIT found that ninety-five percent of enterprise AI pilots produce no measurable result. The failure is integration, not the model. That is software. Now add a robot: hardware, safety, and a line that cannot stop. A wrong hire does not just cost a salary. It stops the line.'},
 
-{ sec:28, n:'04', section:'Why Korea', layout:'bignum',
+{ sec:30, n:'04', section:'Why Korea', layout:'bignum',
   head:'The physical AI engineer<br>starts on a <em>factory floor.</em>',
   sub:'Korea is where the physical FDE lands first.',
   num:'1,012', unit:'robots per 10,000 factory workers',
@@ -767,7 +796,7 @@ const BEATS = [
 { kind:'divider', sec:6, section:'The problem', head:'The problem',
   sub:'A CV does not show who can run a robot.', say:'So what is the problem?'},
 
-{ sec:30, n:'06', section:'The problem', layout:'compare', focus:1,
+{ sec:32, n:'06', section:'The problem', layout:'compare', focus:1,
   head:'My cofounder hires engineers.<br>He <em>cannot judge</em> from a CV.',
   sub:'Hard for an AI engineer today. Harder for anyone who has to run a robot.',
   cards:[
@@ -776,7 +805,7 @@ const BEATS = [
   ],
   say:'Here is where this started. My cofounder hires AI engineers. He cannot judge, from a CV, who can do the work. A CV is a list of frameworks, not evidence of real work. And now AI writes the CV. The truth arrives in week two, after the money is spent. That is hard today. With a robot, it is harder.'},
 
-{ sec:28, n:'07', section:'The problem', layout:'ratio',
+{ sec:30, n:'07', section:'The problem', layout:'ratio',
   head:'Big companies build a test.<br>Small factories <em>cannot.</em>',
   sub:'The companies that need a robot engineer most have the fewest ways to find one.',
   p:65, num:'65%', unit:'of Korea&rsquo;s 2,509 robot companies earn under &#8361;1B a year',
@@ -822,17 +851,7 @@ const BEATS = [
           [5,'Minjae Lee',81,'View runs',0]]},
   say:'Every finisher is ranked, with peer video scores and the recorded runs attached. The top five get a real arm.'},
 
-{ sec:30, n:'09', section:'The solution', layout:'timeline', focus:2,
-  tight:1, fix:'15쪽 — 시뮬레이터에서 실물 팔까지의 흐름이 이해되지 않는다. 내일 다시 쓴다.', head:'Free in a simulator.<br>Proven on a <em>real arm.</em>',
-  sub:'Nobody needs to own a robot to start. The last step is the one nobody can fake.',
-  cards:[
-    {k:'Tonight',  big:'$0, laptop only',  v:['A free, open-source simulator','No hardware to buy']},
-    {k:'Week one', big:'100 runs',         v:['The same task, over and over','Skill, not one lucky attempt']},
-    {k:'Week two', big:'The top 5 get an arm', v:['A $350 SO-101 arm, recorded','The robot moves, or it does not']},
-  ],
-  say:'Nobody needs to own a robot to start. Tonight, a free simulator on a laptop. By week one the task has run a hundred times, so the score shows skill, not one lucky attempt. In week two the top five get a real three-hundred-and-fifty-dollar arm, and that session is recorded.'},
-
-{ sec:36, n:'10', section:'The solution', layout:'doc',
+{ sec:38, n:'10', section:'The solution', layout:'doc',
   head:'A company buys a <em>scorecard,</em><br>not a CV.',
   sub:'One page per finisher. This is a real one.',
   doc:{ hd:'Candidate report', hdsub:'Jihoon Park &middot; Season 1 &middot; Daeyang Precision task',
@@ -853,17 +872,17 @@ const BEATS = [
 { kind:'divider', sec:6, section:'Why we win', head:'Why we win',
   sub:'The parts a competitor cannot copy &mdash; and the two people who can build them.', say:'So why do we win?'},
 
-{ sec:28, n:'11', section:'Why we win', layout:'migrate',
+{ sec:30, n:'11', section:'Why we win', layout:'migrate',
   head:'Hiring already moved<br>from tests to <em>tasks.</em>',
   sub:'AI made the coding test useless, so companies switched to real projects. Robot hiring needs the same move &mdash; and that is what we are.',
   rows:[
     {k:'Software hiring', from:'Coding test',      to:'Take-home project'},
     {k:'Robot hiring',    from:'CV and interview', to:'Physical Spark'},
   ],
-  src:'Shift to take-home and project-based technical hiring, 2025&ndash;2026',
+  src:'CNBC, Mar 2025 &mdash; Google brought back in-person rounds after AI cheating in coding interviews',
   say:'AI broke the coding test, so companies stopped trusting it. Software hiring already moved to real projects, judged on the work and not the answer. Robot hiring has to make the same move. It needs a task on a real robot to move to. That task is us.'},
 
-{ sec:32, n:'12', section:'Team', layout:'people',
+{ sec:34, n:'12', section:'Team', layout:'people',
   head:'One of us teaches AI.<br>The other one <em>decides who gets hired.</em>',
   sub:'One of us builds the supply. The other one is the demand.',
   people:[
@@ -882,7 +901,7 @@ const BEATS = [
 { kind:'divider', sec:6, section:'Competitors', head:'Competitors',
   sub:'A crowded market with one empty chair.', say:'Who else is doing this?'},
 
-{ sec:34, n:'13', section:'Competitors', layout:'table',
+{ sec:36, n:'13', section:'Competitors', layout:'table',
   head:'Three companies proved this works.<br>None of them <em>touch a robot.</em>',
   sub:'A crowded market with one empty chair, not an empty market.',
   /* the numbers ($1.1B, 600 clients) moved into the script. On screen they were
@@ -900,7 +919,7 @@ const BEATS = [
 { kind:'divider', sec:6, section:'The market', head:'The market',
   sub:'Sized from the bottom up.', say:'How big is this?'},
 
-{ sec:32, n:'14', section:'Market size', layout:'funnel', focus:1,
+{ sec:34, n:'14', section:'Market size', layout:'funnel', focus:1,
   head:'$950 million a year,<br>in <em>one country.</em>',
   tiers:[
     {k:'TAM', big:'$950M', cap:'$93M public AI training + $857M recruiting fees, per year', w:100},
@@ -914,17 +933,21 @@ const BEATS = [
 { kind:'divider', sec:6, section:'The business', head:'The business',
   sub:'How the money arrives, and what the next 12 months look like.', say:'Now, how we get paid.'},
 
-{ sec:32, n:'15', section:'Business model', layout:'stats', focus:2,
-  head:'Two ways we get paid.<br>Both budgets <em>already exist.</em>',
+{ sec:34, n:'15', section:'Business model', layout:'pays',
+  head:'Two payers.<br>Both budgets <em>already exist.</em>',
   sub:'We are not asking anybody to create a new line item.',
-  stats:[
-    {n:'$43,000', k:'Line one &middot; teaching', v:['Thirty engineers, one season','Out of a training budget that already exists']},
-    {n:'10%',     k:'Line two &middot; hiring',   v:['Of first-year salary &mdash; about $2,300 per hire in Korea','A headhunter charges 15&ndash;30% to show you one person']},
+  /* who pays, what for, how much — in that order, because that is the order
+     the question arrives in. The old slide led with the amount. */
+  lines:[
+    {who:'Government', for:'A season of 30 engineers', amt:'$43,000', unit:'per season',
+     ev:'<b>I already teach on this budget</b> &mdash; K-Digital Training, with SK Telecom'},
+    {who:'Factory', for:'Every engineer they hire', amt:'10%', unit:'of first-year salary',
+     ev:'About <b>$2,300</b> per hire. A headhunter charges <b>15&ndash;30%</b> to show you one person.'},
   ],
   src:'MOEL K-Digital Training · Korean recruiting fee ranges · Korean robot-AI junior salary',
-  say:'Two ways, and both budgets already exist. Teaching: one season of thirty engineers is about forty-three thousand dollars, from money that is already allocated. Hiring: ten percent of first-year salary, about two thousand three hundred dollars per hire. A headhunter charges fifteen to thirty percent to show you one person. We show thirty, all graded.'},
+  say:'Two payers, and both budgets already exist. The government pays for the training, and I already teach on that budget — K-Digital Training, with SK Telecom. One season of thirty engineers is about forty-three thousand dollars. The factory pays when it hires: ten percent of first-year salary, about two thousand three hundred dollars. A headhunter charges fifteen to thirty percent to show you one person.'},
 
-{ sec:30, n:'16', section:'Milestones', layout:'tlbare', focus:1,
+{ sec:32, n:'16', section:'Milestones', layout:'tlbare', focus:1,
   head:'The next 12 months,<br>as <em>dates.</em>',
   sub:'Three things. Each one either happens or does not.',
   marks:[
@@ -945,7 +968,7 @@ const BEATS = [
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
   say:'Then the United States. No government programme needed, and salaries and fees are about three times higher.'},
 
-{ kind:'outro', sec:10, n:'', section:'Thank you',
+{ kind:'outro', sec:12, n:'', section:'Thank you',
   line:'The hiring standard for a factory&rsquo;s first physical AI FDE.',
   say:'Physical Spark. The hiring standard for a factory\'s first physical AI engineer. Thank you, and I am happy to take questions.'},
 ];
@@ -996,6 +1019,14 @@ function bodyHTML(b){
     case 'compare':
       return `<div class="cmp">${cardEl(b.cards[0],f===0)}
         <span class="vs">VS</span>${cardEl(b.cards[1],f===1)}</div>`;
+    case 'pays':
+      return `<div class="pays">` + b.lines.map(l=>`
+        <div class="pline">
+          <div class="who">${l.who}</div>
+          <div class="mid"><div class="for">${l.for}</div><div class="arrow"><i></i></div></div>
+          <div class="amt"><b>${l.amt}</b><span>${l.unit}</span></div>
+          <div class="ev">${l.ev}</div>
+        </div>`).join('') + `</div>`;
     case 'screen': {
       const d=b.scr, inner =
         d.kind==='task' ? `<div class="spon">Sponsored by <b>${d.sponsor}</b> &nbsp;&middot;&nbsp; ${d.roles}</div>
