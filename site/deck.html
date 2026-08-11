@@ -125,7 +125,8 @@ h1 em{font-style:normal;color:var(--accent);}
 .body{margin-top:3cqw;flex:1;min-height:0;}
 /* the stats slide lost its sub line, so the figures sat straight under the
    headline with nothing between them. The gap the sub used to hold stays. */
-.slide.lay-stats .body,.slide.lay-stack .body,.slide.lay-table .body{margin-top:6cqw;}
+.slide.lay-stats .body,.slide.lay-stack .body,.slide.lay-table .body,
+.slide.lay-pays .body,.slide.lay-tlbare .body{margin-top:6cqw;}
 
 /* A · cards */
 .cards{display:grid;gap:1.6cqw;align-items:stretch;height:auto;}
@@ -1097,7 +1098,6 @@ const BEATS = [
 
 { sec:34, n:'15', section:'Business model', layout:'pays',
   head:'Two payers.<br>Both budgets <em>already exist.</em>',
-  sub:'We are not asking anybody to create a new line item.',
   /* who pays, what for, how much — in that order, because that is the order
      the question arrives in. The old slide led with the amount. */
   lines:[
@@ -1112,11 +1112,10 @@ const BEATS = [
   say:'The factory pays for every engineer it hires, ten percent of first-year salary, about two thousand three hundred dollars. A headhunter charges fifteen to thirty percent to show you one person. And the government pays for a season of thirty engineers, about forty-three thousand dollars — I already teach on that budget at K-Digital Training, with SK Telecom.'},
 
 { sec:32, n:'16', section:'Milestones', layout:'tlbare', focus:1,
-  head:'We only need <em>one factory</em><br>to say yes.',
-  sub:'Korea has thousands of them, with robots and nobody to run them. Twelve months, two dates.',
+  head:'Start with one factory.<br>End the year with <em>three.</em>',
   marks:[
     {when:'Q1 – Q2', what:'The first factory',
-     v:['<b>One factory writes the first task</b> &mdash; and sees everyone who solves it',
+     v:['<b>One factory writes the first task</b>',
         'One government contract pays for the season &mdash; Seoul and Gyeonggi district offices',
         'The free online course opens &mdash; anyone, simulator only']},
     {when:'Q2 – Q3', what:'Season one',
@@ -1124,7 +1123,7 @@ const BEATS = [
         '<b>Goal: 3 or more companies taking part</b>',
         'Completion rate and review throughput']},
   ],
-  say:'This starts with one factory. Korea has thousands with robots and nobody to run them, and I need one of them to write the first task. In the same half, one government contract pays for the season — I already work inside that budget. Then season one: thirty engineers, two weeks, in the open, and my goal is three companies taking part.'},
+  say:'This starts with one factory. Korea has thousands of factories with robots and too few people who can run them, and I need one of them to write the first task. In the same half, one government contract pays for the season — I already work inside that budget. Then season one: thirty engineers, two weeks, in the open, and my goal is three companies taking part.'},
 
 /* ══ WHERE NEXT — walked through in three ═════════════════════════════════ */
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:0,
