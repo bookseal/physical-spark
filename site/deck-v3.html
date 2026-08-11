@@ -60,7 +60,12 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
   max-width:calc((100vh - 44px - 52px - 28px) * 16 / 9);
   aspect-ratio:16/9;background:var(--page);
   container-type:inline-size;position:relative;overflow:hidden;}
-.slide{position:absolute;inset:0;padding:2.6cqw 6cqw 8.4cqw;display:none;flex-direction:column;z-index:1;}
+/* the running screen number — outside .slide so cover, dividers and outro
+   carry it too, and so it never moves when a layout changes */
+.pgno{position:absolute;right:6cqw;bottom:3.8cqw;z-index:5;
+  font-size:2.2cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);opacity:.5;}
+.pgno small{font-size:1.3cqw;font-weight:700;opacity:.65;}
+.slide{position:absolute;inset:0;padding:2.2cqw 6cqw 8.8cqw;display:none;flex-direction:column;z-index:1;}
 .slide.on{display:flex;animation:in .28s cubic-bezier(.2,.9,.3,1);}
 @keyframes in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 @media (prefers-reduced-motion:reduce){.slide.on{animation:none;}}
@@ -84,7 +89,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .body{margin-top:2.6cqw;flex:1;min-height:0;}
 
 /* A · cards */
-.cards{display:grid;gap:1.6cqw;align-items:stretch;height:100%;}
+.cards{display:grid;gap:1.6cqw;align-items:stretch;height:auto;}
 .cards.c2{grid-template-columns:repeat(2,1fr);}
 .cards.c3{grid-template-columns:repeat(3,1fr);}
 .cards.c4{grid-template-columns:repeat(4,1fr);}
@@ -111,11 +116,11 @@ h1 em{font-style:normal;color:var(--accent);}
 .card.ghost .k,.card.ghost .big{color:var(--accent);}
 
 /* B · compare */
-.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:2cqw;align-items:stretch;height:100%;}
+.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:2cqw;align-items:stretch;height:auto;}
 .cmp .vs{align-self:center;font-size:1.2cqw;font-weight:800;letter-spacing:.2em;color:var(--mute);}
 
 /* C · flow */
-.flow{display:flex;align-items:stretch;gap:1cqw;height:100%;}
+.flow{display:flex;align-items:stretch;gap:1cqw;height:auto;}
 .flow .card{flex:1;}
 .flow .arw{align-self:center;font-size:2.6cqw;line-height:1;color:var(--dot);}
 
@@ -175,7 +180,7 @@ h1 em{font-style:normal;color:var(--accent);}
 
 /* H · document (the scorecard) */
 .doc{background:var(--card);border:1.5px solid var(--line);border-top:.35cqw solid var(--accent);
-  border-radius:.9cqw;padding:1.8cqw 2.2cqw;height:100%;display:flex;flex-direction:column;
+  border-radius:.9cqw;padding:1.8cqw 2.2cqw;height:auto;display:flex;flex-direction:column;
   font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
 .doc .hd{font-size:1.3cqw;font-weight:800;letter-spacing:.16em;color:var(--mute);margin-bottom:1cqw;}
 .doc .ln{display:flex;justify-content:space-between;gap:2cqw;font-size:1.6cqw;
@@ -188,7 +193,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .doc .ft{font-size:1.05cqw;color:var(--mute);margin-top:.7cqw;}
 
 /* I · people */
-.people{display:grid;grid-template-columns:repeat(2,1fr);gap:2cqw;height:100%;}
+.people{display:grid;grid-template-columns:repeat(2,1fr);gap:2cqw;height:auto;}
 /* a portrait + four bullets is the densest card in the deck, so it gets its own,
    tighter scale — otherwise it runs 23px past the body and over the footer */
 .people .card{padding:1.6cqw 1.8cqw 1.7cqw;gap:.5cqw;}
@@ -248,7 +253,7 @@ h1 em{font-style:normal;color:var(--accent);}
    makes the numbers bigger. */
 
 /* ⓐ stats — bare figures on the cream, hairline between */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2.6cqw;height:100%;align-items:start;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2.6cqw;height:auto;align-items:start;}
 .stats .st + .st{border-left:1px solid var(--line);padding-left:2.6cqw;}
 .stats .n{font-size:5.6cqw;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink);}
 .stats .st.focus .n{color:var(--accent);}
@@ -272,7 +277,7 @@ h1 em{font-style:normal;color:var(--accent);}
   border-radius:50%;background:var(--dot);}
 
 /* ⓒ numbered — a sequence without arrows or boxes */
-.num{display:flex;flex-direction:column;justify-content:center;height:100%;}
+.num{display:flex;flex-direction:column;height:auto;}
 .num .row{display:flex;align-items:flex-start;gap:2.4cqw;padding:1.4cqw 0;
   border-bottom:1px solid var(--line);}
 .num .row:last-child{border-bottom:none;}
@@ -515,7 +520,7 @@ const BEATS = [
 
 /* ══ WHY NOW ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
-  sub:'The job exists. And it is about to move onto a factory floor.', say:''},
+  sub:'The AI forward deployed engineer already exists. Next, the role moves onto a factory floor.', say:''},
 
 { sec:28, n:'02', section:'Why now', layout:'stats', focus:0,
   head:'The fastest-growing job in tech<br>is the <em>FDE.</em>',
@@ -895,10 +900,10 @@ stage.innerHTML = BEATS.map((b,i)=>{
       ${b.sub?`<p class="sub">${b.sub}</p>`:''}
       <div class="body">${bodyHTML(b)}</div>
       <div class="foot">
-        <div class="src">${esc(b.note||b.src)}</div><div class="pg">${b.n}</div>
+        <div class="src">${esc(b.note||b.src)}</div>
       </div>
     </section>`;
-}).join('');
+}).join('') + '<div class="pgno" id="pgno"></div>';
 
 CHAPTERS.forEach(c=>{
   c.sec   = BEATS.slice(c.from, c.upto+1).reduce((s,b)=>s+b.sec,0);
@@ -931,6 +936,7 @@ function countUp(el){
 }
 
 function render(){
+  document.getElementById('pgno').innerHTML = `${idx+1}<small>&thinsp;/&thinsp;${BEATS.length}</small>`;
   document.querySelectorAll('.slide').forEach(el=>el.classList.toggle('on',+el.dataset.i===idx));
   document.documentElement.style.setProperty('--accent', chapterOf(idx).c);
   try{ history.replaceState(null,'','#'+(idx+1)); }catch(e){}
