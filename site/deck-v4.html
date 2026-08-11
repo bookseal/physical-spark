@@ -62,10 +62,10 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
   container-type:inline-size;position:relative;overflow:hidden;}
 /* the running screen number — outside .slide so cover, dividers and outro
    carry it too, and so it never moves when a layout changes */
-.pgno{position:absolute;right:6cqw;bottom:3.8cqw;z-index:5;
+.pgno{position:absolute;right:6cqw;bottom:5.6cqw;z-index:5;
   font-size:2.2cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);opacity:.5;}
 .pgno small{font-size:1.3cqw;font-weight:700;opacity:.65;}
-.slide{position:absolute;inset:0;padding:2.2cqw 6cqw 8.8cqw;display:none;flex-direction:column;z-index:1;}
+.slide{position:absolute;inset:0;padding:1.4cqw 6cqw 11.5cqw;display:none;flex-direction:column;z-index:1;}
 .slide.on{display:flex;animation:in .28s cubic-bezier(.2,.9,.3,1);}
 @keyframes in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 @media (prefers-reduced-motion:reduce){.slide.on{animation:none;}}
@@ -80,9 +80,9 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
    Delete the beat's `fix:` field and the badge goes with it. */
 .kick .fix{background:#e0442e;color:#fff;font-size:1.05cqw;font-weight:800;letter-spacing:.14em;
   padding:.25cqw .7cqw;border-radius:.4cqw;}
-h1{margin:0;font-size:4.8cqw;line-height:1.09;letter-spacing:-.025em;font-weight:800;}
+h1{margin:0;font-size:5.5cqw;line-height:1.06;letter-spacing:-.03em;font-weight:800;}
 h1 em{font-style:normal;color:var(--accent);}
-.sub{margin:1.2cqw 0 0;font-size:1.75cqw;line-height:1.45;color:var(--body);max-width:66cqw;}
+.sub{margin:1.1cqw 0 0;font-size:1.85cqw;line-height:1.45;color:var(--body);max-width:66cqw;}
 
 /* ── LAYOUTS ──────────────────────────────────────────────────────────────────
    The layout follows the SHAPE OF THE ARGUMENT, never variety for its own sake.
@@ -90,7 +90,7 @@ h1 em{font-style:normal;color:var(--accent);}
    One dominant figure → bignum. Narrowing → funnel. Growth → bars.
    Get this right and the script gets shorter: an arrow says "then" for free.
    ──────────────────────────────────────────────────────────────────────────── */
-.body{margin-top:2.6cqw;flex:1;min-height:0;}
+.body{margin-top:1.8cqw;flex:1;min-height:0;}
 
 /* A · cards */
 .cards{display:grid;gap:1.6cqw;align-items:stretch;height:auto;}
@@ -101,11 +101,11 @@ h1 em{font-style:normal;color:var(--accent);}
   padding:2cqw 2cqw 2.2cqw;display:flex;flex-direction:column;gap:.8cqw;
   transition:transform .26s cubic-bezier(.2,.9,.3,1),background .26s,border-color .26s,box-shadow .26s;}
 .card .k{font-size:1.35cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
-.card .big{font-size:3.3cqw;font-weight:800;letter-spacing:-.03em;line-height:1.02;color:var(--ink);}
+.card .big{font-size:3.1cqw;font-weight:800;letter-spacing:-.03em;line-height:1.02;color:var(--ink);}
 .cards.c2 .card .big{font-size:3.7cqw;}
 .cards.c4 .card .big{font-size:2.4cqw;}
 .card ul{list-style:none;margin:1.1cqw 0 0;padding:0;display:flex;flex-direction:column;gap:.7cqw;}
-.card li{position:relative;padding-left:1.7cqw;font-size:1.7cqw;line-height:1.35;color:var(--body);}
+.card li{position:relative;padding-left:1.65cqw;font-size:1.6cqw;line-height:1.3;color:var(--body);}
 .card li::before{content:'';position:absolute;left:0;top:.72cqw;width:.5cqw;height:.5cqw;
   border-radius:50%;background:var(--dot);}
 /* the filled card lifts and grows enough to read from the back of a room; z-index
@@ -187,15 +187,15 @@ h1 em{font-style:normal;color:var(--accent);}
 
 /* H · document (the scorecard) */
 .doc{background:var(--card);border:1.5px solid var(--line);border-top:.35cqw solid var(--accent);
-  border-radius:.9cqw;padding:1.8cqw 2.2cqw;height:auto;display:flex;flex-direction:column;
+  border-radius:.9cqw;padding:1.4cqw 2cqw;height:auto;display:flex;flex-direction:column;
   font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
-.doc .hd{font-size:1.3cqw;font-weight:800;letter-spacing:.16em;color:var(--mute);margin-bottom:1cqw;}
-.doc .ln{display:flex;justify-content:space-between;gap:2cqw;font-size:1.6cqw;
-  padding:.46cqw 0;color:var(--ink);}
+.doc .hd{font-size:1.2cqw;font-weight:800;letter-spacing:.16em;color:var(--mute);margin-bottom:.8cqw;}
+.doc .ln{display:flex;justify-content:space-between;gap:2cqw;font-size:1.38cqw;
+  padding:.34cqw 0;color:var(--ink);}
 .doc .ln .v{font-weight:700;white-space:nowrap;}
 .doc .ln.good .v{color:#0e9a89;}
 .doc .ln.bad .v{color:#e0442e;}
-.doc .vd{display:flex;justify-content:space-between;gap:2cqw;margin-top:auto;padding-top:1cqw;
+.doc .vd{display:flex;justify-content:space-between;gap:2cqw;margin-top:.6cqw;padding-top:.8cqw;
   border-top:1px solid var(--line);font-size:1.7cqw;font-weight:800;color:var(--accent);}
 .doc .ft{font-size:1.05cqw;color:var(--mute);margin-top:.7cqw;}
 
@@ -203,16 +203,18 @@ h1 em{font-style:normal;color:var(--accent);}
 .people{display:grid;grid-template-columns:repeat(2,1fr);gap:2cqw;height:auto;}
 /* a portrait + four bullets is the densest card in the deck, so it gets its own,
    tighter scale — otherwise it runs 23px past the body and over the footer */
-.people .card{padding:1.6cqw 1.8cqw 1.7cqw;gap:.5cqw;}
-.people .card .big{font-size:3cqw;}
+.people .card{padding:1.4cqw 1.6cqw 1.5cqw;gap:.4cqw;}
+.people .card .big{font-size:2.7cqw;}
 .people .card ul{margin-top:.8cqw;gap:.5cqw;}
-.people .card li{font-size:1.55cqw;line-height:1.25;}
+.people .card li{font-size:1.45cqw;line-height:1.24;}
 /* the employer marks from deck.html — they say in one glance what a bullet needs
    a line for, so one bullet each was dropped to pay for the row */
-.people .org{display:flex;align-items:center;gap:1.8cqw;margin-top:1.4cqw;padding-top:1.9cqw;
+.people .org{display:flex;align-items:center;gap:1.6cqw;margin-top:1cqw;padding-top:1.3cqw;
   border-top:1px solid var(--line);}
 .people .org img{height:2cqw;width:auto;max-width:8cqw;object-fit:contain;display:block;opacity:.85;}
-.people .face{width:3.9cqw;height:3.9cqw;border-radius:50%;object-fit:cover;border:1.5px solid var(--line);}
+.people .hdr{display:flex;align-items:center;gap:1.3cqw;margin-bottom:.3cqw;}
+.people .face{flex:none;width:4.8cqw;height:4.8cqw;border-radius:50%;object-fit:cover;
+  border:1.5px solid var(--line);}
 
 /* J · venn — three groups, one overlap */
 .venn{display:flex;align-items:center;gap:3.5cqw;height:100%;}
@@ -285,7 +287,7 @@ h1 em{font-style:normal;color:var(--accent);}
 
 /* ⓒ numbered — a sequence without arrows or boxes */
 .num{display:flex;flex-direction:column;height:auto;}
-.num .row{display:flex;align-items:flex-start;gap:2.4cqw;padding:1.4cqw 0;
+.num .row{display:flex;align-items:flex-start;gap:2.2cqw;padding:1.1cqw 0;
   border-bottom:1px solid var(--line);}
 .num .row:last-child{border-bottom:none;}
 .num .i{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;color:var(--line);min-width:5cqw;}
@@ -372,13 +374,13 @@ h1 em{font-style:normal;color:var(--accent);}
    question, and a last column that is crosses all the way down until our row. */
 .cmt{display:flex;flex-direction:column;gap:.55cqw;}
 .cmt .r{display:grid;grid-template-columns:20cqw 1fr 1fr 8cqw;gap:1.8cqw;align-items:center;
-  padding:1.2cqw 1.8cqw;border-radius:.9cqw;background:var(--card);border:1.5px solid var(--line);}
+  padding:1cqw 1.7cqw;border-radius:.9cqw;background:var(--card);border:1.5px solid var(--line);}
 .cmt .r.head{background:none;border-color:transparent;padding:0 1.8cqw .3cqw;}
 .cmt .r.head span{font-size:1.15cqw;font-weight:800;letter-spacing:.14em;
   text-transform:uppercase;color:var(--mute);}
 .cmt .r.head span:last-child{text-align:center;}
-.cmt .who{font-size:2.05cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
-.cmt .c{font-size:1.7cqw;color:var(--body);line-height:1.25;}
+.cmt .who{font-size:1.9cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
+.cmt .c{font-size:1.6cqw;color:var(--body);line-height:1.25;}
 .cmt .m{font-size:2.5cqw;font-weight:800;text-align:center;color:var(--mute);}
 .cmt .r.us{background:var(--accent);border-color:var(--accent);
   box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.24);}
@@ -407,9 +409,10 @@ h1 em{font-style:normal;color:var(--accent);}
    Physical Spark is not a third card with its own bullets. It is what turns the
    pain above the line into the answer below it, so it is drawn as a mark with
    arrows leaving it — nothing to read, only a direction. */
-.slide.lay-bridge h1{font-size:4.4cqw;margin-top:1.2cqw;}
-.slide.lay-bridge .body{margin-top:2cqw;display:flex;flex-direction:column;}
-.flow.bridge{gap:1.4cqw;flex:1;min-height:0;height:auto;}
+.slide.lay-bridge h1{font-size:4.9cqw;margin-top:1cqw;}
+.slide.lay-people h1{font-size:4.6cqw;}
+.slide.lay-bridge .body{margin-top:1.5cqw;display:flex;flex-direction:column;}
+.flow.bridge{gap:1.4cqw;height:auto;}
 .flow.bridge .card{padding:1.4cqw 1.6cqw;}
 .bridge .nrow{flex:none;display:flex;align-items:center;gap:1cqw;min-height:6.1cqw;}
 .bridge .bname{font-size:2.9cqw;font-weight:800;letter-spacing:-.03em;line-height:1.05;
@@ -426,13 +429,13 @@ h1 em{font-style:normal;color:var(--accent);}
 .bridge .card li{font-size:1.8cqw;line-height:1.3;padding-left:1.9cqw;}
 .bridge .card li::before{top:.78cqw;width:.55cqw;height:.55cqw;}
 .bridge .hair{flex:none;height:1px;background:var(--line);margin-top:1cqw;}
-.bridge .mid{flex:0 0 13cqw;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:.9cqw;}
-.bridge .plogo{width:6.4cqw;aspect-ratio:1;border-radius:50%;background:var(--accent);
+.bridge .mid{flex:0 0 16cqw;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:.7cqw;}
+.bridge .plogo{width:5.6cqw;aspect-ratio:1;border-radius:50%;background:var(--accent);
   display:grid;place-items:center;box-shadow:0 1cqw 2.4cqw rgba(224,68,46,.30);}
-.bridge .plogo img{height:4.2cqw;width:auto;display:block;filter:brightness(0) invert(1);}
-.bridge .mid .nm{font-size:1.6cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);
-  text-align:center;line-height:1.15;}
+.bridge .plogo img{height:3.7cqw;width:auto;display:block;filter:brightness(0) invert(1);}
+.bridge .mid .nm{font-size:2.9cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);
+  text-align:center;line-height:1.06;}
 /* arrow heads out of borders — no asset, and they scale with the container */
 .bridge .arrows{display:flex;align-items:center;width:100%;}
 .bridge .sh{flex:1;height:2px;background:var(--accent);position:relative;}
@@ -453,11 +456,11 @@ h1 em{font-style:normal;color:var(--accent);}
 
 /* chapter divider: name only, six seconds, a place to breathe */
 .slide.divider{justify-content:center;}
-.slide.divider h1{font-size:7.4cqw;color:var(--accent);}
+.slide.divider h1{font-size:8.4cqw;color:var(--accent);}
 .slide.divider .sub{font-size:2cqw;max-width:60cqw;margin-top:1.6cqw;}
 
 /* footer */
-.foot{position:absolute;left:6cqw;right:6cqw;bottom:4.6cqw;display:flex;
+.foot{position:absolute;left:6cqw;right:6cqw;bottom:6.4cqw;display:flex;
   align-items:center;justify-content:space-between;gap:2cqw;}
 .foot .src,.foot .pg{font-size:1cqw;color:var(--mute);}
 .foot .pg{font-weight:700;}
@@ -873,8 +876,10 @@ function bodyHTML(b){
          <div class="ft">${b.doc.ft}</div></div>`;
     case 'people':
       return `<div class="people">` + b.people.map(p=>
-        `<div class="card"><img class="face" src="${p.img}" alt="${p.big}">
-           <div class="k">${p.k}</div><div class="big">${p.big}</div>${bullets(p.v)}
+        `<div class="card">
+           <div class="hdr"><img class="face" src="${p.img}" alt="${p.big}">
+             <div><div class="k">${p.k}</div><div class="big">${p.big}</div></div></div>
+           ${bullets(p.v)}
            <div class="org">${(p.orgs||[]).map(o=>`<img src="assets/brand/${o[0]}" alt="${o[1]}">`).join('')}</div>
          </div>`).join('') + `</div>`;
     case 'venn':
