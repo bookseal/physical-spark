@@ -60,7 +60,7 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
   max-width:calc((100vh - 44px - 52px - 28px) * 16 / 9);
   aspect-ratio:16/9;background:var(--page);
   container-type:inline-size;position:relative;overflow:hidden;}
-.slide{position:absolute;inset:0;padding:5cqw 6cqw 6cqw;display:none;flex-direction:column;z-index:1;}
+.slide{position:absolute;inset:0;padding:2.6cqw 6cqw 8.4cqw;display:none;flex-direction:column;z-index:1;}
 .slide.on{display:flex;animation:in .28s cubic-bezier(.2,.9,.3,1);}
 @keyframes in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 @media (prefers-reduced-motion:reduce){.slide.on{animation:none;}}
@@ -355,37 +355,48 @@ h1 em{font-style:normal;color:var(--accent);}
 /* bridge connectors — an arrow glyph says "next"; a rail with something moving
    along it says "these two are joined and traffic runs both ways". The dots
    travel toward the centre from both sides, which is the whole claim. */
-.flow.bridge{gap:1.2cqw;}
-.flow.bridge .link{align-self:center;flex:0 0 9cqw;}
-/* on this slide the SUBJECT is the headline — developers, us, factories — and
-   what each one wants is the small line under it. The other way round made the
-   slide read as three states with no actors. */
-.bcard{gap:.45cqw;}
-.bcard .blogo{flex:none;display:grid;place-items:center;width:4.2cqw;aspect-ratio:1;border-radius:50%;
-  background:#fff;box-shadow:0 .25cqw .7cqw rgba(120,80,20,.18);margin-bottom:.3cqw;overflow:hidden;}
-.bcard .blogo img{height:3cqw;width:auto;display:block;}
-.bcard .bname{font-size:2.35cqw;font-weight:800;letter-spacing:-.03em;line-height:1.06;color:var(--ink);}
-.bcard.focus .bname{color:#fff;}
-/* each card answers two questions: what hurts, and what arrives from us. The
-   labels earn their space because the two halves would otherwise read as one
-   undifferentiated list. `.hair` and not `.rule` — the kick already owns that. */
-.bcard{gap:.25cqw;}
-.bcard .lbl{font-size:1.05cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--mute);margin-top:.9cqw;}
-.bcard .lbl.give{color:var(--accent);}
-.bcard.focus .lbl,.bcard.focus .lbl.give{color:rgba(255,255,255,.75);}
-.bcard .hair{height:1px;background:var(--line);margin-top:.9cqw;}
-.bcard.focus .hair{background:rgba(255,255,255,.3);}
-.bcard ul{margin-top:.45cqw;gap:.4cqw;}
-.bcard li{font-size:1.35cqw;line-height:1.25;padding-left:1.5cqw;}
-.bcard li::before{top:.6cqw;width:.42cqw;height:.42cqw;}
-/* three two-part cards is the densest body in the deck — the headline and the
-   card padding give the height back rather than shrinking the card text again */
+/* ── 01: two customers, and the brand as the arrow that crosses to each ─────
+   Physical Spark is not a third card with its own bullets. It is what turns the
+   pain above the line into the answer below it, so it is drawn as a mark with
+   arrows leaving it — nothing to read, only a direction. */
+.slide.lay-bridge h1{font-size:4.4cqw;margin-top:1.2cqw;}
+.slide.lay-bridge .body{margin-top:2cqw;display:flex;flex-direction:column;}
+.flow.bridge{gap:1.4cqw;flex:1;min-height:0;height:auto;}
+.flow.bridge .card{padding:1.4cqw 1.6cqw;}
+.bridge .nrow{flex:none;display:flex;align-items:center;gap:1cqw;min-height:6.1cqw;}
+.bridge .bname{font-size:2.9cqw;font-weight:800;letter-spacing:-.03em;line-height:1.05;
+  flex:1;color:var(--ink);}
+/* a <use> shadow tree ignores selector-based rules, but inherits `color` — so
+   the marks are painted from the wrapper and follow the chapter accent for free */
+.bridge .mk{flex:none;width:5cqw;aspect-ratio:1;border-radius:50%;display:grid;
+  place-items:center;background:#f6efe0;border:1.5px solid var(--line);color:var(--accent);}
+.bridge .mk svg{width:66%;height:auto;display:block;}
+.bridge .lbl{font-size:1.25cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mute);margin-top:1cqw;}
+.bridge .lbl.give{color:var(--accent);}
+.bridge .card ul{margin:.6cqw 0 0;gap:.6cqw;}
+.bridge .card li{font-size:1.8cqw;line-height:1.3;padding-left:1.9cqw;}
+.bridge .card li::before{top:.78cqw;width:.55cqw;height:.55cqw;}
+.bridge .hair{flex:none;height:1px;background:var(--line);margin-top:1cqw;}
+.bridge .mid{flex:0 0 13cqw;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:.9cqw;}
+.bridge .plogo{width:6.4cqw;aspect-ratio:1;border-radius:50%;background:var(--accent);
+  display:grid;place-items:center;box-shadow:0 1cqw 2.4cqw rgba(224,68,46,.30);}
+.bridge .plogo img{height:4.2cqw;width:auto;display:block;filter:brightness(0) invert(1);}
+.bridge .mid .nm{font-size:1.6cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);
+  text-align:center;line-height:1.15;}
+/* arrow heads out of borders — no asset, and they scale with the container */
+.bridge .arrows{display:flex;align-items:center;width:100%;}
+.bridge .sh{flex:1;height:2px;background:var(--accent);position:relative;}
+.bridge .sh.l::before{content:'';position:absolute;left:-.1cqw;top:50%;
+  border:.5cqw solid transparent;border-right-color:var(--accent);transform:translateY(-50%);}
+.bridge .sh.r::after{content:'';position:absolute;right:-.1cqw;top:50%;
+  border:.5cqw solid transparent;border-left-color:var(--accent);transform:translateY(-50%);}
+/* the middle card used to carry the revenue; with it gone the money moves here */
+.payline{margin-top:1.4cqw;font-size:1.5cqw;font-weight:700;color:var(--body);}
+.payline b{color:var(--accent);font-weight:800;}
 .slide.tight .card li{font-size:1.5cqw;line-height:1.3;}
 .slide.tight .card ul{gap:.55cqw;}
-.slide.lay-bridge h1{font-size:4.4cqw;margin-top:1.2cqw;}
-.slide.lay-bridge .body{margin-top:2cqw;}
-.slide.lay-bridge .card{padding:1.4cqw 1.3cqw;}
 .flow.bridge .link svg{width:100%;height:auto;display:block;overflow:visible;}
 .flow.bridge .rail{stroke:var(--dot);stroke-width:3;stroke-linecap:round;}
 .flow.bridge .pier{stroke:var(--line);stroke-width:2.5;stroke-linecap:round;}
@@ -398,7 +409,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .slide.divider .sub{font-size:2cqw;max-width:60cqw;margin-top:1.6cqw;}
 
 /* footer */
-.foot{position:absolute;left:6cqw;right:6cqw;bottom:2cqw;display:flex;
+.foot{position:absolute;left:6cqw;right:6cqw;bottom:4.6cqw;display:flex;
   align-items:center;justify-content:space-between;gap:2cqw;}
 .foot .src,.foot .pg{font-size:1cqw;color:var(--mute);}
 .foot .pg{font-weight:700;}
@@ -414,6 +425,17 @@ h1 em{font-style:normal;color:var(--accent);}
 </style>
 </head>
 <body>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-dev" viewBox="0 0 64 64" fill="none" stroke="currentColor"
+          stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 21 9 32l13 11M42 21l13 11-13 11"/><path d="M37 14 27 50"/>
+  </symbol>
+  <symbol id="i-fac" viewBox="0 0 64 64" fill="none" stroke="currentColor"
+          stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 54V31l15 9V31l15 9V22h8v18l12 7v14z"/><path d="M45 22V11h8v11"/>
+  </symbol>
+</svg>
 
 <div class="hud"><div class="hud-in">
   <a class="brand" href="/"><img src="assets/logo-mark.png" alt="">Physical <b>Spark</b></a>
@@ -476,21 +498,20 @@ const BEATS = [
    A two-sided market, so the arrows point inward. Left is supply, right is
    demand, and each side pays a different way: the state funds the course, the
    factory pays on the hire. Both are customers — that is the whole slide. */
-{ sec:28, n:'01', section:'In one slide', layout:'bridge', focus:1,
-  head:'Two customers.<br>One <em>bridge.</em>',
-  /* no sub line: the cards now say it, and the height is needed below */
+{ sec:28, n:'01', section:'In one slide', layout:'bridge',
+  head:'Two customers. One <em>bridge.</em>',
+  /* pain and give are two each and line up one-to-one: no first step answers to
+     the course, no money answers to the government paying for it. */
   cards:[
-    {name:'Software<br>developers',
-     pain:['Stuck in a hard job market','No first step into physical AI','No money for training'],
-     giveLabel:'What we give', give:['A free physical AI course','Paid for by the government']},
-    {name:'Physical<br>Spark', logo:1, painLabel:'The bridge',
-     pain:['Real factory tasks','Peer-graded on video'],
-     giveLabel:'How we are paid', give:['Course fees from the government','10% of salary on every hire']},
-    {name:'Factories',
-     pain:['Hiring for robots starts in 2026','No picture of a good hire','CVs that all read the same'],
-     giveLabel:'What we give', give:['A scorecard from real robot work','Ranked finishers, ready to hire']},
+    {name:'Software developers', mk:'i-dev',
+     pain:['No first step into physical AI','No money for training'],
+     give:['A free physical AI course','Paid for by the government']},
+    {name:'Factories', mk:'i-fac',
+     pain:['Hiring for robots starts in 2027','No picture of a good hire'],
+     give:['Ranked finishers, ready to hire','A scorecard from real robot work']},
   ],
-  say:'Here is the whole company. On the left, software developers. Coding skill, but no first step into physical AI, and no money for training. We give a free course, and the government pays. On the right, factories. Robots are coming, but no picture of a good hire. We give a scorecard from real robot work. Both sides pay us.'},
+  pay:'Paid by both sides &mdash; <b>course fees from the government</b> and <b>10% of salary on every hire.</b>',
+  say:'Two customers. On the left, software developers. No first step into physical AI, and no money for training. Physical Spark gives a free course, and the government pays. On the right, factories. Hiring for robots starts in 2027, and no picture of a good hire. Physical Spark gives ranked finishers and a scorecard. Both sides pay us.'},
 
 /* ══ WHY NOW ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
@@ -737,24 +758,6 @@ const cardEl = (c,on,cls='') =>
      <div class="k">${c.k}</div>${c.big?`<div class="big">${c.big}</div>`:''}${bullets(c.v)}
    </div>`;
 
-/* one bridge span: a dashed deck on two piers, with pips crossing toward the
-   centre. dir 1 = left bank to us, dir -1 = right bank to us. */
-function span(dir){
-  const a = dir > 0 ? 4 : 96, z = dir > 0 ? 96 : 4;
-  const pip = (begin) => `<circle class="pip" cy="20" r="7">
-      <animate attributeName="cx" from="${a}" to="${z}" dur="2.4s" begin="${begin}s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;1;0" dur="2.4s" begin="${begin}s" repeatCount="indefinite"/>
-    </circle>`;
-  return `<span class="link"><svg viewBox="0 0 100 62" aria-hidden="true">
-      <line class="rail" x1="2" y1="28" x2="98" y2="28"/>
-      <line class="pier" x1="18" y1="28" x2="18" y2="56"/>
-      <line class="pier" x1="50" y1="28" x2="50" y2="56"/>
-      <line class="pier" x1="82" y1="28" x2="82" y2="56"/>
-      <line class="pier" x1="6"  y1="56" x2="94" y2="56"/>
-      ${pip(0)}${pip(1.2)}
-    </svg></span>`;
-}
-
 function bodyHTML(b){
   const f = b.focus;
   switch(b.layout){
@@ -764,17 +767,22 @@ function bodyHTML(b){
     case 'compare':
       return `<div class="cmp">${cardEl(b.cards[0],f===0)}
         <span class="vs">VS</span>${cardEl(b.cards[1],f===1)}</div>`;
-    case 'bridge':
-      /* traffic runs INWARD from both banks — a left-to-right flow would say the
-         opposite of what a two-sided market is */
-      const bc = (c,on) => `<div class="card bcard ${on?'focus':''}">
-        ${c.logo?`<span class="blogo"><img src="assets/logo-mark.png" alt=""></span>`:''}
-        <div class="bname">${c.name}</div>
-        <div class="lbl">${c.painLabel||'The pain'}</div>${bullets(c.pain)}
+    case 'bridge': {
+      const bc = c => `<div class="card">
+        <div class="nrow"><div class="bname">${c.name}</div>
+          <span class="mk"><svg><use href="#${c.mk}"/></svg></span></div>
+        <div class="lbl">The pain</div>${bullets(c.pain)}
         <div class="hair"></div>
-        <div class="lbl give">${c.giveLabel}</div>${bullets(c.give)}</div>`;
-      return `<div class="flow bridge">${bc(b.cards[0],f===0)}${span(1)}` +
-             `${bc(b.cards[1],f===1)}${span(-1)}${bc(b.cards[2],f===2)}</div>`;
+        <div class="lbl give">Physical Spark gives</div>${bullets(c.give)}</div>`;
+      return `<div class="flow bridge">${bc(b.cards[0])}
+        <div class="mid">
+          <div class="arrows"><span class="sh l"></span></div>
+          <span class="plogo"><img src="assets/logo-mark.png" alt=""></span>
+          <div class="nm">Physical<br>Spark</div>
+          <div class="arrows"><span class="sh r"></span></div>
+        </div>${bc(b.cards[1])}</div>
+        <div class="payline">${b.pay}</div>`;
+    }
     case 'flow':
       return `<div class="flow">` +
         b.cards.map((c,i)=>cardEl(c,i===f)).join('<span class="arw">&rarr;</span>') + `</div>`;
