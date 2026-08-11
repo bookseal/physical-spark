@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slide 01 — two cards, the brand as the arrow (C / D)</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOCKUP ONLY — slide 01, second round.
+   Two customer cards instead of three. Physical Spark is no longer a card with
+   its own bullets; it is the arrow that carries the answer across. Each subject
+   gets a mark on the right of its name. Pain and give are two items each, and
+   they line up one-to-one.
+     C — the arrow sits INSIDE each card, between the two halves
+     D — one arrow BETWEEN the cards, pointing outward to both
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#2b211a; --body:#5a4c3e; --mute:#948468; --line:#e8dcc4;
+  --page:#fbf5e9; --card:#ffffff; --dot:#c3b294; --accent:#e0442e;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:#efe6d4;color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding:26px 26px 60px;}
+
+.tag{max-width:1180px;margin:0 auto 10px;display:flex;align-items:baseline;gap:12px;}
+.tag b{font-size:19px;letter-spacing:-.01em;}
+.tag span{font-size:13px;color:#7a6a55;}
+.tag:not(:first-of-type){margin-top:42px;}
+
+.stage{max-width:1180px;margin:0 auto;aspect-ratio:16/9;background:var(--page);
+  border:1px solid #ded1b6;border-radius:10px;container-type:inline-size;
+  position:relative;overflow:hidden;box-shadow:0 8px 26px rgba(120,80,20,.10);}
+.slide{position:absolute;inset:0;padding:5cqw 6cqw 6cqw;display:flex;flex-direction:column;}
+
+.eyebrow{display:flex;align-items:center;gap:1cqw;}
+.eyebrow .n{background:var(--accent);color:#fff;font-weight:800;font-size:1.15cqw;
+  padding:.35cqw .8cqw;border-radius:99px;letter-spacing:.06em;}
+.eyebrow .sec{font-size:1.15cqw;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);}
+.eyebrow .ln{flex:1;height:1px;background:var(--line);}
+h1{margin:1.2cqw 0 0;font-size:4.4cqw;font-weight:800;letter-spacing:-.035em;line-height:1.02;}
+h1 em{font-style:normal;color:var(--accent);}
+.body{margin-top:2cqw;flex:1;min-height:0;display:flex;flex-direction:column;}
+
+.flow{display:flex;align-items:stretch;gap:1.4cqw;flex:1;min-height:0;}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:1.1cqw;
+  padding:1.6cqw 1.7cqw;display:flex;flex-direction:column;flex:1;}
+
+/* name row: the subject, and its mark pinned to the right */
+.nrow{display:flex;align-items:center;gap:1cqw;}
+.nrow .bname{font-size:3.4cqw;font-weight:800;letter-spacing:-.03em;line-height:1.05;flex:1;}
+.mk{flex:none;width:5.6cqw;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  background:#f6efe0;border:1.5px solid var(--line);}
+.mk{color:var(--accent);}
+.mk svg{width:66%;height:auto;display:block;}
+
+.lbl{font-size:1.25cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mute);margin-top:1.4cqw;}
+.lbl.give{color:var(--accent);}
+ul{list-style:none;margin:.7cqw 0 0;padding:0;display:flex;flex-direction:column;gap:.7cqw;}
+li{position:relative;padding-left:1.9cqw;font-size:1.95cqw;line-height:1.3;color:var(--body);}
+li::before{content:'';position:absolute;left:0;top:.85cqw;width:.55cqw;height:.55cqw;
+  border-radius:50%;background:var(--dot);}
+
+/* the brand, drawn as delivery: mark + a line that ends in a head */
+.deliver{display:flex;align-items:center;gap:.8cqw;margin-top:1.5cqw;}
+.deliver .plogo{flex:none;width:3.8cqw;aspect-ratio:1;border-radius:50%;background:var(--accent);
+  display:grid;place-items:center;}
+.deliver .plogo img{height:2.6cqw;width:auto;display:block;filter:brightness(0) invert(1);}
+.deliver .nm{font-size:1.4cqw;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);}
+.deliver .shaft{flex:1;height:2px;background:var(--accent);border-radius:2px;position:relative;}
+.deliver .shaft::after{content:'';position:absolute;right:-.1cqw;top:50%;
+  border:.55cqw solid transparent;border-left-color:var(--accent);transform:translateY(-50%);}
+
+.foot{margin-top:1.4cqw;display:flex;align-items:center;gap:.9cqw;
+  font-size:1.5cqw;font-weight:700;color:var(--body);}
+.foot b{color:var(--accent);font-weight:800;}
+.pg{position:absolute;right:6cqw;bottom:2cqw;font-size:1cqw;color:var(--mute);font-weight:700;}
+
+/* ── D: one brand column between the two cards ───────────────────────────── */
+.mid{flex:0 0 13cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9cqw;}
+.mid .plogo{width:6.4cqw;aspect-ratio:1;border-radius:50%;background:var(--accent);
+  display:grid;place-items:center;box-shadow:0 1cqw 2.4cqw rgba(224,68,46,.30);}
+.mid .plogo img{height:4.2cqw;width:auto;display:block;filter:brightness(0) invert(1);}
+.mid .nm{font-size:1.6cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);
+  text-align:center;line-height:1.15;}
+.mid .arrows{display:flex;align-items:center;gap:.5cqw;width:100%;}
+.mid .arrows .sh{flex:1;height:2px;background:var(--accent);position:relative;}
+.mid .arrows .sh.l::before{content:'';position:absolute;left:-.1cqw;top:50%;
+  border:.5cqw solid transparent;border-right-color:var(--accent);transform:translateY(-50%);}
+.mid .arrows .sh.r::after{content:'';position:absolute;right:-.1cqw;top:50%;
+  border:.5cqw solid transparent;border-left-color:var(--accent);transform:translateY(-50%);}
+.hair{height:1px;background:var(--line);margin-top:1.4cqw;}
+
+.say{max-width:1180px;margin:12px auto 0;background:#2b211a;color:#f4ede0;border-radius:8px;
+  padding:13px 16px;font-size:14.5px;line-height:1.55;}
+.say b{color:#f0b429;font-weight:700;letter-spacing:.08em;font-size:11px;
+  text-transform:uppercase;display:block;margin-bottom:5px;}
+</style>
+</head>
+<body>
+
+<!-- shared marks, referenced by <use> so both stages draw the same glyph -->
+<svg style="display:none">
+  <symbol id="i-dev" viewBox="0 0 64 64" fill="none" stroke="currentColor"
+          stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 21 9 32l13 11M42 21l13 11-13 11"/><path d="M37 14 27 50"/>
+  </symbol>
+  <symbol id="i-fac" viewBox="0 0 64 64" fill="none" stroke="currentColor"
+          stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 54V31l15 9V31l15 9V22h8v18l12 7v14z"/><path d="M45 22V11h8v11"/>
+  </symbol>
+</svg>
+
+
+<!-- ══════════════════════════════ C ═══════════════════════════════════════ -->
+<div class="tag"><b>C — 화살표가 카드 안에</b>
+  <span>카드마다 브랜드가 한 번씩, 통증과 답 사이를 가른다</span></div>
+
+<div class="stage"><div class="slide">
+  <div class="eyebrow"><span class="n">01</span><span class="sec">In one slide</span><span class="ln"></span></div>
+  <h1>Two customers. One <em>bridge.</em></h1>
+
+  <div class="body">
+    <div class="flow">
+
+      <div class="card">
+        <div class="nrow"><div class="bname">Software developers</div>
+          <span class="mk"><svg><use href="#i-dev"/></svg></span></div>
+        <div class="lbl">The pain</div>
+        <ul>
+          <li>No first step into physical AI</li>
+          <li>No money for training</li>
+        </ul>
+        <div class="deliver">
+          <span class="plogo"><img src="assets/logo-mark.png" alt=""></span>
+          <span class="nm">Physical Spark</span><span class="shaft"></span>
+        </div>
+        <ul>
+          <li>A free physical AI course</li>
+          <li>Paid for by the government</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="nrow"><div class="bname">Factories</div>
+          <span class="mk"><svg><use href="#i-fac"/></svg></span></div>
+        <div class="lbl">The pain</div>
+        <ul>
+          <li>Hiring for robots starts in 2026</li>
+          <li>No picture of a good hire</li>
+        </ul>
+        <div class="deliver">
+          <span class="plogo"><img src="assets/logo-mark.png" alt=""></span>
+          <span class="nm">Physical Spark</span><span class="shaft"></span>
+        </div>
+        <ul>
+          <li>Ranked finishers, ready to hire</li>
+          <li>A scorecard from real robot work</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="foot">Paid by both sides &mdash;
+      <b>course fees from the government</b> and <b>10% of salary on every hire.</b></div>
+  </div>
+  <span class="pg">01</span>
+</div></div>
+
+<div class="say"><b>Say &nbsp;·&nbsp; 28s &nbsp;·&nbsp; 60 words</b>
+Two customers. On the left, software developers. No first step into physical AI, and no money
+for training. Physical Spark gives a free course, and the government pays. On the right,
+factories. Hiring for robots starts in 2026, and no picture of a good hire. Physical Spark
+gives ranked finishers and a scorecard. Both sides pay us.</div>
+
+
+<!-- ══════════════════════════════ D ═══════════════════════════════════════ -->
+<div class="tag"><b>D — 화살표가 두 카드 사이에 하나</b>
+  <span>브랜드가 가운데 한 번, 양쪽으로 내보낸다</span></div>
+
+<div class="stage"><div class="slide">
+  <div class="eyebrow"><span class="n">01</span><span class="sec">In one slide</span><span class="ln"></span></div>
+  <h1>Two customers. One <em>bridge.</em></h1>
+
+  <div class="body">
+    <div class="flow">
+
+      <div class="card">
+        <div class="nrow"><div class="bname">Software developers</div>
+          <span class="mk"><svg><use href="#i-dev"/></svg></span></div>
+        <div class="lbl">The pain</div>
+        <ul>
+          <li>No first step into physical AI</li>
+          <li>No money for training</li>
+        </ul>
+        <div class="hair"></div>
+        <div class="lbl give">Physical Spark gives</div>
+        <ul>
+          <li>A free physical AI course</li>
+          <li>Paid for by the government</li>
+        </ul>
+      </div>
+
+      <div class="mid">
+        <div class="arrows"><span class="sh l"></span></div>
+        <span class="plogo"><img src="assets/logo-mark.png" alt=""></span>
+        <div class="nm">Physical<br>Spark</div>
+        <div class="arrows"><span class="sh r"></span></div>
+      </div>
+
+      <div class="card">
+        <div class="nrow"><div class="bname">Factories</div>
+          <span class="mk"><svg><use href="#i-fac"/></svg></span></div>
+        <div class="lbl">The pain</div>
+        <ul>
+          <li>Hiring for robots starts in 2026</li>
+          <li>No picture of a good hire</li>
+        </ul>
+        <div class="hair"></div>
+        <div class="lbl give">Physical Spark gives</div>
+        <ul>
+          <li>Ranked finishers, ready to hire</li>
+          <li>A scorecard from real robot work</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="foot">Paid by both sides &mdash;
+      <b>course fees from the government</b> and <b>10% of salary on every hire.</b></div>
+  </div>
+  <span class="pg">01</span>
+</div></div>
+
+<div class="say"><b>Say &nbsp;·&nbsp; 28s &nbsp;·&nbsp; 60 words</b>
+Two customers. On the left, software developers. No first step into physical AI, and no money
+for training. Physical Spark gives a free course, and the government pays. On the right,
+factories. Hiring for robots starts in 2026, and no picture of a good hire. Physical Spark
+gives ranked finishers and a scorecard. Both sides pay us.</div>
+
+</body>
+</html>
