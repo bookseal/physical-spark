@@ -93,7 +93,7 @@ h1 em{font-style:normal;color:var(--accent);}
    One dominant figure → bignum. Narrowing → funnel. Growth → bars.
    Get this right and the script gets shorter: an arrow says "then" for free.
    ──────────────────────────────────────────────────────────────────────────── */
-.body{margin-top:1.8cqw;flex:1;min-height:0;}
+.body{margin-top:3cqw;flex:1;min-height:0;}
 
 /* A · cards */
 .cards{display:grid;gap:1.6cqw;align-items:stretch;height:auto;}
@@ -196,7 +196,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .doc .hdsub{font-size:1.35cqw;font-weight:700;color:var(--mute);margin-top:.25cqw;
   padding-bottom:.7cqw;margin-bottom:.7cqw;border-bottom:.22cqw solid var(--accent);}
 .doc .ln{display:flex;justify-content:space-between;gap:2cqw;font-size:1.38cqw;
-  padding:.28cqw 0;color:var(--ink);}
+  padding:.23cqw 0;color:var(--ink);}
 .doc .ln .v{font-weight:700;white-space:nowrap;}
 .doc .ln.good .v{color:#0e9a89;}
 .doc .ln.bad .v{color:#e0442e;}
@@ -222,7 +222,7 @@ h1 em{font-style:normal;color:var(--accent);}
   border:1.5px solid var(--line);}
 
 /* J · venn — three groups, one overlap */
-.venn{display:flex;align-items:center;gap:3.5cqw;height:100%;}
+.venn{display:flex;align-items:center;gap:3.5cqw;height:auto;}
 .venn .fig{position:relative;width:31cqw;height:27cqw;flex:none;}
 .venn .c{position:absolute;width:18.5cqw;height:18.5cqw;border-radius:50%;mix-blend-mode:multiply;
   display:flex;align-items:center;justify-content:center;text-align:center;
@@ -401,10 +401,10 @@ h1 em{font-style:normal;color:var(--accent);}
 /* ⓘ pays — the money, read the way English reads: who pays, what for, how
    much. The amount was the first thing on screen before, which is the last
    thing a reader can use. A coin travels the arrow so the direction is felt. */
-.pays{display:flex;flex-direction:column;gap:3.2cqw;}
+.pays{display:flex;flex-direction:column;gap:2.7cqw;}
 .pline{display:grid;grid-template-columns:20cqw 1fr 18cqw;gap:2cqw;align-items:center;}
 .pays .who{background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
-  padding:1.6cqw 1.8cqw;font-size:2.5cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
+  padding:1.45cqw 1.7cqw;font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
 .pays .mid{display:flex;flex-direction:column;align-items:center;gap:.5cqw;}
 .pays .for{font-size:1.9cqw;font-weight:700;color:var(--body);text-align:center;line-height:1.25;}
 .pays .arrow{position:relative;width:100%;height:.22cqw;background:var(--line);border-radius:99px;}
@@ -438,7 +438,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .scw .wbar i{width:.7cqw;height:.7cqw;border-radius:50%;background:var(--dot);display:block;}
 .scw .url{margin-left:.8cqw;flex:1;background:#fff;border:1px solid var(--line);border-radius:99px;
   padding:.3cqw 1cqw;font-size:1.05cqw;color:var(--mute);}
-.scw .scr{padding:1.3cqw 1.6cqw;}
+.scw .scr{padding:1.15cqw 1.5cqw;}
 /* the product does not exist yet; the slide says so rather than letting a
    judge discover it in Q&A */
 .scw .note{margin-top:.7cqw;font-size:1.1cqw;color:var(--mute);font-weight:700;
@@ -495,12 +495,12 @@ h1 em{font-style:normal;color:var(--accent);}
    Row two runs the same road and arrives at a dashed box, because for robots
    nobody has built the destination. The dot moving left to right says
    "already in motion" before a word is read. */
-.mig{display:flex;flex-direction:column;gap:2.8cqw;}
+.mig{display:flex;flex-direction:column;gap:2.3cqw;}
 .mrow{display:grid;grid-template-columns:17cqw 1fr 8cqw 1fr;gap:1.6cqw;align-items:center;}
 .mig .mk2{font-size:1.85cqw;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
   color:var(--ink);line-height:1.25;}
 .mig .box{background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
-  padding:1.9cqw 2.1cqw;font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;
+  padding:1.7cqw 1.9cqw;font-size:2.3cqw;font-weight:800;letter-spacing:-.02em;
   color:var(--ink);line-height:1.15;}
 .mig .box.from{color:var(--mute);}
 .mig .box.to{background:var(--accent);border-color:var(--accent);color:#fff;}
@@ -566,10 +566,11 @@ h1 em{font-style:normal;color:var(--accent);}
    arrows leaving it — nothing to read, only a direction. */
 .slide.lay-bridge h1{font-size:4.6cqw;margin-top:1cqw;}
 .slide.lay-people h1{font-size:4.4cqw;}
+.slide.lay-venn .body{margin-top:3.4cqw;}
 .globe{position:absolute;right:6cqw;top:7cqw;width:15cqw;height:auto;
   fill:none;stroke:var(--accent);stroke-width:1.6;opacity:.5;}
 .globe circle,.globe ellipse,.globe line,.globe path{vector-effect:non-scaling-stroke;}
-.slide.lay-bridge .body,.slide.lay-funnel .body{margin-top:1.5cqw;display:flex;flex-direction:column;}
+.slide.lay-bridge .body,.slide.lay-funnel .body{margin-top:2.4cqw;display:flex;flex-direction:column;}
 .flow.bridge{gap:1.4cqw;height:auto;}
 .flow.bridge .card{padding:1.4cqw 1.6cqw;}
 .bridge .nrow{flex:none;display:flex;align-items:center;gap:1cqw;min-height:6.1cqw;}
