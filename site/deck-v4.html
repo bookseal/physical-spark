@@ -234,6 +234,22 @@ h1 em{font-style:normal;color:var(--accent);}
 .venn .row{display:flex;gap:1.2cqw;align-items:baseline;}
 .venn .row .t{font-size:1.55cqw;font-weight:800;color:var(--ink);min-width:9cqw;}
 .venn .row .d{font-size:1.6cqw;color:var(--body);line-height:1.35;}
+/* the three groups arrive one at a time, and only once all three are on screen
+   does the overlap get a name. Two seconds apart — change --vstep to re-pace
+   the whole build, both the circles and the lines beside them. */
+.venn{--vstep:2s;}
+.slide.on .venn .c,.slide.on .venn .side .row{animation:vpop .55s cubic-bezier(.2,.8,.3,1) both;}
+.slide.on .venn .c1,.slide.on .venn .side .row:nth-child(1){animation-delay:calc(var(--vstep)*0 + .3s);}
+.slide.on .venn .c2,.slide.on .venn .side .row:nth-child(2){animation-delay:calc(var(--vstep)*1 + .3s);}
+.slide.on .venn .c3,.slide.on .venn .side .row:nth-child(3){animation-delay:calc(var(--vstep)*2 + .3s);}
+.slide.on .venn .mid{animation:vmid .6s cubic-bezier(.2,.8,.3,1) calc(var(--vstep)*3 + .3s) both;}
+@keyframes vpop{from{opacity:0;transform:scale(.84);}to{opacity:1;transform:none;}}
+/* .mid is centred with a translate, so the keyframes have to carry it */
+@keyframes vmid{from{opacity:0;transform:translate(-50%,-50%) scale(.78);}
+                to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
+@media (prefers-reduced-motion:reduce){
+  .slide.on .venn .c,.slide.on .venn .side .row,.slide.on .venn .mid{animation:none;}
+}
 
 /* cover: the logo mark is portrait (238×468), so it stands beside the name
    rather than above it. Nothing else on the slide. */
