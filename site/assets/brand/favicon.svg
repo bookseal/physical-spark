@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="title">
   <title id="title">Physical Spark favicon</title>
-  <rect x="1" y="1" width="30" height="30" rx="7" fill="#e0442e"/>
-  <path fill="#f4b21a" d="M16 6L19.75 12.25L26 16L19.75 19.75L16 26L12.25 19.75L6 16L12.25 12.25Z"/>
+  <!-- The fist mark reduced until it survives 16px. Knuckles are bumps on the top
+       edge rather than separate fingers — gaps disappear at small sizes and the
+       shape starts reading as a calendar. The gold circle does most of the
+       recognising, so it stays large. -->
+  <rect width="32" height="32" rx="7" fill="#e0442e"/>
+  <path fill="#fbf5e9" d="M7 14.2a2.6 2.6 0 0 1 2.6-2.6 2.6 2.6 0 0 1 2.6 2.6 2.6 2.6 0 0 1 2.6-2.6
+    2.6 2.6 0 0 1 2.6 2.6 2.6 2.6 0 0 1 2.6-2.6 2.6 2.6 0 0 1 2.6 2.6v7.6a4.4 4.4 0 0 1-4.4 4.4h-6.8
+    a4.4 4.4 0 0 1-4.4-4.4z"/>
+  <path fill="#fbf5e9" d="M7.6 15.4a2.5 2.5 0 0 0-2.5 2.5v2.2a2.5 2.5 0 0 0 2.5 2.5z"/>
+  <circle cx="16" cy="19.6" r="4.2" fill="#f4b21a"/>
 </svg>
