@@ -337,6 +337,23 @@ h1 em{font-style:normal;color:var(--accent);}
   .slide.on .ring,.slide.on .bars .bar,.slide.on .fun .tier{animation:none;}
 }
 
+/* outro — the longest-lived screen in the talk: it stays up through Q&A. So it
+   mirrors the cover (the same sentence, read a second time with 34 slides of
+   evidence behind it) and carries the QR, because slide 12 claims the course is
+   live and a judge should be able to check that from their seat. */
+.slide.outro{justify-content:center;text-align:center;}
+.outro .name{display:flex;align-items:center;justify-content:center;gap:1.6cqw;
+  font-size:8cqw;font-weight:800;letter-spacing:-.04em;line-height:1;}
+.outro .name b{color:var(--accent);}
+.outro .mark{height:6.2cqw;width:auto;display:block;}
+.outro .line{font-size:2.4cqw;color:var(--body);margin-top:1.8cqw;font-weight:600;}
+.outro .rule{width:56cqw;height:1px;background:var(--line);margin:3.2cqw auto;}
+.outro .row{display:flex;align-items:center;justify-content:center;gap:3cqw;}
+.outro .qr{width:8.5cqw;height:8.5cqw;display:block;}
+.outro .contact{text-align:left;font-size:1.8cqw;line-height:1.55;color:var(--body);}
+.outro .contact b{display:block;color:var(--ink);font-weight:700;}
+.outro .thanks{font-size:1.8cqw;font-weight:700;color:var(--mute);}
+
 /* chapter divider: name only, six seconds, a place to breathe */
 .slide.divider{justify-content:center;}
 .slide.divider h1{font-size:7.4cqw;color:var(--accent);}
@@ -406,7 +423,7 @@ const CHAPTERS = [
   { name:'Why we win', c:'#e6a413', from:18, upto:21 },
   { name:'Market',     c:'#2f6fd0', from:22, upto:24 },
   { name:'Business',   c:'#e0442e', from:25, upto:28 },
-  { name:'Team',       c:'#e6a413', from:29, upto:33 },
+  { name:'Team',       c:'#e6a413', from:29, upto:34 },
 ];
 function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTERS[0]; }
 
@@ -436,7 +453,7 @@ const STA_HEAD = 'Korea first.<br>Then <em>America.</em>';
 const STA_SUB  = 'Start where all three groups are already looking for each other.<br>Then take the numbers somewhere bigger.';
 
 const BEATS = [
-{ kind:'cover', sec:10, n:'', section:'Physical Spark',
+{ kind:'cover', sec:8, n:'', section:'Physical Spark',
   line:'The hiring standard for people who can run robots.',
   who:'Jungmin Hong &nbsp;·&nbsp; Gichan Lee',
   say:'Physical Spark. The hiring standard for people who can run robots.'},
@@ -475,7 +492,7 @@ const BEATS = [
   src:'IFR World Robotics · Global Robotics Report 2026',
   say:'Next, the FDE moves onto a factory floor, and Korea is where that lands first. A thousand and twelve robots per ten thousand factory workers — the most on earth. Korea ages faster than any OECD country, and there is one qualified engineer for every three open jobs.'},
 
-{ sec:30, n:'05', section:'Who needs this', layout:'venn',
+{ sec:28, n:'05', section:'Who needs this', layout:'venn',
   head:'Three groups are all waiting<br>for the <em>same person.</em>',
   sub:'And one of the three already pays to train that person.',
   circles:['Factories','Government','Engineers'],
@@ -540,7 +557,7 @@ const BEATS = [
   ],
   say:'Nobody needs to own a robot to start. Tonight, a free simulator on a laptop. By week three the same task has run a hundred times, so the score shows skill and not one lucky attempt. By week six, one recorded session on a real two-hundred-dollar arm.'},
 
-{ sec:38, n:'11', section:'The solution', layout:'doc',
+{ sec:34, n:'11', section:'The solution', layout:'doc',
   head:'A company buys a <em>scorecard,</em><br>not a CV.',
   sub:'One page per finisher. This is a real one.',
   doc:{ hd:'CANDIDATE REPORT · SEASON ONE',
@@ -677,6 +694,10 @@ const BEATS = [
 { sec:10, n:'22', section:'Where we start', layout:'flow', cards:START, focus:2,
   head:STA_HEAD, sub:STA_SUB,
   say:'Then America, where we need no government at all. The salaries, and the fees, are three times bigger.'},
+
+{ kind:'outro', sec:8, n:'', section:'Thank you',
+  line:'The hiring standard for people who can run robots.',
+  say:'Thank you. I am happy to take questions.'},
 ];
 
 
@@ -785,6 +806,17 @@ stage.innerHTML = BEATS.map((b,i)=>{
                  muted loop playsinline autoplay
                  aria-label="A robot arm running a mission on a bench"></video>
         </div>
+      </div>
+    </section>`;
+  if(b.kind==='outro') return `
+    <section class="slide outro" data-i="${i}">
+      <div class="name">Physical <b>Spark</b><img class="mark" src="assets/logo-mark.png" alt=""></div>
+      <p class="line">${b.line}</p>
+      <div class="rule"></div>
+      <div class="row">
+        <img class="qr" src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com">
+        <div class="contact"><b>physical-spark.bit-habit.com</b>Jungmin Hong &nbsp;·&nbsp; Gichan Lee</div>
+        <div class="thanks">Thank you.</div>
       </div>
     </section>`;
   if(b.kind==='divider') return `
