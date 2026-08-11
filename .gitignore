@@ -29,3 +29,4 @@ node_modules/
 .claude/
 __pycache__/
 *.pyc
+.gstack/
