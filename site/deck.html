@@ -47,13 +47,38 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
 .ch.done .nm{color:var(--mute);}
 .ch .bar{height:4px;background:var(--line);border-radius:99px;overflow:hidden;}
 .ch .bar i{display:block;height:100%;width:0;background:var(--c);}
-.clock{font-weight:700;font-size:14px;min-width:88px;text-align:right;
+/* The clock is rehearsal equipment, not part of the talk. It sat top right, which
+   is where a room looks when a slide changes — so a judge watched the presenter
+   run out of time. Down here it is small, grey, and in the presenter's own corner.
+   Hidden with visibility, not display, so the buttons beside it never shift. */
+.clock{font-weight:700;font-size:12px;min-width:76px;text-align:left;color:var(--mute);
   font-variant-numeric:tabular-nums;}
 .clock.over{color:#e0442e;}
+body.notime .clock{visibility:hidden;}
 .tbtn{border:1px solid var(--line);background:#fff;color:var(--body);border-radius:8px;
   padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none;}
 .tbtn:hover{border-color:var(--accent);color:var(--accent);}
 .tbtn.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* the solution rail — thin, quiet, and identical on every slide of the chapter,
+   because its job is to hold a position, not to be looked at. The live box is
+   filled; the ones behind it keep their outline so progress reads left to right. */
+.srail{display:flex;align-items:center;gap:.9cqw;margin-top:1.1cqw;}
+/* the rail costs height, so the body it sits above gives some back */
+.srail + .body{margin-top:1.5cqw;}
+.sbox{display:flex;align-items:baseline;gap:.7cqw;border:1.5px solid var(--line);
+  border-radius:.8cqw;padding:.45cqw 1.1cqw;background:var(--card);min-width:12cqw;}
+.sbox b{font-size:1.35cqw;font-weight:800;color:var(--mute);font-family:ui-monospace,monospace;}
+.sbox span{font-size:1.55cqw;font-weight:700;color:var(--body);}
+.sbox.empty{border-style:dashed;background:none;}
+.sbox.empty span{visibility:hidden;}
+.sbox.done{border-color:var(--accent);}
+.sbox.done b,.sbox.done span{color:var(--accent);}
+.sbox.now{background:var(--accent);border-color:var(--accent);}
+.sbox.now b{color:rgba(255,255,255,.75);}
+.sbox.now span{color:#fff;}
+.sar{font-style:normal;font-size:1.55cqw;font-weight:800;color:var(--line);}
+.divider .srail{margin-top:3cqw;}   /* left, under the sub — the headline sets the edge */
 
 /* ── stage ────────────────────────────────────────────────────────────────── */
 .wrap{position:absolute;inset:44px 0 var(--btm,52px);display:grid;place-items:center;padding:14px;}
@@ -66,8 +91,8 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
 /* the running screen number — outside .slide so cover, dividers and outro
    carry it too, and so it never moves when a layout changes */
 .pgno{position:absolute;right:6cqw;bottom:1.8cqw;z-index:5;
-  font-size:1.4cqw;font-weight:800;letter-spacing:-.01em;color:var(--ink);opacity:.42;}
-.pgno small{font-size:1cqw;font-weight:700;opacity:.65;}
+  font-size:1.55cqw;font-weight:800;letter-spacing:-.01em;color:var(--ink);opacity:.42;}
+.pgno small{font-size:1.35cqw;font-weight:700;opacity:.65;}
 .slide{position:absolute;inset:0;padding:0.6cqw 6cqw 11.5cqw;display:none;flex-direction:column;z-index:1;}
 .slide.on{display:flex;animation:in .28s cubic-bezier(.2,.9,.3,1);}
 @keyframes in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
@@ -75,13 +100,13 @@ body{background:var(--page);color:var(--ink);overflow:hidden;
 
 .kick{display:flex;align-items:center;gap:1.1cqw;margin-bottom:2.1cqw;}
 .kick .n{background:var(--accent);color:#fff;border-radius:99px;min-width:2.9cqw;
-  padding:.35cqw .8cqw;text-align:center;font-size:1.1cqw;font-weight:800;letter-spacing:.06em;}
-.kick .l{font-size:1.15cqw;font-weight:700;letter-spacing:.18em;color:var(--mute);text-transform:uppercase;}
+  padding:.35cqw .8cqw;text-align:center;font-size:1.4cqw;font-weight:800;letter-spacing:.06em;}
+.kick .l{font-size:1.43cqw;font-weight:700;letter-spacing:.18em;color:var(--mute);text-transform:uppercase;}
 .kick .rule{flex:1;height:1px;background:var(--line);}
-.kick .s{font-size:1.05cqw;font-weight:700;color:var(--mute);}
+.kick .s{font-size:1.38cqw;font-weight:700;color:var(--mute);}
 /* a slide still being argued about says so, in the one place the eye starts.
    Delete the beat's `fix:` field and the badge goes with it. */
-.kick .fix{background:#e0442e;color:#fff;font-size:1.05cqw;font-weight:800;letter-spacing:.14em;
+.kick .fix{background:#e0442e;color:#fff;font-size:1.38cqw;font-weight:800;letter-spacing:.14em;
   padding:.25cqw .7cqw;border-radius:.4cqw;}
 h1{margin:0;font-size:5.05cqw;line-height:1.07;letter-spacing:-.03em;font-weight:800;}
 h1 em{font-style:normal;color:var(--accent);}
@@ -103,12 +128,12 @@ h1 em{font-style:normal;color:var(--accent);}
 .card{background:var(--card);border:1.5px solid var(--line);border-radius:1.1cqw;
   padding:2cqw 2cqw 2.2cqw;display:flex;flex-direction:column;gap:.8cqw;
   transition:transform .26s cubic-bezier(.2,.9,.3,1),background .26s,border-color .26s,box-shadow .26s;}
-.card .k{font-size:1.35cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.card .k{font-size:1.53cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
 .card .big{font-size:3.1cqw;font-weight:800;letter-spacing:-.03em;line-height:1.02;color:var(--ink);}
 .cards.c2 .card .big{font-size:3.7cqw;}
 .cards.c4 .card .big{font-size:2.4cqw;}
 .card ul{list-style:none;margin:1.1cqw 0 0;padding:0;display:flex;flex-direction:column;gap:.7cqw;}
-.card li{position:relative;padding-left:1.65cqw;font-size:1.6cqw;line-height:1.3;color:var(--body);}
+.card li{position:relative;padding-left:1.65cqw;font-size:1.65cqw;line-height:1.3;color:var(--body);}
 .card li::before{content:'';position:absolute;left:0;top:.72cqw;width:.5cqw;height:.5cqw;
   border-radius:50%;background:var(--dot);}
 /* the filled card lifts and grows enough to read from the back of a room; z-index
@@ -124,11 +149,17 @@ h1 em{font-style:normal;color:var(--accent);}
 
 /* B · compare */
 .cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:2cqw;align-items:stretch;height:auto;}
-.cmp .vs{align-self:center;font-size:1.2cqw;font-weight:800;letter-spacing:.2em;color:var(--mute);}
+.cmp .vs{align-self:center;font-size:1.45cqw;font-weight:800;letter-spacing:.2em;color:var(--mute);}
 
 /* C · flow */
-.flow{display:flex;align-items:stretch;gap:1cqw;height:auto;}
-.flow .card{flex:1;}
+.flow{display:flex;align-items:stretch;gap:1.3cqw;height:auto;}
+.flow .card{flex:1;padding:1.8cqw 1.8cqw 2cqw;}
+/* three cards, one baseline: the label and the title each keep their own slot
+   whether they run to one line or two, so the bullets start level across all
+   three. Without this a longer country name pushes its whole card down. */
+.flow .card .flag{font-size:3.4cqw;line-height:1;margin-bottom:.2cqw;}
+.flow .card .k{min-height:4.4cqw;}
+.flow .card .big{min-height:6.4cqw;}
 .flow .arw{align-self:center;font-size:2.6cqw;line-height:1;color:var(--dot);}
 
 /* D · timeline */
@@ -155,9 +186,9 @@ h1 em{font-style:normal;color:var(--accent);}
 .bars .col.focus .bar{background:var(--accent);border-color:var(--accent);}
 .bars .under{border-top:2px solid var(--line);padding-top:1cqw;}
 .bars .col.focus .under{border-top-color:var(--accent);}
-.bars .k{font-size:1.3cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.bars .k{font-size:1.5cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
 .bars .col.focus .k{color:var(--accent);}
-.bars .cap{margin-top:.5cqw;font-size:1.45cqw;color:var(--body);line-height:1.32;}
+.bars .cap{margin-top:.5cqw;font-size:1.58cqw;color:var(--body);line-height:1.32;}
 
 /* F · funnel — only the label and the figure ride inside the bar. The sentence
    explaining the arithmetic sits outside it, full width, so the narrowest tier
@@ -170,7 +201,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .fun .k{font-size:2.1cqw;font-weight:800;letter-spacing:.08em;color:var(--mute);padding-top:.75cqw;}
 .fun .row.focus .k{color:var(--accent);}
 .fun .big{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);}
-.fun .cap{font-size:1.6cqw;color:var(--body);line-height:1.35;}
+.fun .cap{font-size:1.65cqw;color:var(--body);line-height:1.35;}
 .fun .tier.focus{background:var(--accent);border-color:var(--accent);
   box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.24);}
 .fun .tier.focus .big{color:#fff;}
@@ -188,33 +219,54 @@ h1 em{font-style:normal;color:var(--accent);}
 .bignum li::before{content:'';position:absolute;left:0;top:.75cqw;width:.5cqw;height:.5cqw;
   border-radius:50%;background:var(--dot);}
 
+/* G′ · density — one robot standing beside eight people. The workers arrive
+   left to right and the arm lands last, so the room watches it take its place
+   in the line instead of being told a ratio. */
+.dens{display:flex;flex-direction:column;gap:1.9cqw;height:100%;justify-content:center;}
+.crowd{display:flex;align-items:flex-end;gap:.9cqw;flex-wrap:nowrap;}
+.crowd svg{height:8.2cqw;width:auto;flex:none;color:#cdbb9a;}
+.crowd .bar{width:1.5px;align-self:stretch;background:var(--line);margin:0 1.2cqw;}
+.crowd svg.arm{color:var(--accent);height:9.6cqw;}
+.slide.on .crowd svg{animation:stand .38s cubic-bezier(.2,.8,.3,1) both;
+  animation-delay:calc(var(--i) * .07s + .12s);}
+@keyframes stand{from{opacity:0;transform:translateY(1.4cqw);}to{opacity:1;transform:none;}}
+.slide.on .crowd svg.arm{animation:armin .52s cubic-bezier(.2,.9,.3,1.35) both;animation-delay:.78s;}
+@keyframes armin{from{opacity:0;transform:scale(.68) translateY(1.8cqw);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){ .slide.on .crowd svg{animation:none;} }
+.dens .cap{font-size:2.6cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.25;}
+.dens .cap b{color:var(--accent);}
+.dens ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.75cqw;}
+.dens li{position:relative;padding-left:1.8cqw;font-size:1.7cqw;line-height:1.35;color:var(--body);}
+.dens li::before{content:'';position:absolute;left:0;top:.72cqw;width:.5cqw;height:.5cqw;
+  border-radius:50%;background:var(--dot);}
+
 /* H · document (the scorecard) */
 .doc{background:var(--card);border:1.5px solid var(--line);border-top:.35cqw solid var(--accent);
-  border-radius:.9cqw;padding:1.4cqw 2cqw;height:auto;display:flex;flex-direction:column;
+  border-radius:.9cqw;padding:1.1cqw 1.8cqw 1cqw;height:auto;display:flex;flex-direction:column;
   font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
-.doc .hd{font-size:2.2cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.1;}
-.doc .hdsub{font-size:1.35cqw;font-weight:700;color:var(--mute);margin-top:.25cqw;
-  padding-bottom:.7cqw;margin-bottom:.7cqw;border-bottom:.22cqw solid var(--accent);}
-.doc .ln{display:flex;justify-content:space-between;gap:2cqw;font-size:1.38cqw;
-  padding:.23cqw 0;color:var(--ink);}
+.doc .hd{font-size:2cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.1;}
+.doc .hdsub{font-size:1.5cqw;font-weight:700;color:var(--mute);margin-top:.2cqw;
+  padding-bottom:.5cqw;margin-bottom:.5cqw;border-bottom:.22cqw solid var(--accent);}
+.doc .ln{display:flex;justify-content:space-between;gap:2cqw;font-size:1.5cqw;
+  padding:.14cqw 0;color:var(--ink);}
 .doc .ln .v{font-weight:700;white-space:nowrap;}
 .doc .ln.good .v{color:#0e9a89;}
 .doc .ln.bad .v{color:#e0442e;}
-.doc .vd{display:flex;justify-content:space-between;gap:2cqw;margin-top:.6cqw;padding-top:.8cqw;
+.doc .vd{display:flex;justify-content:space-between;gap:2cqw;margin-top:.45cqw;padding-top:.6cqw;
   border-top:1px solid var(--line);font-size:1.7cqw;font-weight:800;color:var(--accent);}
-.doc .ft{font-size:1.05cqw;color:var(--mute);margin-top:.55cqw;}
+.doc .ft{font-size:1.38cqw;color:var(--mute);margin-top:.55cqw;}
 
 /* I · people */
 .people{display:grid;grid-template-columns:repeat(2,1fr);gap:2cqw;height:auto;}
 /* a portrait + four bullets is the densest card in the deck, so it gets its own,
    tighter scale — otherwise it runs 23px past the body and over the footer */
-.people .card{padding:1.8cqw 2cqw 1.9cqw;gap:.5cqw;}
-.people .card .big{font-size:2.7cqw;}
-.people .card ul{margin-top:1.1cqw;gap:.8cqw;}
-.people .card li{font-size:1.62cqw;line-height:1.38;}
+.people .card{padding:1.5cqw 1.8cqw 1.6cqw;gap:.4cqw;}
+.people .card .big{font-size:2.5cqw;}
+.people .card ul{margin-top:.85cqw;gap:.6cqw;}
+.people .card li{font-size:1.55cqw;line-height:1.32;}
 /* the employer marks from deck.html — they say in one glance what a bullet needs
    a line for, so one bullet each was dropped to pay for the row */
-.people .org{display:flex;align-items:center;gap:1.8cqw;margin-top:1.4cqw;padding-top:1.6cqw;
+.people .org{display:flex;align-items:center;gap:1.6cqw;margin-top:1cqw;padding-top:1.1cqw;
   border-top:1px solid var(--line);}
 .people .org img{height:2cqw;width:auto;max-width:8cqw;object-fit:contain;display:block;opacity:.85;}
 .people .hdr{display:flex;align-items:center;gap:1.4cqw;margin-bottom:.7cqw;}
@@ -226,7 +278,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .venn .fig{position:relative;width:31cqw;height:27cqw;flex:none;}
 .venn .c{position:absolute;width:18.5cqw;height:18.5cqw;border-radius:50%;mix-blend-mode:multiply;
   display:flex;align-items:center;justify-content:center;text-align:center;
-  font-size:1.35cqw;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#5a4c3e;}
+  font-size:1.53cqw;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#5a4c3e;}
 .venn .c1{left:0;top:0;background:#f7d9a4;}
 .venn .c2{right:0;top:0;background:#f5c3b8;}
 .venn .c3{left:6.25cqw;bottom:0;background:#bfe1dd;}
@@ -234,11 +286,11 @@ h1 em{font-style:normal;color:var(--accent);}
 .venn .c2 span{transform:translate(1.8cqw,-2.4cqw);}
 .venn .c3 span{transform:translateY(3cqw);}
 .venn .mid{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);z-index:5;
-  width:13cqw;text-align:center;font-size:1.5cqw;font-weight:800;color:var(--ink);line-height:1.2;}
+  width:13cqw;text-align:center;font-size:1.6cqw;font-weight:800;color:var(--ink);line-height:1.2;}
 .venn .side{flex:1;display:flex;flex-direction:column;gap:1.5cqw;}
 .venn .row{display:flex;gap:1.2cqw;align-items:baseline;}
-.venn .row .t{font-size:1.55cqw;font-weight:800;color:var(--ink);min-width:9cqw;}
-.venn .row .d{font-size:1.6cqw;color:var(--body);line-height:1.35;}
+.venn .row .t{font-size:1.62cqw;font-weight:800;color:var(--ink);min-width:9cqw;}
+.venn .row .d{font-size:1.65cqw;color:var(--body);line-height:1.35;}
 /* the build is four slides, not four timers: the presenter decides when each
    group arrives. A beat says how many are up; the newest one is the only thing
    that animates, so nothing already on screen twitches when the slide changes.
@@ -295,9 +347,9 @@ h1 em{font-style:normal;color:var(--accent);}
 .stats .st + .st{border-left:1px solid var(--line);padding-left:2.6cqw;}
 .stats .n{font-size:5.6cqw;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink);}
 .stats .st.focus .n{color:var(--accent);}
-.stats .k{margin-top:1.2cqw;font-size:1.25cqw;font-weight:800;letter-spacing:.14em;
+.stats .k{margin-top:1.2cqw;font-size:1.48cqw;font-weight:800;letter-spacing:.14em;
   text-transform:uppercase;color:var(--mute);}
-.stats .d{margin-top:.7cqw;font-size:1.6cqw;line-height:1.38;color:var(--body);}
+.stats .d{margin-top:.7cqw;font-size:1.65cqw;line-height:1.38;color:var(--body);}
 
 /* ⓑ ratio — a proportion reads faster as a ring than as digits */
 .ratio{display:flex;align-items:center;gap:4.5cqw;height:100%;}
@@ -308,6 +360,17 @@ h1 em{font-style:normal;color:var(--accent);}
 .ring span{position:relative;z-index:1;font-size:4.6cqw;font-weight:800;
   letter-spacing:-.04em;color:var(--ink);}
 .ratio .side{flex:1;}
+/* a flock of small factories, thirteen of twenty lit. The share arrives as a
+   quantity before the number beside it is read as a number. */
+.pgrid{flex:0 0 26cqw;display:grid;grid-template-columns:repeat(5,1fr);gap:.8cqw;}
+.pgrid svg{width:100%;height:auto;display:block;color:#ddd0b4;}
+.pgrid svg.lit{color:var(--accent);}
+.slide.on .pgrid svg.lit{animation:litup .4s ease both;animation-delay:calc(var(--i) * .045s + .15s);}
+@keyframes litup{from{color:#ddd0b4;transform:scale(.9)} to{color:var(--accent);transform:none}}
+.people li i{font-style:normal;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  font-size:.8em;color:var(--mute);}
+.pnum{font-size:5.2cqw;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--accent);
+  margin-bottom:.5cqw;}
 .ratio .unit{font-size:2.05cqw;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:1.3cqw;}
 .ratio ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.8cqw;}
 .ratio li{position:relative;padding-left:1.8cqw;font-size:1.75cqw;line-height:1.35;color:var(--body);}
@@ -323,7 +386,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .num .row.focus .i{color:var(--accent);}
 .num .t{font-size:2.4cqw;font-weight:800;color:var(--ink);min-width:14cqw;}
 .num .col{flex:1;}
-.num .d{font-size:1.65cqw;line-height:1.35;color:var(--body);}
+.num .d{font-size:1.68cqw;line-height:1.35;color:var(--body);}
 
 /* bare timeline — the axis without the cards hanging off it */
 .tlb{position:relative;padding-top:3.6cqw;display:flex;gap:2.6cqw;height:100%;}
@@ -333,10 +396,10 @@ h1 em{font-style:normal;color:var(--accent);}
   width:1.4cqw;height:1.4cqw;border-radius:50%;background:var(--line);
   box-shadow:0 0 0 .45cqw var(--page);}
 .tlb .mk.on::after{background:var(--accent);}
-.tlb .when{font-size:1.3cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.tlb .when{font-size:1.5cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
 .tlb .mk.on .when{color:var(--accent);}
 .tlb .what{font-size:2.6cqw;font-weight:800;color:var(--ink);line-height:1.05;}
-.tlb .d{font-size:1.6cqw;line-height:1.35;color:var(--body);}
+.tlb .d{font-size:1.65cqw;line-height:1.35;color:var(--body);}
 
 /* one bullet style shared by every layout that is not a card. Prose in a slide
    makes the room read instead of listen; a noun-phrase bullet is scanned. */
@@ -344,10 +407,10 @@ h1 em{font-style:normal;color:var(--accent);}
 .bl li{position:relative;padding-left:1.5cqw;line-height:1.32;color:var(--body);}
 .bl li::before{content:'';position:absolute;left:0;top:.62cqw;width:.45cqw;height:.45cqw;
   border-radius:50%;background:var(--dot);}
-.stats .bl li{font-size:1.5cqw;}
-.tlb .bl li{font-size:1.5cqw;}
-.num .bl li{font-size:1.5cqw;}
-.venn .bl li{font-size:1.45cqw;}
+.stats .bl li{font-size:1.6cqw;}
+.tlb .bl li{font-size:1.6cqw;}
+.num .bl li{font-size:1.6cqw;}
+.venn .bl li{font-size:1.58cqw;}
 .venn .bl{margin-top:0;}
 
 /* ── entrance motion ──────────────────────────────────────────────────────────
@@ -369,10 +432,14 @@ h1 em{font-style:normal;color:var(--accent);}
 .slide.on .bars .bar{animation:bargrow .7s cubic-bezier(.2,.8,.3,1) both;
   animation-delay:calc(var(--i) * .09s + .1s);}
 
-/* ⓕ the funnel narrows — the narrowing IS the argument of that slide */
-@keyframes narrow{from{width:100%} to{width:var(--w)}}
-.slide.on .fun .tier{animation:narrow .8s cubic-bezier(.2,.8,.3,1) both;
-  animation-delay:calc(var(--i) * .12s + .1s);}
+/* ⓕ the funnel is built, not shrunk. Bars grow from nothing to their own width,
+   one after the other — TAM, then SAM, then SOM — so the room watches the
+   arithmetic being laid down rather than a full bar being cut back. The stagger
+   is longer than the others (.34s against a .62s bar) because "then" is the
+   point: three bars arriving together would read as three facts, not a sum. */
+@keyframes grow{from{width:0} to{width:var(--w)}}
+.slide.on .fun .tier{animation:grow .62s cubic-bezier(.2,.8,.3,1) both;
+  animation-delay:calc(var(--i) * .34s + .1s);}
 
 @media (prefers-reduced-motion:reduce){
   .slide.on .ring,.slide.on .bars .bar,.slide.on .fun .tier{animation:none;}
@@ -401,10 +468,11 @@ h1 em{font-style:normal;color:var(--accent);}
 /* ⓘ pays — the money, read the way English reads: who pays, what for, how
    much. The amount was the first thing on screen before, which is the last
    thing a reader can use. A coin travels the arrow so the direction is felt. */
-.pays{display:flex;flex-direction:column;gap:2.7cqw;}
+.pays{display:flex;flex-direction:column;gap:2.1cqw;}
 .pline{display:grid;grid-template-columns:20cqw 1fr 18cqw;gap:2cqw;align-items:center;}
 .pays .who{background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
-  padding:1.45cqw 1.7cqw;font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
+  padding:1.45cqw 1.7cqw;font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);
+  display:flex;align-items:center;white-space:nowrap;}
 .pays .mid{display:flex;flex-direction:column;align-items:center;gap:.5cqw;}
 .pays .for{font-size:1.9cqw;font-weight:700;color:var(--body);text-align:center;line-height:1.25;}
 .pays .arrow{position:relative;width:100%;height:.22cqw;background:var(--line);border-radius:99px;}
@@ -419,10 +487,10 @@ h1 em{font-style:normal;color:var(--accent);}
   box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.22);}
 .pays .amt b{display:block;font-size:3.7cqw;font-weight:800;letter-spacing:-.03em;
   line-height:1;color:#fff;}
-.pays .amt span{display:block;margin-top:.35cqw;font-size:1.15cqw;font-weight:700;
+.pays .amt span{display:block;margin-top:.35cqw;font-size:1.43cqw;font-weight:700;
   color:rgba(255,255,255,.85);}
 /* each row carries its own evidence, so no line has to be taken on trust */
-.pays .ev{grid-column:1 / -1;margin-top:1.1cqw;font-size:1.6cqw;color:var(--body);
+.pays .ev{grid-column:1 / -1;margin-top:.75cqw;font-size:1.65cqw;color:var(--body);
   padding-left:.2cqw;}
 .pays .ev b{color:var(--accent);font-weight:800;}
 @media (prefers-reduced-motion:reduce){ .slide.on .pays .arrow i{display:none;} }
@@ -437,13 +505,13 @@ h1 em{font-style:normal;color:var(--accent);}
   border-bottom:1px solid var(--line);}
 .scw .wbar i{width:.7cqw;height:.7cqw;border-radius:50%;background:var(--dot);display:block;}
 .scw .url{margin-left:.8cqw;flex:1;background:#fff;border:1px solid var(--line);border-radius:99px;
-  padding:.3cqw 1cqw;font-size:1.05cqw;color:var(--mute);}
+  padding:.3cqw 1cqw;font-size:1.38cqw;color:var(--mute);}
 .scw .scr{padding:1.15cqw 1.5cqw;}
 /* the product does not exist yet; the slide says so rather than letting a
    judge discover it in Q&A */
-.scw .note{margin-top:.7cqw;font-size:1.1cqw;color:var(--mute);font-weight:700;
+.scw .note{margin-top:.7cqw;font-size:1.4cqw;color:var(--mute);font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;}
-.scw .sp .k{font-size:1.2cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.scw .sp .k{font-size:1.45cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
 .scw .sp .big{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;line-height:1.04;
   margin-top:.4cqw;color:var(--ink);}
 .scw .sp ul{list-style:none;margin:1.2cqw 0 0;padding:0;display:flex;flex-direction:column;gap:.8cqw;}
@@ -451,22 +519,22 @@ h1 em{font-style:normal;color:var(--accent);}
 .scw .sp li::before{content:'';position:absolute;left:0;top:.75cqw;width:.55cqw;height:.55cqw;
   border-radius:50%;background:var(--dot);}
 /* screen 1 — the task */
-.scw .spon{font-size:1.1cqw;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);}
+.scw .spon{font-size:1.4cqw;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);}
 .scw .spon b{color:var(--accent);}
 .scw .tt{font-size:2.35cqw;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin-top:.7cqw;}
 .scw .chips{display:flex;gap:.6cqw;margin-top:.85cqw;flex-wrap:wrap;}
-.scw .chip{font-size:1.15cqw;font-weight:700;padding:.35cqw .9cqw;border-radius:99px;
+.scw .chip{font-size:1.43cqw;font-weight:700;padding:.35cqw .9cqw;border-radius:99px;
   background:#f1ebdc;color:var(--body);}
 .scw .crit{margin-top:1cqw;border-top:1px solid var(--line);}
 .scw .crit .cr{display:flex;justify-content:space-between;gap:1.4cqw;padding:.5cqw 0;
-  font-size:1.35cqw;color:var(--body);border-bottom:1px solid var(--line);}
+  font-size:1.53cqw;color:var(--body);border-bottom:1px solid var(--line);}
 .scw .crit .cr b{color:var(--ink);font-weight:700;white-space:nowrap;}
 .scw .cta{margin-top:1cqw;display:inline-block;background:var(--accent);color:#fff;
-  font-weight:800;font-size:1.3cqw;padding:.65cqw 1.4cqw;border-radius:.7cqw;}
+  font-weight:800;font-size:1.5cqw;padding:.65cqw 1.4cqw;border-radius:.7cqw;}
 /* screen 2 — the public board */
 .scw .bh{display:flex;align-items:baseline;justify-content:space-between;gap:1.4cqw;}
 .scw .bh .t{font-size:1.9cqw;font-weight:800;letter-spacing:-.02em;}
-.scw .bh .d{font-size:1.25cqw;font-weight:800;color:var(--accent);letter-spacing:.08em;}
+.scw .bh .d{font-size:1.48cqw;font-weight:800;color:var(--accent);letter-spacing:.08em;}
 .scw .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:.8cqw;margin-top:1cqw;}
 .scw .tile{border:1px solid var(--line);border-radius:.7cqw;overflow:hidden;background:#fdfbf6;}
 .scw .thumb{aspect-ratio:16/9;position:relative;
@@ -474,20 +542,20 @@ h1 em{font-style:normal;color:var(--accent);}
 .scw .thumb::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   border:.5cqw solid transparent;border-left-color:#fff;border-left-width:.9cqw;}
 .scw .tile .m{padding:.5cqw .6cqw;}
-.scw .tile .who{font-size:1.05cqw;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.scw .tile .who{font-size:1.38cqw;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .scw .pr{height:.28cqw;background:var(--line);border-radius:99px;margin-top:.35cqw;}
 .scw .pr i{display:block;height:100%;background:var(--accent);border-radius:99px;}
 /* screen 3 — the ranked list */
 .scw .lst{margin-top:1cqw;}
 .scw .lst .lr{display:grid;grid-template-columns:2.6cqw 1fr 6cqw 7cqw;gap:1cqw;align-items:center;
-  padding:.52cqw 0;border-bottom:1px solid var(--line);font-size:1.4cqw;}
+  padding:.52cqw 0;border-bottom:1px solid var(--line);font-size:1.55cqw;}
 .scw .lst .lr.top{background:color-mix(in srgb,var(--accent) 12%,#fff);margin:0 -1cqw;
   padding-left:1cqw;padding-right:1cqw;border-radius:.5cqw;}
 .scw .lst .rk{font-weight:800;color:var(--mute);}
 .scw .lst .lr.top .rk{color:var(--accent);}
 .scw .lst .who{font-weight:700;}
 .scw .lst .sc{font-weight:800;text-align:right;}
-.scw .lst .bt{font-size:1.1cqw;font-weight:800;text-align:center;padding:.28cqw .5cqw;
+.scw .lst .bt{font-size:1.4cqw;font-weight:800;text-align:center;padding:.28cqw .5cqw;
   border-radius:.4cqw;border:1px solid var(--line);color:var(--mute);}
 .scw .lst .lr.top .bt{background:var(--accent);border-color:var(--accent);color:#fff;}
 
@@ -531,16 +599,33 @@ h1 em{font-style:normal;color:var(--accent);}
 .cmt .r{display:grid;grid-template-columns:20cqw 1fr 1fr 8cqw;gap:1.8cqw;align-items:center;
   padding:1cqw 1.7cqw;border-radius:.9cqw;background:var(--card);border:1.5px solid var(--line);}
 .cmt .r.head{background:none;border-color:transparent;padding:0 1.8cqw .3cqw;}
-.cmt .r.head span{font-size:1.15cqw;font-weight:800;letter-spacing:.14em;
+.cmt .r.head span{font-size:1.43cqw;font-weight:800;letter-spacing:.14em;
   text-transform:uppercase;color:var(--mute);}
 .cmt .r.head span:last-child{text-align:center;}
 .cmt .who{font-size:1.9cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);}
-.cmt .c{font-size:1.6cqw;color:var(--body);line-height:1.25;}
+.cmt .c{font-size:1.65cqw;color:var(--body);line-height:1.25;}
+/* the last column is the argument, not decoration: a red cross on every company
+   that stops at software, one green tick on ours. On the filled row the same
+   green is lifted to a mint, because #0e9a89 on the accent fill reads as sludge. */
 .cmt .m{font-size:2.5cqw;font-weight:800;text-align:center;color:var(--mute);}
+.cmt .m.no{color:#e0442e;}
+.cmt .m.ok{color:#0e9a89;}
 .cmt .r.us{background:var(--accent);border-color:var(--accent);
   box-shadow:0 1.2cqw 2.6cqw rgba(120,80,20,.24);}
 .cmt .r.us .who,.cmt .r.us .c{color:#fff;}
-.cmt .r.us .m{color:#fff;font-size:2.9cqw;}
+.cmt .r.us .m{color:#7cf0d5;font-size:2.9cqw;}
+/* the mark rides in front of the name wherever the brand is written, so the room
+   ties the shape to the words instead of learning the two separately. Sized in em
+   so one class serves a table row, a flow box and a label. On the filled row it is
+   knocked out to white, the same trick the bridge slide uses. */
+/* the payer marks. An emoji or an image path — so dropping the official
+   government mark into assets/brand/ and changing one string is the whole swap,
+   with no renderer change. Slightly larger than the name it precedes, because a
+   symbol is recognised at a size where a word would still be being read. */
+.pays .pmk{font-size:1.25em;margin-right:.4em;line-height:1;}
+.pays .pmk img{height:1.15em;width:auto;display:inline-block;vertical-align:-.16em;}
+.bmk{height:1.05em;width:auto;display:inline-block;vertical-align:-.15em;margin-right:.34em;}
+.cmt .r.us .bmk{filter:brightness(0) invert(1);}
 
 /* ⓔ stack — an escalation. Two bands; the second is stepped in and filled, so
    the shape itself says "and then it gets worse" before a word is read. */
@@ -584,7 +669,7 @@ h1 em{font-style:normal;color:var(--accent);}
 .bridge .mk{flex:none;width:5cqw;aspect-ratio:1;border-radius:50%;display:grid;
   place-items:center;background:#f6efe0;border:1.5px solid var(--line);color:var(--accent);}
 .bridge .mk svg{width:66%;height:auto;display:block;}
-.bridge .lbl{font-size:1.25cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+.bridge .lbl{font-size:1.48cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:var(--mute);margin-top:1cqw;}
 .bridge .lbl.give{color:var(--accent);}
 .bridge .card ul{margin:.6cqw 0 0;gap:.6cqw;}
@@ -605,9 +690,9 @@ h1 em{font-style:normal;color:var(--accent);}
 .bridge .bsill{stroke:#d6c9ae;stroke-width:1.4;stroke-linecap:round;}
 .bridge .bpier{stroke:#d6c9ae;stroke-width:1.4;stroke-linecap:round;}
 /* the middle card used to carry the revenue; with it gone the money moves here */
-.payline{margin-top:1.4cqw;font-size:1.5cqw;font-weight:700;color:var(--body);}
+.payline{margin-top:1.4cqw;font-size:1.6cqw;font-weight:700;color:var(--body);}
 .payline b{color:var(--accent);font-weight:800;}
-.slide.tight .card li{font-size:1.5cqw;line-height:1.3;}
+.slide.tight .card li{font-size:1.6cqw;line-height:1.3;}
 .slide.tight .card ul{gap:.55cqw;}
 .flow.bridge .link svg{width:100%;height:auto;display:block;overflow:visible;}
 .flow.bridge .rail{stroke:var(--dot);stroke-width:3;stroke-linecap:round;}
@@ -623,7 +708,7 @@ h1 em{font-style:normal;color:var(--accent);}
 /* footer */
 .foot{position:absolute;left:6cqw;right:6cqw;bottom:3.6cqw;display:flex;
   align-items:center;justify-content:space-between;gap:2cqw;}
-.foot .src,.foot .pg{font-size:1cqw;color:var(--mute);}
+.foot .src,.foot .pg{font-size:1.35cqw;color:var(--mute);}
 .foot .pg{font-weight:700;}
 
 /* the script, for rehearsal. S folds it away for the real room. */
@@ -657,14 +742,19 @@ h1 em{font-style:normal;color:var(--accent);}
           stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M7 54V31l15 9V31l15 9V22h8v18l12 7v14z"/><path d="M45 22V11h8v11"/>
   </symbol>
+  <symbol id="i-worker" viewBox="0 0 64 64" fill="none" stroke="currentColor"
+          stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="13" r="7"/><path d="M32 22v20M21 30h22M32 42l-8 15M32 42l8 15"/>
+  </symbol>
+  <symbol id="i-arm" viewBox="0 0 64 64" fill="none" stroke="currentColor"
+          stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 57h22M26 57V35l16-11 11 8"/><path d="M53 32l5-5M53 32l3 7"/>
+  </symbol>
 </svg>
 
 <div class="hud"><div class="hud-in">
   <a class="brand" href="/"><img src="assets/logo-mark.png" alt="">Physical <b>Spark</b></a>
   <div class="rail" id="rail"></div>
-  <div class="clock mono" id="clock">0:00</div>
-  <button class="tbtn" id="b-script" onclick="togglePrompter()">Script S</button>
-  <a class="tbtn" href="/deck-v3.html">v3 &#8599;</a>
 </div></div>
 
 <div class="wrap"><div class="stage" id="stage"></div></div>
@@ -675,15 +765,38 @@ h1 em{font-style:normal;color:var(--accent);}
 </div>
 
 <div class="ctl"><div class="ctl-in">
+  <span class="clock mono" id="clock">0:00</span>
   <button class="btn go" id="b-run" onclick="toggleRun()">&#9654; START</button>
   <button class="btn" onclick="go(-1)">&larr; Prev</button>
   <button class="btn" onclick="go(1)">Next &rarr;</button>
   <button class="btn" onclick="reset()">&#8635;</button>
-  <span class="hint">space / &rarr; next &middot; &larr; back &middot; S script &middot; R reset &middot; Enter run</span>
+  <button class="tbtn" id="b-script" onclick="togglePrompter()">Script S</button>
+  <button class="tbtn on" id="b-time" onclick="toggleTimer()">Timer T</button>
+  <a class="tbtn" href="/deck-v3.html">v3 &#8599;</a>
+  <span class="hint">space / &rarr; next &middot; &larr; back &middot; S script &middot; T timer &middot; R reset &middot; Enter run</span>
 </div></div>
 
 <script>
 const WPS = 2.2;   /* spoken words per second — a second language, said clearly */
+
+/* The brand is written on five different slides. Each time it carries the mark
+   from the top-left corner in front of it, so ten minutes of hearing the name is
+   also ten minutes of being shown the shape. One constant, so the lockup cannot
+   drift apart between a table row and a flow box. */
+const MK = '<img class="bmk" src="assets/logo-mark.png" alt="">';
+
+/* The solution is one chain walked in three steps, so the chain stays on the wall
+   the whole way. The divider shows it empty — three boxes and two arrows, the
+   shape of what is coming — and each step fills in as it is spoken. `rail`:
+   -1 = all empty, 0..2 = that step is live, 3 = the chain is complete. */
+const SOL = [['01','The task'],['02','The season'],['03','The output']];
+function srail(cur){
+  return `<div class="srail">` + SOL.map((st,i)=>{
+    const cls = cur<0 ? 'empty' : (i<cur ? 'done' : i===cur ? 'now' : 'todo');
+    return `<div class="sbox ${cls}"><b>${st[0]}</b><span>${st[1]}</span></div>` +
+           (i<SOL.length-1 ? `<i class="sar">&rarr;</i>` : '');
+  }).join('') + `</div>`;
+}
 
 /* Chapters own the colour. Open/Problem/Business share red, Why-we-win/Team share
    gold: v1 uses colour as temperature, not as a unique label per section. */
@@ -709,9 +822,9 @@ const SEASON = [
   {i:'03', t:'The output', v:['Every finisher, ranked','Peer review on video, with the recorded runs attached']},
 ];
 const START = [
-  {k:'Step 1 · Korea',         big:'Prove it',              v:['Most robots per factory worker on earth','Public money already pays for the training']},
-  {k:'Step 2 · Vietnam',       big:'Follow the factories',  v:['Where manufacturing lines are moving now','Our CPO worked with FPT Software in Vietnam']},
-  {k:'Step 3 · United States', big:'Carries itself',        v:['No government program needed','Salaries and fees roughly 3&times; higher']},
+  {k:'Step 1 · Korea', flag:'🇰🇷', big:'Prove it',              v:['Most robots per factory worker on earth','Public money already pays for the training']},
+  {k:'Step 2 · Vietnam', flag:'🇻🇳', big:'Follow the factories', v:['We visit in 2027 Q1','Korean manufacturers already run their lines there','Our CPO worked with FPT Software in Vietnam']},
+  {k:'Step 3 · United States', flag:'🇺🇸', big:'Carries itself',        v:['No government program needed','Salaries and fees roughly 3&times; higher']},
 ];
 const SEA_HEAD = 'One task. One season.<br>One <em>ranked list.</em>';
 const SEA_SUB  = 'Fixed dates, a public video board, and grading rules the hiring companies helped write.';
@@ -750,26 +863,26 @@ const BEATS = [
   ],
   pay:'Paid by both sides &mdash; <b>course fees from the government</b> and <b>10% of salary on every hire.</b>',
   src:'Morgan Stanley, Jun 2026 &mdash; humanoid shipment forecast for the year doubled to 50,000 units',
-  say:'Physical Spark has two customers. On the left are software developers. They can code, but they have never touched a robot and have no hardware to practice on. We give them a free course, a simulator, then a real arm. On the right are factories. Morgan Stanley says robots arrive from 2026, so the hiring follows, and nobody knows who is good. We give factories ranked finishers and a scorecard. Both sides pay us.'},
+  say:'Physical Spark has two customers. On the left, software developers. They can code, but have never touched a robot. We give them a free course, a simulator, then a real arm. On the right, factories. Morgan Stanley says robots arrive from 2026, so hiring follows — and hiring on the physical side is far harder. A CV cannot show who can run a machine. We give factories ranked finishers and a scorecard. Both sides pay us.'},
 
 /* ══ WHY NOW ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Why now', head:'Why now',
-  sub:'The AI forward deployed engineer already exists. Next, the role moves onto a factory floor.', say:'So, why now? The AI forward deployed engineer already exists.'},
+  sub:'The AI forward deployed engineer already exists.<br>Next, the role moves onto a factory floor.', say:'So, why now? The AI forward deployed engineer already exists.'},
 
 { sec:36, n:'02', section:'Why now', layout:'stats', focus:0,
-  head:'Developer hiring is down.<br>The <em>forward deployed engineer (FDE) is up.</em>',
-  sub:'Developer postings are still 27% below pre-pandemic. An FDE makes AI actually work inside a customer&rsquo;s company.',
+  head:'Developer hiring is down.<br>The <em>AI forward deployed engineer is up.</em>',
+  sub:'Developer postings are still 27% below pre-pandemic.<br>An AI FDE makes AI actually work inside a customer&rsquo;s company.',
   stats:[
-    {n:'+800%',   k:'How fast',       v:['FDE job posts, in nine months of 2025','The qualified pool grew about 50%']},
-    {n:'$4B',     k:'Who is betting', v:['OpenAI&rsquo;s deployment company, built on the FDE role','AWS put in $1B, Anthropic $1.5B']},
+    {n:'+800%',   k:'How fast',       v:['AI FDE job posts, in nine months of 2025','The qualified pool grew about 50%']},
+    {n:'$4B',     k:'Who is betting', v:['OpenAI&rsquo;s deployment company, built on the AI FDE role','AWS put in $1B, Anthropic $1.5B']},
     {n:'2027',    k:'Where next',     v:['The same role, on a factory floor','The physical AI FDE']},
   ],
   src:'Indeed Hiring Lab, 2026 &mdash; software development postings 27.5% below pre-pandemic · Live Data Technologies, 2025 · OpenAI · AWS, Jun 2026 · Anthropic',
-  say:'Developer hiring is down, and the forward deployed engineer is up. Postings are still twenty-seven percent below pre-pandemic. An FDE makes AI actually work inside a customer\'s company. FDE job posts are up eight hundred percent in nine months. OpenAI built a four-billion-dollar deployment company on the FDE role. And in 2027 the same role moves onto a factory floor, as the physical AI FDE.'},
+  say:'Developer hiring is down, and the AI forward deployed engineer is up. Postings are still twenty-seven percent below pre-pandemic. An AI FDE makes AI actually work inside a customer\'s company. AI FDE job posts are up eight hundred percent in nine months. OpenAI built a four-billion-dollar deployment company on the AI FDE role. And in 2027 the same role moves onto a factory floor, as the physical AI FDE.'},
 
 { sec:32, n:'03', section:'Why now', layout:'stack', focus:1,
   head:'95% of AI projects fail.<br>Now <em>add a robot.</em>',
-  sub:'Software AI already fails most of the time. A robot adds a machine that can break.',
+  sub:'Software AI already fails most of the time.<br>A robot adds a machine that can break.',
   bands:[
     {k:'Software AI', big:'95% fail',
      v:['Enterprise pilots with no measurable result','The failure is integration, not the model']},
@@ -782,10 +895,13 @@ const BEATS = [
 { sec:30, n:'04', section:'Why Korea', layout:'bignum',
   head:'The physical AI engineer<br>starts on a <em>factory floor.</em>',
   sub:'Korea is where the physical FDE lands first.',
-  num:'1,220', unit:'robots per 10,000 factory workers',
-  list:['4&times; the United States, 9&times; the world average','Almost every Korean manufacturer is a small company','Korea ages faster than any OECD country','One qualified engineer per three open automation jobs'],
+  ratio:{people:8}, num:'1 robot', unit:'for every 8 workers on a Korean factory floor',
+  list:['1,220 per 10,000 &mdash; 4&times; the United States, 9&times; the world average',
+        'Almost every Korean manufacturer is a small company',
+        'Korea ages faster than any OECD country',
+        'One qualified engineer per three open automation jobs'],
   src:'IFR World Robotics, 2024 data &mdash; Korea 1,220 / United States 307 / world average 132 · KOSIS Korean manufacturing SME share',
-  say:'Korea is where the physical AI engineer lands first. Korea has twelve hundred and twenty robots per ten thousand factory workers, four times the United States and nine times the world average. Almost every Korean manufacturer is a small company. Korea ages faster than any OECD country, and there is one qualified engineer for every three open automation jobs.'},
+  say:'Korea is where the physical AI engineer lands first. On a Korean factory floor there is already one robot for every eight workers &mdash; four times the United States, nine times the world. Almost every Korean manufacturer is a small company. Korea ages faster than any OECD country, and there is one qualified engineer for every three open automation jobs.'},
 
 /* one picture, built in four — the presenter decides when each group lands */
 { sec:9, n:'05', section:'Who needs this', layout:'venn', show:1,
@@ -807,7 +923,7 @@ const BEATS = [
 
 { sec:32, n:'06', section:'The problem', layout:'compare', focus:1,
   head:'My cofounder hires engineers.<br>He <em>cannot judge</em> from a CV.',
-  sub:'Hard for an AI engineer today. Harder for anyone who has to run a robot.',
+  sub:'Hard for an AI engineer today.<br>Harder for anyone who has to run a robot.',
   cards:[
     {k:'On the CV',   big:'Tools, not skill', v:['Every CV lists an impressive stack','And now AI writes the CV']},
     {k:'In practice', big:'Week two',     v:['Passes the interview, fails on the real work','Two weeks of search, already spent']},
@@ -824,12 +940,12 @@ const BEATS = [
 
 /* ══ SOLUTION ══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'The solution', head:'The solution',
-  sub:'One task. One season. One ranked list.',
+  sub:'One task. One season. One ranked list.', rail:-1,
   say:'Our answer is one task, one season, and one ranked list.'},
 
 { sec:18, n:'08', section:'The solution', layout:'screen',
   head:'One task, written by<br>the companies that will <em>hire.</em>',
-  step:'01 &middot; The task', big:'Real work,<br>real grading rules',
+  step:'01 &middot; The task', rail:0, big:'Real work,<br>real grading rules',
   v:['Written with the factories that will hire','Every point is public before anyone starts'],
   scr:{ kind:'task', url:'physicalspark.com / season-1 / task',
     sponsor:'Daeyang Precision', roles:'12 open roles',
@@ -842,7 +958,7 @@ const BEATS = [
 
 { sec:10, n:'08', section:'The solution', layout:'screen',
   head:'Two weeks, fixed dates,<br>every run <em>in the open.</em>',
-  step:'02 &middot; The season', big:'Everyone starts<br>the same day',
+  step:'02 &middot; The season', rail:1, big:'Everyone starts<br>the same day',
   v:['Every run posted to a public board','Peers watch and score the video'],
   scr:{ kind:'board', url:'physicalspark.com / season-1 / board',
     t:'Season 1 &nbsp;&middot;&nbsp; 30 engineers', d:'Day 6 of 14',
@@ -852,7 +968,7 @@ const BEATS = [
 
 { sec:10, n:'08', section:'The solution', layout:'screen',
   head:'Every finisher, ranked,<br>with the <em>runs attached.</em>',
-  step:'03 &middot; The output', big:'A list a company<br>can hire from',
+  step:'03 &middot; The output', rail:2, big:'A list a company<br>can hire from',
   v:['Peer score and the recorded runs, per person','The top 5 get a real arm and a supervised session'],
   scr:{ kind:'results', url:'physicalspark.com / season-1 / results',
     t:'Final ranking &nbsp;&middot;&nbsp; 30 finishers', d:'Sent to 4 companies',
@@ -861,9 +977,9 @@ const BEATS = [
           [5,'Minjae Lee',81,'View runs',0]]},
   say:'Every finisher is ranked, with the recorded runs attached. The top five get a real arm.'},
 
-{ sec:38, n:'10', section:'The solution', layout:'doc',
+{ sec:38, n:'10', section:'The solution', layout:'doc', rail:3,
   head:'A company buys a <em>scorecard,</em><br>not a CV.',
-  sub:'One page per finisher. This is a real one.',
+  sub:'One page per finisher.<br>This is a real one.',
   doc:{ hd:'Candidate report', hdsub:'Jihoon Park &middot; Season 1 &middot; Daeyang Precision task',
     rows:[
       ['Pick from a bin','87 / 100 runs',''],
@@ -884,28 +1000,32 @@ const BEATS = [
 
 { sec:30, n:'11', section:'Why we win', layout:'migrate',
   head:'Hiring already moved<br>from tests to <em>tasks.</em>',
-  sub:'AI made the coding test useless, so hiring moved to real projects. AI can write a take-home too &mdash; it cannot make a robot move.',
+  sub:'AI made the coding test useless, so hiring moved to real projects.<br>AI can write a take-home too &mdash; it cannot make a robot move.',
   rows:[
     {k:'Software hiring', from:'Coding test',      to:'Take-home project'},
-    {k:'Robot hiring',    from:'CV and interview', to:'Physical Spark'},
+    {k:'Robot hiring',    from:'CV and interview', to:MK+'Physical Spark'},
   ],
   src:'CNBC, Mar 2025 &mdash; Google brought back in-person rounds after AI cheating in coding interviews',
   say:'Hiring already moved from tests to tasks. Software hiring went from the coding test to the take-home project, because AI made the coding test useless. But AI can write a take-home too. AI cannot make a robot move. Robot hiring is still the CV and the interview. The next step is Physical Spark.'},
 
 { sec:34, n:'12', section:'Team', layout:'people',
   head:'One of us teaches AI.<br>The other one <em>decides who gets hired.</em>',
-  sub:'One of us builds the supply. The other one is the demand.',
+  sub:'One of us builds the supply.<br>The other one is the demand.',
   people:[
     {img:'assets/brand/face-jungmin.png', k:'Teaching · CEO', big:'Jungmin Hong',
      v:['Main instructor &mdash; K-Digital Training (SK Telecom), Eduwill',
         'Korea&rsquo;s national AI program, funded by the government',
-        'AI engineer at Upstage &mdash; deploying AI inside customer companies'],
+        'Writes and grades the work every week &mdash; where our test comes from',
+        '<i>Before</i> &mdash; AI Product Engineer at Upstage, deploying AI inside customer companies'],
      orgs:[['org-skt.png','SK Telecom'],['org-eduwill.png','Eduwill'],['org-kdt.png','K-Digital Training'],['org-upstage.png','Upstage']]},
     {img:'assets/brand/face-gichan.png', k:'Hiring · CPO', big:'Gichan Lee',
-     v:['Lead of FDE &mdash; hires AI engineers today','Industrial engineering &mdash; factory lines','Could not judge skill from a CV'],
+     v:['Lead of FDE &mdash; hires AI engineers today. Our own customer.',
+        'Industrial engineering &mdash; factory lines, not software',
+        'Could not judge skill from a CV &mdash; that is why we built this',
+        '<i>Before</i> &mdash; embedded engineer at FPT Software Korea, on the Global team with the Vietnam offshore team'],
      orgs:[['org-kiba.png','KIBA'],['org-concentrix.png','Concentrix'],['org-fpt.png','FPT Software']]},
   ],
-  say:'One of us teaches AI, and the other one decides who gets hired. I am a main instructor on K-Digital Training with SK Telecom, and at Eduwill — Korea\'s national AI program. Before that I was an AI engineer at Upstage, deploying AI inside customer companies. Gichan is Lead of FDE and hires AI engineers today. He studied industrial engineering and knows factory lines. Gichan could not judge skill from a CV.'},
+  say:'One of us teaches AI, and the other one decides who gets hired. I am a main instructor on K-Digital Training with SK Telecom, and at Eduwill — Korea\'s national AI program. Before that, AI Product Engineer at Upstage. Gichan is Lead of FDE and hires AI engineers today, so he is our own customer. Before that he was an embedded engineer at FPT Software Korea, with the Vietnam offshore team.'},
 
 /* ══ MARKET ════════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'Competitors', head:'Competitors',
@@ -918,10 +1038,10 @@ const BEATS = [
      four different units side by side, so the eye had nothing to compare. */
   cols:['Company','Who they test','How','Robots'],
   rows:[
-    {n:'Grepp',          who:'Developers',      how:'Online coding test', robot:0},
-    {n:'AX 인재전쟁',      who:'Developers',      how:'Hiring contest',     robot:0},
-    {n:'Karat',          who:'Developers',      how:'Live interview',     robot:0},
-    {n:'Physical Spark', who:'Robot operators', how:'Recorded runs',      robot:1, us:1},
+    {n:'Grepp',          who:'AI FDE',          how:'Online coding test', robot:0},
+    {n:'AX Talent War',  who:'AI FDE',          how:'Hiring contest',     robot:0},
+    {n:'Karat',          who:'AI FDE',          how:'Live interview',     robot:0},
+    {n:MK+'Physical Spark', who:'Physical AI FDE', how:'Recorded runs',   robot:1, us:1},
   ],
   src:'Grepp/프로그래머스 &mdash; 1,483 companies, 650,000 tested · OpenAI × 조코딩AX, Jul 2026 · Karat &mdash; $1.1B valuation, 2021',
   say:'Three companies proved this works, and none of them touch a robot. Grepp tests developers with an online coding test for nearly fifteen hundred Korean companies. The AX hiring contest tests developers too, with OpenAI and five thousand applicants. Karat tests developers with a live interview, here in Seattle, at a one-point-one-billion-dollar valuation. All three test developers. Physical Spark tests robot operators on recorded runs.'},
@@ -936,7 +1056,7 @@ const BEATS = [
     {k:'SAM', big:'$19M',  cap:'2,509 Korean robot firms &times; 2 hires &times; 10%', w:74},
     {k:'SOM', big:'$126K', cap:'Season one &mdash; 0.7% of what we can reach', w:54},
   ],
-  pay:'These are Korean numbers. The same two budgets exist in the <b>United States</b>, at roughly <b>3&times; the price.</b>',
+  pay:'These are Korean numbers.<br>The same two budgets exist in the <b>United States</b>, at roughly <b>3&times; the price.</b>',
   src:'Public AI training: MOEL AI Campus budget · Robot firms: KIRIA Robot Industry Survey 2024 · Recruiting fees: our own estimate',
   say:'The market is nine hundred and fifty million dollars a year in one country. Ninety-three million into public AI training, and we estimate eight hundred and fifty-seven million in recruiting fees. Our part is nineteen million, from two thousand five hundred Korean robot firms hiring twice each at ten percent. Season one is one hundred and twenty-six thousand. These are Korean numbers. The same budgets exist in the United States at three times the price.'},
 
@@ -950,9 +1070,9 @@ const BEATS = [
   /* who pays, what for, how much — in that order, because that is the order
      the question arrives in. The old slide led with the amount. */
   lines:[
-    {who:'Government', for:'A season of 30 engineers', amt:'$43,000', unit:'per season',
+    {who:'Government', mk:'🇰🇷', for:'A season of 30 engineers', amt:'$43,000', unit:'per season',
      ev:'<b>I already teach on this budget</b> &mdash; K-Digital Training, with SK Telecom'},
-    {who:'Factory', for:'Every engineer they hire', amt:'10%', unit:'of first-year salary',
+    {who:'Factory', mk:'🏭', for:'Every engineer they hire', amt:'10%', unit:'of first-year salary',
      ev:'About <b>$2,300</b> per hire. A headhunter charges <b>15&ndash;30%</b> to show you one person.'},
   ],
   src:'MOEL K-Digital Training · Korean recruiting fee ranges · Korean robot-AI junior salary',
@@ -974,7 +1094,7 @@ const BEATS = [
   say:'Step one is Korea. Korea has the most robots per factory worker on earth, and public money already pays for the training.'},
 { sec:11, n:'17', section:'Where next', layout:'flow', cards:START, focus:1,
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
-  say:'Step two is Vietnam, where we follow the factories. Manufacturing lines are moving there now, and our CPO worked with FPT Software in Vietnam.'},
+  say:'Step two is Vietnam, in the first quarter of 2027. Korean manufacturers already run their lines there, and our CPO worked with FPT Software.'},
 { sec:10, n:'17', section:'Where next', layout:'flow', cards:START, focus:2,
   deco:STA_DECO, head:STA_HEAD, sub:STA_SUB,
   say:'Step three is the United States, which carries itself. No government program is needed, and salaries and fees are three times higher.'},
@@ -993,6 +1113,7 @@ const blist = v => `<ul class="bl">${(v||[]).map(x=>`<li>${x}</li>`).join('')}</
 const bullets = v => `<ul>${(v||[]).map(x=>`<li>${x}</li>`).join('')}</ul>`;
 const cardEl = (c,on,cls='') =>
   `<div class="card ${on?'focus':''} ${cls}">
+     ${c.flag?`<div class="flag">${c.flag}</div>`:''}
      <div class="k">${c.k}</div>${c.big?`<div class="big">${c.big}</div>`:''}${bullets(c.v)}
    </div>`;
 
@@ -1033,7 +1154,7 @@ function bodyHTML(b){
     case 'pays':
       return `<div class="pays">` + b.lines.map(l=>`
         <div class="pline">
-          <div class="who">${l.who}</div>
+          <div class="who">${l.mk?`<span class="pmk">${/^assets\//.test(l.mk)?`<img src="${l.mk}" alt="">`:l.mk}</span>`:''}${l.who}</div>
           <div class="mid"><div class="for">${l.for}</div><div class="arrow"><i></i></div></div>
           <div class="amt"><b>${l.amt}</b><span>${l.unit}</span></div>
           <div class="ev">${l.ev}</div>
@@ -1071,7 +1192,8 @@ function bodyHTML(b){
         <div class="r head">${b.cols.map(c=>`<span>${c}</span>`).join('')}</div>` +
         b.rows.map(r=>`<div class="r ${r.us?'us':''}">
           <div class="who">${r.n}</div><div class="c">${r.who}</div>
-          <div class="c">${r.how}</div><div class="m">${r.robot?'&#10003;':'&#10007;'}</div>
+          <div class="c">${r.how}</div>
+          <div class="m ${r.robot?'ok':'no'}">${r.robot?'&#10003;':'&#10007;'}</div>
         </div>`).join('') + `</div>`;
     case 'stack':
       return `<div class="stk">` + b.bands.map((x,i)=>`
@@ -1085,7 +1207,7 @@ function bodyHTML(b){
           <span class="mk"><svg><use href="#${c.mk}"/></svg></span></div>
         <div class="lbl">The pain</div>${bullets(c.pain)}
         <div class="hair"></div>
-        <div class="lbl give">Physical Spark gives</div>${bullets(c.give)}</div>`;
+        <div class="lbl give">${MK}Physical Spark gives</div>${bullets(c.give)}</div>`;
       return `<div class="flow bridge">${bc(b.cards[0])}
         <div class="mid">
           ${brSpan()}
@@ -1126,10 +1248,17 @@ function bodyHTML(b){
         `<div class="st ${i===f?'focus':''}">
            <div class="n">${x.n}</div><div class="k">${x.k}</div>${blist(x.v)}
          </div>`).join('') + `</div>`;
-    case 'ratio':
+    case 'ratio': {
+      /* twenty factories, thirteen of them filled. The share is legible as a
+         quantity before the number underneath it is read as a number. */
+      const N=20, lit=Math.round(b.p/100*N);
       return `<div class="ratio">
-        <div class="ring" style="--p:${b.p}"><span>${b.num}</span></div>
-        <div class="side"><div class="unit">${b.unit}</div>${bullets(b.list)}</div></div>`;
+        <div class="pgrid">${Array.from({length:N},(_,i)=>
+          `<svg class="${i<lit?'lit':''}" viewBox="0 0 64 64" aria-hidden="true"
+                style="--i:${i}"><use href="#i-fac"></use></svg>`).join('')}</div>
+        <div class="side"><div class="pnum">${b.num}</div>
+          <div class="unit">${b.unit}</div>${bullets(b.list)}</div></div>`;
+    }
     case 'numbered':
       return `<div class="num">` + b.rows.map((x,i)=>
         `<div class="row ${i===f?'focus':''}">
@@ -1141,6 +1270,18 @@ function bodyHTML(b){
            <span class="when">${x.when}</span><span class="what">${x.what}</span>${blist(x.v)}
          </div>`).join('') + `</div>`;
     case 'bignum':
+      /* a density is a comparison, and a comparison wants two things beside each
+         other, not one big number the room has to divide. Eight people, a rule,
+         one robot — counted by the eye before the caption is read. */
+      if(b.ratio) return `<div class="dens">
+        <div class="crowd">
+          ${Array.from({length:b.ratio.people},(_,i)=>
+            `<svg style="--i:${i}" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-worker"></use></svg>`).join('')}
+          <span class="bar"></span>
+          <svg class="arm" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-arm"></use></svg>
+        </div>
+        <div class="cap"><b>${b.num}</b> ${b.unit}</div>
+        ${bullets(b.list)}</div>`;
       return `<div class="bignum"><div class="n">${b.num}</div>
         <div class="side"><div class="unit">${b.unit}</div>${bullets(b.list)}</div></div>`;
     case 'doc':
@@ -1180,7 +1321,7 @@ stage.innerHTML = BEATS.map((b,i)=>{
     <section class="slide cover" data-i="${i}">
       <div class="row">
         <div class="txt">
-          <div class="name">Physical <b>Spark</b><img class="mark" src="assets/logo-mark.png" alt=""></div>
+          <div class="name"><img class="mark" src="assets/logo-mark.png" alt="">Physical <b>Spark</b></div>
           <p class="line">${b.line}</p>
           <div class="who">${b.who}</div>
         </div>
@@ -1193,7 +1334,7 @@ stage.innerHTML = BEATS.map((b,i)=>{
     </section>`;
   if(b.kind==='outro') return `
     <section class="slide outro" data-i="${i}">
-      <div class="name">Physical <b>Spark</b><img class="mark" src="assets/logo-mark.png" alt=""></div>
+      <div class="name"><img class="mark" src="assets/logo-mark.png" alt="">Physical <b>Spark</b></div>
       <p class="line">${b.line}</p>
       <div class="rule"></div>
       <div class="row">
@@ -1205,16 +1346,18 @@ stage.innerHTML = BEATS.map((b,i)=>{
   if(b.kind==='divider') return `
     <section class="slide divider" data-i="${i}">
       <h1>${b.head}</h1><p class="sub">${b.sub||''}</p>
+      ${b.rail!==undefined?srail(b.rail):''}
     </section>`;
   return `
     <section class="slide${b.layout?' lay-'+b.layout:''}${b.tight?' tight':''}" data-i="${i}">
       <div class="kick">
         <span class="n mono">${b.n}</span><span class="l">${b.section}</span>
         ${b.fix?`<span class="fix">FIX</span>`:''}
-        <span class="rule"></span><span class="s mono">${b.sec}s</span>
+        <span class="rule"></span>
       </div>
       <h1>${b.head}</h1>${b.deco==='globe'?GLOBE:''}
       ${b.sub?`<p class="sub">${b.sub}</p>`:''}
+      ${b.rail!==undefined?srail(b.rail):''}
       <div class="body">${bodyHTML(b)}</div>
       <div class="foot">
         <div class="src">${esc(b.note||b.src)}</div>
@@ -1292,6 +1435,10 @@ function fitPrompter(){
   document.querySelector('.wrap').style.setProperty('--btm',
     pr.classList.contains('on') ? (52+pr.offsetHeight+8)+'px' : '52px');
 }
+function toggleTimer(){
+  const off=document.body.classList.toggle('notime');
+  document.getElementById('b-time').classList.toggle('on',!off);
+}
 function togglePrompter(){
   const on=document.getElementById('pr').classList.toggle('on');
   document.getElementById('b-script').classList.toggle('on',on);
@@ -1310,12 +1457,13 @@ addEventListener('keydown',e=>{
   if(e.key===' '||e.key==='ArrowRight'){e.preventDefault();go(1);}
   else if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
   else if(e.key.toLowerCase()==='s'){togglePrompter();}
+  else if(e.key.toLowerCase()==='t'){toggleTimer();}
   else if(e.key.toLowerCase()==='r'){reset();}
   else if(e.key==='Enter'){toggleRun();}
 });
 const deep=parseInt(location.hash.slice(1),10);
 if(deep>=1&&deep<=BEATS.length) idx=deep-1;
-togglePrompter();   /* on while rehearsing; S folds it away */
+fitPrompter();      /* script starts folded away — S opens it when rehearsing */
 render();
 </script>
 </body>
