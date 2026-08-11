@@ -464,9 +464,9 @@ h1 em{font-style:normal;color:var(--accent);}
    nobody has built the destination. The dot moving left to right says
    "already in motion" before a word is read. */
 .mig{display:flex;flex-direction:column;gap:2.8cqw;}
-.mrow{display:grid;grid-template-columns:15cqw 1fr 8cqw 1fr;gap:1.6cqw;align-items:center;}
-.mig .mk2{font-size:1.4cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--mute);line-height:1.3;}
+.mrow{display:grid;grid-template-columns:17cqw 1fr 8cqw 1fr;gap:1.6cqw;align-items:center;}
+.mig .mk2{font-size:1.85cqw;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink);line-height:1.25;}
 .mig .box{background:var(--card);border:1.5px solid var(--line);border-radius:1cqw;
   padding:1.9cqw 2.1cqw;font-size:2.4cqw;font-weight:800;letter-spacing:-.02em;
   color:var(--ink);line-height:1.15;}
@@ -852,7 +852,9 @@ const BEATS = [
   sub:'One of us builds the supply. The other one is the demand.',
   people:[
     {img:'assets/brand/face-jungmin.png', k:'Teaching · CEO', big:'Jungmin Hong',
-     v:['Main instructor &mdash; Korea&rsquo;s national AI programme','Main instructor &mdash; Seoul, Jung-gu district','Writes and grades the work every week'],
+     v:['Main instructor &mdash; K-Digital Training (SK Telecom), Eduwill',
+        'Korea&rsquo;s national AI programme, funded by the government',
+        'AI engineer at Upstage &mdash; deploying AI inside customer companies'],
      orgs:[['org-skt.png','SK Telecom'],['org-eduwill.png','Eduwill'],['org-kdt.png','K-Digital Training'],['org-upstage.png','Upstage']]},
     {img:'assets/brand/face-gichan.png', k:'Hiring · CPO', big:'Gichan Lee',
      v:['Lead of FDE &mdash; hires AI engineers today','Industrial engineering &mdash; factory lines','Could not judge skill from a CV'],
@@ -884,13 +886,12 @@ const BEATS = [
 
 { sec:32, n:'14', section:'Market size', layout:'funnel', focus:1,
   head:'$950 million a year,<br>in <em>one country.</em>',
-  sub:'Then narrowed twice, to the part we can actually reach.',
   tiers:[
     {k:'TAM', big:'$950M', cap:'$93M public AI training + $857M recruiting fees, per year', w:100},
     {k:'SAM', big:'$19M',  cap:'2,509 Korean robot firms &times; 2 hires &times; 10%', w:74},
     {k:'SOM', big:'$126K', cap:'Season one &mdash; 0.7% of what we can reach', w:54},
   ],
-  src:'MOEL AI Campus · KIRIA 2024 · Korean recruiting market estimate',
+  src:'Public AI training: MOEL AI Campus budget · Robot firms: KIRIA Robot Industry Survey 2024 · Recruiting fees: our own estimate',
   say:'How big is this. In Korea alone, ninety-three million dollars a year goes into public AI training, and eight hundred and fifty-seven million into recruiting fees. Our slice is the physical part — two thousand five hundred robot companies hiring — about nineteen million a year. Season one is a hundred and twenty-six thousand of that.'},
 
 /* ══ BUSINESS ══════════════════════════════════════════════════════════════ */
