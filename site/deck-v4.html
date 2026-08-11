@@ -369,6 +369,70 @@ h1 em{font-style:normal;color:var(--accent);}
 /* bridge connectors — an arrow glyph says "next"; a rail with something moving
    along it says "these two are joined and traffic runs both ways". The dots
    travel toward the centre from both sides, which is the whole claim. */
+/* ⓗ screen — a product screen, drawn rather than screenshotted: sharp on a
+   projector, in the deck's own palette, and a wording change is one line.
+   Everything is scoped under .scw so the short class names cannot collide. */
+.scw{display:grid;grid-template-columns:1fr 27cqw;gap:2.4cqw;align-items:start;}
+.scw .win{background:var(--card);border:1.5px solid var(--line);border-radius:1.1cqw;
+  overflow:hidden;box-shadow:0 1.4cqw 3cqw rgba(120,80,20,.14);}
+.scw .wbar{display:flex;align-items:center;gap:.6cqw;padding:.85cqw 1.2cqw;background:#f6efe0;
+  border-bottom:1px solid var(--line);}
+.scw .wbar i{width:.7cqw;height:.7cqw;border-radius:50%;background:var(--dot);display:block;}
+.scw .url{margin-left:.8cqw;flex:1;background:#fff;border:1px solid var(--line);border-radius:99px;
+  padding:.3cqw 1cqw;font-size:1.05cqw;color:var(--mute);}
+.scw .scr{padding:1.6cqw 1.8cqw;}
+/* the product does not exist yet; the slide says so rather than letting a
+   judge discover it in Q&A */
+.scw .note{margin-top:1cqw;font-size:1.1cqw;color:var(--mute);font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;}
+.scw .sp .k{font-size:1.2cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.scw .sp .big{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;line-height:1.04;
+  margin-top:.4cqw;color:var(--ink);}
+.scw .sp ul{list-style:none;margin:1.2cqw 0 0;padding:0;display:flex;flex-direction:column;gap:.8cqw;}
+.scw .sp li{position:relative;padding-left:1.7cqw;font-size:1.7cqw;line-height:1.3;color:var(--body);}
+.scw .sp li::before{content:'';position:absolute;left:0;top:.75cqw;width:.55cqw;height:.55cqw;
+  border-radius:50%;background:var(--dot);}
+/* screen 1 — the task */
+.scw .spon{font-size:1.1cqw;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);}
+.scw .spon b{color:var(--accent);}
+.scw .tt{font-size:2.6cqw;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin-top:.7cqw;}
+.scw .chips{display:flex;gap:.6cqw;margin-top:1.1cqw;flex-wrap:wrap;}
+.scw .chip{font-size:1.15cqw;font-weight:700;padding:.35cqw .9cqw;border-radius:99px;
+  background:#f1ebdc;color:var(--body);}
+.scw .crit{margin-top:1.3cqw;border-top:1px solid var(--line);}
+.scw .crit .cr{display:flex;justify-content:space-between;gap:1.4cqw;padding:.65cqw 0;
+  font-size:1.35cqw;color:var(--body);border-bottom:1px solid var(--line);}
+.scw .crit .cr b{color:var(--ink);font-weight:700;white-space:nowrap;}
+.scw .cta{margin-top:1.3cqw;display:inline-block;background:var(--accent);color:#fff;
+  font-weight:800;font-size:1.4cqw;padding:.8cqw 1.6cqw;border-radius:.7cqw;}
+/* screen 2 — the public board */
+.scw .bh{display:flex;align-items:baseline;justify-content:space-between;gap:1.4cqw;}
+.scw .bh .t{font-size:1.9cqw;font-weight:800;letter-spacing:-.02em;}
+.scw .bh .d{font-size:1.25cqw;font-weight:800;color:var(--accent);letter-spacing:.08em;}
+.scw .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:.9cqw;margin-top:1.2cqw;}
+.scw .tile{border:1px solid var(--line);border-radius:.7cqw;overflow:hidden;background:#fdfbf6;}
+.scw .thumb{aspect-ratio:16/10;position:relative;
+  background:linear-gradient(135deg,#e9e0cc 0 40%,#dfd4bb 40% 100%);}
+.scw .thumb::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  border:.5cqw solid transparent;border-left-color:#fff;border-left-width:.9cqw;}
+.scw .tile .m{padding:.5cqw .6cqw;}
+.scw .tile .who{font-size:1.05cqw;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.scw .pr{height:.28cqw;background:var(--line);border-radius:99px;margin-top:.35cqw;}
+.scw .pr i{display:block;height:100%;background:var(--accent);border-radius:99px;}
+/* screen 3 — the ranked list */
+.scw .lst{margin-top:1cqw;}
+.scw .lst .lr{display:grid;grid-template-columns:2.6cqw 1fr 6cqw 7cqw;gap:1cqw;align-items:center;
+  padding:.62cqw 0;border-bottom:1px solid var(--line);font-size:1.4cqw;}
+.scw .lst .lr.top{background:color-mix(in srgb,var(--accent) 12%,#fff);margin:0 -1cqw;
+  padding-left:1cqw;padding-right:1cqw;border-radius:.5cqw;}
+.scw .lst .rk{font-weight:800;color:var(--mute);}
+.scw .lst .lr.top .rk{color:var(--accent);}
+.scw .lst .who{font-weight:700;}
+.scw .lst .sc{font-weight:800;text-align:right;}
+.scw .lst .bt{font-size:1.1cqw;font-weight:800;text-align:center;padding:.28cqw .5cqw;
+  border-radius:.4cqw;border:1px solid var(--line);color:var(--mute);}
+.scw .lst .lr.top .bt{background:var(--accent);border-color:var(--accent);color:#fff;}
+
 /* ⓖ migrate — one journey per row: where hiring came from, where it went.
    Row two runs the same road and arrives at a dashed box, because for robots
    nobody has built the destination. The dot moving left to right says
@@ -667,14 +731,38 @@ const BEATS = [
 { kind:'divider', sec:6, section:'The solution', head:'The solution',
   sub:'A test that produces something a company can watch.', say:''},
 
-{ sec:13, n:'08', section:'The solution', layout:'numbered', rows:SEASON, focus:0,
-  head:SEA_HEAD, sub:SEA_SUB,
+{ sec:13, n:'08', section:'The solution', layout:'screen',
+  head:'One task, written by<br>the company that will <em>hire.</em>',
+  step:'01 &middot; The task', big:'Real work,<br>real grading rules',
+  v:['Written with the factory that will hire','Every point is public before anyone starts'],
+  scr:{ kind:'task', url:'physicalspark.com / season-1 / task',
+    sponsor:'Daeyang Precision', roles:'12 open roles',
+    title:'Place a sticker in the same spot, 100 times.',
+    chips:['SO-101 arm','Simulator first','2 weeks','Video required'],
+    crit:[['Placement within 2 mm','40 pts'],['Works on a new object position','30 pts'],
+          ['Recovers after a broken frame','20 pts'],['Explains the tradeoffs out loud','10 pts']],
+    cta:'Start in the simulator &rarr;'},
   say:'Two or three companies write down real work — place a sticker in the same spot, every time — and help write the grading rules.'},
-{ sec:11, n:'08', section:'The solution', layout:'numbered', rows:SEASON, focus:1,
-  head:SEA_HEAD, sub:SEA_SUB,
+
+{ sec:11, n:'08', section:'The solution', layout:'screen',
+  head:'Two weeks, fixed dates,<br>every run <em>in the open.</em>',
+  step:'02 &middot; The season', big:'Everyone starts<br>the same day',
+  v:['Every run posted to a public board','Peers watch and score the video'],
+  scr:{ kind:'board', url:'physicalspark.com / season-1 / board',
+    t:'Season 1 &nbsp;&middot;&nbsp; 30 engineers', d:'Day 6 of 14',
+    tiles:[['J. Park',82],['S. Kim',71],['H. Yoon',64],['D. Choi',58],
+           ['M. Lee',51],['A. Jung',44],['B. Oh',37],['Y. Han',29]]},
   say:'Then a season opens. Two weeks, fixed dates, everyone starting the same day, every run posted to a public video board.'},
-{ sec:12, n:'08', section:'The solution', layout:'numbered', rows:SEASON, focus:2,
-  head:SEA_HEAD, sub:SEA_SUB,
+
+{ sec:12, n:'08', section:'The solution', layout:'screen',
+  head:'Every finisher, ranked,<br>with the <em>runs attached.</em>',
+  step:'03 &middot; The output', big:'A list a company<br>can hire from',
+  v:['Peer score and the recorded runs, per person','The top 5 get a real arm and a supervised session'],
+  scr:{ kind:'results', url:'physicalspark.com / season-1 / results',
+    t:'Final ranking &nbsp;&middot;&nbsp; 30 finishers', d:'Sent to 4 companies',
+    rows:[[1,'Jihoon Park',94,'Arm shipped',1],[2,'Seoyeon Kim',91,'Arm shipped',1],
+          [3,'Hyunwoo Yoon',88,'Arm shipped',1],[4,'Dain Choi',84,'View runs',0],
+          [5,'Minjae Lee',81,'View runs',0]]},
   say:'At the end, a ranked list of every finisher, with peer review on video and the recorded runs attached.'},
 
 { sec:30, n:'09', section:'The solution', layout:'timeline', focus:2,
@@ -710,13 +798,13 @@ const BEATS = [
 
 { sec:28, n:'11', section:'Why we win', layout:'migrate',
   head:'Hiring already moved<br>from tests to <em>tasks.</em>',
-  sub:'AI made the coding test useless, so companies switched to real projects. Robot hiring needs the same thing &mdash; and nobody has built it.',
+  sub:'AI made the coding test useless, so companies switched to real projects. Robot hiring needs the same move &mdash; and that is what we are.',
   rows:[
     {k:'Software hiring', from:'Coding test',      to:'Take-home project'},
-    {k:'Robot hiring',    from:'CV and interview', to:'The task nobody built', empty:1},
+    {k:'Robot hiring',    from:'CV and interview', to:'Physical Spark'},
   ],
   src:'Shift to take-home and project-based technical hiring, 2025&ndash;2026',
-  say:'AI broke the coding test, so companies stopped using it. Software hiring already moved to real projects, judged on the work and not the answer. Robot hiring has not moved, because there is no task to move to. Nobody has written one. That is the slot we are building, with the companies that will hire.'},
+  say:'AI broke the coding test, so companies stopped using it. Software hiring already moved to real projects, judged on the work and not the answer. Robot hiring has to make the same move, and it needs a task on a real robot to move to. That task is us.'},
 
 { sec:32, n:'12', section:'Team', layout:'people',
   head:'One of us teaches AI.<br>The other one <em>decides who gets hired.</em>',
@@ -826,6 +914,26 @@ function bodyHTML(b){
     case 'compare':
       return `<div class="cmp">${cardEl(b.cards[0],f===0)}
         <span class="vs">VS</span>${cardEl(b.cards[1],f===1)}</div>`;
+    case 'screen': {
+      const d=b.scr, inner =
+        d.kind==='task' ? `<div class="spon">Sponsored by <b>${d.sponsor}</b> &nbsp;&middot;&nbsp; ${d.roles}</div>
+            <div class="tt">${d.title}</div>
+            <div class="chips">${d.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+            <div class="crit">${d.crit.map(r=>`<div class="cr"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div>
+            <span class="cta">${d.cta}</span>`
+      : d.kind==='board' ? `<div class="bh"><span class="t">${d.t}</span><span class="d">${d.d}</span></div>
+            <div class="tiles">${d.tiles.map(t=>`<div class="tile"><div class="thumb"></div>
+              <div class="m"><div class="who">${t[0]}</div><div class="pr"><i style="width:${t[1]}%"></i></div></div></div>`).join('')}</div>`
+      : `<div class="bh"><span class="t">${d.t}</span><span class="d">${d.d}</span></div>
+            <div class="lst">${d.rows.map(r=>`<div class="lr ${r[4]?'top':''}"><span class="rk">${r[0]}</span>
+              <span class="who">${r[1]}</span><span class="sc">${r[2]}</span><span class="bt">${r[3]}</span></div>`).join('')}</div>`;
+      return `<div class="scw">
+        <div><div class="win"><div class="wbar"><i></i><i></i><i></i><span class="url">${d.url}</span></div>
+          <div class="scr">${inner}</div></div>
+          <div class="note">Design mockup &nbsp;&middot;&nbsp; season one, building now</div></div>
+        <div class="sp"><div class="k">${b.step}</div><div class="big">${b.big}</div>${bullets(b.v)}</div>
+      </div>`;
+    }
     case 'migrate':
       return `<div class="mig">` + b.rows.map(r=>`
         <div class="mrow">
