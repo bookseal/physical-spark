@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical Spark — the 10-minute pitch (v1, archived)</title>
+<meta name="description" content="Physical Spark in ten minutes. Seventeen beats on a time budget, with the words you say on a teleprompter under the slide.">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://physical-spark.bit-habit.com/deck.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Physical Spark">
+<meta property="og:title" content="Physical Spark — the 10-minute pitch">
+<meta property="og:description" content="Physical Spark in ten minutes. Seventeen beats on a time budget, with the words you say on a teleprompter under the slide.">
+<meta property="og:url" content="https://physical-spark.bit-habit.com/deck.html">
+<meta property="og:image" content="https://physical-spark.bit-habit.com/assets/hero-rally-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Physical Spark — the 10-minute pitch">
+<meta name="twitter:description" content="Physical Spark in ten minutes. Seventeen beats on a time budget, with the words you say on a teleprompter under the slide.">
+<meta name="twitter:image" content="https://physical-spark.bit-habit.com/assets/hero-rally-poster.jpg">
+<style>
+  /* palette inherited from site/index.html — one warm-light "Re-Volt" mood, no dark mode */
+  :root{
+    --bg:#fbf5e9; --bg2:#f5ecd8; --fg:#2b211a; --muted:#948468; --line:#e8dcc4; --card:#fffdf9;
+    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --amber:#f4b21a;
+    --shadow:rgba(120,80,20,.18);
+    --c:var(--red);            /* per-beat accent, set inline by JS */
+    --prompter:150px;          /* space the teleprompter reserves; 0 when hidden */
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{margin:0; background:var(--bg); color:var(--fg); overflow:hidden; line-height:1.6;
+    font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+
+  /* ── the track grid, borrowed from the landing hero ───────────────────── */
+  .grid-bg{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size:52px 52px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 40%, #000 25%, transparent 78%);
+            mask-image:radial-gradient(ellipse 90% 70% at 50% 40%, #000 25%, transparent 78%);}
+
+  /* ── 60s budget bar ───────────────────────────────────────────────────── */
+  .hud{position:fixed; top:0; left:0; right:0; z-index:30; background:color-mix(in srgb,var(--bg) 86%,transparent);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .hud-in{max-width:1180px; margin:0 auto; padding:10px 22px; display:flex; align-items:center; gap:14px;}
+  .logo{display:flex; align-items:center; gap:9px; font-weight:900; text-transform:uppercase;
+    font-size:14px; letter-spacing:-.01em; white-space:nowrap;}
+  .logo img{height:26px; width:auto; display:block;}
+  .logo{color:inherit; text-decoration:none;}
+  .logo:hover b{text-decoration:underline;}
+  .logo b{color:var(--red);}
+  /* ONE BAR, NOT TWO. The old budget strip and the chapter rail were both drawing
+     the same axis — elapsed time — so they are the same row now: five named acts,
+     each as wide as its share of the ten minutes, filling as the clock runs. */
+  .budget{flex:1; display:flex; gap:12px; min-width:120px; align-items:flex-end;}
+  .seg{flex:var(--w); min-width:0; cursor:pointer; display:block;}
+  .seg b{display:block; font-size:9.5px; letter-spacing:.13em; text-transform:uppercase;
+    font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; margin-bottom:4px; transition:color .2s ease;}
+  .seg u{display:block; height:6px; border-radius:3px; background:var(--bg2);
+    border:1px solid var(--line); position:relative; overflow:hidden;}
+  .seg i{position:absolute; inset:0; width:0%; background:var(--red); display:block;}
+  .seg.done i{width:100%;}
+  .seg.on b{color:var(--red);}
+  .seg.over u{border-color:var(--red);}
+  @media (max-width:820px){
+    .budget{gap:6px;}
+    .seg b{font-size:7.5px; letter-spacing:.04em; margin-bottom:3px;}
+    .seg u{height:5px;}
+  }
+  .clock{font-weight:800; font-size:15px; min-width:74px; text-align:right; letter-spacing:.02em;}
+  .clock.over{color:var(--red);}
+  /* The controls live at the bottom with the other controls. The header keeps only
+     what the room is meant to look at: the mark, the progress and the clock. */
+  .ctl .tools{display:flex; gap:6px; flex-wrap:wrap;}
+  @media (max-width:900px){ .ctl .tools{width:100%; order:5; justify-content:center;} }
+  .tbtn{border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:9px;
+    padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;}
+  .tbtn:hover{border-color:var(--red); color:var(--red);}
+  .tbtn.on{background:var(--red); border-color:var(--red); color:#fff;}
+  /* The door to the workbench. Presentation mode is for SHOWING the deck; overview
+     mode is for WORKING on it — and nobody being pitched to presses O. So the link
+     out to pit.html exists only once you have already opened the deck up to edit it. */
+  .pitlink{display:none; text-decoration:none; align-items:center; gap:5px;}
+  body.ov .pitlink{display:inline-flex;}
+
+  /* Shown only when the deck was opened with ?full and is not fullscreen yet.
+     Removed by the first click, which is also the click that goes fullscreen. */
+
+  /* ── the slide ────────────────────────────────────────────────────────── */
+  /* PROJECTED, THE BOTTOM FIFTH OF THE SCREEN IS NOT THERE. Screens hang low, heads
+     are in the way, and the last 20% of a slide is read by nobody in the room. So the
+     stage fills from the TOP and permanently reserves that band — max() keeps whichever
+     is larger, the dead zone or the teleprompter, so rehearsing and presenting agree. */
+  .stage{position:relative; z-index:1; height:100%; display:flex; align-items:flex-start;
+    justify-content:center;
+    padding:78px 22px max(20vh, calc(var(--ctl,62px) + var(--prompter))); transition:padding .2s ease;}
+  .beat{max-width:1140px; width:100%; display:none;}
+  .beat.on{display:block; animation:pop .34s cubic-bezier(.2,.9,.3,1.2);}
+  @keyframes pop{from{opacity:0; transform:translateY(14px) scale(.985);} to{opacity:1; transform:none;}}
+  @media (prefers-reduced-motion:reduce){ .beat.on{animation:none;} }
+
+  /* text on the left, the illustration on the right */
+  .split{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:34px; align-items:center;}
+  .split.solo{grid-template-columns:1fr;}
+  .hero{width:100%; height:auto; display:block; max-height:34vh; object-fit:contain;}
+  /* a photograph is not line art — it needs an edge to sit on this paper, and it
+     should fill its box rather than float inside it */
+  .hero.photo{border-radius:16px; border:1px solid var(--line); object-fit:cover;
+    max-height:36vh; box-shadow:0 10px 30px var(--shadow);}
+
+  .kicker{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+  .kicker .n{font-weight:900; font-size:13px; letter-spacing:.06em; color:#fff; background:var(--c);
+    border-radius:999px; padding:4px 12px;}
+  .kicker .lbl{font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-weight:700;}
+  .kicker .sec{margin-left:auto; font-size:12px; color:var(--muted); font-weight:700;}
+
+  h1.head{margin:0 0 14px; font-size:clamp(27px,3.9vw,48px); line-height:1.06; font-weight:900; letter-spacing:-.028em;}
+  h1.head em{font-style:normal; color:var(--c); text-shadow:0 3px 0 color-mix(in srgb,var(--c) 26%,transparent);}
+  p.sub{margin:0; font-size:clamp(14px,1.5vw,18px); color:var(--muted);}
+  p.sub b{color:var(--fg);}
+
+  /* compact KPI strip — stat tiles, the right form for a handful of headline numbers */
+  .row{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:22px;}
+  .tile{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c);
+    border-radius:14px; padding:13px 15px; box-shadow:0 5px 16px var(--shadow);}
+  .tile .big{font-weight:900; font-size:clamp(17px,2.1vw,25px); line-height:1.15; letter-spacing:-.02em;}
+  /* Read from the back of a room, not from a laptop. Small grey type under a big
+     number is decoration; nobody in row three gets it. Keep captions to a few
+     words so this size still fits the card. */
+  .tile .cap{font-size:clamp(13px,1.35vw,16px); color:var(--fg); margin-top:6px;
+    line-height:1.32; font-weight:600; letter-spacing:-.005em;}
+  .tile img{height:40px; width:auto; display:block; margin-bottom:8px;}
+  .tile.plain{border-top-color:var(--line);}
+  /* A QR has to survive a projector and a phone at the back of the room, so it gets
+     the whole tile rather than sitting next to text at icon size. */
+  .tile.qr{text-align:center; padding:11px 11px 9px;}
+  .tile.qr img{height:auto; width:100%; max-width:152px; margin:0 auto 7px; display:block;
+    border-radius:5px;}
+  .tile.qr .cap{margin-top:0; font-size:12px; letter-spacing:.01em; word-break:break-all;}
+  /* attribution under a borrowed number. Deliberately small and quiet — it has to be
+     there so the claim is checkable, without competing with the number itself. */
+  /* a sourced number should be checkable from the slide, not from a follow-up email.
+     New tab, or a click mid-presentation takes the deck down with it. */
+  .tile .src a{color:inherit; text-decoration:underline; text-decoration-style:dotted;
+    text-underline-offset:2px;}
+  .tile .src a:hover{color:var(--red);}
+  .tile .src{font-size:10.5px; color:var(--muted); margin-top:6px; letter-spacing:.02em;
+    border-top:1px dashed var(--line); padding-top:5px; line-height:1.35;}
+
+  /* ── the team slide ───────────────────────────────────────────────────────
+     A team slide is looked at, not read. Names big, role small, and a mark for
+     where they work — the room recognises a logo faster than it reads a sentence.
+     .wm is a typographic stand-in: drop a real logo file into assets/brand/ and
+     replace the span with <img class="mk" src="assets/brand/whatever.svg">; the
+     slot is already sized and aligned for it. */
+  .orgs{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px; margin-top:26px;}
+  .person{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--c);
+    border-radius:16px; padding:15px 18px; box-shadow:0 6px 20px var(--shadow);
+    display:flex; flex-direction:column; gap:7px; min-height:118px;}
+  .person .nm{font-weight:900; font-size:clamp(19px,2.3vw,25px); letter-spacing:-.02em; line-height:1.1;}
+  .person .rl{font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--muted); font-weight:700; line-height:1.4;}
+  /* a card can carry more than one mark — now and before — so they sit in a row
+     and share the slot rather than one of them setting the height alone */
+  .person .org{margin-top:auto; display:flex; align-items:center; gap:14px;
+    min-height:30px; flex-wrap:wrap; gap:12px;}
+  /* up to three marks share the slot, so they are sized by height and allowed to
+     wrap — a wide wordmark next to a square one must not squash the others */
+  .person .org img.mk{max-height:24px; max-width:100%; width:auto; display:block;
+    object-fit:contain; flex:0 0 auto;}
+  .person .org .wm{font-weight:900; font-size:14px; letter-spacing:-.01em; color:var(--fg);
+    border:2px solid var(--fg); border-radius:8px; padding:5px 11px; white-space:nowrap;}
+  /* two founders instead of three cards means each one has room to say what it does,
+     not just where it has been */
+  /* A US team slide without faces reads as unfinished. Initials stand in where a
+     photograph has not arrived, which looks deliberate in a way an empty frame
+     does not — swap the span for an img and nothing else changes. */
+  .person .hd{display:flex; align-items:center; gap:13px;}
+  .person .face{width:58px; height:58px; border-radius:50%; object-fit:cover; flex:0 0 auto;
+    border:2px solid var(--line); background:var(--bg2); display:block;}
+  .person span.face{display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:19px; letter-spacing:-.02em; color:var(--muted);}
+
+  /* noun phrases, not sentences — a card is scanned, not read, and prose on a slide
+     competes with the person speaking over it */
+  .person ul.d{margin:10px 0 0; padding:0; list-style:none; display:grid; gap:5px;}
+  .person ul.d li{font-size:clamp(12.5px,1.32vw,15.5px); color:var(--fg); font-weight:600;
+    line-height:1.3; padding-left:14px; position:relative;}
+  .person ul.d li::before{content:"\25B8"; position:absolute; left:0; top:0;
+    color:var(--red); font-weight:900; font-size:.85em;}
+  .person.num{justify-content:center; gap:4px;}
+  .person.num .big{font-weight:900; font-size:clamp(34px,5vw,54px); line-height:1;
+    letter-spacing:-.03em; color:var(--c);}
+  @media (max-width:820px){
+    .orgs{display:flex; gap:9px; overflow-x:auto; scroll-snap-type:x mandatory; margin-top:14px;}
+    .person{flex:0 0 74%; scroll-snap-align:start; min-height:0; padding:13px 15px;}
+    .person .org .wm{font-size:12.5px; padding:4px 9px;}
+  }
+
+  /* the stack — used once, on the positioning beat. A vertical ladder because the
+     point is which rung we stand on, not what the rungs are. Only the rungs we
+     actually take get the red edge; the rest are deliberately quiet. */
+  /* six rows have to clear the teleprompter on a laptop, so the rows are deliberately
+     short — this is a diagram to glance at, not a table to read. */
+  .stack{margin-top:16px; display:grid; gap:4px;}
+  .stack .lay{display:flex; align-items:center; gap:12px; flex-wrap:wrap; line-height:1.3;
+    background:var(--card); border:1px solid var(--line); border-left:5px solid var(--line);
+    border-radius:9px; padding:5px 13px; box-shadow:0 2px 7px var(--shadow);}
+  .stack .lay .n{font-family:ui-monospace,monospace; font-size:11.5px; font-weight:800;
+    color:var(--muted); min-width:16px;}
+  .stack .lay .t{font-weight:800; font-size:14px; min-width:135px;}
+  .stack .lay .d{color:var(--fg); font-size:clamp(12.5px,1.25vw,15px); flex:1; min-width:180px; font-weight:500;}
+  .stack .lay.ours{border-left-color:var(--red);
+    background:color-mix(in srgb,var(--red) 7%,var(--card));}
+  .stack .lay.ours .t{color:var(--red);}
+  /* the one beat that trades headline size for vertical room: six rows plus a full-size
+     headline does not fit above the teleprompter, and the bottom rung is the whole point
+     (we stop at layer one). Scoped with :has() so no other beat is affected; browsers
+     without :has() just get the slightly tighter crop we had before. */
+  .beat:has(.stack) h1.head, .beat:has(.orgs) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
+  .beat:has(.stack) .kicker, .beat:has(.orgs) .kicker{margin-bottom:8px;}
+  .beat:has(.orgs) .orgs{margin-top:18px;}
+
+  /* Section markers. A judge scores against a rubric while listening, so putting
+     the word MARKET on the wall tells them which box is being filled — the chapter
+     bar alone is too quiet for that. They also give the speaker somewhere to
+     breathe. Eight seconds each, which is the whole budget they get. */
+  .beat.div .kicker{opacity:.55;}
+  .beat.div h1.head{font-size:clamp(40px,7.5vw,86px); line-height:1; letter-spacing:-.03em;
+    margin-top:6vh;}
+  .beat.div .sub{font-size:clamp(15px,1.9vw,22px); margin-top:14px; max-width:34ch;}
+
+  /* A slide that is not written yet has to look unwritten, on the wall and in the
+     repo. This deck is public; a blank space reads as a claim, a stamp does not. */
+  .todo{margin-top:22px; display:inline-flex; align-items:center; gap:10px;
+    border:2px dashed var(--red); border-radius:11px; padding:9px 15px;
+    font-family:ui-monospace,monospace; font-size:12px; font-weight:800;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--red);}
+  .todo b{font-weight:800; letter-spacing:.02em; text-transform:none; color:var(--muted);
+    font-family:inherit;}
+
+  /* The one artefact a customer actually buys, shown as itself. Monospace because a
+     scorecard that looks designed looks like marketing; this has to look like output.
+     One line is a failure on purpose — an all-pass report reads as a brochure. */
+  .report{margin-top:9px; background:var(--card); border:1px solid var(--line);
+    border-top:3px solid var(--red); border-radius:13px; padding:10px 17px 9px;
+    box-shadow:0 4px 15px var(--shadow); font-family:ui-monospace,"SF Mono",Menlo,monospace;}
+  .report .hd{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+    font-weight:800; border-bottom:1px solid var(--line); padding-bottom:5px; margin-bottom:3px;}
+  .report .ln{display:flex; align-items:baseline; gap:14px; padding:1px 0;
+    font-size:clamp(12px,1.32vw,16px);}
+  .report .ln .k{flex:1; color:var(--fg); font-weight:600;}
+  .report .ln .v{font-weight:800; white-space:nowrap; color:var(--fg);}
+  .report .ln.bad .v{color:var(--red);}
+  .report .ln.good .v{color:var(--teal);}
+  .report .vd{border-top:1px solid var(--line); margin-top:6px; padding-top:7px;
+    display:flex; gap:13px; align-items:baseline; flex-wrap:wrap;}
+  .report .vd .k{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); font-weight:800;}
+  .report .vd .v{font-weight:900; color:var(--red); font-size:clamp(13px,1.5vw,18px);}
+  .report .ft{font-size:10.5px; color:var(--muted); margin-top:7px; letter-spacing:.01em;}
+  /* the report is tall, so it borrows the same headline crop the stack beats use */
+  .beat:has(.report) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
+  .beat:has(.report) .kicker{margin-bottom:8px;}
+
+  /* The one beat that is a comparison rather than a claim. Two columns, rows
+     aligned, so the room does the "these are the same" for itself instead of
+     being told — a conclusion somebody reaches is worth more than one handed
+     over. Also the only two-column layout in the deck, which gives the eye a
+     rest twenty slides in. */
+  .vs{display:grid; grid-template-columns:1fr 1fr; gap:13px; margin-top:16px;}
+  .vs .col{background:var(--card); border:1px solid var(--line);
+    border-top:3px solid var(--c,var(--line)); border-radius:13px; padding:11px 16px 13px;
+    box-shadow:0 3px 12px var(--shadow);}
+  .vs .col.next{--c:var(--red); background:color-mix(in srgb,var(--red) 6%,var(--card));}
+  .vs .hd{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); font-weight:800; margin-bottom:7px;}
+  .vs .col.next .hd{color:var(--red);}
+  .vs .ln{font-size:clamp(12.5px,1.32vw,16px); font-weight:600; color:var(--fg);
+    padding:6px 0; border-top:1px solid var(--line); line-height:1.3;}
+  .vs .ln:first-of-type{border-top:none;}
+  .beat:has(.vs) h1.head{font-size:clamp(22px,2.9vw,34px); margin-bottom:6px;}
+
+  /* One beat states a sequence rather than a comparison, and a three-card row cannot
+     say "then". A row of cards reads as three things that are true at once, which is
+     exactly the wrong reading for a purchase. Arrows are their own flex items so a
+     narrow projector wraps the chain instead of breaking the arrow off a card. */
+  .flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:7px; margin-top:20px;}
+  .flow .st{flex:1 1 132px; background:var(--card); border:1px solid var(--line);
+    border-top:3px solid var(--c,var(--line)); border-radius:11px; padding:10px 12px;
+    box-shadow:0 2px 7px var(--shadow); display:flex; flex-direction:column; gap:3px;}
+  .flow .st .w{font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); font-weight:800;}
+  .flow .st .b{font-weight:900; font-size:clamp(13px,1.5vw,17px); line-height:1.2;
+    letter-spacing:-.01em; color:var(--fg);}
+  .flow .ar{flex:0 0 auto; align-self:center; color:var(--muted); font-weight:900; font-size:15px;}
+  .flow .st.pay{--c:var(--red); background:color-mix(in srgb,var(--red) 8%,var(--card));}
+  .flow .st.pay .b{color:var(--red);}
+  @media (max-width:820px){ .flow .ar{display:none;} .flow .st{flex:1 1 44%;} }
+
+  @media (max-width:820px){
+    .stack{gap:4px;} .stack .lay{padding:5px 11px; gap:8px;}
+    .stack .lay .t{font-size:12.5px; min-width:100px;} .stack .lay .d{font-size:11px;}
+  }
+
+  @media (max-width:900px){
+    .split{grid-template-columns:1fr; gap:18px;}
+    .hero{max-height:24vh;}
+  }
+
+  /* ── teleprompter — the words, big enough to actually read ────────────── */
+  .prompter{position:fixed; left:0; right:0; bottom:var(--ctl,62px); z-index:28; border-top:1px solid var(--line);
+    background:color-mix(in srgb,var(--card) 94%,transparent); backdrop-filter:blur(8px);
+    box-shadow:0 -10px 30px color-mix(in srgb,var(--shadow) 55%,transparent);}
+  .prompter-in{max-width:1180px; margin:0 auto; padding:11px 22px; display:flex; gap:14px; align-items:flex-start;}
+  .pr-tag{flex:0 0 auto; font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    color:#fff; background:var(--c); border-radius:8px; padding:6px 10px; margin-top:5px;}
+  .pr-say{flex:1; margin:0; font-size:clamp(13.5px,1.45vw,18px); line-height:1.45; font-weight:600; letter-spacing:-.01em;}
+  /* A long beat wraps to twice the lines of a short one, and the stage only has
+     what the prompter leaves it. So the script shrinks to fit rather than the
+     slide disappearing underneath it — same trade a real teleprompter makes. */
+  .prompter.long .pr-say{font-size:clamp(13px,1.3vw,16.5px); line-height:1.42;}
+  .prompter.xlong .pr-say{font-size:clamp(12px,1.15vw,15px); line-height:1.4;}
+  .pr-say .empty{color:var(--muted); font-weight:400;}
+  .pr-meta{flex:0 0 auto; display:flex; flex-direction:column; align-items:flex-end; gap:2px; margin-top:4px;}
+  /* seconds left in THIS beat — the number you glance at mid-sentence */
+  .pr-left{font-size:18px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--c); line-height:1.1;}
+  .pr-left.over{color:var(--red);}
+  .pr-wc{font-size:11px; color:var(--muted); white-space:nowrap;}
+  .pr-wc.over{color:var(--red); font-weight:800;}
+  body.noprompt{--prompter:0px;}
+  body.noprompt .prompter{display:none;}
+
+  /* ── footer controls ──────────────────────────────────────────────────── */
+  .ctl{position:fixed; bottom:0; left:0; right:0; z-index:30; border-top:1px solid var(--line);
+    background:color-mix(in srgb,var(--bg) 90%,transparent); backdrop-filter:blur(8px);}
+  .ctl-in{max-width:1180px; margin:0 auto; padding:9px 22px; display:flex; align-items:center; gap:10px;}
+  .btn{font-weight:800; font-size:13px; padding:9px 17px; border-radius:10px; cursor:pointer;
+    border:2px solid transparent; transition:transform .08s ease;}
+  .btn:active{transform:translateY(2px);}
+  .btn-go{background:var(--red); color:#fff; box-shadow:0 4px 0 color-mix(in srgb,var(--red) 45%,#000);}
+  .btn-ghost{background:var(--card); color:var(--fg); border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--red); color:var(--red);}
+  .keys{margin-left:auto; font-size:11px; color:var(--muted);}
+  .keys kbd{background:var(--card); border:1px solid var(--line); border-bottom-width:2px; border-radius:5px;
+    padding:1px 5px; font-size:10px; font-family:ui-monospace,monospace;}
+  @media (max-width:900px){ .keys{display:none;} }
+
+  /* ── overview / print mode ────────────────────────────────────────────── */
+  body.ov{overflow:auto;}
+  body.ov .stage{display:block; height:auto; padding:92px 22px 80px; max-width:1000px; margin:0 auto;}
+  body.ov .beat{display:block; margin-bottom:46px; padding-bottom:40px; border-bottom:1px dashed var(--line); animation:none;}
+  body.ov .grid-bg, body.ov .prompter{display:none;}
+  body.ov h1.head{font-size:clamp(24px,3.4vw,36px);}
+  body.ov .hero{max-height:none;}
+  /* in overview the script prints under each beat instead of on the prompter */
+  .beat .inline-say{display:none; margin:18px 0 0; padding:13px 16px; background:var(--card);
+    border:1px solid var(--line); border-left:4px solid var(--c); border-radius:12px; font-size:17px; font-weight:600;}
+  body.ov .beat .inline-say{display:block;}
+
+  /* ══════════════════════════════════════════════════════════════════════
+     PHONE TREATMENT
+     Same identity, different priorities. Held in one hand while talking, the
+     order of importance inverts: the words you say come first, the seconds
+     left second, the artwork third. So on a narrow screen the teleprompter
+     grows and moves into the thumb's reach, the artwork shrinks, and the
+     stat tiles become a swipeable strip instead of a tall stack.
+     ══════════════════════════════════════════════════════════════════════ */
+
+  /* This design deliberately commits to one visual world — the warm "Re-Volt"
+     mood documented in design/design-theme.md ("no dark mode; the game has
+     none"). Lock it so a dark-mode phone does not half-invert it. */
+  :root, :root[data-theme="dark"], :root[data-theme="light"]{
+    --bg:#fbf5e9; --bg2:#f5ecd8; --fg:#2b211a; --muted:#948468; --line:#e8dcc4; --card:#fffdf9;
+    --red:#e0442e; --gold:#e6a413; --blue:#2f6fd0; --teal:#0e9a89; --amber:#f4b21a;
+    --shadow:rgba(120,80,20,.18); color-scheme:only light;
+  }
+  body{-webkit-text-size-adjust:100%;}
+
+  /* invisible tap zones: right two-thirds advances, left third goes back.
+     Sits under the chrome (z-index 1) so real buttons still win. */
+  .tapzone{position:fixed; top:0; bottom:0; z-index:2; -webkit-tap-highlight-color:transparent;}
+  .tapzone.prev{left:0; width:32%;}
+  .tapzone.next{right:0; width:68%;}
+  @media (min-width:821px){ .tapzone{display:none;} }
+
+  @media (max-width:820px){
+    :root{ --prompter:186px; }
+    .grid-bg{display:none;}                       /* one less paint on a phone */
+
+    .hud-in{padding:8px 13px; gap:9px;}
+    .logo{font-size:0;}                           /* mark only — the name is not news here */
+    .logo img{height:22px;}
+    .logo b{font-size:0;}
+
+    .clock{font-size:12px; min-width:60px;}
+    .tbtn{padding:7px 9px; font-size:11px; min-height:34px;}
+
+    .stage{padding:64px 15px calc(var(--ctl,58px) + var(--prompter)); align-items:flex-start;
+      overflow-y:auto; -webkit-overflow-scrolling:touch;}
+    .beat{padding-top:8px;}
+    .kicker{margin-bottom:9px; gap:9px;}
+    h1.head{font-size:25px; line-height:1.12; letter-spacing:-.02em; margin-bottom:10px;}
+    p.sub{font-size:14px; line-height:1.55;}
+    .split{gap:14px;}
+    .hero{max-height:118px; margin:0 auto;}
+
+    /* tiles become a horizontal strip — three stacked cards would eat the screen */
+    .row{display:flex; gap:9px; margin-top:14px; overflow-x:auto; scroll-snap-type:x mandatory;
+      padding-bottom:6px; -webkit-overflow-scrolling:touch;}
+    .row::-webkit-scrollbar{display:none;}
+    .tile{flex:0 0 70%; scroll-snap-align:start; padding:11px 13px; border-radius:12px;}
+    .tile .big{font-size:19px;} .tile .cap{font-size:13px;}
+    .tile img{height:34px; margin-bottom:6px;}
+    .loop{gap:7px; margin-top:14px;}
+    .loop .node{padding:8px 11px; font-size:12px;} .loop .node span{font-size:9px;}
+    .loop .arw{font-size:14px;}
+
+    /* the teleprompter is the point of the phone view */
+    .prompter{bottom:var(--ctl,58px);}
+    .prompter-in{padding:12px 15px 13px; gap:11px; flex-wrap:wrap;}
+    .pr-tag{font-size:9.5px; padding:5px 8px; margin-top:0; letter-spacing:.1em;}
+    .pr-say{font-size:15px; line-height:1.4; flex:1 1 100%; order:3; font-weight:650;}
+    .pr-meta{margin-top:0; margin-left:auto;}
+    .pr-left{font-size:26px;}
+    .pr-wc{font-size:10px;}
+
+    /* thumb-sized controls */
+    .ctl-in{padding:7px 13px; gap:7px;}
+    .btn{flex:1; min-height:44px; font-size:13px; padding:0 10px; border-radius:11px;}
+    .btn-go{flex:1.3;}
+  }
+
+  /* very small phones — buy back vertical space from the artwork */
+  @media (max-width:820px) and (max-height:700px){
+    :root{ --prompter:168px; }
+    .hero{max-height:84px;}
+    h1.head{font-size:22px;}
+    .pr-say{font-size:17.5px;}
+  }
+</style>
+</head>
+<body class="noprompt">
+
+<div class="grid-bg"></div>
+<div class="tapzone prev" onclick="go(-1)" aria-hidden="true"></div>
+<div class="tapzone next" onclick="go(1)" aria-hidden="true"></div>
+
+<div class="hud"><div class="hud-in">
+  <a class="logo" href="/" title="Physical Spark — home"><img src="assets/brand/logo-mark.svg" alt=""> Physical<b>&nbsp;Spark</b></a>
+  <div class="budget" id="budget"></div>
+  <span class="clock mono" id="clock">0:00 / 10:00</span>
+</div></div>
+
+
+<main class="stage" id="stage"></main>
+
+<div class="prompter" id="prompter"><div class="prompter-in">
+  <span class="pr-tag mono" id="pr-tag"></span>
+  <p class="pr-say" id="pr-say"></p>
+  <span class="pr-meta mono">
+    <b class="pr-left" id="pr-left">8.0s</b>
+    <span class="pr-wc" id="pr-wc"></span>
+  </span>
+</div></div>
+
+<div class="ctl"><div class="ctl-in">
+  <button class="btn btn-go mono" id="btn-run" onclick="toggleRun()">▶ START</button>
+  <button class="btn btn-ghost" onclick="go(-1)">← Prev</button>
+  <button class="btn btn-ghost" onclick="go(1)">Next →</button>
+  <button class="btn btn-ghost" onclick="reset()">↺</button>
+  <span class="tools">
+    <button class="tbtn" id="btn-auto" onclick="toggleAuto()">Auto A</button>
+    <button class="tbtn" id="btn-script" onclick="togglePrompter()">Script S</button>
+    <button class="tbtn" id="btn-ov" onclick="toggleOverview()">Overview O</button>
+    <button class="tbtn" id="btn-full" onclick="toggleFull()">Full F</button>
+    <a class="tbtn pitlink" href="/pitch.html" title="The 60-second version">60s ↗</a>
+    <a class="tbtn pitlink" href="/docs#docs%2F07-strategy%2Fpit-lane-industry-intro.html" title="피트레인 — 작업대">PIT ↗</a>
+  </span>
+</div></div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────────
+   BEATS — the 10-minute pitch, as data.
+
+   AUDIENCE: an investor, and a judge scoring against a rubric. The order follows
+   what that rubric expects — problem, why now, solution, why us, market,
+   business — and a named divider opens each section so the box being filled is
+   never in doubt. Dividers cost six seconds each, forty-eight in total, which is
+   about one and a half content slides. Worth it in a competition room.
+
+   Twenty-five beats, 600 seconds exactly. `sec` must sum to 600; word budget is
+   sec * 2.5 and the prompter turns red past it.
+
+   Beats carrying a `.todo` stamp are not written yet. This deck is public, so an
+   empty slide has to look empty on purpose — a blank space reads as a claim and
+   a stamp does not. The business model beat stays empty until the model is
+   decided; the 40% placement fee was withdrawn.
+
+   Every number on a wall has its source beside it, linked. If a number cannot be
+   sourced it does not go up.
+   ───────────────────────────────────────────────────────────────────────── */
+const BEATS = [
+  {
+    sec: 13, c: 'var(--red)', label: 'Physical Spark',
+    hero: 'assets/hero-rally.mp4', heroClass: 'photo',
+    heroPoster: 'assets/hero-rally-poster.jpg',
+    heroAlt: 'A robot arm running a mission on a bench',
+    head: 'Robots are coming to every factory.<br>Nobody knows <em>who can run them.</em>',
+    sub: 'Not a shortage of people. A shortage of ways to tell who is any good.',
+    say: 'Physical Spark. Robots are arriving in factories everywhere, and nobody knows who can run them. Not because there are too few people — because there is no way to tell who is good.'
+  },
+  {
+    sec: 25, c: 'var(--gold)', label: 'In one slide',
+    hero: 'assets/toy/summary.jpg', heroClass: 'photo',
+    heroAlt: 'A tiny factory, a small clipboard and a stack of coins in a row on a wooden table',
+    head: 'We put engineers on real robots.<br>Factories hire from the <em>footage.</em>',
+    sub: 'That is the whole company. Everything after this is why it works.',
+    /* This slide exists to be repeated, not admired. A judge who can say what we
+       do in one sentence fifteen seconds from now will spend the next nine minutes
+       attaching evidence to it; one who cannot will spend them imagining a
+       different company. Who, what, how — in that order, because that is the order
+       the rubric is written in and the order a buyer thinks in. */
+    html: `<div class="stack">
+      <div class="lay"><span class="t">Who pays</span><span class="d">Robotics firms and integrators. Budget signed, seat empty, and no way to tell candidates apart.</span></div>
+      <div class="lay ours"><span class="t">What they get</span><span class="d">A season of real missions, graded on video by peers, against rules those companies helped write.</span></div>
+      <div class="lay"><span class="t">How we are paid</span><span class="d">They sponsor the season. Then 10% of first-year salary when they hire from it.</span></div>
+    </div>`,
+    say: 'The whole company, in three lines. Who pays: the firms who put robots on factory floors, who have budget and cannot tell candidates apart. What they get: a season of real missions, filmed and graded by peers against rules those firms helped write. How we are paid: they sponsor the season, then ten percent of salary when they hire from it.'
+  },
+  {
+    sec: 6, c: 'var(--red)', label: 'The problem', divider: true,
+    hero: 'assets/div/problem.jpg', heroClass: 'photo',
+    heroAlt: 'A row of identical wooden peg figures, one lifted out and indistinguishable from the rest',
+    head: 'The problem',
+    sub: 'Companies cannot hire the engineer they already have budget for.',
+    say: ''
+  },
+  {
+    sec: 35, c: 'var(--gold)', label: 'Who is hiring now',
+    hero: 'assets/toy/demand.jpg', heroClass: 'photo',
+    heroAlt: 'One wooden figure alone, with eight tiny toy factories arranged in a semicircle facing it',
+    head: 'Companies that never hired a programmer<br>are hiring them <em>now.</em>',
+    sub: 'With the same job ads and the same interviews they have always used. It is not working.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">5% → 70%</div><div class="cap">of companies hiring one, in two quarters</div><div class="src"><a href="https://techcrunch.com/2026/07/30/forward-deployed-engineers-are-the-ai-industrys-latest-talent-obsession/" target="_blank" rel="noopener">Christian &amp; Timbers · TechCrunch, 30 Jul 2026</a></div></div>
+      <div class="tile" style="--c:var(--gold)"><div class="big">17,000 / 2,000</div><div class="cap">US engineers who hold the title / who can deliver</div><div class="src"><a href="https://techcrunch.com/2026/07/30/forward-deployed-engineers-are-the-ai-industrys-latest-talent-obsession/" target="_blank" rel="noopener">&ldquo;Not 2,000 available. 2,000 total.&rdquo;</a></div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">70%</div><div class="cap">of AI projects never reach production — for people reasons, not technical ones</div><div class="src">Gartner</div></div>
+    </div>`,
+    say: 'Start with the customer. Ten years ago, a company that was not a tech company did not hire programmers. It hired an agency. Now it hires engineers directly to put AI inside the business, and calls that person an AI field engineer. In January five to ten percent planned to hire one; by June it was seventy. Most are still hiring with the job ad they used for everything else. Gartner has seventy percent of AI projects failing, for people reasons not technical ones.'
+  },
+  {
+    sec: 36, c: 'var(--red)', label: 'Why search fails',
+    hero: 'assets/toy/cv.jpg', heroClass: 'photo',
+    heroAlt: 'A fan of six identical blank cards with one wooden figure behind them, only its head showing',
+    head: 'Everyone looks qualified on paper.<br>Almost nobody can <em>make the robot work.</em>',
+    sub: 'This is my day job. Companies are not short of candidates — they cannot tell them apart until it is too late.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">Anyone can claim it</div><div class="cap">writing a skill on a CV costs nothing, so everybody writes the same ones</div></div>
+      <div class="tile"><div class="big">Ten years, in a two-year-old job</div><div class="cap">the usual filter cannot exist yet, so it clears everybody</div></div>
+      <div class="tile"><div class="big">You find out in week two</div><div class="cap">by then the search has already cost you</div></div>
+      <div class="tile" style="--c:var(--gold)"><div class="big">So: hackathons</div><div class="cap">every company invents its own test, at its own cost</div></div>
+    </div>`,
+    say: 'So how do you tell the two thousand from the seventeen thousand. I do this for a living. Every CV lists the same skills — the robot frameworks, the simulators, all of it. Typing them costs nothing. Then you interview, and most of them cannot answer a basic question about any of it, and you have burned two weeks finding out. Nobody has agreed what to measure here, so there is nothing on paper worth checking. You cannot read who becomes a star. You have to watch them play.'
+  },
+  {
+    sec: 6, c: 'var(--amber)', label: 'Why now', divider: true,
+    hero: 'assets/div/whynow.jpg', heroClass: 'photo',
+    heroAlt: 'A toy robot arm on a table with tiny factory buildings behind it',
+    head: 'Why now',
+    sub: 'The same shortage is arriving on factory floors.',
+    say: ''
+  },
+  {
+    sec: 36, c: 'var(--amber)', label: 'Already happening',
+    hero: 'assets/toy/line.jpg', heroClass: 'photo',
+    heroAlt: 'Four toy robot arms in a row working a line, with one tiny empty stool at the end of it',
+    head: 'The robots are already<br>in the <em>factories.</em>',
+    sub: 'This is not a forecast. Every one of these needs people on site who can make it work.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">4.7 million</div><div class="cap">industrial robots already running in factories worldwide</div><div class="src"><a href="https://ifr.org/ifr-press-releases/news/global-robot-demand-in-factories-doubles-over-10-years" target="_blank" rel="noopener">IFR World Robotics 2025</a></div></div>
+      <div class="tile"><div class="big">1 million</div><div class="cap">at Amazon alone — a fifth of every robot on earth</div><div class="src"><a href="https://techcrunch.com/2025/07/01/amazon-deploys-its-1-millionth-robot-releases-generative-ai-model/" target="_blank" rel="noopener">TechCrunch, Jul 2025</a></div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">A whole department</div><div class="cap">BMW opened a Center of Competence for Physical AI in Production</div><div class="src"><a href="https://www.press.bmwgroup.com/global/article/detail/T0455864EN/bmw-group-to-deploy-humanoid-robots-in-production-in-germany-for-the-first-time?language=en" target="_blank" rel="noopener">BMW Group, Feb 2026</a></div></div>
+    </div>`,
+    say: 'This is not a prediction. Four point seven million industrial robots are already running in factories worldwide, and Amazon alone runs a million of them. Those machines are not waiting to be invented. What changed is that they can now be told what to do in plain language — so every one of them needs somebody to teach it. And BMW has opened a department called the Center of Competence for Physical AI in Production. When a carmaker names a department after this, the job is being staffed.'
+  },
+  {
+    sec: 38, c: 'var(--red)', label: 'Same problem, one round later',
+    hero: 'assets/toy/shop.jpg', heroClass: 'photo',
+    heroAlt: 'A small toy factory with an open doorway, crates outside and one robot arm just inside',
+    head: 'Same problem.<br>One round <em>later.</em>',
+    sub: 'Except this one is not inside a computer.',
+    /* A comparison rather than a claim. The old version asserted that the problem
+       moves onto a factory floor; two aligned columns let the room notice it. The
+       last row is the sim-to-real gap in words anybody has lived: it worked on my
+       machine and then it did not work for real. It is also the market-size line,
+       without a number. */
+    html: `<div class="vs">
+      <div class="col">
+        <div class="hd">AI automation &middot; now</div>
+        <div class="ln">Every company is hiring for it</div>
+        <div class="ln">The job is two years old</div>
+        <div class="ln">Take-homes, invented one at a time</div>
+        <div class="ln">It runs inside a computer</div>
+      </div>
+      <div class="col next">
+        <div class="hd">Physical AI &middot; next year</div>
+        <div class="ln">Every factory will be</div>
+        <div class="ln">The job does not exist yet</div>
+        <div class="ln">Nobody has even tried</div>
+        <div class="ln">It has to work on a real floor</div>
+      </div>
+    </div>`,
+    say: 'Now put next year beside this year. Today every company is hiring for AI automation, for a job two years old, tested with take-homes they invent one at a time. Next year the same hire happens in a factory, with a robot attached. That job does not exist yet, nobody has built a test for it, and the work has to survive a real floor instead of a simulation. Same problem, one round later — and a far bigger market, because this one is not inside a computer.'
+  },
+  {
+    sec: 40, c: 'var(--red)', label: 'What the money did',
+    hero: 'assets/toy/school.jpg', heroClass: 'photo',
+    heroAlt: 'A stack of coins beside five wooden peg figures arranged in two neat rows like a small class',
+    head: 'Silicon Valley&rsquo;s biggest investor<br>started a school for <em>these engineers.</em>',
+    sub: 'To make the engineers the companies it funds could not hire. Money had stopped working.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">a16z</div><div class="cap">one of the largest investors in Silicon Valley — now trains these engineers itself</div><div class="src"><a href="https://www.startuphub.ai/ai-news/investors-news/2026/a16z-names-inaugural-ai-deployment-fellows" target="_blank" rel="noopener">announced 22 Jul 2026</a></div></div>
+      <div class="tile"><div class="big">65 · 8 weeks</div><div class="cap">first cohort — people who had already made it</div></div>
+      <div class="tile" style="--c:var(--teal)"><div class="big">For software</div><div class="cap">robots are next, and nobody is building it</div></div>
+    </div>`,
+    say: 'How short is the supply. Two weeks ago Andreessen Horowitz — one of the biggest venture funds — opened a school to make these engineers, sixty-five at a time. A fund does not do that for fun. It does it when the companies it has already funded cannot hire, and more money does not fix it. So it builds the supply itself. But look who they took: people who had already made it. That is a dinner club, not a pipeline. And all of it is for software. The same shortage is coming for robots. Nobody is building for it.'
+  },
+  {
+    sec: 6, c: 'var(--teal)', label: 'The solution', divider: true,
+    hero: 'assets/div/solution.jpg', heroClass: 'photo',
+    heroAlt: 'A small obstacle course of wooden blocks with a toy robot arm and a stopwatch',
+    head: 'The solution',
+    sub: 'A test that produces something a company can watch.',
+    say: ''
+  },
+  {
+    sec: 36, c: 'var(--gold)', label: 'What they buy',
+    hero: 'assets/toy/scorecard.jpg', heroClass: 'photo',
+    heroAlt: 'A blank card beside a clipboard holding a card marked with tick marks and one red cross',
+    head: 'A company buys a scorecard,<br>not a <em>CV.</em>',
+    sub: 'A referral works because somebody watched you work. This is that, for people nobody knows.',
+    /* The artefact first, the process after. Leading with "stage one is simulation,
+       stage two is hardware" is curriculum grammar and the room files you under
+       education before you have finished the sentence. Leading with the output
+       files you under assessment, which is the business. */
+    html: `<div class="report">
+      <div class="hd">Candidate report &middot; season one</div>
+      <div class="ln"><span class="k">Pick and place</span><span class="v">87 / 100 runs</span></div>
+      <div class="ln good"><span class="k">New object, new position</span><span class="v">72 / 100 &middot; generalises</span></div>
+      <div class="ln"><span class="k">Broken coordinate frame</span><span class="v">fixed in 14 min</span></div>
+      <div class="ln bad"><span class="k">Camera sending, robot not receiving</span><span class="v">not found &#10007;</span></div>
+      <div class="ln"><span class="k">Too slow to run live</span><span class="v">fixed</span></div>
+      <div class="ln"><span class="k">Oral defence</span><span class="v">PASS &middot; explained the tradeoffs</span></div>
+      <div class="vd"><span class="k">Verdict</span><span class="v">Ready to ship, with hardware onboarding</span></div>
+      <div class="ft">Sample &middot; from 100 simulated runs and one supervised session on a real arm</div>
+    </div>`,
+    say: 'So here is what a company actually buys. Not a CV — a report. The same task run a hundred times in simulation, so we know whether it was skill or luck. A broken robot handed over, repair timed. One line is a failure on purpose, because a report where everybody passes is a brochure. And a human asked them to defend it out loud. Referrals beat job boards by about eighteen to one, and this is the reason: somebody watched. We make that available to people nobody knows.'
+  },
+  {
+    sec: 30, c: 'var(--teal)', label: 'The order',
+    hero: 'assets/toy/desk.jpg', heroClass: 'photo',
+    heroAlt: 'A miniature desk at night under one lit lamp: a tiny laptop, a small robot arm, and one wooden figure seated with its back to us',
+    head: 'Nobody tells a software engineer<br>what to <em>learn first.</em>',
+    sub: 'So we write the order — and keep writing it, mission by mission.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">The order</div><div class="cap">what to learn first, and next — nobody publishes this</div></div>
+      <div class="tile"><div class="big">Free, tonight</div><div class="cap">a simulator · no hardware · $200 arm when you want one</div></div>
+      <div class="tile" style="--c:var(--teal)"><div class="big">Real missions</div><div class="cap">the tasks a factory actually needs done</div></div>
+    </div>`,
+    say: 'A software engineer who wants to cross is not lazy. He is alone, and nothing tells him what to learn first. There is no published order from where he is to a working robot. So that is what we write, and keep writing — tutorials, then missions, then the tasks a factory actually needs done. You can start tonight in a simulator, for nothing. The arm is two hundred dollars when you want one.'
+  },
+  {
+    sec: 20, c: 'var(--red)', label: 'The competition',
+    hero: 'assets/toy/race.jpg', heroClass: 'photo',
+    heroAlt: 'Four identical toy robot arms in a row behind a red ribbon laid out like a start line',
+    head: 'We turn the course<br>into a <em>competition.</em>',
+    sub: 'Nobody finishes alone. People finish when others are watching.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">A season</div><div class="cap">fixed dates, everyone starts together</div></div>
+      <div class="tile"><div class="big">A board</div><div class="cap">where you are, in public</div></div>
+      <div class="tile"><div class="big">Attempts</div><div class="cap">every run recorded, whether it worked or not</div></div>
+    </div>`,
+    say: 'Then we make it a competition. Fixed dates, everyone starting on the same day, a public board. That is not decoration. Almost nobody finishes a course alone. People finish when other people can see whether they did — and that is the difference between a tutorial and a record.'
+  },
+  {
+    sec: 29, c: 'var(--teal)', label: 'Peer review',
+    hero: 'assets/toy/peers.jpg', heroClass: 'photo',
+    heroAlt: 'Six wooden figures in a circle, all facing inward toward one small toy robot arm',
+    head: 'Players grade<br>each <em>other.</em>',
+    sub: 'Nobody was grading your run. Now somebody is.',
+    html: `<div class="row">
+      <div class="tile"><div class="big">On video</div><div class="cap">a run is watched, not described</div></div>
+      <div class="tile"><div class="big">By peers</div><div class="cap">the École 42 model, moved onto robots</div></div>
+      <div class="tile" style="--c:var(--gold)"><div class="big">Their rules</div><div class="cap">grading rules written with the companies who hire</div></div>
+    </div>`,
+    say: 'And the players grade each other, on video, against grading rules we write with the companies who will be doing the hiring. That last part matters more than it sounds. It means the assessment is in the buyer\'s language before the buyer ever reads it. It also means the expensive part of evaluation is done by the people being evaluated — which is why this can be free to play at all.'
+  },
+  {
+    sec: 6, c: 'var(--gold)', label: 'Why us', divider: true,
+    hero: 'assets/div/whyus.jpg', heroClass: 'photo',
+    heroAlt: 'Two wooden peg figures, one beside a tiny book and one beside a tiny clipboard',
+    head: 'Why us',
+    sub: 'One of us makes these engineers. The other one hires them.',
+    say: ''
+  },
+  {
+    sec: 30, c: 'var(--gold)', label: 'The team',
+    head: 'A teacher and<br>a <em>hiring manager.</em>',
+    sub: 'One of us makes these engineers. The other one hires them, and cannot.',
+    /* TODO: photographs. A US team slide without faces reads as unfinished, and
+       these cards are carrying employer logos in their place for now. */
+    html: `<div class="orgs">
+      <div class="person">
+        <div class="hd">
+          <img class="face" src="assets/brand/face-jungmin.png" alt="Jungmin Hong">
+          <div>
+            <div class="nm">Jungmin Hong</div>
+            <div class="rl">Chief Executive Officer</div>
+          </div>
+        </div>
+        <ul class="d">
+          <li>AI instructor &mdash; SK Telecom, Eduwill, national KDT</li>
+          <li>Weekly problem writing and grading &mdash; the test&rsquo;s R&amp;D</li>
+          <li>AI Product Engineer at Upstage</li>
+        </ul>
+        <div class="org">
+          <img class="mk" src="assets/brand/org-skt.png" alt="SK Telecom" data-wm="SK TELECOM">
+          <img class="mk" src="assets/brand/org-eduwill.png" alt="Eduwill" data-wm="EDUWILL">
+          <img class="mk" src="assets/brand/org-kdt.png" alt="K-Digital Training" data-wm="K-DIGITAL TRAINING">
+          <img class="mk" src="assets/brand/org-upstage.png" alt="Upstage" data-wm="UPSTAGE">
+        </div>
+      </div>
+      <div class="person">
+        <div class="hd">
+          <img class="face" src="assets/brand/face-gichan.png" alt="Gichan Lee">
+          <div>
+            <div class="nm">Gichan Lee</div>
+            <div class="rl">Chief Product Officer</div>
+          </div>
+        </div>
+        <ul class="d">
+          <li>Lead, AX team at KIBA &mdash; our own customer</li>
+          <li>Hiring where CVs and portfolios prove nothing</li>
+          <li>Industrial engineering &mdash; production lines, not software</li>
+        </ul>
+        <div class="org">
+          <img class="mk" src="assets/brand/org-kiba.png" alt="KIBA" data-wm="KIBA">
+          <img class="mk" src="assets/brand/org-concentrix.png" alt="Concentrix" data-wm="CONCENTRIX">
+          <img class="mk" src="assets/brand/org-fpt.png" alt="FPT Software" data-wm="FPT">
+        </div>
+      </div>
+    </div>`,
+    say: 'So, us. Jungmin teaches AI at SK Telecom, at Eduwill, and on the national K-Digital Training programme, and writes and grades those assignments every week — that is where our test comes from. Before that, AI Product Engineer at Upstage. I lead the AX team at KIBA, which means I am the person in this deck who cannot hire. Between us we have the supply and we have the problem.'
+  },
+  {
+    sec: 28, c: 'var(--teal)', label: 'Our access',
+    hero: 'assets/toy/doorway.jpg', heroClass: 'photo',
+    heroAlt: 'A line of six wooden peg figures walking single file toward the doorway of a tiny toy factory',
+    head: 'Our players are already<br>in our <em>classroom.</em>',
+    sub: 'Most competitions die because nobody enters. That is the one problem we do not have.',
+    html: `<div class="row">
+      <div class="tile" style="--c:var(--teal)"><div class="big">We teach them already</div><div class="cap">the national programme hands us a cohort at no cost</div></div>
+      <div class="tile"><div class="big">Their jobs are going</div><div class="cap">software job ads are below where they were in 2020. AI job ads are far above.</div><div class="src"><a href="https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE" target="_blank" rel="noopener">Indeed Hiring Lab</a></div></div>
+      <div class="tile"><div class="big">Small Korean factories</div><div class="cap">the country with the most robots per worker on earth &mdash; and most of those robots are in plants that cannot hire anybody</div><div class="src">IFR World Robotics 2025</div></div>
+    </div>`,
+    say: 'Most competitions fail because nobody enters. We teach on the national AI programme, so the first cohort is already in the room and costs us nothing. They have a reason to come: software jobs are below 2020 levels while AI jobs are far above. And they are in the country with the most robots per worker on earth &mdash; most of them in small factories that cannot hire.'
+  },
+  {
+    sec: 6, c: 'var(--blue)', label: 'The market', divider: true,
+    hero: 'assets/div/market.jpg', heroClass: 'photo',
+    heroAlt: 'Tiny toy factories scattered across a table with a loop of red string around three of them',
+    head: 'The market',
+    sub: 'Sized from the bottom up, with the arithmetic shown.',
+    say: ''
+  },
+  {
+    sec: 26, c: 'var(--blue)', label: 'Competitors',
+    hero: 'assets/toy/openseat.jpg', heroClass: 'photo',
+    heroAlt: 'Six tiny chairs in a row, five with a wooden figure sitting on them and the last one empty',
+    head: 'Every seat is <em>taken</em><br>except ours.',
+    sub: 'A crowded market with one seat empty, not an empty market.',
+    /* An empty competitive slide reads as not having looked. Naming five who are
+       doing well, and saying exactly which line each of them stops at, is what
+       makes the last row believable. */
+    html: `<div class="stack">
+      <div class="lay"><span class="t">Karat</span><span class="d">$1.1B in Seattle. Proved companies will pay per assessment &mdash; for software engineers.</span></div>
+      <div class="lay"><span class="t">HackerRank, Codility</span><span class="d">The companies that built the coding test &mdash; the thing AI just finished breaking.</span></div>
+      <div class="lay"><span class="t">Hugging Face</span><span class="d">Where the world&rsquo;s open AI models live. Makes the tools everyone uses, and grades nobody.</span></div>
+      <div class="lay"><span class="t">a16z fellowship</span><span class="d">Sixty-five engineers who had already made it. Not who is ready to become one.</span></div>
+      <div class="lay ours"><span class="t">Hardware, graded</span><span class="d">Nobody is testing the people who put robots on a floor. That is the seat.</span></div>
+    </div>`,
+    say: 'Who else is here. Karat is a billion-dollar company here that proved firms pay per assessment &mdash; for software engineers. HackerRank and Codility own the coding test AI just broke. Hugging Face makes the tools everyone uses and grades nobody. a16z gathered sixty-five who had already arrived. Every square is taken except one: nobody is testing the people who put robots on a floor.'
+  },
+  {
+    sec: 20, c: 'var(--teal)', label: 'Go to market',
+    hero: 'assets/toy/chain.jpg', heroClass: 'photo',
+    heroAlt: 'Five wooden peg figures in a ring joined by one closed loop of red string',
+    head: 'We are manufacturing<br>the <em>referral.</em>',
+    sub: 'The strongest hiring signal there is, handed to people who know nobody.',
+    html: `<div class="flow">
+      <div class="st"><span class="w">Players</span><span class="b">already in our classrooms</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st"><span class="w">First companies</span><span class="b">two or three set the missions</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st pay"><span class="w">Then</span><span class="b">every hire is the reference for the next one</span></div>
+    </div>`,
+    say: 'Referrals beat job boards eighteen to one &mdash; not for who you know, but because somebody watched you work. We manufacture that for people who know nobody. Players come from our classroom. Two or three companies set the first missions. Then every hire sells the next one.'
+  },
+  {
+    sec: 30, c: 'var(--blue)', label: 'Market size',
+    hero: 'assets/toy/reach.jpg', heroClass: 'photo',
+    heroAlt: 'Many tiny toy factories in a loose grid with three of them raised on a small wooden block',
+    head: '$56 million a year in <em>hiring fees.</em><br>Here is the arithmetic.',
+    sub: 'Built only from things somebody counted. No fifty-billion-dollar number, because we would be guessing.',
+    /* No invented ratios. Every figure here is either counted by IFR or A3, or is
+       our own price. The multiplication is printed so the room can check it rather
+       than take it — and a modest number they can verify is worth more at seed than
+       a large one they have to accept. */
+    html: `<div class="stack">
+      <div class="lay"><span class="t">The whole world</span><span class="d">542,000 robots added every year, worldwide &mdash; and 4.7 million already running. None of them work without somebody who can make them work. <a href="https://ifr.org/ifr-press-releases/news/global-robot-demand-in-factories-doubles-over-10-years" target="_blank" rel="noopener">IFR 2025</a></span></div>
+      <div class="lay ours"><span class="t">What we can reach</span><span class="d">1,400 automation organisations in North America <a href="https://www.automate.org/a3/who-we-are" target="_blank" rel="noopener">(A3)</a> &times; 2 engineer hires a year &times; $20,000 a hire = <b>$56M a year</b></span></div>
+      <div class="lay"><span class="t">What we can run</span><span class="d">What we can run: season one is 3 sponsors and 3 hires. Year three is eight seasons.</span></div>
+    </div>`,
+    say: 'So how many of them are there. No fifty-billion-dollar number, because I would be guessing. Here is what is counted. Five hundred and forty-two thousand robots were added last year, and four point seven million are already running. In North America, fourteen hundred automation organisations. Two engineer hires a year each, at twenty thousand dollars a hire, is fifty-six million a year. That is the part I can defend.'
+  },
+  {
+    sec: 6, c: 'var(--red)', label: 'The business', divider: true,
+    hero: 'assets/div/business.jpg', heroClass: 'photo',
+    heroAlt: 'A toy robot arm turned toward a small stack of coins beside a tiny factory',
+    head: 'The business',
+    sub: 'How the money arrives, and what the first years look like.',
+    say: ''
+  },
+  {
+    sec: 35, c: 'var(--red)', label: 'Business model',
+    hero: 'assets/toy/deal.jpg', heroClass: 'photo',
+    heroAlt: 'A tiny toy factory and a toy robot arm with three old coins lying between them',
+    head: 'Companies sponsor the season.<br>Then they <em>hire from it.</em>',
+    sub: 'A bad automation hire delays a $500,000 robot payback by six to twelve months. That is what we sit next to.',
+    /* Sponsorship comes first because it is the only line that can be sold before
+       a record exists — a company sets the task and gets first look, which needs
+       no proven ranking. Placement follows once the season has produced one. And
+       it is ten percent, not the twenty a search firm takes: a headhunter sources,
+       screens, sells the role and runs the negotiation; we hand over a ranked list.
+       Half the work, half the fee — and the firms we named as customers are the
+       ones who cannot afford a headhunter in the first place. Per-assessment
+       pricing is the destination and stays in the script, because three revenue
+       lines on a wall reads as not knowing which one is real. */
+    html: `<div class="flow">
+      <div class="st"><span class="w">Now</span><span class="b">A company sponsors a season &middot; sets the task, sees everyone who solves it</span></div>
+      <span class="ar">&rarr;</span>
+      <div class="st pay"><span class="w">Then</span><span class="b">10% of first-year salary when they hire from it</span></div>
+      <div class="st"><span class="w">Why not 20%</span><span class="b">a headhunter does the search. We did the assessment.</span></div>
+    </div>`,
+    say: 'How the money arrives. First a company sponsors a season — it sets the task and sees everyone who solves it. That sells before any record exists, which is why it comes first. Then it hires from the results and pays ten percent of first-year salary, half what a search firm takes, because a search firm does the searching and we did the assessment. And the thing they are really buying is time: a bad automation hire delays a half-million-dollar robot payback by six to twelve months.'
+  },
+  {
+    sec: 29, c: 'var(--amber)', label: 'Financials',
+    hero: 'assets/toy/growth.jpg', heroClass: 'photo',
+    heroAlt: 'Four groups of wooden peg figures in a row: one, then two, then four, then seven',
+    head: 'One season, and<br>what <em>three years</em> look like.',
+    sub: 'Small on purpose. Every line is a number season one replaces with a real one.',
+    html: `<div class="stack">
+      <div class="lay"><span class="t">One season</span><span class="d">3 sponsors &times; $3,000, plus 3 hires &times; 10% of salary &mdash; about <b>$22,000</b> in Korea, <b>$69,000</b> at US salaries</span></div>
+      <div class="lay ours"><span class="t">Year one</span><span class="d">2 seasons, Korea only &mdash; roughly <b>$45,000</b>, and the first real conversion rate</span></div>
+      <div class="lay"><span class="t">Years two &amp; three</span><span class="d">4 seasons, then 8 with a US pilot &mdash; roughly <b>$160,000</b>, then <b>$600,000</b></span></div>
+    </div>`,
+    say: 'And the money. One season is three sponsors and three hires, about twenty-two thousand dollars, or sixty-nine at US salaries. Year one is two seasons. Year three is eight, with a US pilot, at around six hundred thousand. Small numbers, and I am showing them anyway: every one is a guess that season one replaces with a measurement. The number I actually need is how many finishers make a shortlist worth buying.'
+  },
+  {
+    sec: 28, c: 'var(--red)', label: 'Why this team',
+    hero: 'assets/toy/bothsides.jpg', heroClass: 'photo',
+    heroAlt: 'Two wooden peg figures, one beside a tiny open book and one beside a small toy robot arm, with empty table to their right',
+    head: 'We are the only team<br>with <em>both sides.</em>',
+    sub: 'We help small manufacturers hire the engineers who can actually run their robots &mdash; by testing them on real robot work instead of reading a CV.',
+    /* The close is a claim about us, not a request. A room can decline a request.
+       It cannot decline a fact about who is standing in front of it — and the ask
+       is still not a number, it is what the first round buys. */
+    html: `<div class="row">
+      <div class="tile"><div class="big">Supply</div><div class="cap">we teach the people this needs, on a national programme</div></div>
+      <div class="tile"><div class="big">Demand</div><div class="cap">one of us is trying to hire this engineer right now</div></div>
+      <div class="tile" style="--c:var(--red)"><div class="big">Already dated</div><div class="cap">season one: thirty players, six weeks, in the open</div></div>
+      <div class="tile qr" style="--c:var(--teal)"><img src="assets/brand/qr-site.svg" alt="QR code for physical-spark.bit-habit.com"><div class="cap">physical-spark.bit-habit.com</div></div>
+    </div>`,
+    say: 'So, why us. We help small manufacturers hire engineers who can actually run their robots. Anybody can copy that idea. What they cannot copy is that the supply is already in our classroom and the demand is my day job. The first round runs season one &mdash; thirty players, six weeks, in the open. That job is coming either way. The only question is where those people came from.'
+  },
+];
+
+/* ── the five acts ──────────────────────────────────────────────────────────
+   `upto` is the last beat index (1-based) of each act. Change a beat's position
+   and this is the one place to update. */
+const CHAPTERS = [
+  { name: 'Open',      upto: 2 },
+  { name: 'Problem',   upto: 5 },
+  { name: 'Why now',   upto: 9 },
+  { name: 'Solution',  upto: 14 },
+  { name: 'Why us',    upto: 17 },
+  { name: 'Market',    upto: 21 },
+  { name: 'Business',  upto: 25 },
+];
+
+/* ── derived state ──────────────────────────────────────────────────────── */
+const TOTAL = BEATS.reduce((s, b) => s + b.sec, 0);
+const WPS = 2.5;                       /* spoken words per second, pitch pace */
+/* cumulative start time of each beat, so we can map elapsed seconds → which beat you should be on */
+const STARTS = BEATS.reduce((a, b, i) => (a.push(i ? a[i - 1] + BEATS[i - 1].sec : 0), a), []);
+let idx = 0, running = false, elapsed = 0, tickId = null;
+let auto = false;                      /* off by default: you drive, the clock only measures. A turns it on. */
+
+/* ── render ─────────────────────────────────────────────────────────────── */
+const stage = document.getElementById('stage');
+stage.innerHTML = BEATS.map((b, i) => `
+  <section class="beat${b.divider ? ' div' : ''}" data-i="${i}" style="--c:${b.c}">
+    <div class="split${b.hero ? '' : ' solo'}">
+      <div>
+        <div class="kicker">
+          <span class="n mono">${String(i + 1).padStart(2, '0')}</span>
+          <span class="lbl">${b.label}</span>
+          <span class="sec mono">${b.sec}s</span>
+        </div>
+        <h1 class="head">${b.head || '<span style="color:var(--muted)">— not written yet —</span>'}</h1>
+        ${b.sub ? `<p class="sub">${b.sub}</p>` : ''}
+      </div>
+      ${b.hero ? (/\.mp4$/.test(b.hero)
+        ? `<video class="hero ${b.heroClass || ''}" src="${b.hero}" poster="${b.heroPoster || ''}"
+                 autoplay muted loop playsinline aria-label="${b.heroAlt || ''}"></video>`
+        : `<img class="hero ${b.heroClass || ''}" src="${b.hero}" alt="${b.heroAlt || ''}">`) : ''}
+    </div>
+    ${b.html || ''}
+    <p class="inline-say">${b.say || ''}</p>
+  </section>`).join('');
+
+/* A team slide should never show a broken image. If a logo file has not been
+   dropped into assets/brand/ yet, swap it for the typographic wordmark carried
+   on data-wm — the slide still reads, just without the mark. */
+stage.querySelectorAll('img.mk[data-wm]').forEach(function (img) {
+  img.addEventListener('error', function () {
+    const wm = document.createElement('span');
+    wm.className = 'wm';
+    wm.textContent = img.dataset.wm;
+    img.replaceWith(wm);
+  });
+});
+
+/* Each act is one segment: as wide as its seconds, labelled, and clickable to jump
+   to its first beat. ACTS carries the derived start/end so paint() stays cheap. */
+const budget = document.getElementById('budget');
+const ACTS = (() => {
+  let beat = 0, t = 0;
+  return CHAPTERS.map(c => {
+    const secs = BEATS.slice(beat, c.upto).reduce((n, b) => n + b.sec, 0);
+    const act = { name: c.name, from: beat, upto: c.upto, start: t, sec: secs };
+    beat = c.upto; t += secs;
+    return act;
+  });
+})();
+budget.innerHTML = ACTS.map((a, i) =>
+  `<span class="seg" style="--w:${a.sec}" onclick="jump(${a.from})" title="${a.name}"><b>${a.name}</b><u><i></i></u></span>`
+).join('');
+
+
+function render(){
+  document.querySelectorAll('.beat').forEach(el => el.classList.toggle('on', +el.dataset.i === idx));
+  /* deep-link a beat, e.g. pitch.html#4, to rehearse it alone. Guarded: a sandboxed
+     frame (the published-artifact host) throws here, which would abort render(). */
+  try{ history.replaceState(null, '', '#' + (idx + 1)); }catch(e){}
+  const b = BEATS[idx];
+  document.documentElement.style.setProperty('--c', b.c);
+
+  document.getElementById('pr-tag').textContent = `${String(idx + 1).padStart(2, '0')} · ${b.label} · ${b.sec}s`;
+  document.getElementById('pr-say').innerHTML = b.say
+    ? b.say : '<span class="empty">— not written yet —</span>';
+
+  /* word count vs. the beat's spoken budget — catches an over-written beat before the room does */
+  const words = b.say ? b.say.trim().split(/\s+/).length : 0;
+  const cap = Math.round(b.sec * WPS);
+  const wc = document.getElementById('pr-wc');
+  wc.textContent = `${words}w / ~${cap}w`;
+  wc.classList.toggle('over', words > cap);
+
+  /* fit the script to the space rather than letting it eat the slide */
+  const pr = document.getElementById('prompter');
+  pr.classList.toggle('long',  words > 45 && words <= 70);
+  pr.classList.toggle('xlong', words > 70);
+
+  fitPrompter();
+  paint();
+}
+
+/* The stage reserves --prompter of bottom padding so a slide never runs under the
+   teleprompter. That reservation was a constant, but the prompter's height is not:
+   a 95-word script wraps to twice the lines of a 40-word one and grows past it,
+   quietly covering the bottom of the slide. Measure it instead of guessing.
+   Set on :root, so body.noprompt's own --prompter:0px still wins when hidden. */
+function fitPrompter(){
+  requestAnimationFrame(() => {
+    /* the control bar wraps to two rows on a narrow window, so its height is no more
+       constant than the prompter's — measure both or the script gets covered */
+    const c = document.querySelector('.ctl').offsetHeight;
+    if (c) document.documentElement.style.setProperty('--ctl', c + 'px');
+    const h = document.getElementById('prompter').offsetHeight;
+    if (h) document.documentElement.style.setProperty('--prompter', h + 'px');
+  });
+}
+addEventListener('resize', fitPrompter);
+
+/* the budget bar: filled segments behind you, a live-filling one under you */
+function paint(){
+  ACTS.forEach((a, i) => {
+    const seg = budget.children[i], fill = seg.querySelector('i');
+    const into = Math.max(0, Math.min(a.sec, elapsed - a.start));
+    fill.style.width = (into / a.sec) * 100 + '%';
+    seg.classList.toggle('on', idx >= a.from && idx < a.upto);
+    seg.classList.toggle('done', elapsed >= a.start + a.sec);
+    seg.classList.toggle('over', idx >= a.from && idx < a.upto && into >= a.sec);
+  });
+  const m = Math.floor(elapsed / 60), s = Math.floor(elapsed % 60);
+  const clock = document.getElementById('clock');
+  clock.textContent = `${m}:${String(s).padStart(2, '0')} / ` +
+    `${Math.floor(TOTAL / 60)}:${String(TOTAL % 60).padStart(2, '0')}`;
+  clock.classList.toggle('over', elapsed > TOTAL);
+
+  /* seconds left in the beat you are on right now */
+  const left = STARTS[idx] + BEATS[idx].sec - elapsed;
+  const el = document.getElementById('pr-left');
+  el.textContent = (left < 0 ? '+' : '') + Math.abs(left).toFixed(1) + 's';
+  el.classList.toggle('over', left < 0);
+}
+
+/* ── controls ───────────────────────────────────────────────────────────── */
+/* Moving through beats means you are presenting, so the clock starts itself — nobody should have
+   to remember to press START before they begin talking. */
+function go(d){
+  if (!running) toggleRun();
+  jump(Math.min(BEATS.length - 1, Math.max(0, idx + d)));
+}
+function jump(i){
+  idx = i;
+  if (auto) elapsed = STARTS[i];   /* in auto mode the clock follows you when you skip ahead */
+  render();
+}
+
+function toggleRun(){
+  running = !running;
+  document.getElementById('btn-run').textContent = running ? '❚❚ PAUSE' : '▶ START';
+  if (running){
+    tickId = setInterval(() => {
+      elapsed += 0.1;
+      if (auto){
+        /* the last beat is the floor: run past 60s rather than stopping, so overtime is visible */
+        let target = BEATS.length - 1;
+        for (let i = 0; i < BEATS.length; i++){ if (elapsed < STARTS[i] + BEATS[i].sec){ target = i; break; } }
+        if (target !== idx){ idx = target; render(); return; }
+      }
+      paint();
+    }, 100);
+  } else { clearInterval(tickId); }
+}
+
+function toggleAuto(){
+  auto = !auto;
+  document.getElementById('btn-auto').classList.toggle('on', auto);
+  if (auto) elapsed = STARTS[idx];   /* re-sync so the slides do not jump when you switch modes */
+  render();
+}
+function reset(){
+  if (running) toggleRun();
+  elapsed = 0; idx = 0; render();
+}
+/* Present from the browser rather than exporting anything. The chrome stays —
+   a presenter still needs the clock and the script — it just gets the whole screen. */
+function toggleFull(){
+  const el = document.documentElement;
+  if (document.fullscreenElement) document.exitFullscreen();
+  else if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+}
+addEventListener('fullscreenchange', () => {
+  document.getElementById('btn-full').classList.toggle('on', !!document.fullscreenElement);
+  fitPrompter();
+});
+
+function togglePrompter(){
+  const off = document.body.classList.toggle('noprompt');
+  document.getElementById('btn-script').classList.toggle('on', !off);
+}
+function toggleOverview(){
+  const on = document.body.classList.toggle('ov');
+  document.getElementById('btn-ov').classList.toggle('on', on);
+  document.querySelectorAll('.beat').forEach(el => el.classList.toggle('on', on || +el.dataset.i === idx));
+}
+
+addEventListener('keydown', e => {
+  if (e.target.matches('input,textarea')) return;
+  const k = e.key.toLowerCase();
+  if (k === 'f'){ toggleFull(); return; }
+  if (k === ' ' || k === 'arrowright'){ e.preventDefault(); go(1); }
+  else if (k === 'arrowleft'){ e.preventDefault(); go(-1); }
+  else if (k === 'a') toggleAuto();
+  else if (k === 's') togglePrompter();
+  else if (k === 'o') toggleOverview();
+  else if (k === 'r') reset();
+  else if (k === 'enter') toggleRun();
+});
+
+
+/* ── swipe, for the hand that is holding the phone ──────────────────────── */
+(function(){
+  let x0=null,y0=null,t0=0;
+  addEventListener('touchstart',e=>{const t=e.changedTouches[0];x0=t.clientX;y0=t.clientY;t0=Date.now();},{passive:true});
+  addEventListener('touchend',e=>{
+    if(x0===null) return;
+    const t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0; x0=null;
+    /* horizontal, decisive and quick — otherwise it was a scroll or a tap */
+    if(Math.abs(dx)>52 && Math.abs(dx)>Math.abs(dy)*1.6 && Date.now()-t0<700) go(dx<0?1:-1);
+  },{passive:true});
+})();
+
+const fromHash = parseInt(location.hash.slice(1), 10);
+if (fromHash >= 1 && fromHash <= BEATS.length) idx = fromHash - 1;
+render();
+</script>
+</body>
+</html>

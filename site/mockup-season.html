@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slides 12 · 13 · 14 — product mockups</title>
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOCKUP ONLY — the three screens proposed for slides 12, 13 and 14.
+   Drawn in HTML/CSS rather than pasted as images: it stays sharp on a
+   projector, it uses the deck's own palette, and a wording change is a
+   one-line edit instead of a re-export.
+   Nothing here is imported by deck-v4.html yet.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#2b211a; --body:#5a4c3e; --mute:#948468; --line:#e8dcc4;
+  --page:#fbf5e9; --card:#ffffff; --dot:#c3b294; --accent:#0e9a89;  /* Solution = teal */
+}
+*{box-sizing:border-box;}
+body{margin:0;background:#efe6d4;color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding:26px 26px 60px;}
+
+.tag{max-width:1180px;margin:0 auto 10px;display:flex;align-items:baseline;gap:12px;}
+.tag b{font-size:19px;}
+.tag span{font-size:13px;color:#7a6a55;}
+.tag:not(:first-of-type){margin-top:42px;}
+
+.stage{max-width:1180px;margin:0 auto;aspect-ratio:16/9;background:var(--page);
+  border:1px solid #ded1b6;border-radius:10px;container-type:inline-size;
+  position:relative;overflow:hidden;box-shadow:0 8px 26px rgba(120,80,20,.10);}
+.slide{position:absolute;inset:0;padding:.6cqw 6cqw 11.5cqw;display:flex;flex-direction:column;}
+
+.kick{display:flex;align-items:center;gap:1.1cqw;margin-bottom:2.1cqw;}
+.kick .n{background:var(--accent);color:#fff;font-weight:800;font-size:1.15cqw;
+  padding:.35cqw .8cqw;border-radius:99px;}
+.kick .l{font-size:1.15cqw;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);}
+.kick .rule{flex:1;height:1px;background:var(--line);}
+h1{margin:0;font-size:5.5cqw;line-height:1.06;letter-spacing:-.03em;font-weight:800;}
+h1 em{font-style:normal;color:var(--accent);}
+.sub{margin:1.1cqw 0 0;font-size:1.85cqw;line-height:1.45;color:var(--body);max-width:66cqw;}
+.body{margin-top:1.8cqw;flex:1;min-height:0;}
+
+/* ── the app window: one chrome, three different screens inside ──────────── */
+.app{display:grid;grid-template-columns:1fr 27cqw;gap:2.4cqw;align-items:start;}
+.win{background:var(--card);border:1.5px solid var(--line);border-radius:1.1cqw;overflow:hidden;
+  box-shadow:0 1.4cqw 3cqw rgba(120,80,20,.14);}
+.bar{display:flex;align-items:center;gap:.6cqw;padding:.85cqw 1.2cqw;background:#f6efe0;
+  border-bottom:1px solid var(--line);}
+.bar i{width:.7cqw;height:.7cqw;border-radius:50%;background:var(--dot);display:block;}
+.bar .url{margin-left:.8cqw;flex:1;background:#fff;border:1px solid var(--line);border-radius:99px;
+  padding:.3cqw 1cqw;font-size:1.05cqw;color:var(--mute);}
+.scr{padding:1.6cqw 1.8cqw;}
+.note{margin-top:1cqw;font-size:1.1cqw;color:var(--mute);font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;}
+/* the panel of plain words beside the screen — the screen shows, this tells */
+.side .k{font-size:1.2cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.side .big{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;line-height:1.04;margin-top:.4cqw;}
+.side ul{list-style:none;margin:1.2cqw 0 0;padding:0;display:flex;flex-direction:column;gap:.8cqw;}
+.side li{position:relative;padding-left:1.7cqw;font-size:1.7cqw;line-height:1.3;color:var(--body);}
+.side li::before{content:'';position:absolute;left:0;top:.75cqw;width:.55cqw;height:.55cqw;
+  border-radius:50%;background:var(--dot);}
+
+/* ── screen 1: the task ──────────────────────────────────────────────────── */
+.spon{display:flex;align-items:center;gap:.8cqw;font-size:1.1cqw;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--mute);}
+.spon b{color:var(--accent);}
+.tt{font-size:2.6cqw;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin-top:.7cqw;}
+.chips{display:flex;gap:.6cqw;margin-top:1.1cqw;flex-wrap:wrap;}
+.chip{font-size:1.15cqw;font-weight:700;padding:.35cqw .9cqw;border-radius:99px;
+  background:#f1ebdc;color:var(--body);}
+.crit{margin-top:1.3cqw;border-top:1px solid var(--line);}
+.crit .r{display:flex;justify-content:space-between;gap:1.4cqw;padding:.65cqw 0;
+  font-size:1.35cqw;color:var(--body);border-bottom:1px solid var(--line);}
+.crit .r b{color:var(--ink);font-weight:700;white-space:nowrap;}
+.cta{margin-top:1.3cqw;display:inline-block;background:var(--accent);color:#fff;font-weight:800;
+  font-size:1.4cqw;padding:.8cqw 1.6cqw;border-radius:.7cqw;}
+
+/* ── screen 2: the season board ──────────────────────────────────────────── */
+.bhead{display:flex;align-items:baseline;justify-content:space-between;gap:1.4cqw;}
+.bhead .t{font-size:1.9cqw;font-weight:800;letter-spacing:-.02em;}
+.bhead .d{font-size:1.25cqw;font-weight:800;color:var(--accent);letter-spacing:.08em;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9cqw;margin-top:1.2cqw;}
+.tile{border:1px solid var(--line);border-radius:.7cqw;overflow:hidden;background:#fdfbf6;}
+.tile .thumb{aspect-ratio:16/10;background:
+   linear-gradient(135deg,#e9e0cc 0 40%,#dfd4bb 40% 100%);position:relative;}
+.tile .thumb::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  border:.5cqw solid transparent;border-left-color:#fff;border-left-width:.9cqw;}
+.tile .m{padding:.5cqw .6cqw;}
+.tile .nm{font-size:1.05cqw;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tile .pr{height:.28cqw;background:var(--line);border-radius:99px;margin-top:.35cqw;}
+.tile .pr i{display:block;height:100%;background:var(--accent);border-radius:99px;}
+
+/* ── screen 3: the ranked list ───────────────────────────────────────────── */
+.lst .r{display:grid;grid-template-columns:2.6cqw 1fr 6cqw 7cqw;gap:1cqw;align-items:center;
+  padding:.62cqw 0;border-bottom:1px solid var(--line);font-size:1.4cqw;}
+.lst .r.top{background:#e7f4f2;margin:0 -1cqw;padding-left:1cqw;padding-right:1cqw;border-radius:.5cqw;}
+.lst .rk{font-weight:800;color:var(--mute);}
+.lst .r.top .rk{color:var(--accent);}
+.lst .nm{font-weight:700;}
+.lst .sc{font-weight:800;text-align:right;}
+.lst .bt{font-size:1.1cqw;font-weight:800;text-align:center;padding:.28cqw .5cqw;border-radius:.4cqw;
+  border:1px solid var(--line);color:var(--mute);}
+.lst .r.top .bt{background:var(--accent);border-color:var(--accent);color:#fff;}
+.pgno{position:absolute;right:6cqw;bottom:5.6cqw;font-size:2.2cqw;font-weight:800;
+  color:var(--ink);opacity:.5;}
+.pgno small{font-size:1.3cqw;opacity:.65;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════ 12 · THE TASK ═══════════════════════════════ -->
+<div class="tag"><b>12쪽 — The task</b><span>스폰서 회사가 쓴 과제 한 장. 채점 기준까지 공개다</span></div>
+<div class="stage"><div class="slide">
+  <div class="kick"><span class="n">08</span><span class="l">The solution</span><span class="rule"></span></div>
+  <h1>One task, written by<br>the company that will <em>hire.</em></h1>
+
+  <div class="body"><div class="app">
+    <div>
+      <div class="win">
+        <div class="bar"><i></i><i></i><i></i><span class="url">physicalspark.com / season-1 / task</span></div>
+        <div class="scr">
+          <div class="spon">Sponsored by <b>Daeyang Precision</b> &nbsp;·&nbsp; 12 open roles</div>
+          <div class="tt">Place a sticker in the same spot, 100 times.</div>
+          <div class="chips"><span class="chip">SO-101 arm</span><span class="chip">Simulator first</span>
+            <span class="chip">2 weeks</span><span class="chip">Video required</span></div>
+          <div class="crit">
+            <div class="r"><span>Placement within 2 mm</span><b>40 pts</b></div>
+            <div class="r"><span>Works on a new object position</span><b>30 pts</b></div>
+            <div class="r"><span>Recovers after a broken frame</span><b>20 pts</b></div>
+            <div class="r"><span>Explains the tradeoffs out loud</span><b>10 pts</b></div>
+          </div>
+          <span class="cta">Start in the simulator &rarr;</span>
+        </div>
+      </div>
+      <div class="note">Design mockup &nbsp;·&nbsp; season one, building now</div>
+    </div>
+    <div class="side">
+      <div class="k">01 · The task</div>
+      <div class="big">Real work,<br>real grading rules</div>
+      <ul>
+        <li>Written with the factory that will hire</li>
+        <li>Every point is public before anyone starts</li>
+      </ul>
+    </div>
+  </div></div>
+  <span class="pgno">12<small>&thinsp;/&thinsp;30</small></span>
+</div></div>
+
+
+<!-- ══════════════════════════ 13 · THE SEASON ═════════════════════════════ -->
+<div class="tag"><b>13쪽 — The season</b><span>모두가 같은 날 시작해 공개 영상 보드에서 달린다</span></div>
+<div class="stage"><div class="slide">
+  <div class="kick"><span class="n">08</span><span class="l">The solution</span><span class="rule"></span></div>
+  <h1>Two weeks, fixed dates,<br>every run <em>in the open.</em></h1>
+
+  <div class="body"><div class="app">
+    <div>
+      <div class="win">
+        <div class="bar"><i></i><i></i><i></i><span class="url">physicalspark.com / season-1 / board</span></div>
+        <div class="scr">
+          <div class="bhead"><span class="t">Season 1 &nbsp;·&nbsp; 30 engineers</span>
+            <span class="d">Day 6 of 14</span></div>
+          <div class="grid">
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">J. Park</div><div class="pr"><i style="width:82%"></i></div></div></div>
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">S. Kim</div><div class="pr"><i style="width:71%"></i></div></div></div>
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">H. Yoon</div><div class="pr"><i style="width:64%"></i></div></div></div>
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">D. Choi</div><div class="pr"><i style="width:58%"></i></div></div></div>
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">M. Lee</div><div class="pr"><i style="width:51%"></i></div></div></div>
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">A. Jung</div><div class="pr"><i style="width:44%"></i></div></div></div>
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">B. Oh</div><div class="pr"><i style="width:37%"></i></div></div></div>
+            <div class="tile"><div class="thumb"></div><div class="m"><div class="nm">Y. Han</div><div class="pr"><i style="width:29%"></i></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="note">Design mockup &nbsp;·&nbsp; season one, building now</div>
+    </div>
+    <div class="side">
+      <div class="k">02 · The season</div>
+      <div class="big">Everyone starts<br>the same day</div>
+      <ul>
+        <li>Every run posted to a public board</li>
+        <li>Peers watch and score the video</li>
+      </ul>
+    </div>
+  </div></div>
+  <span class="pgno">13<small>&thinsp;/&thinsp;30</small></span>
+</div></div>
+
+
+<!-- ══════════════════════════ 14 · THE OUTPUT ═════════════════════════════ -->
+<div class="tag"><b>14쪽 — The output</b><span>회사가 실제로 보는 화면. 상위 5명에게 실물 팔이 간다</span></div>
+<div class="stage"><div class="slide">
+  <div class="kick"><span class="n">08</span><span class="l">The solution</span><span class="rule"></span></div>
+  <h1>Every finisher, ranked,<br>with the <em>runs attached.</em></h1>
+
+  <div class="body"><div class="app">
+    <div>
+      <div class="win">
+        <div class="bar"><i></i><i></i><i></i><span class="url">physicalspark.com / season-1 / results</span></div>
+        <div class="scr">
+          <div class="bhead"><span class="t">Final ranking &nbsp;·&nbsp; 30 finishers</span>
+            <span class="d">Sent to 4 companies</span></div>
+          <div class="lst" style="margin-top:1cqw">
+            <div class="r top"><span class="rk">1</span><span class="nm">Jihoon Park</span><span class="sc">94</span><span class="bt">Arm shipped</span></div>
+            <div class="r top"><span class="rk">2</span><span class="nm">Seoyeon Kim</span><span class="sc">91</span><span class="bt">Arm shipped</span></div>
+            <div class="r top"><span class="rk">3</span><span class="nm">Hyunwoo Yoon</span><span class="sc">88</span><span class="bt">Arm shipped</span></div>
+            <div class="r"><span class="rk">4</span><span class="nm">Dain Choi</span><span class="sc">84</span><span class="bt">View runs</span></div>
+            <div class="r"><span class="rk">5</span><span class="nm">Minjae Lee</span><span class="sc">81</span><span class="bt">View runs</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note">Design mockup &nbsp;·&nbsp; season one, building now</div>
+    </div>
+    <div class="side">
+      <div class="k">03 · The output</div>
+      <div class="big">A list a company<br>can hire from</div>
+      <ul>
+        <li>Peer score and the recorded runs, per person</li>
+        <li>The top 5 get a real arm and a supervised session</li>
+      </ul>
+    </div>
+  </div></div>
+  <span class="pgno">14<small>&thinsp;/&thinsp;30</small></span>
+</div></div>
+
+</body>
+</html>
