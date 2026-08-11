@@ -189,15 +189,17 @@ h1 em{font-style:normal;color:var(--accent);}
 .doc{background:var(--card);border:1.5px solid var(--line);border-top:.35cqw solid var(--accent);
   border-radius:.9cqw;padding:1.4cqw 2cqw;height:auto;display:flex;flex-direction:column;
   font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
-.doc .hd{font-size:1.2cqw;font-weight:800;letter-spacing:.16em;color:var(--mute);margin-bottom:.8cqw;}
+.doc .hd{font-size:2.2cqw;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.1;}
+.doc .hdsub{font-size:1.35cqw;font-weight:700;color:var(--mute);margin-top:.25cqw;
+  padding-bottom:.7cqw;margin-bottom:.7cqw;border-bottom:.22cqw solid var(--accent);}
 .doc .ln{display:flex;justify-content:space-between;gap:2cqw;font-size:1.38cqw;
-  padding:.34cqw 0;color:var(--ink);}
+  padding:.28cqw 0;color:var(--ink);}
 .doc .ln .v{font-weight:700;white-space:nowrap;}
 .doc .ln.good .v{color:#0e9a89;}
 .doc .ln.bad .v{color:#e0442e;}
 .doc .vd{display:flex;justify-content:space-between;gap:2cqw;margin-top:.6cqw;padding-top:.8cqw;
   border-top:1px solid var(--line);font-size:1.7cqw;font-weight:800;color:var(--accent);}
-.doc .ft{font-size:1.05cqw;color:var(--mute);margin-top:.7cqw;}
+.doc .ft{font-size:1.05cqw;color:var(--mute);margin-top:.55cqw;}
 
 /* I · people */
 .people{display:grid;grid-template-columns:repeat(2,1fr);gap:2cqw;height:auto;}
@@ -234,21 +236,25 @@ h1 em{font-style:normal;color:var(--accent);}
 .venn .row{display:flex;gap:1.2cqw;align-items:baseline;}
 .venn .row .t{font-size:1.55cqw;font-weight:800;color:var(--ink);min-width:9cqw;}
 .venn .row .d{font-size:1.6cqw;color:var(--body);line-height:1.35;}
-/* the three groups arrive one at a time, and only once all three are on screen
-   does the overlap get a name. Two seconds apart — change --vstep to re-pace
-   the whole build, both the circles and the lines beside them. */
-.venn{--vstep:2s;}
-.slide.on .venn .c,.slide.on .venn .side .row{animation:vpop .55s cubic-bezier(.2,.8,.3,1) both;}
-.slide.on .venn .c1,.slide.on .venn .side .row:nth-child(1){animation-delay:calc(var(--vstep)*0 + .3s);}
-.slide.on .venn .c2,.slide.on .venn .side .row:nth-child(2){animation-delay:calc(var(--vstep)*1 + .3s);}
-.slide.on .venn .c3,.slide.on .venn .side .row:nth-child(3){animation-delay:calc(var(--vstep)*2 + .3s);}
-.slide.on .venn .mid{animation:vmid .6s cubic-bezier(.2,.8,.3,1) calc(var(--vstep)*3 + .3s) both;}
+/* the build is four slides, not four timers: the presenter decides when each
+   group arrives. A beat says how many are up; the newest one is the only thing
+   that animates, so nothing already on screen twitches when the slide changes.
+   Hidden rows keep their space (visibility, not display) so the list never jumps. */
+.venn .c{opacity:0;}
+.venn .c.on{opacity:1;}
+.venn .side .row{visibility:hidden;}
+.venn .side .row.on{visibility:visible;}
+.venn .mid{opacity:0;}
+.venn .mid.on{opacity:1;}
+.slide.on .venn .c.new,.slide.on .venn .side .row.new{animation:vpop .5s cubic-bezier(.2,.8,.3,1) both;}
+.slide.on .venn .mid.on{animation:vmid .55s cubic-bezier(.2,.8,.3,1) both;}
 @keyframes vpop{from{opacity:0;transform:scale(.84);}to{opacity:1;transform:none;}}
 /* .mid is centred with a translate, so the keyframes have to carry it */
 @keyframes vmid{from{opacity:0;transform:translate(-50%,-50%) scale(.78);}
                 to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
 @media (prefers-reduced-motion:reduce){
-  .slide.on .venn .c,.slide.on .venn .side .row,.slide.on .venn .mid{animation:none;}
+  .slide.on .venn .c.new,.slide.on .venn .side .row.new,.slide.on .venn .mid.on{animation:none;}
+}
 }
 
 /* cover: the logo mark is portrait (238×468), so it stands beside the name
@@ -396,10 +402,10 @@ h1 em{font-style:normal;color:var(--accent);}
 .scw .wbar i{width:.7cqw;height:.7cqw;border-radius:50%;background:var(--dot);display:block;}
 .scw .url{margin-left:.8cqw;flex:1;background:#fff;border:1px solid var(--line);border-radius:99px;
   padding:.3cqw 1cqw;font-size:1.05cqw;color:var(--mute);}
-.scw .scr{padding:1.6cqw 1.8cqw;}
+.scw .scr{padding:1.3cqw 1.6cqw;}
 /* the product does not exist yet; the slide says so rather than letting a
    judge discover it in Q&A */
-.scw .note{margin-top:1cqw;font-size:1.1cqw;color:var(--mute);font-weight:700;
+.scw .note{margin-top:.7cqw;font-size:1.1cqw;color:var(--mute);font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;}
 .scw .sp .k{font-size:1.2cqw;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
 .scw .sp .big{font-size:3.2cqw;font-weight:800;letter-spacing:-.03em;line-height:1.04;
@@ -411,23 +417,23 @@ h1 em{font-style:normal;color:var(--accent);}
 /* screen 1 — the task */
 .scw .spon{font-size:1.1cqw;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);}
 .scw .spon b{color:var(--accent);}
-.scw .tt{font-size:2.6cqw;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin-top:.7cqw;}
-.scw .chips{display:flex;gap:.6cqw;margin-top:1.1cqw;flex-wrap:wrap;}
+.scw .tt{font-size:2.35cqw;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin-top:.7cqw;}
+.scw .chips{display:flex;gap:.6cqw;margin-top:.85cqw;flex-wrap:wrap;}
 .scw .chip{font-size:1.15cqw;font-weight:700;padding:.35cqw .9cqw;border-radius:99px;
   background:#f1ebdc;color:var(--body);}
-.scw .crit{margin-top:1.3cqw;border-top:1px solid var(--line);}
-.scw .crit .cr{display:flex;justify-content:space-between;gap:1.4cqw;padding:.65cqw 0;
+.scw .crit{margin-top:1cqw;border-top:1px solid var(--line);}
+.scw .crit .cr{display:flex;justify-content:space-between;gap:1.4cqw;padding:.5cqw 0;
   font-size:1.35cqw;color:var(--body);border-bottom:1px solid var(--line);}
 .scw .crit .cr b{color:var(--ink);font-weight:700;white-space:nowrap;}
-.scw .cta{margin-top:1.3cqw;display:inline-block;background:var(--accent);color:#fff;
-  font-weight:800;font-size:1.4cqw;padding:.8cqw 1.6cqw;border-radius:.7cqw;}
+.scw .cta{margin-top:1cqw;display:inline-block;background:var(--accent);color:#fff;
+  font-weight:800;font-size:1.3cqw;padding:.65cqw 1.4cqw;border-radius:.7cqw;}
 /* screen 2 — the public board */
 .scw .bh{display:flex;align-items:baseline;justify-content:space-between;gap:1.4cqw;}
 .scw .bh .t{font-size:1.9cqw;font-weight:800;letter-spacing:-.02em;}
 .scw .bh .d{font-size:1.25cqw;font-weight:800;color:var(--accent);letter-spacing:.08em;}
-.scw .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:.9cqw;margin-top:1.2cqw;}
+.scw .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:.8cqw;margin-top:1cqw;}
 .scw .tile{border:1px solid var(--line);border-radius:.7cqw;overflow:hidden;background:#fdfbf6;}
-.scw .thumb{aspect-ratio:16/10;position:relative;
+.scw .thumb{aspect-ratio:16/9;position:relative;
   background:linear-gradient(135deg,#e9e0cc 0 40%,#dfd4bb 40% 100%);}
 .scw .thumb::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   border:.5cqw solid transparent;border-left-color:#fff;border-left-width:.9cqw;}
@@ -438,7 +444,7 @@ h1 em{font-style:normal;color:var(--accent);}
 /* screen 3 — the ranked list */
 .scw .lst{margin-top:1cqw;}
 .scw .lst .lr{display:grid;grid-template-columns:2.6cqw 1fr 6cqw 7cqw;gap:1cqw;align-items:center;
-  padding:.62cqw 0;border-bottom:1px solid var(--line);font-size:1.4cqw;}
+  padding:.52cqw 0;border-bottom:1px solid var(--line);font-size:1.4cqw;}
 .scw .lst .lr.top{background:color-mix(in srgb,var(--accent) 12%,#fff);margin:0 -1cqw;
   padding-left:1cqw;padding-right:1cqw;border-radius:.5cqw;}
 .scw .lst .rk{font-weight:800;color:var(--mute);}
@@ -549,13 +555,15 @@ h1 em{font-style:normal;color:var(--accent);}
 .bridge .plogo img{height:3.7cqw;width:auto;display:block;filter:brightness(0) invert(1);}
 .bridge .mid .nm{font-size:2.9cqw;font-weight:800;letter-spacing:-.03em;color:var(--ink);
   text-align:center;line-height:1.06;}
-/* arrow heads out of borders — no asset, and they scale with the container */
-.bridge .arrows{display:flex;align-items:center;width:100%;}
-.bridge .sh{flex:1;height:2px;background:var(--accent);position:relative;}
-.bridge .sh.l::before{content:'';position:absolute;left:-.1cqw;top:50%;
-  border:.5cqw solid transparent;border-right-color:var(--accent);transform:translateY(-50%);}
-.bridge .sh.r::after{content:'';position:absolute;right:-.1cqw;top:50%;
-  border:.5cqw solid transparent;border-left-color:var(--accent);transform:translateY(-50%);}
+/* the connector is a little bridge, not an arrow: a deck on piers with two
+   loads crossing it, so the drawing says what the slide says */
+.bridge .bspan{width:100%;height:auto;display:block;overflow:visible;}
+.bridge .bdeck{stroke:#2b211a;stroke-width:2.6;stroke-linecap:round;}
+.bridge .bsill{stroke:#2b211a;stroke-width:1.6;stroke-linecap:round;}
+.bridge .bpier{stroke:#6b5a45;stroke-width:1.8;stroke-linecap:round;}
+.bridge .bbrace{fill:none;stroke:#a8957c;stroke-width:1.3;stroke-linecap:round;}
+.bridge .bpip{fill:var(--accent);}
+@media (prefers-reduced-motion:reduce){ .bridge .bpip{display:none;} }
 /* the middle card used to carry the revenue; with it gone the money moves here */
 .payline{margin-top:1.4cqw;font-size:1.5cqw;font-weight:700;color:var(--body);}
 .payline b{color:var(--accent);font-weight:800;}
@@ -624,14 +632,14 @@ const WPS = 2.2;   /* spoken words per second — a second language, said clearl
    gold: v1 uses colour as temperature, not as a unique label per section. */
 const CHAPTERS = [
   { name:'Open',        c:'#e0442e', from:0,  upto:1  },
-  { name:'Why now',     c:'#f4b21a', from:2,  upto:6  },
-  { name:'Problem',     c:'#e0442e', from:7,  upto:9  },
-  { name:'Solution',    c:'#0e9a89', from:10, upto:15 },
-  { name:'Why we win',  c:'#e6a413', from:16, upto:18 },
-  { name:'Competitors', c:'#2f6fd0', from:19, upto:20 },
-  { name:'Market',      c:'#2f6fd0', from:21, upto:22 },
-  { name:'Business',    c:'#e0442e', from:23, upto:25 },
-  { name:'Where next',  c:'#e6a413', from:26, upto:29 },
+  { name:'Why now',     c:'#f4b21a', from:2,  upto:9  },
+  { name:'Problem',     c:'#e0442e', from:10, upto:12 },
+  { name:'Solution',    c:'#0e9a89', from:13, upto:18 },
+  { name:'Why we win',  c:'#e6a413', from:19, upto:21 },
+  { name:'Competitors', c:'#2f6fd0', from:22, upto:23 },
+  { name:'Market',      c:'#2f6fd0', from:24, upto:25 },
+  { name:'Business',    c:'#e0442e', from:26, upto:28 },
+  { name:'Where next',  c:'#e6a413', from:29, upto:32 },
 ];
 function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTERS[0]; }
 
@@ -639,7 +647,7 @@ function chapterOf(i){ return CHAPTERS.find(c=>i>=c.from && i<=c.upto) || CHAPTE
    once; the three beats below point at the same array with a different `focus`,
    so editing a card edits every step of the build. */
 const SEASON = [
-  {i:'01', t:'The task',   v:['Real work from a real factory &mdash; place a sticker in the same spot, every time','Grading rules written with the companies that will hire']},
+  {i:'01', t:'The task',   v:['Real work from a real factory &mdash; pick parts from a bin, wherever they land','Grading rules written with the companies that will hire']},
   {i:'02', t:'The season', v:['Two weeks, fixed dates, everyone starting the same day','Every run posted to a public video board']},
   {i:'03', t:'The output', v:['Every finisher, ranked','Peer review on video, with the recorded runs attached']},
 ];
@@ -652,6 +660,16 @@ const SEA_HEAD = 'One task. One season.<br>One <em>ranked list.</em>';
 const SEA_SUB  = 'Fixed dates, a public video board, and grading rules the hiring companies helped write.';
 const STA_HEAD = 'Korea proves it.<br>Then the standard <em>goes global.</em>';
 const STA_SUB  = 'Start where all three groups already meet. Then follow the factories out of Korea.';
+
+const VEN_HEAD = 'Three groups are all waiting for<br>an engineer who can <em>run a robot.</em>';
+const VEN_SUB  = 'And one of the three already pays to train that engineer.';
+const VEN_C    = ['Factories','Government','Engineers'];
+const VEN_MID  = 'The engineer who can run a robot';
+const VEN_R    = [
+  {t:'Factories',  v:['Bought the robots','Fewer workers left for repetitive jobs']},
+  {t:'Government', v:['Pays for the robots and the training','Wants young people in jobs']},
+  {t:'Engineers',  v:['Want retraining, then a referral','One path into a real job']},
+];
 
 const BEATS = [
 { kind:'cover', sec:10, n:'', section:'Physical Spark',
@@ -710,17 +728,19 @@ const BEATS = [
   src:'IFR World Robotics 2025 · KOSIS Korean manufacturing SME share',
   say:'The next one is the physical AI engineer, and Korea is where that lands first. A thousand and twelve robots per ten thousand factory workers, the most on earth. Almost every Korean manufacturer is a small company. Korea ages faster than any OECD country, and there is one qualified engineer for every three open automation jobs.'},
 
-{ sec:30, n:'05', section:'Who needs this', layout:'venn',
-  head:'Three groups are all waiting for<br>an engineer who can <em>run a robot.</em>',
-  sub:'And one of the three already pays to train that engineer.',
-  circles:['Factories','Government','Engineers'],
-  centre:'The engineer who can run a robot',
-  rows:[
-    {t:'Factories',  v:['Bought the robots','Fewer workers left for repetitive jobs']},
-    {t:'Government', v:['Pays for the robots and the training','Wants young people in jobs']},
-    {t:'Engineers',  v:['Want retraining, then a referral','One path into a real job']},
-  ],
-  say:'Three groups are all waiting for an engineer who can run a robot. Factories bought the robots, and ageing left fewer workers for repetitive jobs. The government pays for both the robots and the training, because it wants young people in jobs. And young engineers want a referral into real work. We are where all three meet.'},
+/* one picture, built in four — the presenter decides when each group lands */
+{ sec:9, n:'05', section:'Who needs this', layout:'venn', show:1,
+  head:VEN_HEAD, sub:VEN_SUB, circles:VEN_C, centre:VEN_MID, rows:VEN_R,
+  say:'Three groups are waiting for one engineer. Factories bought the robots, and ageing left fewer workers for repetitive jobs.'},
+{ sec:7, n:'05', section:'Who needs this', layout:'venn', show:2,
+  head:VEN_HEAD, sub:VEN_SUB, circles:VEN_C, centre:VEN_MID, rows:VEN_R,
+  say:'The government pays for the robots and the training. It wants young people in jobs.'},
+{ sec:7, n:'05', section:'Who needs this', layout:'venn', show:3,
+  head:VEN_HEAD, sub:VEN_SUB, circles:VEN_C, centre:VEN_MID, rows:VEN_R,
+  say:'And young engineers want retraining and a referral — one path into a real job.'},
+{ sec:7, n:'05', section:'Who needs this', layout:'venn', show:4,
+  head:VEN_HEAD, sub:VEN_SUB, circles:VEN_C, centre:VEN_MID, rows:VEN_R,
+  say:'All three are waiting for the same person: the engineer who can run a robot.'},
 
 /* ══ PROBLEM ═══════════════════════════════════════════════════════════════ */
 { kind:'divider', sec:6, section:'The problem', head:'The problem',
@@ -753,12 +773,12 @@ const BEATS = [
   v:['Written with the factory that will hire','Every point is public before anyone starts'],
   scr:{ kind:'task', url:'physicalspark.com / season-1 / task',
     sponsor:'Daeyang Precision', roles:'12 open roles',
-    title:'Place a sticker in the same spot, 100 times.',
+    title:'Pick parts from a bin, wherever they land.',
     chips:['SO-101 arm','Simulator first','2 weeks','Video required'],
-    crit:[['Placement within 2 mm','40 pts'],['Works on a new object position','30 pts'],
-          ['Recovers after a broken frame','20 pts'],['Explains the tradeoffs out loud','10 pts']],
+    crit:[['Grasps a part in a position never seen','40 pts'],['Success rate over 100 runs','30 pts'],
+          ['Recovers after a dropped part','20 pts'],['Explains the tradeoffs out loud','10 pts']],
     cta:'Start in the simulator &rarr;'},
-  say:'Two or three companies write down real work — place a sticker in the same spot, every time — and help write the grading rules.'},
+  say:'Two or three companies write down real work — pick parts from a bin, wherever they land — and help write the grading rules.'},
 
 { sec:11, n:'08', section:'The solution', layout:'screen',
   head:'Two weeks, fixed dates,<br>every run <em>in the open.</em>',
@@ -794,10 +814,10 @@ const BEATS = [
 { sec:36, n:'10', section:'The solution', layout:'doc',
   head:'A company buys a <em>scorecard,</em><br>not a CV.',
   sub:'One page per finisher. This is a real one.',
-  doc:{ hd:'CANDIDATE REPORT · SEASON ONE',
+  doc:{ hd:'Candidate report', hdsub:'Jihoon Park &middot; Season 1 &middot; Daeyang Precision task',
     rows:[
-      ['Pick and place','87 / 100 runs',''],
-      ['New object, new position','72 / 100 · generalises','good'],
+      ['Pick from a bin','87 / 100 runs',''],
+      ['A position never seen before','72 / 100 · generalises','good'],
       ['Broken coordinate frame','fixed in 14 min',''],
       ['Camera sending, robot not receiving','not found &#10007;','bad'],
       ['Too slow to run live','fixed',''],
@@ -921,6 +941,28 @@ const cardEl = (c,on,cls='') =>
      <div class="k">${c.k}</div>${c.big?`<div class="big">${c.big}</div>`:''}${bullets(c.v)}
    </div>`;
 
+/* one span of the bridge: a deck on piers, with two loads crossing it. dir -1
+   heads left to the developers, dir 1 heads right to the factories — traffic
+   leaves us in both directions, which is what a two-sided market looks like. */
+function brSpan(dir){
+  const a = dir > 0 ? 6 : 94, z = dir > 0 ? 94 : 6;
+  const pip = begin => `<circle class="bpip" cy="9" r="4.2">
+      <animate attributeName="cx" from="${a}" to="${z}" dur="2.6s" begin="${begin}s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="2.6s" begin="${begin}s" repeatCount="indefinite"/>
+    </circle>`;
+  return `<svg class="bspan" viewBox="0 0 100 26" aria-hidden="true">
+      <path class="bbrace" d="M8,21 L29,9 M29,21 L50,9 M50,21 L71,9 M71,21 L92,9"/>
+      <line class="bpier" x1="29" y1="9" x2="29" y2="21"/>
+      <line class="bpier" x1="50" y1="9" x2="50" y2="21"/>
+      <line class="bpier" x1="71" y1="9" x2="71" y2="21"/>
+      <line class="bpier" x1="8"  y1="9" x2="8"  y2="21"/>
+      <line class="bpier" x1="92" y1="9" x2="92" y2="21"/>
+      <line class="bsill" x1="4" y1="21" x2="96" y2="21"/>
+      <line class="bdeck" x1="2" y1="9" x2="98" y2="9"/>
+      ${pip(0)}${pip(1.3)}
+    </svg>`;
+}
+
 function bodyHTML(b){
   const f = b.focus;
   switch(b.layout){
@@ -980,10 +1022,10 @@ function bodyHTML(b){
         <div class="lbl give">Physical Spark gives</div>${bullets(c.give)}</div>`;
       return `<div class="flow bridge">${bc(b.cards[0])}
         <div class="mid">
-          <div class="arrows"><span class="sh l"></span></div>
+          ${brSpan(-1)}
           <span class="plogo"><img src="assets/logo-mark.png" alt=""></span>
           <div class="nm">Physical<br>Spark</div>
-          <div class="arrows"><span class="sh r"></span></div>
+          ${brSpan(1)}
         </div>${bc(b.cards[1])}</div>
         <div class="payline">${b.pay}</div>`;
     }
@@ -1036,7 +1078,8 @@ function bodyHTML(b){
       return `<div class="bignum"><div class="n">${b.num}</div>
         <div class="side"><div class="unit">${b.unit}</div>${bullets(b.list)}</div></div>`;
     case 'doc':
-      return `<div class="doc"><div class="hd">${b.doc.hd}</div>` +
+      return `<div class="doc"><div class="hd">${b.doc.hd}</div>
+        <div class="hdsub">${b.doc.hdsub}</div>` +
         b.doc.rows.map(r=>`<div class="ln ${r[2]}"><span>${r[0]}</span><span class="v">${r[1]}</span></div>`).join('') +
         `<div class="vd"><span>${b.doc.verdict[0]}</span><span>${b.doc.verdict[1]}</span></div>
          <div class="ft">${b.doc.ft}</div></div>`;
@@ -1048,17 +1091,20 @@ function bodyHTML(b){
            ${bullets(p.v)}
            <div class="org">${(p.orgs||[]).map(o=>`<img src="assets/brand/${o[0]}" alt="${o[1]}">`).join('')}</div>
          </div>`).join('') + `</div>`;
-    case 'venn':
+    case 'venn': {
+      const n = b.show || 4;                       /* how many groups are up */
+      const st = i => i < n ? (i === n-1 ? ' on new' : ' on') : '';
       return `<div class="venn">
         <div class="fig">
-          <div class="c c1"><span>${b.circles[0]}</span></div>
-          <div class="c c2"><span>${b.circles[1]}</span></div>
-          <div class="c c3"><span>${b.circles[2]}</span></div>
-          <div class="mid">${b.centre}</div>
+          <div class="c c1${st(0)}"><span>${b.circles[0]}</span></div>
+          <div class="c c2${st(1)}"><span>${b.circles[1]}</span></div>
+          <div class="c c3${st(2)}"><span>${b.circles[2]}</span></div>
+          <div class="mid${n>=4?' on':''}">${b.centre}</div>
         </div>
-        <div class="side">` + b.rows.map(r=>
-          `<div class="row"><span class="t">${r.t}</span>${blist(r.v)}</div>`).join('') +
+        <div class="side">` + b.rows.map((r,i)=>
+          `<div class="row${st(i)}"><span class="t">${r.t}</span>${blist(r.v)}</div>`).join('') +
         `</div></div>`;
+    }
     default: return '';
   }
 }
